@@ -1,16 +1,21 @@
-# SaaS Starter Kit - Gemini Instructions
+# Propely - Gemini Instructions
 
 ## Priority
 1. `.agent.md` (governance)
 2. Current task in `docs/tasks/`
-3. `docs/backlog/` for next work
+3. `docs/roadmap.md` for execution order
 
 ## Project Overview
 
-Monorepo with three independent services orchestrated by Docker Compose:
+**Propely** is a multi-tenant, AI-powered real estate management SaaS. Monorepo with microservices orchestrated by Docker Compose:
+
 - `apps/web/` - Next.js 16 + Tailwind CSS frontend (port 3000)
-- `services/ai-api/` - .NET 10 microservice for AI capabilities (port 5010)
-- `services/orgs-api/` - .NET 10 microservice for organizations, auth, teams (port 5020)
+- `services/ai-api/` - .NET 10 internal AI utility (port 5010) — consumed via NuGet SDK only
+- `services/orgs-api/` - .NET 10 auth, tenancy, teams (port 5020)
+- `services/properties-api/` - .NET 10 property management core (port 5030)
+- `services/publishing-api/` - .NET 10 portal publication + worker (port 5040)
+- `services/contacts-api/` - .NET 10 leads/contacts (port 5050)
+- `services/appointments-api/` - .NET 10 appointments + calendar sync (port 5060)
 
 ## Commands
 
@@ -19,65 +24,67 @@ Monorepo with three independent services orchestrated by Docker Compose:
 | `next task` | Read `.agent/rules/autonomous-workflow.md`, execute |
 | `code review` | Read `.agent/rules/code-review-workflow.md`, execute |
 | `fast track: <X>` | Read `.agent/rules/fast-track-workflow.md`, execute |
-| `next audit action` | Read `.agent/rules/audit-action-workflow.md`, execute |
 | `pr` | Read `.agent/rules/pr-workflow.md`, execute |
 
 ## Architecture
 
-Both .NET services follow Clean Architecture + CQRS (MediatR):
+All .NET services follow Clean Architecture + CQRS (MediatR):
 ```
 src/
-  *.Domain/          Pure business logic, entities, events
-  *.Application/     Use cases, commands, queries, interfaces
-  *.Infrastructure/  EF Core, RabbitMQ, Redis, external services
-  *.Api/             Controllers, middleware, configuration
+  Propely.<Service>.Domain/          Pure business logic, entities, events
+  Propely.<Service>.Application/     Use cases, commands, queries, interfaces
+  Propely.<Service>.Infrastructure/  EF Core, RabbitMQ, Redis, external services
+  Propely.<Service>.Api/             Controllers, middleware, configuration
+  Propely.<Service>.Client/          NuGet SDK (Refit interface, DTOs, DI extension)
 ```
+
+### NuGet SDK Pattern (inter-service communication)
+- Services never call each other directly from the frontend
+- Internal services expose `Propely.<Service>.Client` NuGet packages
+- Clients use **Refit** (declarative interface-based HTTP clients) + `IHttpClientFactory`
+- Tenant context (`X-Tenant-Id`) propagated automatically via `TenantDelegatingHandler`
 
 ## Key Commands
 
 ```bash
-# Full stack (infra + all app services with hot reload) [default]
-./scripts/dev-up.sh            # Linux/macOS
+# Full stack (infra + all app services with hot reload)
 .\scripts\dev-up.ps1           # Windows
+./scripts/dev-up.sh            # Linux/macOS
 
 # Infrastructure only
-./scripts/dev-up.sh --infra-only   # Linux/macOS
-.\scripts\dev-up.ps1 -InfraOnly    # Windows
-
-# Full stack (explicit, backward-compatible)
-./scripts/dev-up.sh --apps     # Linux/macOS
-.\scripts\dev-up.ps1 -Apps     # Windows
+.\scripts\dev-up.ps1 -InfraOnly
 
 # Stop / Reset
-./scripts/dev-down.sh           # Stop all containers
 .\scripts\dev-down.ps1
 .\scripts\dev-reset.ps1         # Stop + destroy all data volumes
 
-# Run services individually (host-based, without Docker)
-./scripts/run-ai-api.sh        # AI API on port 5010
-.\scripts\run-ai-api.ps1
-./scripts/run-orgs-api.sh      # Orgs API on port 5020
-.\scripts\run-orgs-api.ps1
-./scripts/run-web.sh           # Web on port 3000
-.\scripts\run-web.ps1
+# Run services individually
+.\scripts\run-ai-api.ps1        # port 5010
+.\scripts\run-orgs-api.ps1      # port 5020
+.\scripts\run-properties-api.ps1 # port 5030
+.\scripts\run-publishing-api.ps1 # port 5040
+.\scripts\run-contacts-api.ps1   # port 5050
+.\scripts\run-appointments-api.ps1 # port 5060
+.\scripts\run-web.ps1           # port 3000
 
 # Build
-dotnet build services/ai-api/SaasTemplate.AiApi.sln
-dotnet build services/orgs-api/SaasTemplate.OrgsApi.sln
+dotnet build services/ai-api/Propely.AiApi.sln
+dotnet build services/orgs-api/Propely.OrgsApi.sln
+dotnet build services/properties-api/Propely.PropertiesApi.sln
+dotnet build services/publishing-api/Propely.PublishingApi.sln
+dotnet build services/contacts-api/Propely.ContactsApi.sln
+dotnet build services/appointments-api/Propely.AppointmentsApi.sln
 cd apps/web && npm run build
 
 # Test
-dotnet test services/ai-api/SaasTemplate.AiApi.sln
-dotnet test services/orgs-api/SaasTemplate.OrgsApi.sln
+dotnet test services/ai-api/Propely.AiApi.sln
+dotnet test services/orgs-api/Propely.OrgsApi.sln
+dotnet test services/properties-api/Propely.PropertiesApi.sln
 cd apps/web && npm test
 
-# Scaffold new module
-cd services/ai-api && .\scripts\scaffold-module.ps1 -ModuleName <Name>
-cd services/orgs-api && .\scripts\scaffold-module.ps1 -ModuleName <Name>
-
-# EF Core migrations
-dotnet ef migrations add <Name> --project services/ai-api/src/SaasTemplate.AiApi.Infrastructure --startup-project services/ai-api/src/SaasTemplate.AiApi.Api
-dotnet ef database update --project services/ai-api/src/SaasTemplate.AiApi.Infrastructure --startup-project services/ai-api/src/SaasTemplate.AiApi.Api
+# EF Core migrations (example for properties-api)
+dotnet ef migrations add <Name> --project services/properties-api/src/Propely.PropertiesApi.Infrastructure --startup-project services/properties-api/src/Propely.PropertiesApi.Api
+dotnet ef database update --project services/properties-api/src/Propely.PropertiesApi.Infrastructure --startup-project services/properties-api/src/Propely.PropertiesApi.Api
 ```
 
 ## Conventions
@@ -88,13 +95,29 @@ dotnet ef database update --project services/ai-api/src/SaasTemplate.AiApi.Infra
 - **TypeScript naming**: camelCase for variables/functions, PascalCase for components/types
 - **Architecture**: Domain layer has zero framework dependencies. Dependencies flow inward only.
 
+## Frontend Design System (mandatory for all UI work)
+
+### Stitch MCP (UI design tool — pixel-perfect mandate)
+- **Always use `modelId: GEMINI_3_PRO`** when generating screens
+- Every new screen MUST have a corresponding Stitch design
+- **Pixel-perfect implementation is mandatory.** The Stitch design is the single source of truth.
+- **Workflow:**
+  1. Generate Stitch screen design
+  2. Download HTML to `.stitch-html/<screen-name>.html`
+  3. Extract exact CSS, spacing, colors, typography
+  4. Implement matching pixel-for-pixel
+  5. Verify visually
+
+### Key Libraries
+- **Forms**: JSON Forms (`@jsonforms/react` + `@jsonforms/material-renderers`) — JSON Schema-driven, i18n via `translate`
+- **Calendar**: FullCalendar Standard (MIT) — month/week/day views, drag-and-drop
+
 ## Rules (always)
 - English only in repo
 - Every task needs matching walkthrough (same filename)
 - No secrets in repo
 - Prefer file changes over chat explanations
 - If conflict: correctness > security > simplicity > consistency
-- When creating a PR, always use the GitHub PR template at `.github/PULL_REQUEST_TEMPLATE.md` and fill all sections.
 
 ## Port Allocation
 
@@ -103,6 +126,10 @@ dotnet ef database update --project services/ai-api/src/SaasTemplate.AiApi.Infra
 | web | 3000 |
 | ai-api | 5010 |
 | orgs-api | 5020 |
+| properties-api | 5030 |
+| publishing-api | 5040 |
+| contacts-api | 5050 |
+| appointments-api | 5060 |
 | PostgreSQL | 5432 |
 | RabbitMQ | 5672 / 15672 |
 | Redis | 6379 |
@@ -112,13 +139,21 @@ dotnet ef database update --project services/ai-api/src/SaasTemplate.AiApi.Infra
 ## Database
 
 Single Postgres instance, separate databases:
-- `saastemplate_aiapi` - AI API data
-- `saastemplate_orgsapi` - Orgs API data
+- `propely_aiapi` - AI API data
+- `propely_orgsapi` - Orgs API data
+- `propely_propertiesapi` - Properties data
+- `propely_publishingapi` - Publication data
+- `propely_contactsapi` - Contacts/Leads data
+- `propely_appointmentsapi` - Appointments data
 
 ## Environment Variables
 
 Root `.env` contains all config. Service-prefixed vars use `__` as section separator (e.g., `AIAPI_RabbitMQ__Host`). .NET's `AddEnvironmentVariables("AIAPI_")` strips the prefix and maps `__` to `:` automatically.
-- `AIAPI_*` vars are stripped by `builder.Configuration.AddEnvironmentVariables("AIAPI_")` in ai-api `Program.cs`
-- `ORGSAPI_*` vars are stripped by `builder.Configuration.AddEnvironmentVariables("ORGSAPI_")` in orgs-api `Program.cs`
-- `NEXT_PUBLIC_*` vars are used directly by Next.js
+- `AIAPI_*` → ai-api
+- `ORGSAPI_*` → orgs-api
+- `PROPERTIESAPI_*` → properties-api
+- `PUBLISHINGAPI_*` → publishing-api
+- `CONTACTSAPI_*` → contacts-api
+- `APPOINTMENTSAPI_*` → appointments-api
+- `NEXT_PUBLIC_*` → Next.js frontend
 - Run scripts load `.env` into process env; .NET handles the rest (no manual mapping needed)
