@@ -1,0 +1,60 @@
+name: Verify Cloud Run Health
+description: Polls a Cloud Run service health endpoint until it responds successfully.
+
+inputs:
+  service-url:
+    description: 'Base URL of the Cloud Run service (e.g., https://service-xxx.run.app)'
+    required: true
+  health-path:
+    description: 'Health check endpoint path (e.g., /health/live or /en)'
+    required: true
+  timeout:
+    description: 'Maximum time to wait in seconds'
+    required: false
+    default: '120'
+  use-auth:
+    description: 'Include an identity token for non-public services'
+    required: false
+    default: 'false'
+
+runs:
+  using: composite
+  steps:
+    - name: Wait for healthy response
+      shell: bash
+      env:
+        SERVICE_URL: ${{ inputs.service-url }}
+        HEALTH_PATH: ${{ inputs.health-path }}
+        TIMEOUT: ${{ inputs.timeout }}
+        USE_AUTH: ${{ inputs.use-auth }}
+      run: |
+        URL="${SERVICE_URL}${HEALTH_PATH}"
+        INTERVAL=5
+        ELAPSED=0
+
+        echo "Polling $URL (timeout: ${TIMEOUT}s)..."
+
+        while [ "$ELAPSED" -lt "$TIMEOUT" ]; do
+          CURL_ARGS=(-sf --max-time 10)
+
+          if [ "$USE_AUTH" = "true" ]; then
+            TOKEN=$(gcloud auth print-identity-token --audiences="$SERVICE_URL" 2>&1) || true
+            if [ -z "$TOKEN" ]; then
+              echo "::error::Failed to fetch identity token for authenticated health check"
+              exit 1
+            fi
+            CURL_ARGS+=(-H "Authorization: Bearer $TOKEN")
+          fi
+
+          if curl "${CURL_ARGS[@]}" "$URL" > /dev/null 2>&1; then
+            echo "Health check passed at ${URL} after ${ELAPSED}s"
+            exit 0
+          fi
+
+          echo "Attempt at ${ELAPSED}s: not healthy yet, retrying in ${INTERVAL}s..."
+          sleep "$INTERVAL"
+          ELAPSED=$((ELAPSED + INTERVAL))
+        done
+
+        echo "::error::Health check failed at $URL after ${TIMEOUT}s"
+        exit 1

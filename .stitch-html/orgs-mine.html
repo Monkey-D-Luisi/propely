@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Organization Management Dashboard - SaaS Starter Kit</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen text-slate-900 dark:text-slate-100 font-display transition-colors duration-200">
+<!-- Top Navigation Bar -->
+<nav class="sticky top-0 z-50 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between h-16 items-center">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-primary rounded flex items-center justify-center">
+<span class="material-icons text-white text-lg">layers</span>
+</div>
+<span class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">SaaS Starter Kit</span>
+</div>
+<div class="hidden md:flex flex-1 max-w-md mx-8">
+<div class="relative w-full">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+<span class="material-icons text-sm">search</span>
+</span>
+<input class="block w-full pl-10 pr-3 py-2 border border-slate-200 dark:border-slate-700 rounded bg-slate-50 dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="Search organizations..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-white relative">
+<span class="material-icons">notifications</span>
+<span class="absolute top-2 right-2 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-slate-900"></span>
+</button>
+<div class="h-8 w-8 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden border border-slate-200 dark:border-slate-700">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Portrait of a smiling professional male" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNPyaVYAexHgPQRLwqLRm8QI9K0vDNJKjKAujhwF5nmH3pQDtfS6QjBuB7xLjGrA7LiCwJwFaUHDfv9qvLD5eavvFdPzckytqRawdTgqzKn167QFSUSTKcmeTE6wX1PnVbyNBjpnnuq3J4TLLS2ToDK1HIEyVOM-yWuVfnPm4S4AeqMF3F8LkWOdTHtBCYHUubo14BKNgABg4B4Yqhx0zPFcwXJbIMZ5DbDfl_ilgHD-lYCltGWa93he33Ao-aIJaEd9uJgxjsShWX"/>
+</div>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="max-w-4xl mx-auto px-4 py-12">
+<!-- Section Header -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10">
+<div>
+<h1 class="text-3xl font-bold text-slate-900 dark:text-white">My Organizations</h1>
+<p class="text-slate-500 dark:text-slate-400 mt-1">Manage and switch between your different workspace environments.</p>
+</div>
+<button class="inline-flex items-center justify-center px-5 py-2.5 bg-primary text-white font-semibold rounded-lg shadow-sm hover:bg-primary/90 transition-all focus:ring-4 focus:ring-primary/20">
+<span class="material-icons text-sm mr-2">add</span>
+                Create Organization
+            </button>
+</div>
+<!-- Organization Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Organization Card 1 -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow p-6 flex flex-col group">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
+<span class="material-icons">business</span>
+</div>
+<span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary uppercase tracking-wider">Owner</span>
+</div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Acme Corp</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm mb-6 flex-grow leading-relaxed">Main production environment for all enterprise-scale logistics and warehouse management operations.</p>
+<div class="flex items-center justify-between mt-auto pt-6 border-t border-slate-50 dark:border-slate-800">
+<div class="flex items-center text-slate-400 dark:text-slate-500">
+<span class="material-icons text-sm mr-1">group</span>
+<span class="text-xs font-medium">12 members</span>
+</div>
+<button class="text-sm font-semibold text-primary hover:text-primary/80 flex items-center group-hover:translate-x-1 transition-transform">
+                        View <span class="material-icons text-xs ml-1">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Organization Card 2 -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow p-6 flex flex-col group">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+<span class="material-icons">architecture</span>
+</div>
+<span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 uppercase tracking-wider">Admin</span>
+</div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Global Tech</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm mb-6 flex-grow leading-relaxed">Internal client project workspace for R&amp;D software development and experimental beta features.</p>
+<div class="flex items-center justify-between mt-auto pt-6 border-t border-slate-50 dark:border-slate-800">
+<div class="flex items-center text-slate-400 dark:text-slate-500">
+<span class="material-icons text-sm mr-1">group</span>
+<span class="text-xs font-medium">4 members</span>
+</div>
+<button class="text-sm font-semibold text-primary hover:text-primary/80 flex items-center group-hover:translate-x-1 transition-transform">
+                        View <span class="material-icons text-xs ml-1">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Organization Card 3 -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow p-6 flex flex-col group">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 bg-amber-50 dark:bg-amber-900/20 rounded-lg flex items-center justify-center text-amber-600 dark:text-amber-400">
+<span class="material-icons">auto_awesome</span>
+</div>
+<span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 uppercase tracking-wider">Member</span>
+</div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Design Collective</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm mb-6 flex-grow leading-relaxed">Shared asset library and design system documentation for the creative department collaborators.</p>
+<div class="flex items-center justify-between mt-auto pt-6 border-t border-slate-50 dark:border-slate-800">
+<div class="flex items-center text-slate-400 dark:text-slate-500">
+<span class="material-icons text-sm mr-1">group</span>
+<span class="text-xs font-medium">28 members</span>
+</div>
+<button class="text-sm font-semibold text-primary hover:text-primary/80 flex items-center group-hover:translate-x-1 transition-transform">
+                        View <span class="material-icons text-xs ml-1">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Empty/Create Placeholder -->
+<button class="bg-transparent rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 p-6 flex flex-col items-center justify-center group hover:border-primary dark:hover:border-primary transition-colors min-h-[220px]">
+<div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 dark:text-slate-500 group-hover:bg-primary/10 group-hover:text-primary mb-4 transition-colors">
+<span class="material-icons text-2xl">add</span>
+</div>
+<span class="text-sm font-semibold text-slate-600 dark:text-slate-400 group-hover:text-primary">Add a new organization</span>
+</button>
+</div>
+<!-- Pagination -->
+<div class="mt-12 flex items-center justify-between border-t border-slate-200 dark:border-slate-800 pt-8">
+<div class="text-sm text-slate-500 dark:text-slate-400">
+                Showing <span class="font-medium text-slate-900 dark:text-white">1</span> to <span class="font-medium text-slate-900 dark:text-white">3</span> of <span class="font-medium text-slate-900 dark:text-white">3</span> results
+            </div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 rounded bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-50" disabled="">
+                    Previous
+                </button>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 flex items-center justify-center rounded bg-primary text-white text-sm font-medium">1</button>
+</div>
+<button class="px-3 py-1.5 rounded bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-50" disabled="">
+                    Next
+                </button>
+</div>
+</div>
+</main>
+<!-- Footer Meta -->
+<footer class="max-w-4xl mx-auto px-4 py-8 mb-8 text-center border-t border-slate-200 dark:border-slate-800 opacity-60">
+<p class="text-xs text-slate-500 dark:text-slate-400">© 2024 SaaS Starter Kit Dashboard. All rights reserved.</p>
+</footer>
+</body></html>

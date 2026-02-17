@@ -1,0 +1,26 @@
+project_id        = "your-gcp-project-id"
+region            = "us-central1"
+state_bucket_name = "your-project-terraform-state"
+github_repo       = "your-org/your-repo"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# After running `terraform apply`, configure the following GitHub repository
+# variables (Settings > Secrets and variables > Actions > Variables tab).
+#
+# The values come from `terraform output`:
+#
+#   GCP_WORKLOAD_IDENTITY_PROVIDER = <workload_identity_provider output>
+#   GCP_DEPLOY_SERVICE_ACCOUNT     = <deploy_sa_email output>
+#
+# Also set these variables (not Terraform outputs, but required by deploy.yml):
+#
+#   GCP_PROJECT_ID                 = (same as project_id above)
+#   GCP_REGION                     = (same as region above)
+#   AR_REPO                        = saastemplate-<env>-containers
+#   NEXT_PUBLIC_WEB_URL            = https://your-web-url.com
+#   NEXT_PUBLIC_AI_API_URL         = https://your-ai-api-url.com
+#   NEXT_PUBLIC_ORGS_API_URL       = https://your-orgs-api-url.com
+#
+# Set environment-specific variables in GitHub Environments (staging, production)
+# rather than at the repository level where values differ per environment.
+# ─────────────────────────────────────────────────────────────────────────────

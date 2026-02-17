@@ -1,0 +1,53 @@
+// Copyright (c) 2026 SaaS Starter Kit. All rights reserved.
+// Licensed under the Proprietary Software License. See LICENSE.
+
+using FluentAssertions;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using NSubstitute;
+using SaasTemplate.OrgsApi.Api.Configuration;
+using SaasTemplate.OrgsApi.Application.Common.Interfaces;
+
+namespace SaasTemplate.OrgsApi.UnitTests.Api.Configuration;
+
+public sealed class EmailHealthCheckTests
+{
+    private readonly IEmailSender _emailSender;
+    private readonly EmailHealthCheck _healthCheck;
+
+    public EmailHealthCheckTests()
+    {
+        _emailSender = Substitute.For<IEmailSender>();
+        _healthCheck = new EmailHealthCheck(_emailSender);
+    }
+
+    [Fact]
+    public async Task CheckHealthAsync_WhenSenderIsHealthy_ShouldReturnHealthy()
+    {
+        // Arrange
+        _emailSender.CheckHealthAsync(Arg.Any<CancellationToken>()).Returns(true);
+
+        // Act
+        var result = await _healthCheck.CheckHealthAsync(
+            new HealthCheckContext(),
+            CancellationToken.None);
+
+        // Assert
+        result.Status.Should().Be(HealthStatus.Healthy);
+    }
+
+    [Fact]
+    public async Task CheckHealthAsync_WhenSenderIsUnhealthy_ShouldReturnUnhealthy()
+    {
+        // Arrange
+        _emailSender.CheckHealthAsync(Arg.Any<CancellationToken>()).Returns(false);
+
+        // Act
+        var result = await _healthCheck.CheckHealthAsync(
+            new HealthCheckContext(),
+            CancellationToken.None);
+
+        // Assert
+        result.Status.Should().Be(HealthStatus.Unhealthy);
+        result.Description.Should().Contain("unreachable");
+    }
+}

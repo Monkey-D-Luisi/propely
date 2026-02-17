@@ -1,0 +1,56 @@
+name: Infrastructure CI
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'infra/terraform/**'
+      - '.github/workflows/**'
+      - '.github/actions/**'
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  terraform-validate:
+    name: Terraform Validate
+    runs-on: self-hosted
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - { name: bootstrap, dir: infra/terraform/bootstrap }
+          - { name: staging, dir: infra/terraform/environments/staging }
+          - { name: production, dir: infra/terraform/environments/production }
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: '~> 1.9'
+
+      - name: Terraform Init
+        working-directory: ${{ matrix.config.dir }}
+        run: terraform init -backend=false
+
+      - name: Terraform Validate
+        working-directory: ${{ matrix.config.dir }}
+        run: terraform validate
+
+  actionlint:
+    name: Lint GitHub Actions workflows
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run actionlint
+        uses: raven-actions/actionlint@v2
+        with:
+          fail-on-error: true

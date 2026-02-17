@@ -1,0 +1,20 @@
+project_id             = "your-gcp-project-staging"
+region                 = "us-central1"
+image_tag              = "latest"
+cloud_sql_tier         = "db-f1-micro"
+cloud_sql_disk_size_gb = 10
+rabbitmq_host          = "your-instance.cloudamqp.com"
+rabbitmq_username      = "your-cloudamqp-instance-name"
+frontend_url           = "https://staging.yourdomain.com"
+billing_mode           = "free"
+deploy_sa_email        = "github-actions-deploy@your-gcp-project.iam.gserviceaccount.com"
+
+# Pin Secret Manager versions for predictable deployments.
+# Use "latest" for initial setup; switch to specific version numbers after populating secrets.
+# Partial overrides are safe — any key not listed here defaults to "latest".
+# See docs/production-hardening.md for rotation procedures.
+# secret_versions = {
+#   "orgsapi-jwt-secret"         = "2"
+#   "orgsapi-stripe-secret-key"  = "1"
+#   # Only include keys you want to pin; missing keys default to "latest".
+# }

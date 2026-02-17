@@ -1,0 +1,10 @@
+@model SaasTemplate.OrgsApi.Application.Common.Email.EmailVerificationEmailModel
+<h2>Verify your email address</h2>
+<p>Thanks for creating your account.</p>
+<p>Use the button below to verify your email and complete setup:</p>
+<p>
+    <a class="button" href="@Model.VerificationUrl">Verify email</a>
+</p>
+<p>If the button does not work, copy this URL into your browser:</p>
+<p><a href="@Model.VerificationUrl">@Model.VerificationUrl</a></p>
+<p>This verification link expires in 24 hours.</p>

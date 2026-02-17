@@ -1,0 +1,46 @@
+# Root .dockerignore for production builds (context = repo root)
+# Prevents host build artifacts from overriding Docker layer-cached restores.
+
+# .NET build artifacts
+**/bin/
+**/obj/
+**/publish/
+**/TestResults/
+
+# Node.js
+**/node_modules/
+apps/web/.next/
+apps/web/out/
+apps/web/coverage/
+
+# Tests (not needed in production images)
+services/*/tests/
+
+# IDE / editor
+.vs/
+.idea/
+**/*.user
+**/*.suo
+
+# Git
+.git/
+.gitignore
+
+# Docs and agent files (not needed in images)
+docs/
+.agent/
+.claude/
+.github/
+*.md
+
+# Environment files (secrets)
+.env
+.env.*
+!.env.example
+
+# Scripts (not needed in images)
+scripts/
+
+# Misc
+nul
+test-config/

@@ -1,0 +1,32 @@
+name: Copy Image to Artifact Registry
+description: Pulls an image from a source registry and pushes it to Google Artifact Registry.
+
+inputs:
+  source-image:
+    description: 'Full source image reference (e.g., ghcr.io/owner/image:tag)'
+    required: true
+  target-image:
+    description: 'Full target image reference (e.g., region-docker.pkg.dev/project/repo/image:tag)'
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Pull source image
+      shell: bash
+      env:
+        SOURCE_IMAGE: ${{ inputs.source-image }}
+      run: docker pull "$SOURCE_IMAGE"
+
+    - name: Re-tag for Artifact Registry
+      shell: bash
+      env:
+        SOURCE_IMAGE: ${{ inputs.source-image }}
+        TARGET_IMAGE: ${{ inputs.target-image }}
+      run: docker tag "$SOURCE_IMAGE" "$TARGET_IMAGE"
+
+    - name: Push to Artifact Registry
+      shell: bash
+      env:
+        TARGET_IMAGE: ${{ inputs.target-image }}
+      run: docker push "$TARGET_IMAGE"

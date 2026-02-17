@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login - SaaS Starter Kit</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display min-h-screen flex flex-col items-center justify-center p-6">
+<!-- Login Container -->
+<div class="w-full max-w-[440px]">
+<!-- Logo & Header -->
+<div class="flex flex-col items-center mb-8">
+<div class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center mb-4 shadow-lg shadow-primary/20">
+<span class="material-icons text-white text-3xl">layers</span>
+</div>
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">Welcome back</h1>
+<p class="text-slate-500 dark:text-slate-400 mt-1">Sign in to your SaaS Starter Kit account</p>
+</div>
+<!-- Main Card -->
+<div class="bg-white dark:bg-slate-900/50 dark:border dark:border-slate-800 rounded-xl shadow-xl shadow-slate-200/50 dark:shadow-none p-8 md:p-10">
+<form action="#" class="space-y-6" method="POST">
+<!-- Email Field -->
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" for="email">Email address</label>
+<input class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-sm" id="email" name="email" placeholder="name@company.com" required="" type="email"/>
+</div>
+<!-- Password Field -->
+<div>
+<div class="flex items-center justify-between mb-2">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300" for="password">Password</label>
+<a class="text-xs font-semibold text-primary hover:underline" href="#">Forgot password?</a>
+</div>
+<div class="relative">
+<input class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-sm" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 hover:text-slate-600" type="button">
+<span class="material-icons text-xl">visibility_off</span>
+</button>
+</div>
+</div>
+<!-- Sign In Button -->
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 px-4 rounded-lg shadow-lg shadow-primary/25 transition-all active:scale-[0.98]" type="submit">
+                    Sign In
+                </button>
+<!-- Divider -->
+<div class="relative py-4">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-slate-200 dark:border-slate-700"></div>
+</div>
+<div class="relative flex justify-center text-xs uppercase">
+<span class="bg-white dark:bg-slate-900 px-4 text-slate-500 dark:text-slate-400">Or continue with</span>
+</div>
+</div>
+<!-- Social Logins -->
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center gap-2 px-4 py-2.5 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors text-sm font-medium text-slate-700 dark:text-slate-300" type="button">
+<img alt="Google" class="w-5 h-5" data-alt="Google logo icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAb3Z_HNDy1FwLJFs_lSVcJE8lTkIZtupMhPPC3uoEwQ6vlFJyIaCYtJmtIAD3ID8IoMjHO0fDg6yRhSs8ji5EBjHaRYRGy1Uc_VhqxAgcJRdxIi8taZ5H2uXxrBpY68RtmwVx99GJdkmU0sXMvG3RM_5dN-7Zazqsmss9S-42gii2wAJMpImThMpmV351vzotZD1_DsSRNcQ6s6fAEE3cx34ArZSH3zqkhxqNA4iQRwtajWEGvVd7NqPZvLGldMd9S6xB1BemSklO0"/>
+                        Google
+                    </button>
+<button class="flex items-center justify-center gap-2 px-4 py-2.5 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors text-sm font-medium text-slate-700 dark:text-slate-300" type="button">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24">
+<path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"></path>
+</svg>
+                        GitHub
+                    </button>
+</div>
+</form>
+</div>
+<!-- Footer Links -->
+<p class="text-center mt-8 text-sm text-slate-500 dark:text-slate-400">
+            Don't have an account? 
+            <a class="font-semibold text-primary hover:underline ml-1" href="#">Create an account</a>
+</p>
+<!-- Terms & Privacy -->
+<div class="mt-12 flex justify-center gap-6 text-xs text-slate-400 dark:text-slate-500">
+<a class="hover:text-slate-600 dark:hover:text-slate-300" href="#">Privacy Policy</a>
+<a class="hover:text-slate-600 dark:hover:text-slate-300" href="#">Terms of Service</a>
+<a class="hover:text-slate-600 dark:hover:text-slate-300" href="#">Support</a>
+</div>
+</div>
+<!-- Decoration (Subtle Gradients) -->
+<div class="fixed top-0 left-0 w-full h-full pointer-events-none -z-10 overflow-hidden">
+<div class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[100px]"></div>
+<div class="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[100px]"></div>
+</div>
+</body></html>

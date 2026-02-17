@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Organization Settings - Team Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<!-- Top Navigation -->
+<nav class="sticky top-0 z-50 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between h-16 items-center">
+<div class="flex items-center gap-4">
+<div class="w-8 h-8 bg-primary rounded flex items-center justify-center">
+<span class="material-icons text-white text-lg">layers</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-semibold text-lg tracking-tight">NexusFlow</span>
+<span class="text-slate-300 dark:text-slate-700">/</span>
+<span class="text-slate-500 text-sm font-medium">Organization Settings</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">
+<span class="material-icons">notifications</span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-slate-200 dark:border-slate-800">
+<div class="text-right hidden sm:block">
+<p class="text-xs font-semibold">Alex Rivera</p>
+<p class="text-[10px] text-slate-500">Workspace Owner</p>
+</div>
+<img alt="User Avatar" class="w-8 h-8 rounded-full border border-slate-200 dark:border-slate-700" data-alt="Professional user profile headshot photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_ptiH4yDb1VhZJItCLoyIWxJ9XsProveKHCwJFPxe-gN2UvLP7_8h6qiteBUbbsG4FU-qcbFDslHjGaGG3F3UTQhYA8TV_Gtl02XvPIXSY7TmjYWfAZqHn53iZfaVAiWn5laj9VVmvw5DQ9yYmwJjhavtp0pZ-iq9FLV6591wiCzo2Xv51zvUO1Tm1xmO879SVsmR6Z6EW7K5khO23wZ3B9rJbKZoTA6vpAumtedjU5agSjjYdDu4UHRu8lgmT1JL5a8RFq4LjDLh"/>
+</div>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="max-w-5xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+<!-- Header Title -->
+<header class="mb-8">
+<h1 class="text-2xl font-bold tracking-tight">Organization Settings</h1>
+<p class="text-slate-500 dark:text-slate-400 mt-1">Manage your team members and account preferences.</p>
+</header>
+<!-- Section 1: Organization Details -->
+<section class="mb-8">
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm overflow-hidden">
+<div class="px-6 py-5 border-b border-slate-100 dark:border-slate-800">
+<h2 class="text-base font-semibold">General Information</h2>
+</div>
+<div class="p-6">
+<form class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Organization Name</label>
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-2">Used for invoicing and team identification.</p>
+</div>
+<div class="md:col-span-2">
+<input class="w-full rounded border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white focus:ring-primary focus:border-primary" type="text" value="NexusFlow Systems"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Description</label>
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-2">A brief overview of your organization's purpose.</p>
+</div>
+<div class="md:col-span-2">
+<textarea class="w-full rounded border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white focus:ring-primary focus:border-primary" rows="3">A high-growth SaaS platform focused on streamlining workflow automation for modern enterprises.</textarea>
+</div>
+</div>
+<div class="flex justify-end pt-4">
+<button class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors" type="submit">
+                                Save Changes
+                            </button>
+</div>
+</form>
+</div>
+<!-- Danger Zone -->
+<div class="bg-red-50/50 dark:bg-red-950/20 border-t border-red-100 dark:border-red-900/50 p-6">
+<div class="flex items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<div class="bg-red-100 dark:bg-red-900/50 p-2 rounded-lg">
+<span class="material-icons text-red-600 dark:text-red-400">report_problem</span>
+</div>
+<div>
+<h3 class="text-sm font-semibold text-red-900 dark:text-red-400">Delete Organization</h3>
+<p class="text-xs text-red-700/70 dark:text-red-500/70">Permanently delete the organization and all associated data.</p>
+</div>
+</div>
+<button class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors">
+                            Delete Organization
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 2: Team Members -->
+<section>
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm overflow-hidden">
+<div class="px-6 py-5 border-b border-slate-100 dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<h2 class="text-base font-semibold">Members</h2>
+<p class="text-xs text-slate-500 dark:text-slate-400">Manage who has access to this workspace.</p>
+</div>
+<div class="relative w-full md:w-64">
+<span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg leading-none">search</span>
+<input class="w-full pl-10 pr-4 py-2 text-sm rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 focus:ring-primary focus:border-primary" placeholder="Search members..." type="text"/>
+</div>
+</div>
+<!-- Members Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-slate-50 dark:bg-slate-800/50">
+<tr>
+<th class="px-6 py-3 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Name</th>
+<th class="px-6 py-3 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Email</th>
+<th class="px-6 py-3 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Role</th>
+<th class="px-6 py-3 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Joined Date</th>
+<th class="px-6 py-3 text-right"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<!-- Member 1 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">AR</div>
+<span class="text-sm font-medium">Alex Rivera</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">alex@nexusflow.io</td>
+<td class="px-6 py-4">
+<span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-primary/10 text-primary uppercase">Owner</span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-500">Jan 12, 2023</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+<span class="material-icons text-xl">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Member 2 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img alt="Sarah Chen" class="w-8 h-8 rounded-full object-cover" data-alt="Modern professional woman portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlJEZ-qUShS8bkGQgghWSHvrHUZYU6wHL11XUsoQGlMmF0p5QVS3D4EAdCc16d1hgbYzatMBGhs5vfDPbd05Pi8nLn7-WSF-UIODn_La5l7UPlPOPizBYR0mzkCucklr9KDCp1tRqR-M38V7fSbFeY9jx2t7wqHOYE-W9pl1zmTthnLeN0XhA_u5-3OIZ_0-SL1a-MIMlpZGMcacuH98Hpxh3Dae_YdV57ExueaiXVLQq6mFX-JCvHwnjfPtHXE10LDbFodcEr9RWJ"/>
+<span class="text-sm font-medium">Sarah Chen</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">sarah.c@nexusflow.io</td>
+<td class="px-6 py-4">
+<span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 uppercase">Admin</span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-500">Mar 05, 2023</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+<span class="material-icons text-xl">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Member 3 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 flex items-center justify-center font-bold text-xs">JM</div>
+<span class="text-sm font-medium">Jordan Miller</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">jordan.m@nexusflow.io</td>
+<td class="px-6 py-4">
+<span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 uppercase">Member</span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-500">Jun 20, 2023</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+<span class="material-icons text-xl">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Invite Member Row -->
+<div class="p-6 bg-slate-50/50 dark:bg-slate-800/20 border-t border-slate-100 dark:border-slate-800">
+<h3 class="text-sm font-semibold mb-4">Invite new member</h3>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex-grow">
+<input class="w-full text-sm rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 focus:ring-primary focus:border-primary" placeholder="colleague@company.com" type="email"/>
+</div>
+<div class="w-full md:w-40">
+<select class="w-full text-sm rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 focus:ring-primary focus:border-primary">
+<option value="member">Member</option>
+<option value="admin">Admin</option>
+</select>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-lg font-medium text-sm transition-colors whitespace-nowrap">
+                            Send Invite
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer Help -->
+<footer class="mt-12 text-center">
+<p class="text-sm text-slate-500">Need help with organization roles? <a class="text-primary hover:underline font-medium" href="#">Check our documentation</a></p>
+</footer>
+</main>
+</body></html>

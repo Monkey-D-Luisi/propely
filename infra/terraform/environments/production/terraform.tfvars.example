@@ -1,0 +1,20 @@
+project_id             = "your-gcp-project-production"
+region                 = "us-central1"
+image_tag              = "v1.0.0"
+cloud_sql_tier         = "db-custom-2-7680"
+cloud_sql_disk_size_gb = 50
+rabbitmq_host          = "your-instance.cloudamqp.com"
+frontend_url           = "https://app.yourdomain.com"
+billing_mode           = "stripe"
+deploy_sa_email        = "github-actions-deploy@your-gcp-project.iam.gserviceaccount.com"
+
+# Pin Secret Manager versions for predictable deployments.
+# Use specific version numbers instead of "latest" for production.
+# Partial overrides are safe — any key not listed here defaults to "latest".
+# See docs/production-hardening.md for rotation procedures.
+# secret_versions = {
+#   "orgsapi-jwt-secret"            = "2"
+#   "orgsapi-stripe-secret-key"     = "1"
+#   "orgsapi-stripe-webhook-secret" = "1"
+#   # Only include keys you want to pin; missing keys default to "latest".
+# }

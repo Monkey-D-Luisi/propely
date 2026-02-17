@@ -1,0 +1,53 @@
+version: 2
+updates:
+  # NuGet - AI API
+  - package-ecosystem: nuget
+    directory: /services/ai-api
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - dotnet
+    groups:
+      all-nuget:
+        patterns:
+          - "*"
+
+  # NuGet - Orgs API
+  - package-ecosystem: nuget
+    directory: /services/orgs-api
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - dotnet
+    groups:
+      all-nuget:
+        patterns:
+          - "*"
+
+  # npm - Web
+  - package-ecosystem: npm
+    directory: /apps/web
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - javascript
+
+  # GitHub Actions
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 3
+    labels:
+      - dependencies
+      - ci

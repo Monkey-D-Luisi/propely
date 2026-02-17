@@ -1,0 +1,34 @@
+PROPRIETARY SOFTWARE LICENSE
+
+Copyright (c) 2026 SaaS Starter Kit. All Rights Reserved.
+
+This software and associated documentation files (the "Software") are the
+proprietary property of the copyright holder. The Software is licensed, not
+sold.
+
+By purchasing, downloading, or using the Software, you agree to the terms
+of the End User License Agreement (EULA) included with this distribution
+(see EULA.md).
+
+PERMITTED USES:
+  - Use the Software to build your own applications and products
+  - Modify the Software's source code for your own projects
+  - Deploy the Software (original or modified) in production environments
+  - Use the Software for multiple projects owned by you or your organization
+
+RESTRICTIONS:
+  - You may NOT redistribute, resell, sublicense, or share the Software
+    (in whole or in part) with third parties
+  - You may NOT publish the Software's source code in a public repository
+  - You may NOT create competing SaaS templates or starter kits derived
+    from the Software
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+IN THE SOFTWARE.
+
+For full terms, see EULA.md.

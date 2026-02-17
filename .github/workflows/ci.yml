@@ -1,0 +1,365 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.agent/**'
+  pull_request:
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.agent/**'
+
+env:
+  DOTNET_VERSION: '10.0.x'
+  NODE_VERSION: '22'
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+permissions:
+  contents: read
+  actions: read
+  pull-requests: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  changes:
+    name: Detect Changes
+    runs-on: self-hosted
+    outputs:
+      ai-api: ${{ steps.filter.outputs.ai-api }}
+      orgs-api: ${{ steps.filter.outputs.orgs-api }}
+      web: ${{ steps.filter.outputs.web }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            ai-api:
+              - 'services/ai-api/**'
+            orgs-api:
+              - 'services/orgs-api/**'
+            web:
+              - 'apps/web/**'
+
+  ai-api:
+    name: AI API - Build & Test
+    needs: changes
+    if: needs.changes.outputs.ai-api == 'true' || github.event_name == 'push'
+    runs-on: self-hosted
+    defaults:
+      run:
+        shell: bash
+        working-directory: services/ai-api
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v5
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-ai-api-${{ hashFiles('services/ai-api/**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-ai-api-
+
+      - name: Restore dependencies
+        run: dotnet restore SaasTemplate.AiApi.sln
+
+      - name: Check vulnerable NuGet packages
+        run: |
+          dotnet list SaasTemplate.AiApi.sln package --vulnerable --include-transitive 2>&1 | tee vuln-report.txt
+          if grep -qi "Critical\|High" vuln-report.txt; then
+            echo "::error::High or critical NuGet vulnerabilities found in ai-api"
+            exit 1
+          fi
+
+      - name: Build
+        run: dotnet build SaasTemplate.AiApi.sln --no-restore --configuration Release
+
+      - name: Test with coverage
+        env:
+          AIAPI_OpenAi__ApiKey: ${{ secrets.AIAPI_OPENAI_API_KEY }}
+        run: |
+          dotnet test SaasTemplate.AiApi.sln --no-build --configuration Release \
+            --collect:"XPlat Code Coverage" \
+            --results-directory ./coverage \
+            --logger "trx;LogFileName=test-results.trx"
+
+      - name: Check coverage threshold
+        uses: ./.github/actions/check-coverage
+        with:
+          coverage-path: services/ai-api/coverage/**/coverage.cobertura.xml
+          threshold: '60'
+          report-dir: services/ai-api/coverage/report
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: ai-api-test-results
+          path: services/ai-api/coverage/**/*.trx
+          retention-days: 7
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: ai-api-coverage
+          path: services/ai-api/coverage/report/
+          retention-days: 7
+
+  orgs-api:
+    name: Orgs API - Build & Test
+    needs: changes
+    if: needs.changes.outputs.orgs-api == 'true' || github.event_name == 'push'
+    runs-on: self-hosted
+    defaults:
+      run:
+        shell: bash
+        working-directory: services/orgs-api
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v5
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-orgs-api-${{ hashFiles('services/orgs-api/**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-orgs-api-
+
+      - name: Restore dependencies
+        run: dotnet restore SaasTemplate.OrgsApi.sln
+
+      - name: Check vulnerable NuGet packages
+        run: |
+          dotnet list SaasTemplate.OrgsApi.sln package --vulnerable --include-transitive 2>&1 | tee vuln-report.txt
+          if grep -qi "Critical\|High" vuln-report.txt; then
+            echo "::error::High or critical NuGet vulnerabilities found in orgs-api"
+            exit 1
+          fi
+
+      - name: Build
+        run: dotnet build SaasTemplate.OrgsApi.sln --no-restore --configuration Release
+
+      - name: Test with coverage
+        run: |
+          dotnet test SaasTemplate.OrgsApi.sln --no-build --configuration Release \
+            --collect:"XPlat Code Coverage" \
+            --results-directory ./coverage \
+            --logger "trx;LogFileName=test-results.trx"
+
+      - name: Check coverage threshold
+        uses: ./.github/actions/check-coverage
+        with:
+          coverage-path: services/orgs-api/coverage/**/coverage.cobertura.xml
+          threshold: '60'
+          report-dir: services/orgs-api/coverage/report
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: orgs-api-test-results
+          path: services/orgs-api/coverage/**/*.trx
+          retention-days: 7
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: orgs-api-coverage
+          path: services/orgs-api/coverage/report/
+          retention-days: 7
+
+  web:
+    name: Web - Build & Test
+    needs: changes
+    if: needs.changes.outputs.web == 'true' || github.event_name == 'push'
+    runs-on: self-hosted
+    defaults:
+      run:
+        shell: bash
+        working-directory: apps/web
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: apps/web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Audit dependencies
+        run: npm audit --audit-level=high
+
+      - name: Lint
+        run: npm run lint --if-present
+
+      - name: Test with coverage
+        run: npm run test:coverage
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: web-coverage
+          path: apps/web/coverage/
+          retention-days: 7
+
+  e2e:
+    name: E2E Smoke Tests
+    needs: [changes, ai-api, orgs-api, web, license-headers, third-party-notices]
+    if: >-
+      always() &&
+      !cancelled() &&
+      !contains(needs.*.result, 'failure') &&
+      (
+        needs.changes.outputs.web == 'true' ||
+        needs.changes.outputs.ai-api == 'true' ||
+        needs.changes.outputs.orgs-api == 'true' ||
+        github.event_name == 'push'
+      )
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: apps/web/package-lock.json
+
+      - name: Install dependencies
+        working-directory: apps/web
+        run: npm ci
+
+      - name: Install Playwright browsers
+        working-directory: apps/web
+        run: npx playwright install --with-deps chromium
+
+      - name: Create .env from example
+        run: cp .env.example .env
+
+      - name: Free ports used by E2E stack
+        run: |
+          # Stop any Docker Compose stacks (dev or CI) that might hold ports
+          docker compose --profile apps down --volumes 2>/dev/null || true
+          docker compose -f docker-compose.yml -f docker-compose.ci.yml --profile apps down --volumes 2>/dev/null || true
+          # Kill any bare process (dotnet, node, etc.) still bound to E2E ports
+          for port in 3000 5010 5020 5432 5672 6379; do
+            pid=$(powershell -Command "(Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue | Select-Object -First 1).OwningProcess" 2>/dev/null | tr -d '\r')
+            if [ -n "$pid" ] && [ "$pid" != "0" ]; then
+              echo "Killing PID $pid on port $port"
+              taskkill //F //PID "$pid" 2>/dev/null || true
+            fi
+          done
+
+      - name: Start full stack
+        run: docker compose -f docker-compose.yml -f docker-compose.ci.yml --profile apps up -d --build
+
+      - name: Wait for services to be healthy
+        run: |
+          echo "Waiting for services to be ready..."
+          for i in $(seq 1 60); do
+            ai_ok=$(curl -sf http://localhost:5010/health/ready || echo "fail")
+            orgs_ok=$(curl -sf http://localhost:5020/health/ready || echo "fail")
+            web_ok=$(curl -sf http://localhost:3000/en || echo "fail")
+            if [ "$ai_ok" != "fail" ] && [ "$orgs_ok" != "fail" ] && [ "$web_ok" != "fail" ]; then
+              echo "All services are ready."
+              exit 0
+            fi
+            echo "Attempt $i/60: waiting 5s..."
+            sleep 5
+          done
+          echo "::error::Services did not become ready within 5 minutes"
+          docker compose -f docker-compose.yml -f docker-compose.ci.yml --profile apps logs
+          exit 1
+        timeout-minutes: 6
+
+      - name: Run E2E tests
+        working-directory: apps/web
+        run: npx playwright test
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: playwright-report
+          path: apps/web/playwright-report/
+          retention-days: 7
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: e2e-results
+          path: apps/web/e2e-results/
+          retention-days: 7
+
+      - name: Stop services
+        if: always()
+        run: docker compose -f docker-compose.yml -f docker-compose.ci.yml --profile apps down --volumes
+
+  third-party-notices:
+    name: Third-Party Notices - Staleness Check
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Compute current dependency hash
+        id: hash
+        run: |
+          CURRENT_HASH=$( (find services/ai-api/src services/orgs-api/src -name '*.csproj' -print; echo "apps/web/package-lock.json") | sort | xargs sha256sum | awk '{print $1}' | sort | sha256sum | cut -d' ' -f1)
+          STORED_HASH=$(cat .third-party-notices-hash 2>/dev/null || echo "none")
+          echo "current=$CURRENT_HASH" >> "$GITHUB_OUTPUT"
+          echo "stored=$STORED_HASH" >> "$GITHUB_OUTPUT"
+
+      - name: Check staleness
+        run: |
+          if [ "${{ steps.hash.outputs.current }}" != "${{ steps.hash.outputs.stored }}" ]; then
+            echo "::warning::THIRD_PARTY_NOTICES.md may be stale. Dependencies have changed since last generation. Run: ./scripts/generate-third-party-notices.sh"
+          else
+            echo "Third-party notices are up to date."
+          fi
+
+  license-headers:
+    name: License Headers Check
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Verify license headers
+        run: bash scripts/verify-license-headers.sh

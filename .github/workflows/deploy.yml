@@ -1,0 +1,255 @@
+name: Deploy to Cloud Run
+
+on:
+  # Staging: auto-deploy after images are published to GHCR
+  workflow_run:
+    workflows: ["Publish Docker Images"]
+    types: [completed]
+    branches: [main]
+
+  # Manual: ad-hoc deploys or rollback via dispatch
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: 'Image tag — full commit SHA for API images, also used as checkout ref for web rebuild'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  id-token: write    # Required for Workload Identity Federation OIDC token
+  packages: read     # Required for pulling from GHCR
+
+env:
+  GHCR_REGISTRY: ghcr.io
+
+defaults:
+  run:
+    shell: bash
+
+# Only one deploy at a time
+concurrency:
+  group: deploy-staging
+  cancel-in-progress: false
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Job 1: Resolve deployment parameters from the trigger type
+  # ---------------------------------------------------------------------------
+  prepare:
+    name: Determine deployment target
+    runs-on: self-hosted
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
+    outputs:
+      image_tag: ${{ steps.resolve.outputs.image_tag }}
+      version_label: ${{ steps.resolve.outputs.version_label }}
+    steps:
+      - name: Validate workflow_dispatch inputs
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          INPUT_TAG: ${{ inputs.image_tag }}
+        run: |
+          if ! echo "$INPUT_TAG" | grep -qE '^[0-9a-f]{40}$'; then
+            echo "::error::image_tag must be a full 40-character commit SHA (got: '$INPUT_TAG')"
+            exit 1
+          fi
+
+      - name: Resolve deployment parameters
+        id: resolve
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          WR_HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          INPUT_TAG: ${{ inputs.image_tag }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_run" ]; then
+            SHORT_SHA=$(echo "$WR_HEAD_SHA" | cut -c1-7)
+            {
+              echo "image_tag=$WR_HEAD_SHA"
+              echo "version_label=sha-${SHORT_SHA}"
+            } >> "$GITHUB_OUTPUT"
+          else
+            SHORT_TAG=$(echo "$INPUT_TAG" | cut -c1-7)
+            {
+              echo "image_tag=$INPUT_TAG"
+              echo "version_label=manual-${SHORT_TAG}"
+            } >> "$GITHUB_OUTPUT"
+          fi
+
+  # ---------------------------------------------------------------------------
+  # Job 2: Deploy API services (ai-api, orgs-api)
+  #   - Copies GHCR images to Artifact Registry
+  #   - Updates Cloud Run services via deploy-cloudrun action
+  # ---------------------------------------------------------------------------
+  deploy-apis:
+    name: Deploy ${{ matrix.service }}
+    needs: prepare
+    runs-on: self-hosted
+    environment: staging
+    strategy:
+      fail-fast: false
+      matrix:
+        service: [ai-api, orgs-api]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Lowercase image owner
+        id: owner
+        run: echo "name=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.GHCR_REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Wait for GHCR image availability
+        env:
+          DOCKER_CLI_EXPERIMENTAL: enabled
+          GHCR_IMAGE: ${{ env.GHCR_REGISTRY }}/${{ steps.owner.outputs.name }}/saas-template-${{ matrix.service }}:${{ needs.prepare.outputs.image_tag }}
+        run: |
+          for i in $(seq 1 30); do
+            if docker manifest inspect "$GHCR_IMAGE" > /dev/null 2>&1; then
+              echo "Image available: $GHCR_IMAGE"
+              exit 0
+            fi
+            echo "Attempt $i/30: image not yet available, waiting 10s..."
+            sleep 10
+          done
+          echo "::error::Image not available after 5 minutes: $GHCR_IMAGE"
+          exit 1
+
+      - name: Authenticate to GCP
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_DEPLOY_SERVICE_ACCOUNT }}
+          token_format: 'access_token'
+
+      - name: Log in to Artifact Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ vars.GCP_REGION }}-docker.pkg.dev
+          username: oauth2accesstoken
+          password: ${{ steps.auth.outputs.access_token }}
+
+      - name: Copy image to Artifact Registry
+        uses: ./.github/actions/copy-image-to-ar
+        with:
+          source-image: ${{ env.GHCR_REGISTRY }}/${{ steps.owner.outputs.name }}/saas-template-${{ matrix.service }}:${{ needs.prepare.outputs.image_tag }}
+          target-image: ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.AR_REPO }}/saas-template-${{ matrix.service }}:${{ needs.prepare.outputs.image_tag }}
+
+      - name: Deploy to Cloud Run
+        id: deploy
+        uses: ./.github/actions/deploy-cloudrun
+        with:
+          service: saastemplate-staging-${{ matrix.service }}
+          image: ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.AR_REPO }}/saas-template-${{ matrix.service }}:${{ needs.prepare.outputs.image_tag }}
+          region: ${{ vars.GCP_REGION }}
+          project: ${{ vars.GCP_PROJECT_ID }}
+          access-token: ${{ steps.auth.outputs.access_token }}
+
+      - name: Verify health
+        uses: ./.github/actions/verify-health
+        with:
+          service-url: ${{ steps.deploy.outputs.url }}
+          health-path: /health/live
+          use-auth: 'true'
+          timeout: '120'
+
+  # ---------------------------------------------------------------------------
+  # Job 3: Deploy web frontend
+  #   - Rebuilt from source with environment-specific NEXT_PUBLIC_* build args
+  #   - Pushed directly to Artifact Registry (not copied from GHCR)
+  # ---------------------------------------------------------------------------
+  deploy-web:
+    name: Deploy web
+    needs: prepare
+    runs-on: self-hosted
+    environment: staging
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.prepare.outputs.image_tag }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Authenticate to GCP
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_DEPLOY_SERVICE_ACCOUNT }}
+          token_format: 'access_token'
+
+      - name: Log in to Artifact Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ vars.GCP_REGION }}-docker.pkg.dev
+          username: oauth2accesstoken
+          password: ${{ steps.auth.outputs.access_token }}
+
+      - name: Build and push web image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: apps/web/Dockerfile
+          push: true
+          tags: ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.AR_REPO }}/saas-template-web:${{ needs.prepare.outputs.image_tag }}
+          build-args: |
+            NEXT_PUBLIC_WEB_URL=${{ vars.NEXT_PUBLIC_WEB_URL }}
+            NEXT_PUBLIC_AI_API_URL=${{ vars.NEXT_PUBLIC_AI_API_URL }}
+            NEXT_PUBLIC_ORGS_API_URL=${{ vars.NEXT_PUBLIC_ORGS_API_URL }}
+          cache-from: type=gha,scope=web-staging
+          cache-to: type=gha,mode=max,scope=web-staging
+
+      - name: Deploy to Cloud Run
+        id: deploy
+        uses: ./.github/actions/deploy-cloudrun
+        with:
+          service: saastemplate-staging-web
+          image: ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.AR_REPO }}/saas-template-web:${{ needs.prepare.outputs.image_tag }}
+          region: ${{ vars.GCP_REGION }}
+          project: ${{ vars.GCP_PROJECT_ID }}
+          access-token: ${{ steps.auth.outputs.access_token }}
+
+      - name: Verify health
+        uses: ./.github/actions/verify-health
+        with:
+          service-url: ${{ steps.deploy.outputs.url }}
+          health-path: /en
+          timeout: '120'
+
+  # ---------------------------------------------------------------------------
+  # Job 4: Deployment summary
+  # ---------------------------------------------------------------------------
+  summary:
+    name: Deployment summary
+    needs: [prepare, deploy-apis, deploy-web]
+    if: always()
+    runs-on: self-hosted
+    steps:
+      - name: Write summary
+        env:
+          IMAGE_TAG: ${{ needs.prepare.outputs.image_tag }}
+          VERSION_LABEL: ${{ needs.prepare.outputs.version_label }}
+          APIS_RESULT: ${{ needs.deploy-apis.result }}
+          WEB_RESULT: ${{ needs.deploy-web.result }}
+        run: |
+          {
+            echo "## Deployment Summary"
+            echo ""
+            echo "| Field | Value |"
+            echo "|-------|-------|"
+            echo "| Environment | \`staging\` |"
+            echo "| Image Tag | \`${IMAGE_TAG}\` |"
+            echo "| Version | \`${VERSION_LABEL}\` |"
+            echo "| APIs | ${APIS_RESULT} |"
+            echo "| Web | ${WEB_RESULT} |"
+          } >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,157 @@
+name: Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        type: choice
+        options:
+          - staging
+          - production
+      image_tag:
+        description: 'Image tag to rollback to (commit SHA). Must already exist in Artifact Registry from a previous deploy.'
+        required: true
+        type: string
+      services:
+        description: 'Which services to rollback'
+        required: true
+        type: choice
+        options:
+          - all
+          - web
+          - ai-api
+          - orgs-api
+
+permissions:
+  contents: read
+  id-token: write
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: deploy-${{ inputs.environment }}
+  cancel-in-progress: false
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Build the service matrix from the "services" input
+  # ---------------------------------------------------------------------------
+  resolve-services:
+    name: Resolve target services
+    runs-on: self-hosted
+    outputs:
+      matrix: ${{ steps.set.outputs.matrix }}
+    steps:
+      - name: Build service matrix
+        id: set
+        env:
+          SERVICES: ${{ inputs.services }}
+        run: |
+          if [ "$SERVICES" = "all" ]; then
+            echo 'matrix=["ai-api","orgs-api","web"]' >> "$GITHUB_OUTPUT"
+          else
+            echo "matrix=[\"${SERVICES}\"]" >> "$GITHUB_OUTPUT"
+          fi
+
+  # ---------------------------------------------------------------------------
+  # Rollback each selected service to the specified image tag
+  # ---------------------------------------------------------------------------
+  rollback:
+    name: Rollback ${{ matrix.service }}
+    needs: resolve-services
+    runs-on: self-hosted
+    environment: ${{ inputs.environment }}
+    strategy:
+      fail-fast: false
+      matrix:
+        service: ${{ fromJson(needs.resolve-services.outputs.matrix) }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Authenticate to GCP
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_DEPLOY_SERVICE_ACCOUNT }}
+          token_format: 'access_token'
+
+      - name: Log in to Artifact Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ vars.GCP_REGION }}-docker.pkg.dev
+          username: oauth2accesstoken
+          password: ${{ steps.auth.outputs.access_token }}
+
+      - name: Verify image exists in Artifact Registry
+        env:
+          AR_IMAGE: ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.AR_REPO }}/saas-template-${{ matrix.service }}:${{ inputs.image_tag }}
+        run: |
+          docker manifest inspect "$AR_IMAGE" 2>/dev/null || {
+            echo "::error::Image not found in Artifact Registry: $AR_IMAGE"
+            echo "Only previously deployed tags exist in AR. Check the tag and try again."
+            exit 1
+          }
+
+      - name: Rollback Cloud Run service
+        id: deploy
+        uses: ./.github/actions/deploy-cloudrun
+        with:
+          service: saastemplate-${{ inputs.environment }}-${{ matrix.service }}
+          image: ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.AR_REPO }}/saas-template-${{ matrix.service }}:${{ inputs.image_tag }}
+          region: ${{ vars.GCP_REGION }}
+          project: ${{ vars.GCP_PROJECT_ID }}
+          access-token: ${{ steps.auth.outputs.access_token }}
+
+      - name: Determine health path
+        id: health
+        env:
+          SERVICE: ${{ matrix.service }}
+        run: |
+          if [ "$SERVICE" = "web" ]; then
+            echo "path=/en" >> "$GITHUB_OUTPUT"
+            echo "needs_auth=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "path=/health/live" >> "$GITHUB_OUTPUT"
+            echo "needs_auth=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Verify health
+        uses: ./.github/actions/verify-health
+        with:
+          service-url: ${{ steps.deploy.outputs.url }}
+          health-path: ${{ steps.health.outputs.path }}
+          use-auth: ${{ steps.health.outputs.needs_auth }}
+          timeout: '120'
+
+  # ---------------------------------------------------------------------------
+  # Summary
+  # ---------------------------------------------------------------------------
+  summary:
+    name: Rollback summary
+    needs: [resolve-services, rollback]
+    if: always()
+    runs-on: self-hosted
+    steps:
+      - name: Write summary
+        env:
+          DEPLOY_ENV: ${{ inputs.environment }}
+          IMAGE_TAG: ${{ inputs.image_tag }}
+          SERVICES: ${{ inputs.services }}
+          ROLLBACK_RESULT: ${{ needs.rollback.result }}
+        run: |
+          {
+            echo "## Rollback Summary"
+            echo ""
+            echo "| Field | Value |"
+            echo "|-------|-------|"
+            echo "| Environment | \`${DEPLOY_ENV}\` |"
+            echo "| Target Tag | \`${IMAGE_TAG}\` |"
+            echo "| Services | ${SERVICES} |"
+            echo "| Result | ${ROLLBACK_RESULT} |"
+          } >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,99 @@
+# === Node.js / Frontend ===
+node_modules/
+.pnpm-store/
+dist/
+.next/
+out/
+
+# === .NET / Backend ===
+bin/
+obj/
+publish/
+artifacts/
+*.nupkg
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+TestResults/
+
+# === IDE ===
+.idea/
+.vs/
+.claude/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# === Test coverage ===
+coverage/
+*.coverage
+*.coveragexml
+
+# === Environment files ===
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# === OS files ===
+.DS_Store
+Thumbs.db
+
+# === Logs ===
+logs/
+*.log
+
+# === Temporary files ===
+tmp/
+temp/
+*.tmp
+*.temp
+
+# === Design references ===
+.stitch-designs/
+
+# === Docker ===
+docker-compose.override.yml
+
+# === Secrets ===
+/secrets/
+*.pem
+*.key
+.mcp.json
+
+# === Scaffold test outputs ===
+_script_test_run*/
+_test_scaffold_sandbox/
+
+# === Playwright ===
+playwright-report/
+e2e-results/
+blob-report/
+
+# === GitHub Actions self-hosted runner ===
+actions-runner/
+
+# === Windows artifacts ===
+nul
+
+# === Terraform ===
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfplan
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+*.auto.tfvars
+terraform.tfvars
+!terraform.tfvars.example
+.terraform.lock.hcl

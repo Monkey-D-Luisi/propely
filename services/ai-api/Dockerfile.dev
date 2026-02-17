@@ -1,0 +1,19 @@
+FROM mcr.microsoft.com/dotnet/sdk:10.0
+
+WORKDIR /src
+
+# Restore dependencies first (layer caching)
+COPY src/SaasTemplate.AiApi.Domain/SaasTemplate.AiApi.Domain.csproj src/SaasTemplate.AiApi.Domain/
+COPY src/SaasTemplate.AiApi.Application/SaasTemplate.AiApi.Application.csproj src/SaasTemplate.AiApi.Application/
+COPY src/SaasTemplate.AiApi.Infrastructure/SaasTemplate.AiApi.Infrastructure.csproj src/SaasTemplate.AiApi.Infrastructure/
+COPY src/SaasTemplate.AiApi.Api/SaasTemplate.AiApi.Api.csproj src/SaasTemplate.AiApi.Api/
+RUN dotnet restore src/SaasTemplate.AiApi.Api/SaasTemplate.AiApi.Api.csproj
+
+COPY . .
+
+EXPOSE 5010
+
+ENV ASPNETCORE_ENVIRONMENT=Development
+ENV ASPNETCORE_URLS=http://+:5010
+
+ENTRYPOINT ["dotnet", "watch", "run", "--project", "src/SaasTemplate.AiApi.Api", "--no-launch-profile"]

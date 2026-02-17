@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SaaS Starter Kit Registration Page</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "slate-850": "#1a1f2e", // Additional dark shade
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen flex flex-col justify-center items-center py-12 sm:px-6 lg:px-8 transition-colors duration-300">
+<!-- Background Pattern/Decoration -->
+<div class="fixed inset-0 z-0 pointer-events-none opacity-40 dark:opacity-20">
+<div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-gradient-to-b from-primary/10 to-transparent blur-3xl"></div>
+</div>
+<!-- Main Container -->
+<div class="relative z-10 w-full max-w-md sm:mx-auto">
+<!-- Logo Header -->
+<div class="sm:mx-auto sm:w-full sm:max-w-md flex flex-col items-center mb-8">
+<div class="h-12 w-12 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/30 mb-4">
+<span class="material-icons text-white text-3xl">layers</span>
+</div>
+<h2 class="text-center text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+                Create your account
+            </h2>
+<p class="mt-2 text-center text-sm text-slate-600 dark:text-slate-400">
+                Start your free trial today. No credit card required.
+            </p>
+</div>
+<!-- Card -->
+<div class="bg-white dark:bg-slate-850 py-8 px-4 shadow-xl sm:rounded-xl sm:px-10 border border-slate-200 dark:border-slate-700/50 backdrop-blur-sm">
+<!-- Social Login -->
+<div class="grid grid-cols-2 gap-3 mb-6">
+<div>
+<a class="w-full inline-flex justify-center py-2.5 px-4 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm bg-white dark:bg-slate-800 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors duration-200" href="#">
+<span class="sr-only">Sign in with Google</span>
+<svg aria-hidden="true" class="h-5 w-5" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"></path>
+</svg>
+<span class="ml-2">Google</span>
+</a>
+</div>
+<div>
+<a class="w-full inline-flex justify-center py-2.5 px-4 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm bg-white dark:bg-slate-800 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors duration-200" href="#">
+<span class="sr-only">Sign in with GitHub</span>
+<svg aria-hidden="true" class="h-5 w-5" fill="currentColor" viewbox="0 0 24 24">
+<path clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" fill-rule="evenodd"></path>
+</svg>
+<span class="ml-2">GitHub</span>
+</a>
+</div>
+</div>
+<!-- Divider -->
+<div class="relative mb-6">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-slate-300 dark:border-slate-700"></div>
+</div>
+<div class="relative flex justify-center text-sm">
+<span class="px-2 bg-white dark:bg-slate-850 text-slate-500 dark:text-slate-400">or continue with</span>
+</div>
+</div>
+<!-- Form -->
+<form action="#" class="space-y-5" method="POST">
+<!-- Name Field -->
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="name">
+                        Full Name
+                    </label>
+<div class="relative rounded-md shadow-sm">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-icons text-slate-400 text-lg">person</span>
+</div>
+<input autocomplete="name" class="block w-full pl-10 pr-3 py-2.5 border-slate-300 dark:border-slate-600 rounded-lg text-slate-900 dark:text-white bg-white dark:bg-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-primary focus:border-primary sm:text-sm transition-shadow duration-200" id="name" name="name" placeholder="John Doe" required="" type="text"/>
+</div>
+</div>
+<!-- Email Field -->
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="email">
+                        Work Email
+                    </label>
+<div class="relative rounded-md shadow-sm">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-icons text-slate-400 text-lg">email</span>
+</div>
+<input autocomplete="email" class="block w-full pl-10 pr-3 py-2.5 border-slate-300 dark:border-slate-600 rounded-lg text-slate-900 dark:text-white bg-white dark:bg-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-primary focus:border-primary sm:text-sm transition-shadow duration-200" id="email" name="email" placeholder="you@company.com" required="" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="password">
+                        Password
+                    </label>
+<div class="relative rounded-md shadow-sm">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-icons text-slate-400 text-lg">lock</span>
+</div>
+<input autocomplete="new-password" class="block w-full pl-10 pr-3 py-2.5 border-slate-300 dark:border-slate-600 rounded-lg text-slate-900 dark:text-white bg-white dark:bg-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-primary focus:border-primary sm:text-sm transition-shadow duration-200" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+</div>
+</div>
+<!-- Confirm Password Field -->
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="confirm-password">
+                        Confirm Password
+                    </label>
+<div class="relative rounded-md shadow-sm">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-icons text-slate-400 text-lg">lock_clock</span>
+</div>
+<input autocomplete="new-password" class="block w-full pl-10 pr-3 py-2.5 border-slate-300 dark:border-slate-600 rounded-lg text-slate-900 dark:text-white bg-white dark:bg-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-primary focus:border-primary sm:text-sm transition-shadow duration-200" id="confirm-password" name="confirm-password" placeholder="••••••••" required="" type="password"/>
+</div>
+</div>
+<!-- Create Account Button -->
+<div class="pt-2">
+<button class="group relative w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg text-sm font-semibold text-white bg-primary hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary shadow-lg shadow-primary/30 transition-all duration-200 hover:shadow-primary/50 transform hover:-translate-y-0.5" type="submit">
+<span class="absolute left-0 inset-y-0 flex items-center pl-3">
+<span class="material-icons text-indigo-300 group-hover:text-white transition-colors text-sm">arrow_forward</span>
+</span>
+                        Create Account
+                    </button>
+</div>
+</form>
+<!-- Footer Link -->
+<div class="mt-6">
+<div class="relative">
+<div class="relative flex justify-center text-sm">
+<p class="text-slate-600 dark:text-slate-400">
+                            Already have an account?
+                            <a class="font-medium text-primary hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline transition-colors ml-1" href="#">
+                                Sign in
+                            </a>
+</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Terms Footer -->
+<p class="mt-8 text-center text-xs text-slate-500 dark:text-slate-500 max-w-xs mx-auto">
+            By clicking "Create Account", you agree to our <a class="underline hover:text-slate-800 dark:hover:text-slate-300" href="#">Terms of Service</a> and <a class="underline hover:text-slate-800 dark:hover:text-slate-300" href="#">Privacy Policy</a>.
+        </p>
+</div>
+</body></html>

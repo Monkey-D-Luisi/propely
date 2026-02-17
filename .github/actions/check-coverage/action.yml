@@ -1,0 +1,60 @@
+name: Check Coverage Threshold
+description: Generate a coverage report and fail if line coverage is below the threshold.
+
+inputs:
+  coverage-path:
+    description: Glob pattern for Cobertura XML coverage files
+    required: true
+  threshold:
+    description: Minimum line coverage percentage (0-100)
+    required: false
+    default: '60'
+  report-dir:
+    description: Directory to write the coverage report
+    required: false
+    default: './coverage/report'
+
+runs:
+  using: composite
+  steps:
+    - name: Install ReportGenerator
+      shell: bash
+      run: dotnet tool install -g dotnet-reportgenerator-globaltool --version 5.4.5 || dotnet tool update -g dotnet-reportgenerator-globaltool --version 5.4.5
+
+    - name: Generate coverage summary
+      shell: bash
+      run: |
+        reportgenerator \
+          -reports:"${{ inputs.coverage-path }}" \
+          -targetdir:"${{ inputs.report-dir }}" \
+          -reporttypes:TextSummary
+        cat "${{ inputs.report-dir }}/Summary.txt"
+
+    - name: Check coverage threshold
+      shell: bash
+      run: |
+        summary_file="${{ inputs.report-dir }}/Summary.txt"
+        threshold="${{ inputs.threshold }}"
+
+        if [ ! -f "$summary_file" ]; then
+          echo "::error::Coverage summary file not found: $summary_file"
+          exit 1
+        fi
+
+        line_coverage=$(awk '/Line coverage:/ { for (i=1; i<=NF; i++) { if ($i ~ /^[0-9]+(\.[0-9]+)?%?$/) { gsub(/%/, "", $i); print $i; exit } } }' "$summary_file")
+
+        if [ -z "$line_coverage" ]; then
+          echo "::error::Could not parse line coverage from summary file"
+          cat "$summary_file"
+          exit 1
+        fi
+
+        echo "Line coverage: ${line_coverage}%"
+
+        passed=$(awk "BEGIN { print ($line_coverage >= $threshold) ? 1 : 0 }")
+        if [ "$passed" -eq 0 ]; then
+          echo "::error::Line coverage ${line_coverage}% is below ${threshold}% threshold"
+          exit 1
+        fi
+
+        echo "Coverage check passed: ${line_coverage}% >= ${threshold}%"

@@ -1,0 +1,4 @@
+# Trivy vulnerability allowlist
+# Add accepted CVE IDs below (one per line) with a comment explaining why.
+# Example:
+# CVE-2024-12345  # False positive in base image, no impact on our usage

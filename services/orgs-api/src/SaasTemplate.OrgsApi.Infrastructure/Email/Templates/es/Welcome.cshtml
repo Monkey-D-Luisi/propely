@@ -1,0 +1,9 @@
+@model SaasTemplate.OrgsApi.Application.Common.Email.WelcomeEmailModel
+<h2>&iexcl;Bienvenido, @Model.UserName!</h2>
+<p>Gracias por unirte a <strong>@Model.AppName</strong>. Tu cuenta est&aacute; lista.</p>
+<p>Usa el siguiente bot&oacute;n para iniciar sesi&oacute;n y comenzar:</p>
+<p>
+    <a class="button" href="@Model.LoginUrl">Ir a @Model.AppName</a>
+</p>
+<p>Si el bot&oacute;n no funciona, copia esta URL en tu navegador:</p>
+<p><a href="@Model.LoginUrl">@Model.LoginUrl</a></p>

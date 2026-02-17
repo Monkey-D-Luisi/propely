@@ -1,0 +1,109 @@
+name: Deploy to Cloud Run (REST API)
+description: |
+  Updates a Cloud Run service image via the REST API directly.
+  Does NOT require the gcloud CLI, which avoids .tar.gz extraction
+  failures on Windows self-hosted runners.
+
+inputs:
+  service:
+    description: 'Cloud Run service name'
+    required: true
+  image:
+    description: 'Container image to deploy'
+    required: true
+  region:
+    description: 'GCP region'
+    required: true
+  project:
+    description: 'GCP project ID'
+    required: true
+  access-token:
+    description: 'GCP OAuth2 access token'
+    required: true
+
+outputs:
+  url:
+    description: 'The URL of the deployed Cloud Run service'
+    value: ${{ steps.deploy.outputs.url }}
+
+runs:
+  using: composite
+  steps:
+    - name: Deploy image and wait
+      id: deploy
+      shell: bash
+      env:
+        CR_SERVICE: ${{ inputs.service }}
+        CR_IMAGE: ${{ inputs.image }}
+        CR_REGION: ${{ inputs.region }}
+        CR_PROJECT: ${{ inputs.project }}
+        CR_TOKEN: ${{ inputs.access-token }}
+      run: |
+        API="https://run.googleapis.com/v2"
+        SVC_PATH="projects/${CR_PROJECT}/locations/${CR_REGION}/services/${CR_SERVICE}"
+
+        echo "Fetching current service configuration..."
+        CURRENT=$(curl -sf -H "Authorization: Bearer $CR_TOKEN" "${API}/${SVC_PATH}")
+        if [ $? -ne 0 ]; then
+          echo "::error::Failed to fetch service ${CR_SERVICE}"
+          exit 1
+        fi
+
+        echo "Updating image to: $CR_IMAGE"
+        UPDATED=$(echo "$CURRENT" | python -c "
+        import json, sys, os
+        svc = json.load(sys.stdin)
+        svc['template']['containers'][0]['image'] = os.environ['CR_IMAGE']
+        # Remove output-only fields that cannot be sent in a PATCH request
+        for f in ['etag','uid','generation','createTime','updateTime','deleteTime',
+                  'expireTime','creator','lastModifier','conditions','reconciling',
+                  'observedGeneration','terminalCondition','latestReadyRevision',
+                  'latestCreatedRevision','trafficStatuses','satisfiesPzs','uri',
+                  'traffic']:
+            svc.pop(f, None)
+        json.dump(svc, sys.stdout)
+        ")
+
+        RESPONSE=$(curl -sf -X PATCH \
+          -H "Authorization: Bearer $CR_TOKEN" \
+          -H "Content-Type: application/json" \
+          "${API}/${SVC_PATH}" \
+          -d "$UPDATED")
+        if [ $? -ne 0 ]; then
+          echo "::error::PATCH request failed for ${CR_SERVICE}"
+          exit 1
+        fi
+
+        OP_NAME=$(echo "$RESPONSE" | python -c "import json,sys;print(json.load(sys.stdin)['name'])")
+        echo "Waiting for operation: $OP_NAME"
+
+        for i in $(seq 1 60); do
+          OP=$(curl -sf -H "Authorization: Bearer $CR_TOKEN" "${API}/${OP_NAME}")
+          DONE=$(echo "$OP" | python -c "import json,sys;print(json.load(sys.stdin).get('done',False))")
+          if [ "$DONE" = "True" ]; then
+            ERROR=$(echo "$OP" | python -c "
+        import json, sys
+        o = json.load(sys.stdin)
+        e = o.get('error', {})
+        print(e.get('message', '') if e else '')
+        ")
+            if [ -n "$ERROR" ]; then
+              echo "::error::Deploy operation failed: $ERROR"
+              exit 1
+            fi
+            echo "Deploy completed successfully for ${CR_SERVICE}"
+            break
+          fi
+          if [ "$i" -eq 60 ]; then
+            echo "::error::Deploy timed out after 5 minutes for ${CR_SERVICE}"
+            exit 1
+          fi
+          echo "  Waiting for deploy (attempt $i/60)..."
+          sleep 5
+        done
+
+        # Fetch the service URL
+        URL=$(curl -sf -H "Authorization: Bearer $CR_TOKEN" "${API}/${SVC_PATH}" \
+          | python -c "import json,sys;print(json.load(sys.stdin)['uri'])")
+        echo "Service URL: $URL"
+        echo "url=$URL" >> "$GITHUB_OUTPUT"
