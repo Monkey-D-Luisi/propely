@@ -1,6 +1,6 @@
-# SaaS Starter Kit — Web Frontend
+# Propely — Web Frontend
 
-Next.js 16 + React 19 + Tailwind CSS v4 frontend for the SaaS Starter Kit monorepo.
+Next.js 16 + React 19 + Tailwind CSS v4 frontend for the Propely monorepo.
 
 ## Tech Stack
 
@@ -9,6 +9,8 @@ Next.js 16 + React 19 + Tailwind CSS v4 frontend for the SaaS Starter Kit monore
 - **Tailwind CSS v4** with semantic design tokens
 - **next-intl** for i18n (English + Spanish)
 - **react-hook-form + Zod** for form validation
+- **JSON Forms** (`@jsonforms/react`) for schema-driven property forms
+- **FullCalendar** for appointment calendar views
 - **Vitest + Testing Library** for unit/component tests
 - **Playwright** for E2E tests
 
@@ -44,7 +46,6 @@ src/
     auth/             Login, Register, OAuth
     orgs/             Organization management
     billing/          Subscription & payments
-    work-items/       AI-powered work items
     ui/               Shared UI components
     layout/           Header, sidebar, navigation
   hooks/              Custom React hooks (API calls, state)
@@ -55,7 +56,7 @@ e2e/                  Playwright E2E tests
 
 ## Design System
 
-Design tokens are defined in `src/app/globals.css` via Tailwind v4 `@theme`. Use semantic `primary-*` classes for brand/action colors. See [Design System Walkthrough](../../docs/walkthroughs/0065-design-system.md) for conventions.
+Design tokens are defined in `src/app/globals.css` via Tailwind v4 `@theme`. Use semantic `primary-*` classes for brand/action colors. See `CLAUDE.md` for the full design system conventions.
 
 ## Environment Variables
 
@@ -65,6 +66,9 @@ The web app reads `NEXT_PUBLIC_*` variables from the root `.env`:
 |----------|---------|---------|
 | `NEXT_PUBLIC_ORGS_API_URL` | `http://localhost:5020` | Orgs API base URL |
 | `NEXT_PUBLIC_AI_API_URL` | `http://localhost:5010` | AI API base URL |
+| `NEXT_PUBLIC_PROPERTIES_API_URL` | `http://localhost:5030` | Properties API base URL |
+| `NEXT_PUBLIC_CONTACTS_API_URL` | `http://localhost:5050` | Contacts API base URL |
+| `NEXT_PUBLIC_APPOINTMENTS_API_URL` | `http://localhost:5060` | Appointments API base URL |
 
 ## Port
 

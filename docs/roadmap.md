@@ -136,7 +136,7 @@ Coverage targets:
 **Goal:** Prepare the repository for Propely development. Rename, clean up, update infrastructure.
 
 ### Task 0.1 — Documentation & Roadmap Overhaul
-- **Status:** IN_PROGRESS
+- **Status:** DONE
 - **Scope:** Rewrite all documentation, agent instructions, roadmap, and backlog for Propely. Clean up template-specific content.
 - **Deliverables:** This roadmap, updated agent instructions, new backlog epics, cleaned docs.
 

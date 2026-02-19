@@ -1,36 +1,40 @@
 # Terraform GCP Infrastructure
 
-Infrastructure-as-code for deploying the SaaS Starter Kit to Google Cloud Platform.
+Infrastructure-as-code for deploying Propely to Google Cloud Platform.
 
 ## Architecture
 
 ```
-                    ┌─────────────────┐
-                    │   Cloud Run     │
-                    │   (web)         │ ◄── Public (allow_unauthenticated)
-                    │   Port 3000     │
-                    └────────┬────────┘
-                             │
-              ┌──────────────┼──────────────┐
-              │              │              │
-    ┌─────────▼────┐  ┌─────▼──────┐       │
-    │  Cloud Run   │  │  Cloud Run │       │
-    │  (ai-api)    │  │  (orgs-api)│       │
-    │  Port 8080   │  │  Port 8080 │       │
-    └──────┬───────┘  └──────┬─────┘       │
-           │                 │              │
-    ┌──────▼─────────────────▼──────┐      │
-    │        VPC (Private)          │      │
-    │  ┌────────────┐ ┌──────────┐ │      │
-    │  │ Cloud SQL  │ │Memorystore│ │      │
-    │  │ PostgreSQL │ │  Redis   │ │      │
-    │  └────────────┘ └──────────┘ │      │
-    └───────────────────────────────┘      │
-                                           │
-    ┌──────────────────────────────────────┘
-    │  External: RabbitMQ (CloudAMQP), OpenAI, SendGrid, Stripe
-    └──────────────────────────────────────
+                    +------------------+
+                    |   Cloud Run      |
+                    |   (web)          | <-- Public (allow_unauthenticated)
+                    |   Port 3000      |
+                    +--------+---------+
+                             |
+              +--------------+--------------+
+              |              |              |
+    +---------v----+  +------v------+       |
+    |  Cloud Run   |  |  Cloud Run  |       |
+    |  (ai-api)    |  |  (orgs-api) |       |
+    |  Port 8080   |  |  Port 8080  |       |
+    +------+-------+  +------+------+       |
+           |                 |              |
+    +------v-----------------v------+       |
+    |        VPC (Private)          |       |
+    |  +------------+ +----------+ |       |
+    |  | Cloud SQL  | |Memorystore| |       |
+    |  | PostgreSQL | |  Redis    | |       |
+    |  +------------+ +----------+ |       |
+    +-------------------------------+       |
+                                            |
+    +---------------------------------------+
+    |  External: RabbitMQ (CloudAMQP), OpenAI, SendGrid, Stripe
+    +----------------------------------------
 ```
+
+> **Note:** The diagram above shows the current 2-service backend. As Propely adds
+> properties-api, publishing-api, contacts-api, and appointments-api (Phase 0.3),
+> the Terraform modules will be extended to deploy all 6 backend services.
 
 ## Prerequisites
 
@@ -74,17 +78,17 @@ After the first apply, Secret Manager secrets exist but have no values. Populate
 echo -n "your-secure-password" | gcloud secrets versions add staging-db-password --data-file=-
 
 # Example: set the AI API connection string
-echo -n "Host=/cloudsql/PROJECT:REGION:INSTANCE;Database=saastemplate_aiapi;Username=saastemplate;Password=PASSWORD" | \
+echo -n "Host=/cloudsql/PROJECT:REGION:INSTANCE;Database=propely_aiapi;Username=propely;Password=PASSWORD" | \
   gcloud secrets versions add staging-aiapi-db-connection-string --data-file=-
 
-# Repeat for all 16 secrets (see the secrets list below)
+# Repeat for all secrets (see the secrets list below)
 ```
 
 ### 4. Set the database user password
 
 ```bash
-gcloud sql users set-password saastemplate \
-  --instance=staging-saastemplate-pg \
+gcloud sql users set-password propely \
+  --instance=staging-propely-pg \
   --password=your-secure-password
 ```
 
@@ -114,8 +118,8 @@ gcloud sql users set-password saastemplate \
 | Module | Purpose |
 |--------|---------|
 | `vpc` | VPC network, subnet, private services access, VPC connector |
-| `cloud-sql` | Cloud SQL PostgreSQL instance with 2 databases |
-| `cloud-run` | Reusable Cloud Run v2 service (used 3x) |
+| `cloud-sql` | Cloud SQL PostgreSQL instance with databases |
+| `cloud-run` | Reusable Cloud Run v2 service (used per service) |
 | `iam` | Service accounts with least-privilege roles |
 | `secrets` | Secret Manager secret shells (values set externally) |
 | `redis` | Memorystore for Redis |
@@ -133,7 +137,7 @@ gcloud sql users set-password saastemplate \
 
 ## Important Notes
 
-- **NEXT_PUBLIC_* variables** are baked into the Docker image at build time. They cannot be set as Cloud Run env vars. Update them in the CI/CD pipeline build args (task 0054).
+- **NEXT_PUBLIC_* variables** are baked into the Docker image at build time. They cannot be set as Cloud Run env vars. Update them in the CI/CD pipeline build args.
 - **RabbitMQ** is external (not managed by GCP). Use [CloudAMQP](https://www.cloudamqp.com/) or self-host.
-- **Images** must be pushed to the Artifact Registry repository created by Terraform before Cloud Run services can start. The CI/CD pipeline (task 0054) handles this.
+- **Images** must be pushed to the Artifact Registry repository created by Terraform before Cloud Run services can start.
 - **Cloud SQL Auth Proxy** is built into Cloud Run v2 via the `cloud_sql_instance` volume. Connection strings should use the Unix socket path: `Host=/cloudsql/PROJECT:REGION:INSTANCE`.

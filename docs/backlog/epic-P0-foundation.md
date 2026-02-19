@@ -14,7 +14,7 @@ Prepare the repository for Propely development by renaming from SaasTemplate, cr
 
 ### Task 0.1 --- Documentation & Roadmap Overhaul
 
-- **Status:** IN_PROGRESS
+- **Status:** DONE
 - **Dependencies:** None
 - **File:** `docs/tasks/0001-documentation-roadmap-overhaul.md`
 
@@ -620,7 +620,7 @@ Update the CI/CD pipeline to build, test, and validate all 6 backend services pl
 
 | Task | Description | Status | Dependencies |
 |------|-------------|--------|--------------|
-| 0.1 | Documentation & Roadmap Overhaul | IN_PROGRESS | None |
+| 0.1 | Documentation & Roadmap Overhaul | DONE | None |
 | 0.2 | Rename SaasTemplate to Propely | PENDING | 0.1 |
 | 0.3 | Scaffold New Service Solutions | PENDING | 0.2 |
 | 0.4 | NuGet SDK Client Infrastructure | PENDING | 0.2 |
