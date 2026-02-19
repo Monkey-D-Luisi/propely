@@ -1,4 +1,4 @@
-# GCP Cost Matrix — SaaS Starter Kit
+# GCP Cost Matrix — Propely
 
 > **Disclaimer:** Prices are estimates based on GCP us-central1 published rates as of early 2026.
 > Actual costs vary by region, usage patterns, and GCP pricing changes.
@@ -6,7 +6,7 @@
 
 ## Architecture Overview
 
-The SaaS template deploys three services (web, ai-api, orgs-api) on Cloud Run, backed by Cloud SQL (PostgreSQL 16), Memorystore (Redis 7), and a private VPC. Each environment (staging, production) is fully isolated with its own VPC, database, cache, and service accounts.
+Propely deploys seven services (web, ai-api, orgs-api, properties-api, publishing-api, contacts-api, appointments-api) on Cloud Run, backed by Cloud SQL (PostgreSQL 16), Memorystore (Redis 7), and a private VPC. Each environment (staging, production) is fully isolated with its own VPC, database, cache, and service accounts.
 
 ## Tier Definitions
 
@@ -22,15 +22,15 @@ The SaaS template deploys three services (web, ai-api, orgs-api) on Cloud Run, b
 
 | Service | Starter | Growth | Scale |
 |---------|---------|--------|-------|
-| Cloud Run (3 services) | $5 - 15 | $100 - 180 | $300 - 550 |
+| Cloud Run (7 services) | $12 - 35 | $230 - 420 | $700 - 1,280 |
 | Cloud SQL (PostgreSQL) | $10 - 15 | $55 - 70 | $200 - 250 |
 | Memorystore (Redis) | $35 - 40 | $70 - 100 | $245 - 300 |
 | VPC + Connector | $15 - 20 | $15 - 30 | $15 - 70 |
 | Secret Manager | ~$1 | ~$1 | ~$1 |
 | Artifact Registry | < $1 | < $1 | $1 - 2 |
 | Networking (egress) | < $1 | $1 - 5 | $5 - 20 |
-| **Monthly Total** | **$70 - 95** | **$245 - 390** | **$770 - 1,195** |
-| **Annual Estimate** | **$840 - 1,140** | **$2,940 - 4,680** | **$9,240 - 14,340** |
+| **Monthly Total** | **$75 - 115** | **$375 - 630** | **$1,170 - 1,925** |
+| **Annual Estimate** | **$900 - 1,380** | **$4,500 - 7,560** | **$14,040 - 23,100** |
 
 ---
 
@@ -62,7 +62,7 @@ Cloud Run charges for CPU, memory, and requests. Services that scale to zero inc
 
 Services are idle most of the time. Free tier covers a large portion.
 
-**Estimate: $5 - 15/month** (3 services combined)
+**Estimate: $12 - 35/month** (7 services combined)
 
 #### Growth (100-1,000 users)
 
@@ -75,7 +75,7 @@ Services are idle most of the time. Free tier covers a large portion.
 
 APIs maintain one warm instance for latency; web can scale to zero during low-traffic periods.
 
-**Estimate: $100 - 180/month** (3 services combined)
+**Estimate: $230 - 420/month** (7 services combined)
 
 #### Scale (1,000-10,000 users)
 
@@ -89,7 +89,7 @@ APIs maintain one warm instance for latency; web can scale to zero during low-tr
 
 Multiple concurrent instances during peak traffic. APIs run at higher CPU allocation.
 
-**Estimate: $300 - 550/month** (3 services combined)
+**Estimate: $700 - 1,280/month** (7 services combined)
 
 ---
 
@@ -329,6 +329,26 @@ module "cloud_run_ai_api" {
 }
 
 module "cloud_run_orgs_api" {
+  # ... existing arguments ...
+  min_instances = 1
+}
+
+module "cloud_run_properties_api" {
+  # ... existing arguments ...
+  min_instances = 1
+}
+
+module "cloud_run_publishing_api" {
+  # ... existing arguments ...
+  min_instances = 1
+}
+
+module "cloud_run_contacts_api" {
+  # ... existing arguments ...
+  min_instances = 1
+}
+
+module "cloud_run_appointments_api" {
   # ... existing arguments ...
   min_instances = 1
 }

@@ -74,10 +74,10 @@ Closes #<issue-number>
 2. <Step 2>
 
 ## Testing
-- [x] `dotnet build services/ai-api/SaasTemplate.AiApi.sln`
-- [x] `dotnet build services/orgs-api/SaasTemplate.OrgsApi.sln`
-- [x] `dotnet test services/ai-api/SaasTemplate.AiApi.sln`
-- [x] `dotnet test services/orgs-api/SaasTemplate.OrgsApi.sln`
+- [x] `dotnet build services/ai-api/Propely.AiApi.sln`
+- [x] `dotnet build services/orgs-api/Propely.OrgsApi.sln`
+- [x] `dotnet test services/ai-api/Propely.AiApi.sln`
+- [x] `dotnet test services/orgs-api/Propely.OrgsApi.sln`
 - [ ] `cd apps/web && npm run build`
 - [ ] Other (describe):
 

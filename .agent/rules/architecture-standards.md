@@ -122,24 +122,28 @@ Rules:
 ```
 services/<service-name>/
 ├── src/
-│   ├── SaasTemplate.<Service>.Domain/
+│   ├── Propely.<Service>.Domain/
 │   │   └── <Feature>/
-│   ├── SaasTemplate.<Service>.Application/
+│   ├── Propely.<Service>.Application/
 │   │   └── <Feature>/
 │   │       ├── Commands/
 │   │       ├── Queries/
 │   │       └── Interfaces/
-│   ├── SaasTemplate.<Service>.Infrastructure/
+│   ├── Propely.<Service>.Infrastructure/
 │   │   ├── Persistence/
 │   │   ├── Messaging/
 │   │   └── Services/
-│   └── SaasTemplate.<Service>.Api/
-│       ├── Controllers/
+│   ├── Propely.<Service>.Api/
+│   │   ├── Controllers/
+│   │   ├── Dtos/
+│   │   └── Validators/
+│   └── Propely.<Service>.Client/
+│       ├── I<Service>ApiClient.cs
 │       ├── Dtos/
-│       └── Validators/
+│       └── DependencyInjection.cs
 └── tests/
-    ├── SaasTemplate.<Service>.UnitTests/
-    └── SaasTemplate.<Service>.IntegrationTests/
+    ├── Propely.<Service>.UnitTests/
+    └── Propely.<Service>.IntegrationTests/
 ```
 
 ## Anti-Patterns to Avoid

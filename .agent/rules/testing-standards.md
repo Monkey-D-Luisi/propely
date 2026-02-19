@@ -92,8 +92,12 @@ public async Task MethodName_Scenario_ExpectedResult()
 
 ```bash
 # All tests for a service
-dotnet test services/ai-api/SaasTemplate.AiApi.sln
-dotnet test services/orgs-api/SaasTemplate.OrgsApi.sln
+dotnet test services/ai-api/Propely.AiApi.sln
+dotnet test services/orgs-api/Propely.OrgsApi.sln
+dotnet test services/properties-api/Propely.PropertiesApi.sln
+dotnet test services/contacts-api/Propely.ContactsApi.sln
+dotnet test services/appointments-api/Propely.AppointmentsApi.sln
+dotnet test services/publishing-api/Propely.PublishingApi.sln
 
 # Unit tests only
 dotnet test --filter "Category=Unit"
