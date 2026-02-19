@@ -69,6 +69,7 @@ The web app reads `NEXT_PUBLIC_*` variables from the root `.env`:
 | `NEXT_PUBLIC_PROPERTIES_API_URL` | `http://localhost:5030` | Properties API base URL |
 | `NEXT_PUBLIC_CONTACTS_API_URL` | `http://localhost:5050` | Contacts API base URL |
 | `NEXT_PUBLIC_APPOINTMENTS_API_URL` | `http://localhost:5060` | Appointments API base URL |
+| `NEXT_PUBLIC_PUBLISHING_API_URL` | `http://localhost:5040` | Publishing API base URL |
 
 ## Port
 

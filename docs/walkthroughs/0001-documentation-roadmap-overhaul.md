@@ -3,7 +3,7 @@
 ## Task Reference
 - Task: `docs/tasks/0001-documentation-roadmap-overhaul.md`
 - Walkthrough: `docs/walkthroughs/0001-documentation-roadmap-overhaul.md`
-- Branch/PR: `feat/0001-documentation-roadmap-overhaul` / TBD
+- Branch/PR: `feat/0001-documentation-roadmap-overhaul` / [#12](https://github.com/Monkey-D-Luisi/propely/pull/12)
 - Date: `2026-02-19`
 
 ## Summary
@@ -26,7 +26,7 @@ Completed the documentation overhaul for Propely by cleaning up remaining SaaS S
   - Consequences / risks: Additional docs (event-driven patterns, deployment) can be added in future tasks
 
 ## Implementation Notes
-- Key changes: Updated 5 doc files with SaasTemplate references, removed ~80 old template-era files, created 2 architecture docs
+- Key changes: Updated 5 doc files with SaasTemplate references, removed ~160 old template-era files, created 2 architecture docs
 - Edge cases handled: Kept intentional SaasTemplate references in roadmap/backlog (they describe the rename task 0.2)
 - Known limitations: Some SaasTemplate references in source code (.cs, .csproj, .sln files) remain — these are in scope for Task 0.2
 
