@@ -32,20 +32,20 @@ The frontend (`apps/web/`) uses **Next.js 16** with App Router, `next-intl` for 
 
 This recipe walks through creating a new domain entity in one of the .NET services. We use the AI API service as the example, but the Orgs API follows the same pattern.
 
-**Example reference:** `WorkItem` entity in `services/ai-api/src/SaasTemplate.AiApi.Domain/WorkItems/WorkItem.cs`
+**Example reference:** `WorkItem` entity in `services/ai-api/src/Propely.AiApi.Domain/WorkItems/WorkItem.cs`
 
 ### Step 1: Create the Entity Class
 
 Create a new file in the Domain layer. Entities inherit from `Entity` (which provides domain event support) and optionally implement `ISoftDeletable`.
 
 ```
-services/ai-api/src/SaasTemplate.AiApi.Domain/Invoices/Invoice.cs
+services/ai-api/src/Propely.AiApi.Domain/Invoices/Invoice.cs
 ```
 
 ```csharp
-using SaasTemplate.AiApi.Domain.Common;
+using Propely.AiApi.Domain.Common;
 
-namespace SaasTemplate.AiApi.Domain.Invoices;
+namespace Propely.AiApi.Domain.Invoices;
 
 public sealed class Invoice : Entity, ISoftDeletable
 {
@@ -119,15 +119,15 @@ public sealed class Invoice : Entity, ISoftDeletable
 ### Step 2: Create the EF Core Configuration
 
 ```
-services/ai-api/src/SaasTemplate.AiApi.Infrastructure/Persistence/Configurations/InvoiceConfiguration.cs
+services/ai-api/src/Propely.AiApi.Infrastructure/Persistence/Configurations/InvoiceConfiguration.cs
 ```
 
 ```csharp
-using SaasTemplate.AiApi.Domain.Invoices;
+using Propely.AiApi.Domain.Invoices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace SaasTemplate.AiApi.Infrastructure.Persistence.Configurations;
+namespace Propely.AiApi.Infrastructure.Persistence.Configurations;
 
 public sealed class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
 {
@@ -169,7 +169,7 @@ public sealed class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
 Add the `DbSet` to `AppDbContext`:
 
 ```
-services/ai-api/src/SaasTemplate.AiApi.Infrastructure/Persistence/AppDbContext.cs
+services/ai-api/src/Propely.AiApi.Infrastructure/Persistence/AppDbContext.cs
 ```
 
 ```csharp
@@ -180,8 +180,8 @@ Then generate the migration:
 
 ```bash
 dotnet ef migrations add AddInvoices \
-  --project services/ai-api/src/SaasTemplate.AiApi.Infrastructure \
-  --startup-project services/ai-api/src/SaasTemplate.AiApi.Api
+  --project services/ai-api/src/Propely.AiApi.Infrastructure \
+  --startup-project services/ai-api/src/Propely.AiApi.Api
 ```
 
 Migrations run automatically on startup via the `DatabaseMigrationConfiguration` hosted service.
@@ -191,13 +191,13 @@ Migrations run automatically on startup via the `DatabaseMigrationConfiguration`
 Create write and read repository interfaces in the Application layer:
 
 ```
-services/ai-api/src/SaasTemplate.AiApi.Application/Invoices/Interfaces/IInvoiceRepository.cs
+services/ai-api/src/Propely.AiApi.Application/Invoices/Interfaces/IInvoiceRepository.cs
 ```
 
 ```csharp
-using SaasTemplate.AiApi.Domain.Invoices;
+using Propely.AiApi.Domain.Invoices;
 
-namespace SaasTemplate.AiApi.Application.Invoices.Interfaces;
+namespace Propely.AiApi.Application.Invoices.Interfaces;
 
 public interface IInvoiceRepository
 {
@@ -212,7 +212,7 @@ public interface IInvoiceRepository
 Create the implementation in Infrastructure and register it in `DependencyInjection.cs`:
 
 ```
-services/ai-api/src/SaasTemplate.AiApi.Infrastructure/DependencyInjection.cs
+services/ai-api/src/Propely.AiApi.Infrastructure/DependencyInjection.cs
 ```
 
 ```csharp
@@ -228,18 +228,18 @@ services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 
 This recipe shows how to add a new command (write operation) using MediatR.
 
-**Example reference:** `CreateWorkItemCommand` in `services/ai-api/src/SaasTemplate.AiApi.Application/WorkItems/Commands/CreateWorkItemCommand.cs`
+**Example reference:** `CreateWorkItemCommand` in `services/ai-api/src/Propely.AiApi.Application/WorkItems/Commands/CreateWorkItemCommand.cs`
 
 ### Step 1: Define the Command and Result Records
 
 ```
-services/ai-api/src/SaasTemplate.AiApi.Application/Invoices/Commands/CreateInvoiceCommand.cs
+services/ai-api/src/Propely.AiApi.Application/Invoices/Commands/CreateInvoiceCommand.cs
 ```
 
 ```csharp
 using MediatR;
 
-namespace SaasTemplate.AiApi.Application.Invoices.Commands;
+namespace Propely.AiApi.Application.Invoices.Commands;
 
 public sealed record CreateInvoiceCommand(
     Guid OrgId,
@@ -262,16 +262,16 @@ public sealed record CreateInvoiceResult(
 ### Step 2: Create the Command Handler
 
 ```
-services/ai-api/src/SaasTemplate.AiApi.Application/Invoices/Commands/CreateInvoiceCommandHandler.cs
+services/ai-api/src/Propely.AiApi.Application/Invoices/Commands/CreateInvoiceCommandHandler.cs
 ```
 
 ```csharp
-using SaasTemplate.AiApi.Application.Common.Interfaces;
-using SaasTemplate.AiApi.Application.Invoices.Interfaces;
-using SaasTemplate.AiApi.Domain.Invoices;
+using Propely.AiApi.Application.Common.Interfaces;
+using Propely.AiApi.Application.Invoices.Interfaces;
+using Propely.AiApi.Domain.Invoices;
 using MediatR;
 
-namespace SaasTemplate.AiApi.Application.Invoices.Commands;
+namespace Propely.AiApi.Application.Invoices.Commands;
 
 public sealed class CreateInvoiceCommandHandler
     : IRequestHandler<CreateInvoiceCommand, CreateInvoiceResult>
@@ -321,19 +321,19 @@ MediatR handlers are auto-registered by assembly scanning in `Application/Depend
 For queries, use a read repository that returns DTOs with `AsNoTracking()`:
 
 ```
-services/ai-api/src/SaasTemplate.AiApi.Application/Invoices/Queries/GetInvoiceByIdQuery.cs
+services/ai-api/src/Propely.AiApi.Application/Invoices/Queries/GetInvoiceByIdQuery.cs
 ```
 
 ```csharp
 using MediatR;
-using SaasTemplate.AiApi.Application.Invoices.Dtos;
+using Propely.AiApi.Application.Invoices.Dtos;
 
-namespace SaasTemplate.AiApi.Application.Invoices.Queries;
+namespace Propely.AiApi.Application.Invoices.Queries;
 
 public sealed record GetInvoiceByIdQuery(Guid Id) : IRequest<InvoiceDto?>;
 ```
 
-The query handler injects `IInvoiceReadRepository` and optionally `ICacheService` for cache-aside pattern. See `GetWorkItemByIdQueryHandler` in `services/ai-api/src/SaasTemplate.AiApi.Application/WorkItems/Queries/GetWorkItemByIdQueryHandler.cs` for the full cache-aside example.
+The query handler injects `IInvoiceReadRepository` and optionally `ICacheService` for cache-aside pattern. See `GetWorkItemByIdQueryHandler` in `services/ai-api/src/Propely.AiApi.Application/WorkItems/Queries/GetWorkItemByIdQueryHandler.cs` for the full cache-aside example.
 
 ---
 
@@ -341,26 +341,26 @@ The query handler injects `IInvoiceReadRepository` and optionally `ICacheService
 
 This recipe shows how to expose a command or query through a REST API endpoint.
 
-**Example reference:** `WorkItemsController` in `services/ai-api/src/SaasTemplate.AiApi.Api/Controllers/WorkItemsController.cs`
+**Example reference:** `WorkItemsController` in `services/ai-api/src/Propely.AiApi.Api/Controllers/WorkItemsController.cs`
 
 ### Step 1: Create Request and Response DTOs
 
 ```
-services/ai-api/src/SaasTemplate.AiApi.Api/Dtos/CreateInvoiceRequest.cs
+services/ai-api/src/Propely.AiApi.Api/Dtos/CreateInvoiceRequest.cs
 ```
 
 ```csharp
-namespace SaasTemplate.AiApi.Api.Dtos;
+namespace Propely.AiApi.Api.Dtos;
 
 public sealed record CreateInvoiceRequest(string Reference, decimal Amount);
 ```
 
 ```
-services/ai-api/src/SaasTemplate.AiApi.Api/Dtos/InvoiceResponse.cs
+services/ai-api/src/Propely.AiApi.Api/Dtos/InvoiceResponse.cs
 ```
 
 ```csharp
-namespace SaasTemplate.AiApi.Api.Dtos;
+namespace Propely.AiApi.Api.Dtos;
 
 public sealed record InvoiceResponse(
     Guid Id, string Reference, decimal Amount, DateTime CreatedAtUtc);
@@ -369,15 +369,15 @@ public sealed record InvoiceResponse(
 ### Step 2: Create a Request Validator
 
 ```
-services/ai-api/src/SaasTemplate.AiApi.Api/Validators/CreateInvoiceRequestValidator.cs
+services/ai-api/src/Propely.AiApi.Api/Validators/CreateInvoiceRequestValidator.cs
 ```
 
 ```csharp
 using FluentValidation;
-using SaasTemplate.AiApi.Api.Dtos;
-using SaasTemplate.AiApi.Domain.Invoices;
+using Propely.AiApi.Api.Dtos;
+using Propely.AiApi.Domain.Invoices;
 
-namespace SaasTemplate.AiApi.Api.Validators;
+namespace Propely.AiApi.Api.Validators;
 
 public sealed class CreateInvoiceRequestValidator : AbstractValidator<CreateInvoiceRequest>
 {
@@ -394,7 +394,7 @@ Validators are auto-registered by assembly scanning in `Api/DependencyInjection.
 ### Step 3: Add the Controller
 
 ```
-services/ai-api/src/SaasTemplate.AiApi.Api/Controllers/InvoicesController.cs
+services/ai-api/src/Propely.AiApi.Api/Controllers/InvoicesController.cs
 ```
 
 ```csharp
@@ -402,11 +402,11 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SaasTemplate.AiApi.Api.Controllers;
-using SaasTemplate.AiApi.Api.Dtos;
-using SaasTemplate.AiApi.Application.Invoices.Commands;
+using Propely.AiApi.Api.Controllers;
+using Propely.AiApi.Api.Dtos;
+using Propely.AiApi.Application.Invoices.Commands;
 
-namespace SaasTemplate.AiApi.Api.Controllers;
+namespace Propely.AiApi.Api.Controllers;
 
 [ApiController]
 [Route("v1/invoices")]
@@ -461,7 +461,7 @@ public sealed class InvoicesController : ControllerBase
 - `PUT` returns `204 NoContent`
 - `DELETE` returns `204 NoContent`
 
-**Exception-to-HTTP mapping** is handled by `ExceptionHandlerMiddleware` in `services/ai-api/src/SaasTemplate.AiApi.Api/Middleware/ExceptionHandlerMiddleware.cs`:
+**Exception-to-HTTP mapping** is handled by `ExceptionHandlerMiddleware` in `services/ai-api/src/Propely.AiApi.Api/Middleware/ExceptionHandlerMiddleware.cs`:
 - `NotFoundException` -> 404
 - `ForbiddenException` -> 403
 - `ConflictException` -> 409
@@ -697,15 +697,15 @@ cd services/ai-api
 This creates:
 
 ```
-src/SaasTemplate.AiApi.Domain/Invoice/
+src/Propely.AiApi.Domain/Invoice/
   Invoice.cs                      # Stub entity
   IInvoiceRepository.cs           # Repository interface
-src/SaasTemplate.AiApi.Application/Invoice/
+src/Propely.AiApi.Application/Invoice/
   Commands/
   Queries/
   Dtos/
   Events/
-src/SaasTemplate.AiApi.Infrastructure/Persistence/Repositories/
+src/Propely.AiApi.Infrastructure/Persistence/Repositories/
   InvoiceRepository.cs            # Repository implementation
 ```
 
@@ -713,26 +713,26 @@ src/SaasTemplate.AiApi.Infrastructure/Persistence/Repositories/
 
 The script prints three manual steps:
 
-1. **Register the repository** in `src/SaasTemplate.AiApi.Infrastructure/DependencyInjection.cs`:
+1. **Register the repository** in `src/Propely.AiApi.Infrastructure/DependencyInjection.cs`:
 
 ```csharp
 services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 ```
 
-2. **Add DbSet** to `src/SaasTemplate.AiApi.Infrastructure/Persistence/AppDbContext.cs`:
+2. **Add DbSet** to `src/Propely.AiApi.Infrastructure/Persistence/AppDbContext.cs`:
 
 ```csharp
 public DbSet<Invoice> Invoices => Set<Invoice>();
 ```
 
-3. **Add EF Core configuration** at `src/SaasTemplate.AiApi.Infrastructure/Persistence/Configurations/InvoiceConfiguration.cs` (see Recipe 1, Step 2 for the pattern).
+3. **Add EF Core configuration** at `src/Propely.AiApi.Infrastructure/Persistence/Configurations/InvoiceConfiguration.cs` (see Recipe 1, Step 2 for the pattern).
 
 ### Step 3: Generate the Migration
 
 ```bash
 dotnet ef migrations add AddInvoice \
-  --project services/ai-api/src/SaasTemplate.AiApi.Infrastructure \
-  --startup-project services/ai-api/src/SaasTemplate.AiApi.Api
+  --project services/ai-api/src/Propely.AiApi.Infrastructure \
+  --startup-project services/ai-api/src/Propely.AiApi.Api
 ```
 
 After this, the scaffolded entity is minimal. Flesh it out following Recipe 1 (entity), Recipe 2 (commands/queries), and Recipe 3 (endpoints).
@@ -775,7 +775,7 @@ Then translate all values in `apps/web/messages/fr.json`. The message file uses 
 ```json
 {
   "common": {
-    "appName": "SaaS Starter Kit",
+    "appName": "Propely",
     "signIn": "Se connecter",
     "signOut": "Se déconnecter"
   },
@@ -793,7 +793,7 @@ Then translate all values in `apps/web/messages/fr.json`. The message file uses 
 If you need localized emails, add a new locale folder in the Orgs API:
 
 ```
-services/orgs-api/src/SaasTemplate.OrgsApi.Infrastructure/Email/Templates/fr/
+services/orgs-api/src/Propely.OrgsApi.Infrastructure/Email/Templates/fr/
   Invitation.cshtml
   EmailVerification.cshtml
   PasswordReset.cshtml
@@ -824,8 +824,8 @@ Then update the localization classes (e.g., `InvitationEmailLocalization.cs`) to
 Feature flags use a two-tier system: configuration defaults (hardcoded) + database overrides (runtime toggleable).
 
 **Backend files:**
-- Default registration: `services/orgs-api/src/SaasTemplate.OrgsApi.Application/FeatureFlags/Interfaces/IFeatureFlagDefaults.cs`
-- Toggle command: `services/orgs-api/src/SaasTemplate.OrgsApi.Application/FeatureFlags/Commands/ToggleFeatureFlag/ToggleFeatureFlagCommand.cs`
+- Default registration: `services/orgs-api/src/Propely.OrgsApi.Application/FeatureFlags/Interfaces/IFeatureFlagDefaults.cs`
+- Toggle command: `services/orgs-api/src/Propely.OrgsApi.Application/FeatureFlags/Commands/ToggleFeatureFlag/ToggleFeatureFlagCommand.cs`
 
 **Frontend files:**
 - Provider/hooks: `apps/web/src/hooks/feature-flags.tsx`
@@ -898,16 +898,16 @@ await toggle('Invoicing', false); // Disable
 
 The Orgs API sends emails using Razor templates with locale support.
 
-**Example reference:** `InvitationEmailModel` in `services/orgs-api/src/SaasTemplate.OrgsApi.Application/Common/Email/InvitationEmailModel.cs`
+**Example reference:** `InvitationEmailModel` in `services/orgs-api/src/Propely.OrgsApi.Application/Common/Email/InvitationEmailModel.cs`
 
 ### Step 1: Create the Email Model
 
 ```
-services/orgs-api/src/SaasTemplate.OrgsApi.Application/Common/Email/InvoiceEmailModel.cs
+services/orgs-api/src/Propely.OrgsApi.Application/Common/Email/InvoiceEmailModel.cs
 ```
 
 ```csharp
-namespace SaasTemplate.OrgsApi.Application.Common.Email;
+namespace Propely.OrgsApi.Application.Common.Email;
 
 public sealed record InvoiceEmailModel : BaseEmailModel
 {
@@ -924,11 +924,11 @@ public sealed record InvoiceEmailModel : BaseEmailModel
 Create a `.cshtml` file for each supported locale:
 
 ```
-services/orgs-api/src/SaasTemplate.OrgsApi.Infrastructure/Email/Templates/en/Invoice.cshtml
+services/orgs-api/src/Propely.OrgsApi.Infrastructure/Email/Templates/en/Invoice.cshtml
 ```
 
 ```html
-@model SaasTemplate.OrgsApi.Application.Common.Email.InvoiceEmailModel
+@model Propely.OrgsApi.Application.Common.Email.InvoiceEmailModel
 
 <h2>Invoice @Model.Reference</h2>
 <p>Amount: $@Model.Amount.ToString("F2")</p>
@@ -936,11 +936,11 @@ services/orgs-api/src/SaasTemplate.OrgsApi.Infrastructure/Email/Templates/en/Inv
 ```
 
 ```
-services/orgs-api/src/SaasTemplate.OrgsApi.Infrastructure/Email/Templates/es/Invoice.cshtml
+services/orgs-api/src/Propely.OrgsApi.Infrastructure/Email/Templates/es/Invoice.cshtml
 ```
 
 ```html
-@model SaasTemplate.OrgsApi.Application.Common.Email.InvoiceEmailModel
+@model Propely.OrgsApi.Application.Common.Email.InvoiceEmailModel
 
 <h2>Factura @Model.Reference</h2>
 <p>Monto: $@Model.Amount.ToString("F2")</p>
@@ -952,11 +952,11 @@ Templates are embedded resources -- they are already included by the wildcard `<
 ### Step 3: Create Localization Helper (Optional)
 
 ```
-services/orgs-api/src/SaasTemplate.OrgsApi.Application/Common/Email/InvoiceEmailLocalization.cs
+services/orgs-api/src/Propely.OrgsApi.Application/Common/Email/InvoiceEmailLocalization.cs
 ```
 
 ```csharp
-namespace SaasTemplate.OrgsApi.Application.Common.Email;
+namespace Propely.OrgsApi.Application.Common.Email;
 
 public static class InvoiceEmailLocalization
 {

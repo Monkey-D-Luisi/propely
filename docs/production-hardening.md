@@ -1,6 +1,6 @@
 # Production Hardening Guide
 
-This guide covers secret rotation procedures, security configuration, and pre-deploy checklists for deploying the SaaS Starter Kit to GCP. Target audience: a developer deploying to GCP Cloud Run for the first time.
+This guide covers secret rotation procedures, security configuration, and pre-deploy checklists for deploying Propely to GCP. Target audience: a developer deploying to GCP Cloud Run for the first time.
 
 > **Prerequisite:** Read `docs/configuration.md` for a complete reference of every environment variable.
 
@@ -98,9 +98,9 @@ echo -n "$NEW_SECRET" | gcloud secrets versions add \
   --data-file=- --project="$PROJECT_ID"
 
 # 4. Redeploy both services (they now accept both keys)
-gcloud run services update saastemplate-production-orgs-api \
+gcloud run services update propely-production-orgs-api \
   --region="$REGION" --project="$PROJECT_ID"
-gcloud run services update saastemplate-production-ai-api \
+gcloud run services update propely-production-ai-api \
   --region="$REGION" --project="$PROJECT_ID"
 
 # 5. Wait 24 hours (max token lifetime) for old tokens to expire
@@ -125,9 +125,9 @@ echo -n "$NEW_SECRET" | gcloud secrets versions add \
   --data-file=- --project="$PROJECT_ID"
 
 # 3. Redeploy BOTH services (ai-api must share the same key)
-gcloud run services update saastemplate-production-orgs-api \
+gcloud run services update propely-production-orgs-api \
   --region="$REGION" --project="$PROJECT_ID"
-gcloud run services update saastemplate-production-ai-api \
+gcloud run services update propely-production-ai-api \
   --region="$REGION" --project="$PROJECT_ID"
 
 # 4. All users are logged out — they must log in again to get new tokens
@@ -185,7 +185,7 @@ echo -n "$NEW_CSRF" | gcloud secrets versions add \
   --data-file=- --project="$PROJECT_ID"
 
 # 3. Redeploy orgs-api
-gcloud run services update saastemplate-production-orgs-api \
+gcloud run services update propely-production-orgs-api \
   --region="$REGION" --project="$PROJECT_ID"
 
 # Impact: CSRF tokens issued in the last hour become invalid.
@@ -210,7 +210,7 @@ echo -n "sk_live_NEW_KEY" | gcloud secrets versions add \
   --data-file=- --project="$PROJECT_ID"
 
 # 3. Redeploy
-gcloud run services update saastemplate-production-orgs-api \
+gcloud run services update propely-production-orgs-api \
   --region="$REGION" --project="$PROJECT_ID"
 
 # 4. Disable old version in Secret Manager
@@ -235,7 +235,7 @@ echo -n "whsec_NEW_SECRET" | gcloud secrets versions add \
   --data-file=- --project="$PROJECT_ID"
 
 # 3. Redeploy
-gcloud run services update saastemplate-production-orgs-api \
+gcloud run services update propely-production-orgs-api \
   --region="$REGION" --project="$PROJECT_ID"
 
 # Note: Stripe retries failed webhooks for up to 72 hours.
@@ -263,7 +263,7 @@ echo -n "GOCSPX-new-secret" | gcloud secrets versions add \
   --data-file=- --project="$PROJECT_ID"
 
 # 4. Redeploy orgs-api
-gcloud run services update saastemplate-production-orgs-api \
+gcloud run services update propely-production-orgs-api \
   --region="$REGION" --project="$PROJECT_ID"
 
 # 5. Delete the old secret in Google Cloud Console
@@ -280,7 +280,7 @@ echo -n "new_github_secret" | gcloud secrets versions add \
   --data-file=- --project="$PROJECT_ID"
 
 # 3. Redeploy orgs-api
-gcloud run services update saastemplate-production-orgs-api \
+gcloud run services update propely-production-orgs-api \
   --region="$REGION" --project="$PROJECT_ID"
 
 # 4. Delete the old client secret in GitHub settings
@@ -302,8 +302,8 @@ gcloud run services update saastemplate-production-orgs-api \
 NEW_PASSWORD=$(openssl rand -base64 24)
 
 # 2. Change the Cloud SQL user password
-gcloud sql users set-password saastemplate \
-  --instance="saastemplate-production-db" \
+gcloud sql users set-password propely \
+  --instance="propely-production-db" \
   --password="$NEW_PASSWORD" \
   --project="$PROJECT_ID"
 
@@ -314,23 +314,23 @@ echo -n "$NEW_PASSWORD" | gcloud secrets versions add \
 
 # 4. Update both connection string secrets with the new password
 # Assumes $PROJECT_ID and $REGION are set in your shell.
-DB_INSTANCE="saastemplate-production-db"
-DB_USER="saastemplate"
+DB_INSTANCE="propely-production-db"
+DB_USER="propely"
 
 # orgs-api connection string
-echo -n "Host=/cloudsql/${PROJECT_ID}:${REGION}:${DB_INSTANCE};Database=saastemplate_orgsapi;Username=${DB_USER};Password=${NEW_PASSWORD}" \
+echo -n "Host=/cloudsql/${PROJECT_ID}:${REGION}:${DB_INSTANCE};Database=propely_orgsapi;Username=${DB_USER};Password=${NEW_PASSWORD}" \
   | gcloud secrets versions add production-orgsapi-db-connection-string \
     --data-file=- --project="$PROJECT_ID"
 
 # ai-api connection string
-echo -n "Host=/cloudsql/${PROJECT_ID}:${REGION}:${DB_INSTANCE};Database=saastemplate_aiapi;Username=${DB_USER};Password=${NEW_PASSWORD}" \
+echo -n "Host=/cloudsql/${PROJECT_ID}:${REGION}:${DB_INSTANCE};Database=propely_aiapi;Username=${DB_USER};Password=${NEW_PASSWORD}" \
   | gcloud secrets versions add production-aiapi-db-connection-string \
     --data-file=- --project="$PROJECT_ID"
 
 # 5. Redeploy both services
-gcloud run services update saastemplate-production-orgs-api \
+gcloud run services update propely-production-orgs-api \
   --region="$REGION" --project="$PROJECT_ID"
-gcloud run services update saastemplate-production-ai-api \
+gcloud run services update propely-production-ai-api \
   --region="$REGION" --project="$PROJECT_ID"
 ```
 
@@ -353,7 +353,7 @@ echo -n "SG.new_api_key" | gcloud secrets versions add \
   --data-file=- --project="$PROJECT_ID"
 
 # 3. Redeploy orgs-api
-gcloud run services update saastemplate-production-orgs-api \
+gcloud run services update propely-production-orgs-api \
   --region="$REGION" --project="$PROJECT_ID"
 
 # 4. Revoke the old API key in SendGrid dashboard
@@ -375,7 +375,7 @@ echo -n "sk-proj-new_key" | gcloud secrets versions add \
   --data-file=- --project="$PROJECT_ID"
 
 # 2. Redeploy ai-api
-gcloud run services update saastemplate-production-ai-api \
+gcloud run services update propely-production-ai-api \
   --region="$REGION" --project="$PROJECT_ID"
 
 # 3. Delete the old key in OpenAI dashboard
@@ -460,7 +460,7 @@ cd infra/terraform/environments/production
 terraform apply
 
 # 4. Verify all instances are running with the new version
-gcloud run revisions list --service=saastemplate-production-orgs-api \
+gcloud run revisions list --service=propely-production-orgs-api \
   --region="$REGION" --project="$PROJECT_ID"
 
 # 5. Disable the old version after transition period

@@ -53,17 +53,17 @@ Before anything else, ensure a clean starting point:
 
 ### Step 1: Identify Next Task
 
-1. **Read the roadmap** (`docs/roadmap-v1.md`) to understand the execution phases and their ordering:
-   - Phase A (Foundation) → Phase 0 (Design System) → Phase B (Core Features) → Phase C (Polish) → Phase D (Demo)
-   - Within each phase, tasks are ordered by track and sequence number (e.g., B1.1, B1.2, B1.3)
+1. **Read the roadmap** (`docs/roadmap.md`) to understand the execution phases and their ordering:
+   - Phase 0 (Foundation) → Phase 1 (Agency & Permissions) → Phase 2 (Properties) → Phase 3 (AI) → Phase 4 (Contacts) → Phase 5 (Appointments) → Phase 6 (Publication) → Phase 7 (Polish)
+   - Within each phase, tasks are ordered by dependency (e.g., 2.1, 2.2, 2.3)
 2. **Read `docs/backlog/`** epic files to get the current status of each task (PENDING / IN_PROGRESS / DONE)
-3. **Scan tasks in roadmap phase order** — iterate through the roadmap's "All 19 Tasks Summary" table from top to bottom:
-   - For each task with status `PENDING`, verify all dependencies have status `DONE` (dependencies may reference tasks in other epics — check across all epic files)
+3. **Scan tasks in roadmap phase order** — iterate through the roadmap phases from 0 to 7:
+   - For each task with status `PENDING`, verify all dependencies have status `DONE` (dependencies may reference tasks in other phases — check across all epic files)
    - The **first PENDING task with all dependencies met**, in roadmap order, is the next task
-4. If a PENDING task exists in the backlog but is **not listed in the roadmap**, append it to the end of the queue (after all roadmap tasks)
+4. If a PENDING task exists in the backlog but is **not listed in the roadmap**, append it to the end of the queue
 5. If no task has all dependencies met, report to user and wait
 
-> **Why roadmap-first?** The roadmap encodes strategic phase ordering (foundation → design → features → polish → demo) that dependencies alone may not fully capture. Scanning in roadmap order ensures the agent follows the intended execution plan.
+> **Why roadmap-first?** The roadmap encodes strategic phase ordering that dependencies alone may not fully capture. Scanning in roadmap order ensures the agent follows the intended execution plan.
 
 ### Step 2: Create Task Documentation
 
@@ -85,15 +85,21 @@ In the epic file, change the task status:
 
 ### Step 4: Implement the Solution
 
-Follow Clean Architecture layer order when applicable:
-1. **Domain Layer** — Entities, value objects, domain events
-2. **Application Layer** — Commands, queries, handlers, interfaces
-3. **Infrastructure Layer** — Repositories, external services, persistence
-4. **Presentation Layer** — Controllers, DTOs, validation
+**For backend tasks**, follow Clean Architecture layer order with TDD:
+1. **Domain Layer** — Entities, value objects, domain events. Write unit tests FIRST.
+2. **Application Layer** — Commands, queries, handlers, interfaces. Write handler tests FIRST.
+3. **Infrastructure Layer** — Repositories, external services, persistence. Write integration tests.
+4. **Presentation Layer** — Controllers, DTOs, validation. Write API integration tests.
+
+**For UI tasks**, follow the Use Case → Design → TDD flow:
+1. Define use cases exhaustively (actor, flows, errors)
+2. Generate Stitch MCP design (mandatory before code)
+3. Write component tests FIRST (React Testing Library)
+4. Implement components pixel-perfect against Stitch design
+5. Verify with visual comparison
 
 For each layer:
-- Write production code in `src/`
-- Write tests in `tests/`
+- Write tests FIRST, then production code (TDD: Red → Green → Refactor)
 - Follow coding standards from `.agent/rules/coding-standards.md`
 
 ### Step 5: Run Quality Checks
@@ -102,12 +108,20 @@ Before considering the task complete:
 
 ```bash
 # Build the affected service(s)
-dotnet build services/ai-api/SaasTemplate.AiApi.sln
-dotnet build services/orgs-api/SaasTemplate.OrgsApi.sln
+dotnet build services/ai-api/Propely.AiApi.sln
+dotnet build services/orgs-api/Propely.OrgsApi.sln
+dotnet build services/properties-api/Propely.PropertiesApi.sln
+dotnet build services/contacts-api/Propely.ContactsApi.sln
+dotnet build services/appointments-api/Propely.AppointmentsApi.sln
+dotnet build services/publishing-api/Propely.PublishingApi.sln
 
 # Run all tests
-dotnet test services/ai-api/SaasTemplate.AiApi.sln
-dotnet test services/orgs-api/SaasTemplate.OrgsApi.sln
+dotnet test services/ai-api/Propely.AiApi.sln
+dotnet test services/orgs-api/Propely.OrgsApi.sln
+dotnet test services/properties-api/Propely.PropertiesApi.sln
+dotnet test services/contacts-api/Propely.ContactsApi.sln
+dotnet test services/appointments-api/Propely.AppointmentsApi.sln
+dotnet test services/publishing-api/Propely.PublishingApi.sln
 
 # Frontend (if affected)
 cd apps/web && npm run build && npm test
@@ -256,4 +270,4 @@ If a task cannot proceed:
 - [Walkthrough Template](../templates/walkthrough-template.md)
 - [Coding Standards](coding-standards.md)
 - [Testing Standards](testing-standards.md)
-- [v1.0 Roadmap](../../docs/roadmap-v1.md)
+- [v1.0 Roadmap](../../docs/roadmap.md)

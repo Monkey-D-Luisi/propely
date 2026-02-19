@@ -1,6 +1,6 @@
 # Recovery Runbook
 
-Step-by-step procedures for recovering each infrastructure component of the SaaS Starter Kit on GCP. Use this document during incidents or as a reference for disaster recovery planning.
+Step-by-step procedures for recovering each infrastructure component of Propely on GCP. Use this document during incidents or as a reference for disaster recovery planning.
 
 > **Related:** See `docs/production-hardening.md` for secret rotation procedures and pre-deploy security checklists.
 
@@ -75,8 +75,8 @@ Recovery Time Objective (RTO) = maximum acceptable downtime.
 # Set environment variables
 PROJECT_ID="your-gcp-project"
 REGION="us-central1"
-SOURCE_INSTANCE="production-saastemplate-pg"
-RECOVERY_INSTANCE="production-saastemplate-pg-recovery"
+SOURCE_INSTANCE="production-propely-pg"
+RECOVERY_INSTANCE="production-propely-pg-recovery"
 
 # 1. Identify the recovery point (use UTC timestamp)
 #    Check Cloud SQL logs or application logs to determine the last-known-good time.
@@ -96,14 +96,14 @@ gcloud sql instances describe "$RECOVERY_INSTANCE" \
 # 4. Verify the recovered data
 #    Connect to the recovery instance and spot-check critical tables.
 gcloud sql connect "$RECOVERY_INSTANCE" \
-  --user=saastemplate \
+  --user=propely \
   --project="$PROJECT_ID"
 
 # Inside psql:
-#   \c saastemplate_orgsapi
+#   \c propely_orgsapi
 #   SELECT count(*) FROM "Users";
 #   SELECT count(*) FROM "Organizations";
-#   \c saastemplate_aiapi
+#   \c propely_aiapi
 #   SELECT count(*) FROM "WorkItems";
 
 # 5. Swap traffic to the recovered instance
@@ -114,17 +114,17 @@ gcloud sql connect "$RECOVERY_INSTANCE" \
 DB_PASSWORD=$(gcloud secrets versions access latest \
   --secret="production-db-password" --project="$PROJECT_ID")
 
-NEW_CONNECTION="Host=/cloudsql/${PROJECT_ID}:${REGION}:${RECOVERY_INSTANCE};Database=saastemplate_orgsapi;Username=saastemplate;Password=$DB_PASSWORD"
+NEW_CONNECTION="Host=/cloudsql/${PROJECT_ID}:${REGION}:${RECOVERY_INSTANCE};Database=propely_orgsapi;Username=propely;Password=$DB_PASSWORD"
 echo -n "$NEW_CONNECTION" | gcloud secrets versions add \
   production-orgsapi-db-connection-string \
   --data-file=- --project="$PROJECT_ID"
 
-# Repeat for ai-api connection string (with Database=saastemplate_aiapi)
+# Repeat for ai-api connection string (with Database=propely_aiapi)
 
 # 6. Redeploy services to pick up the new connection string
-gcloud run services update saastemplate-production-orgs-api \
+gcloud run services update propely-production-orgs-api \
   --region="$REGION" --project="$PROJECT_ID"
-gcloud run services update saastemplate-production-ai-api \
+gcloud run services update propely-production-ai-api \
   --region="$REGION" --project="$PROJECT_ID"
 
 # 7. Clean up the original instance (only after confirming recovery is successful)
@@ -135,11 +135,11 @@ gcloud run services update saastemplate-production-ai-api \
 ### Procedure: Console UI
 
 1. Go to **Cloud SQL** > **Instances** in the GCP Console
-2. Click the source instance (`production-saastemplate-pg`)
+2. Click the source instance (`production-propely-pg`)
 3. Click **Clone** in the top toolbar
 4. Select **Clone from an earlier point in time**
 5. Pick the recovery timestamp using the calendar/time picker
-6. Name the clone (e.g., `production-saastemplate-pg-recovery`)
+6. Name the clone (e.g., `production-propely-pg-recovery`)
 7. Click **Create Clone** and wait for the instance to become `RUNNABLE`
 8. Verify data by connecting via **Cloud Shell** or **Authorized Networks**
 9. Update Secret Manager connection strings to point to the clone (see **Secret Manager** in the left nav)
@@ -190,7 +190,7 @@ gcloud sql backups restore "$BACKUP_ID" \
 ```bash
 PROJECT_ID="your-gcp-project"
 REGION="us-central1"
-SERVICE_NAME="saastemplate-production-orgs-api"  # or -ai-api, -web
+SERVICE_NAME="propely-production-orgs-api"  # or -ai-api, -web
 
 # 1. List recent revisions
 gcloud run revisions list \
@@ -201,7 +201,7 @@ gcloud run revisions list \
   --format="table(name, active, createTime, image)"
 
 # 2. Identify the last-known-good revision from the list output
-GOOD_REVISION="saastemplate-production-orgs-api-00005-abc"
+GOOD_REVISION="propely-production-orgs-api-00005-abc"
 
 # 3. Route 100% of traffic to the known-good revision
 gcloud run services update-traffic "$SERVICE_NAME" \
@@ -225,7 +225,7 @@ curl -s "$SERVICE_URL/health/live"
 ### Procedure: Console UI
 
 1. Go to **Cloud Run** in the GCP Console
-2. Click the affected service (e.g., `saastemplate-production-orgs-api`)
+2. Click the affected service (e.g., `propely-production-orgs-api`)
 3. Go to the **Revisions** tab
 4. Find the last-known-good revision in the list
 5. Click **Manage Traffic** (or the three-dot menu on the revision)
@@ -255,9 +255,9 @@ gcloud run services update-traffic "$SERVICE_NAME" \
 
 | Service | Name (Production) | Name (Staging) | Health Endpoint | Port |
 |---------|-------------------|----------------|-----------------|------|
-| Orgs API | `saastemplate-production-orgs-api` | `saastemplate-staging-orgs-api` | `/health/live` | 8080 |
-| AI API | `saastemplate-production-ai-api` | `saastemplate-staging-ai-api` | `/health/live` | 8080 |
-| Web | `saastemplate-production-web` | `saastemplate-staging-web` | `/en` | 3000 |
+| Orgs API | `propely-production-orgs-api` | `propely-staging-orgs-api` | `/health/live` | 8080 |
+| AI API | `propely-production-ai-api` | `propely-staging-ai-api` | `/health/live` | 8080 |
+| Web | `propely-production-web` | `propely-staging-web` | `/en` | 3000 |
 
 ### Important Notes
 
@@ -306,12 +306,12 @@ Messages that fail processing are NACK'd without requeue and land in `projector.
 
 ```bash
 # Check DLQ message count via Management API
-curl -u saastemplate:saastemplate_dev_password \
+curl -u propely:propely_dev_password \
   http://localhost:15672/api/queues/%2F/projector.workitems.dlq \
   | jq '.messages'
 
 # List all queues and message counts
-curl -u saastemplate:saastemplate_dev_password \
+curl -u propely:propely_dev_password \
   http://localhost:15672/api/queues \
   | jq '.[] | {name, messages}'
 ```
@@ -429,7 +429,7 @@ curl -u "$RABBITMQ_USER:$RABBITMQ_PASSWORD" \
 
 | Setting | Staging | Production |
 |---------|---------|------------|
-| Instance | `staging-saastemplate-redis` | `production-saastemplate-redis` |
+| Instance | `staging-propely-redis` | `production-propely-redis` |
 | Tier | `BASIC` (no replica) | `STANDARD_HA` (replica + auto-failover) |
 | Memory | 1 GB | 5 GB |
 | Eviction | `allkeys-lru` | `allkeys-lru` |
@@ -447,7 +447,7 @@ Memorystore for Redis does not expose `FLUSHALL` via `gcloud`. Use `redis-cli` f
 ```bash
 PROJECT_ID="your-gcp-project"
 REGION="us-central1"
-INSTANCE="production-saastemplate-redis"
+INSTANCE="production-propely-redis"
 ```
 
 #### Using redis-cli (via Compute Engine Bastion)
@@ -497,7 +497,7 @@ redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT" -a "$AUTH_STRING" --tls \
 ### Procedure: Console UI
 
 1. Go to **Memorystore** > **Redis** in the GCP Console
-2. Click the instance (e.g., `production-saastemplate-redis`)
+2. Click the instance (e.g., `production-propely-redis`)
 3. Note the **Host** and **Port** values
 4. Use **Cloud Shell** or an authorized VM to connect via `redis-cli`
 5. Run `FLUSHALL` to clear the cache, or `SCAN` + `DEL` for selective invalidation
@@ -584,13 +584,13 @@ Force all running instances to pick up the new secret:
 REGION="us-central1"
 
 # Redeploy affected services
-gcloud run services update saastemplate-production-orgs-api \
+gcloud run services update propely-production-orgs-api \
   --region="$REGION" --project="$PROJECT_ID"
-gcloud run services update saastemplate-production-ai-api \
+gcloud run services update propely-production-ai-api \
   --region="$REGION" --project="$PROJECT_ID"
 
 # If the web frontend is affected (unlikely for backend secrets)
-gcloud run services update saastemplate-production-web \
+gcloud run services update propely-production-web \
   --region="$REGION" --project="$PROJECT_ID"
 ```
 

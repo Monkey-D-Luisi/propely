@@ -1,6 +1,6 @@
-# Configuration Reference
+# Propely Configuration Reference
 
-This document describes every environment variable used by the SaaS Starter Kit. Variables are grouped by service and purpose.
+This document describes every environment variable used by Propely. Variables are grouped by service and purpose.
 
 ## How Configuration Works
 
@@ -8,6 +8,10 @@ Each .NET service loads environment variables with a prefix:
 
 - **ai-api**: `AIAPI_` prefix — `builder.Configuration.AddEnvironmentVariables("AIAPI_")`
 - **orgs-api**: `ORGSAPI_` prefix — `builder.Configuration.AddEnvironmentVariables("ORGSAPI_")`
+- **properties-api**: `PROPERTIESAPI_` prefix — `builder.Configuration.AddEnvironmentVariables("PROPERTIESAPI_")`
+- **contacts-api**: `CONTACTSAPI_` prefix — `builder.Configuration.AddEnvironmentVariables("CONTACTSAPI_")`
+- **appointments-api**: `APPOINTMENTSAPI_` prefix — `builder.Configuration.AddEnvironmentVariables("APPOINTMENTSAPI_")`
+- **publishing-api**: `PUBLISHINGAPI_` prefix — `builder.Configuration.AddEnvironmentVariables("PUBLISHINGAPI_")`
 
 The prefix is stripped, and `__` maps to `:` in .NET's configuration hierarchy. For example:
 
@@ -25,12 +29,12 @@ These variables configure the Docker Compose services shared by all application 
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `POSTGRES_USER` | `saastemplate` | PostgreSQL superuser name |
-| `POSTGRES_PASSWORD` | `saastemplate_dev_password` | PostgreSQL superuser password |
-| `POSTGRES_DB` | `saastemplate` | Default database (init script creates per-service DBs) |
-| `RABBITMQ_USER` | `saastemplate` | RabbitMQ management and AMQP user |
-| `RABBITMQ_PASSWORD` | `saastemplate_dev_password` | RabbitMQ password |
-| `REDIS_PASSWORD` | `saastemplate_dev_password` | Redis AUTH password |
+| `POSTGRES_USER` | `propely` | PostgreSQL superuser name |
+| `POSTGRES_PASSWORD` | `propely_dev_password` | PostgreSQL superuser password |
+| `POSTGRES_DB` | `propely` | Default database (init script creates per-service DBs) |
+| `RABBITMQ_USER` | `propely` | RabbitMQ management and AMQP user |
+| `RABBITMQ_PASSWORD` | `propely_dev_password` | RabbitMQ password |
+| `REDIS_PASSWORD` | `propely_dev_password` | Redis AUTH password |
 
 ---
 
@@ -40,7 +44,7 @@ These variables configure the Docker Compose services shared by all application 
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `AIAPI_ConnectionStrings__DefaultConnection` | Yes | — | PostgreSQL connection string for `saastemplate_aiapi` database |
+| `AIAPI_ConnectionStrings__DefaultConnection` | Yes | — | PostgreSQL connection string for `propely_aiapi` database |
 
 ### Messaging (RabbitMQ)
 
@@ -48,7 +52,7 @@ These variables configure the Docker Compose services shared by all application 
 |----------|----------|---------|-------------|
 | `AIAPI_RabbitMQ__Host` | Yes | `localhost` | RabbitMQ hostname |
 | `AIAPI_RabbitMQ__Port` | No | `5672` | RabbitMQ AMQP port |
-| `AIAPI_RabbitMQ__Username` | Yes | `saastemplate` | RabbitMQ user |
+| `AIAPI_RabbitMQ__Username` | Yes | `propely` | RabbitMQ user |
 | `AIAPI_RabbitMQ__Password` | Yes | — | RabbitMQ password |
 
 ### Caching (Redis)
@@ -62,7 +66,7 @@ These variables configure the Docker Compose services shared by all application 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
 | `AIAPI_OpenAi__ApiKey` | No | — | OpenAI API key. If empty, AI parsing degrades to raw text passthrough. Get one at [platform.openai.com/api-keys](https://platform.openai.com/api-keys) |
-| `AIAPI_OpenAi__ModelId` | No | `gpt-5-mini` | OpenAI model for work item parsing |
+| `AIAPI_OpenAi__ModelId` | No | `gpt-5-mini` | OpenAI model for property field extraction |
 
 ### JWT Authentication
 
@@ -72,7 +76,7 @@ In development, `Security:AllowAnonymous=true` (set in `appsettings.Development.
 |----------|----------|---------|-------------|
 | `AIAPI_Jwt__Secret` | Prod only | — | JWT signing secret (must match orgs-api, min 32 chars) |
 | `AIAPI_Jwt__Issuer` | No | `orgs-api` | Expected JWT issuer claim |
-| `AIAPI_Jwt__Audience` | No | `saas-template` | Expected JWT audience claim |
+| `AIAPI_Jwt__Audience` | No | `propely` | Expected JWT audience claim |
 
 ### Observability
 
@@ -95,7 +99,7 @@ In development, `Security:AllowAnonymous=true` (set in `appsettings.Development.
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `ORGSAPI_ConnectionStrings__DefaultConnection` | Yes | — | PostgreSQL connection string for `saastemplate_orgsapi` database |
+| `ORGSAPI_ConnectionStrings__DefaultConnection` | Yes | — | PostgreSQL connection string for `propely_orgsapi` database |
 
 ### Messaging (RabbitMQ)
 
@@ -103,7 +107,7 @@ In development, `Security:AllowAnonymous=true` (set in `appsettings.Development.
 |----------|----------|---------|-------------|
 | `ORGSAPI_RabbitMQ__Host` | Yes | `localhost` | RabbitMQ hostname |
 | `ORGSAPI_RabbitMQ__Port` | No | `5672` | RabbitMQ AMQP port |
-| `ORGSAPI_RabbitMQ__Username` | Yes | `saastemplate` | RabbitMQ user |
+| `ORGSAPI_RabbitMQ__Username` | Yes | `propely` | RabbitMQ user |
 | `ORGSAPI_RabbitMQ__Password` | Yes | — | RabbitMQ password |
 
 ### Caching (Redis)
@@ -118,7 +122,7 @@ In development, `Security:AllowAnonymous=true` (set in `appsettings.Development.
 |----------|----------|---------|-------------|
 | `ORGSAPI_Jwt__Secret` | Prod only | Dev key in `appsettings.Development.json` | JWT signing secret (min 32 chars). Generate: `openssl rand -base64 48` |
 | `ORGSAPI_Jwt__Issuer` | No | `orgs-api` | JWT issuer claim |
-| `ORGSAPI_Jwt__Audience` | No | `saas-template` | JWT audience claim |
+| `ORGSAPI_Jwt__Audience` | No | `propely` | JWT audience claim |
 
 ### CSRF Protection
 
@@ -151,7 +155,7 @@ For local development, Docker Compose runs Mailhog which captures all emails at 
 |----------|----------|---------|-------------|
 | `ORGSAPI_Smtp__Host` | Yes (non-test) | `localhost` | SMTP server hostname |
 | `ORGSAPI_Smtp__Port` | No | `10025` | SMTP server port |
-| `ORGSAPI_Smtp__From` | No | `no-reply@saastemplate.test` | Sender email address |
+| `ORGSAPI_Smtp__From` | No | `no-reply@propely.test` | Sender email address |
 | `ORGSAPI_Smtp__EnableSsl` | No | `true` (`false` in dev) | Enable TLS for SMTP connection |
 
 #### SendGrid (when `Email:Provider=sendgrid`)
@@ -160,7 +164,7 @@ For local development, Docker Compose runs Mailhog which captures all emails at 
 |----------|----------|---------|-------------|
 | `ORGSAPI_SendGrid__ApiKey` | Yes | — | SendGrid API key. Get at [SendGrid Settings](https://app.sendgrid.com/settings/api_keys) |
 | `ORGSAPI_SendGrid__From` | No | Falls back to `Smtp:From` | Sender email address |
-| `ORGSAPI_SendGrid__FromName` | No | `SaaS Starter Kit` | Sender display name |
+| `ORGSAPI_SendGrid__FromName` | No | `Propely` | Sender display name |
 
 ### Billing (Stripe)
 
@@ -208,6 +212,203 @@ Rate limits have sensible defaults in `appsettings.json`. Override only if neede
 
 ---
 
+## properties-api Service (Port 5030)
+
+The properties-api follows the same configuration pattern as the other .NET services. All variables use the `PROPERTIESAPI_` prefix.
+
+### Database
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PROPERTIESAPI_ConnectionStrings__DefaultConnection` | Yes | — | PostgreSQL connection string for `propely_propertiesapi` database |
+
+### Messaging (RabbitMQ)
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PROPERTIESAPI_RabbitMQ__Host` | Yes | `localhost` | RabbitMQ hostname |
+| `PROPERTIESAPI_RabbitMQ__Port` | No | `5672` | RabbitMQ AMQP port |
+| `PROPERTIESAPI_RabbitMQ__Username` | Yes | `propely` | RabbitMQ user |
+| `PROPERTIESAPI_RabbitMQ__Password` | Yes | — | RabbitMQ password |
+
+### Caching (Redis)
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PROPERTIESAPI_Redis__ConnectionString` | Yes | `localhost:6379` | Redis connection string (include password) |
+
+### Storage (GCP Cloud Storage)
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PROPERTIESAPI_Storage__Provider` | No | `local` | Storage provider: `local` or `gcp` |
+| `PROPERTIESAPI_Storage__Gcp__BucketName` | When `gcp` | — | GCP Cloud Storage bucket name for property images and documents |
+| `PROPERTIESAPI_Storage__Gcp__ProjectId` | When `gcp` | — | GCP project ID |
+| `PROPERTIESAPI_Storage__LocalPath` | When `local` | `./uploads` | Local filesystem path for development file storage |
+
+### JWT Authentication
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PROPERTIESAPI_Jwt__Secret` | Prod only | — | JWT signing secret (must match orgs-api, min 32 chars) |
+| `PROPERTIESAPI_Jwt__Issuer` | No | `orgs-api` | Expected JWT issuer claim |
+| `PROPERTIESAPI_Jwt__Audience` | No | `propely` | Expected JWT audience claim |
+
+### Observability
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PROPERTIESAPI_OpenTelemetry__OtlpEndpoint` | No | — | OTLP gRPC endpoint for traces/metrics |
+
+### CORS
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PROPERTIESAPI_Cors__AllowedOrigins__0` | Yes | `http://localhost:3000` | First allowed CORS origin |
+
+---
+
+## publishing-api Service (Port 5040)
+
+The publishing-api follows the same configuration pattern as the other .NET services. All variables use the `PUBLISHINGAPI_` prefix.
+
+### Database
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PUBLISHINGAPI_ConnectionStrings__DefaultConnection` | Yes | — | PostgreSQL connection string for `propely_publishingapi` database |
+
+### Messaging (RabbitMQ)
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PUBLISHINGAPI_RabbitMQ__Host` | Yes | `localhost` | RabbitMQ hostname |
+| `PUBLISHINGAPI_RabbitMQ__Port` | No | `5672` | RabbitMQ AMQP port |
+| `PUBLISHINGAPI_RabbitMQ__Username` | Yes | `propely` | RabbitMQ user |
+| `PUBLISHINGAPI_RabbitMQ__Password` | Yes | — | RabbitMQ password |
+
+### Caching (Redis)
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PUBLISHINGAPI_Redis__ConnectionString` | Yes | `localhost:6379` | Redis connection string (include password) |
+
+### JWT Authentication
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PUBLISHINGAPI_Jwt__Secret` | Prod only | — | JWT signing secret (must match orgs-api, min 32 chars) |
+| `PUBLISHINGAPI_Jwt__Issuer` | No | `orgs-api` | Expected JWT issuer claim |
+| `PUBLISHINGAPI_Jwt__Audience` | No | `propely` | Expected JWT audience claim |
+
+### Observability
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PUBLISHINGAPI_OpenTelemetry__OtlpEndpoint` | No | — | OTLP gRPC endpoint for traces/metrics |
+
+### CORS
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PUBLISHINGAPI_Cors__AllowedOrigins__0` | Yes | `http://localhost:3000` | First allowed CORS origin |
+
+---
+
+## contacts-api Service (Port 5050)
+
+The contacts-api follows the same configuration pattern as the other .NET services. All variables use the `CONTACTSAPI_` prefix.
+
+### Database
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `CONTACTSAPI_ConnectionStrings__DefaultConnection` | Yes | — | PostgreSQL connection string for `propely_contactsapi` database |
+
+### Messaging (RabbitMQ)
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `CONTACTSAPI_RabbitMQ__Host` | Yes | `localhost` | RabbitMQ hostname |
+| `CONTACTSAPI_RabbitMQ__Port` | No | `5672` | RabbitMQ AMQP port |
+| `CONTACTSAPI_RabbitMQ__Username` | Yes | `propely` | RabbitMQ user |
+| `CONTACTSAPI_RabbitMQ__Password` | Yes | — | RabbitMQ password |
+
+### Caching (Redis)
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `CONTACTSAPI_Redis__ConnectionString` | Yes | `localhost:6379` | Redis connection string (include password) |
+
+### JWT Authentication
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `CONTACTSAPI_Jwt__Secret` | Prod only | — | JWT signing secret (must match orgs-api, min 32 chars) |
+| `CONTACTSAPI_Jwt__Issuer` | No | `orgs-api` | Expected JWT issuer claim |
+| `CONTACTSAPI_Jwt__Audience` | No | `propely` | Expected JWT audience claim |
+
+### Observability
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `CONTACTSAPI_OpenTelemetry__OtlpEndpoint` | No | — | OTLP gRPC endpoint for traces/metrics |
+
+### CORS
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `CONTACTSAPI_Cors__AllowedOrigins__0` | Yes | `http://localhost:3000` | First allowed CORS origin |
+
+---
+
+## appointments-api Service (Port 5060)
+
+The appointments-api follows the same configuration pattern as the other .NET services. All variables use the `APPOINTMENTSAPI_` prefix.
+
+### Database
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `APPOINTMENTSAPI_ConnectionStrings__DefaultConnection` | Yes | — | PostgreSQL connection string for `propely_appointmentsapi` database |
+
+### Messaging (RabbitMQ)
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `APPOINTMENTSAPI_RabbitMQ__Host` | Yes | `localhost` | RabbitMQ hostname |
+| `APPOINTMENTSAPI_RabbitMQ__Port` | No | `5672` | RabbitMQ AMQP port |
+| `APPOINTMENTSAPI_RabbitMQ__Username` | Yes | `propely` | RabbitMQ user |
+| `APPOINTMENTSAPI_RabbitMQ__Password` | Yes | — | RabbitMQ password |
+
+### Caching (Redis)
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `APPOINTMENTSAPI_Redis__ConnectionString` | Yes | `localhost:6379` | Redis connection string (include password) |
+
+### JWT Authentication
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `APPOINTMENTSAPI_Jwt__Secret` | Prod only | — | JWT signing secret (must match orgs-api, min 32 chars) |
+| `APPOINTMENTSAPI_Jwt__Issuer` | No | `orgs-api` | Expected JWT issuer claim |
+| `APPOINTMENTSAPI_Jwt__Audience` | No | `propely` | Expected JWT audience claim |
+
+### Observability
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `APPOINTMENTSAPI_OpenTelemetry__OtlpEndpoint` | No | — | OTLP gRPC endpoint for traces/metrics |
+
+### CORS
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `APPOINTMENTSAPI_Cors__AllowedOrigins__0` | Yes | `http://localhost:3000` | First allowed CORS origin |
+
+---
+
 ## web Frontend (Port 3000)
 
 | Variable | Required | Default | Description |
@@ -215,6 +416,9 @@ Rate limits have sensible defaults in `appsettings.json`. Override only if neede
 | `NEXT_PUBLIC_WEB_URL` | Yes | `http://localhost:3000` | Public URL of the web frontend |
 | `NEXT_PUBLIC_AI_API_URL` | Yes | `http://localhost:5010` | AI API base URL |
 | `NEXT_PUBLIC_ORGS_API_URL` | Yes | `http://localhost:5020` | Orgs API base URL |
+| `NEXT_PUBLIC_PROPERTIES_API_URL` | Yes | `http://localhost:5030` | Properties API base URL |
+| `NEXT_PUBLIC_CONTACTS_API_URL` | Yes | `http://localhost:5050` | Contacts API base URL |
+| `NEXT_PUBLIC_APPOINTMENTS_API_URL` | Yes | `http://localhost:5060` | Appointments API base URL |
 
 ---
 
@@ -228,9 +432,14 @@ These variables have development defaults in `appsettings.Development.json` or a
 |----------|----------------------|
 | `ORGSAPI_Jwt__Secret` | `appsettings.Development.json` provides a hardcoded dev key |
 | `AIAPI_Jwt__Secret` | `Security:AllowAnonymous=true` bypasses JWT in dev |
+| `PROPERTIESAPI_Jwt__Secret` | `Security:AllowAnonymous=true` bypasses JWT in dev |
+| `CONTACTSAPI_Jwt__Secret` | `Security:AllowAnonymous=true` bypasses JWT in dev |
+| `APPOINTMENTSAPI_Jwt__Secret` | `Security:AllowAnonymous=true` bypasses JWT in dev |
+| `PUBLISHINGAPI_Jwt__Secret` | `Security:AllowAnonymous=true` bypasses JWT in dev |
 | `ORGSAPI_Csrf__Secret` | Falls back to JWT secret |
 | `ORGSAPI_Billing__Stripe__*` | `Billing:Mode=free` is the default |
 | `ORGSAPI_SendGrid__ApiKey` | `Email:Provider=smtp` uses Mailhog by default |
+| `PROPERTIESAPI_Storage__Gcp__*` | `Storage:Provider=local` uses local filesystem by default |
 
 ### Production checklist
 
@@ -238,9 +447,18 @@ Before deploying to production, ensure these are set:
 
 - [ ] `ORGSAPI_Jwt__Secret` — unique, 32+ chars (`openssl rand -base64 48`)
 - [ ] `AIAPI_Jwt__Secret` — same value as orgs-api
+- [ ] `PROPERTIESAPI_Jwt__Secret` — same value as orgs-api
+- [ ] `CONTACTSAPI_Jwt__Secret` — same value as orgs-api
+- [ ] `APPOINTMENTSAPI_Jwt__Secret` — same value as orgs-api
+- [ ] `PUBLISHINGAPI_Jwt__Secret` — same value as orgs-api
 - [ ] `ORGSAPI_Csrf__Secret` — different from JWT secret
 - [ ] `ORGSAPI_Auth__FrontendBaseUrl` — your production frontend URL
 - [ ] `ORGSAPI_Cors__AllowedOrigins__0` — your production frontend URL
 - [ ] `AIAPI_Cors__AllowedOrigins__0` — your production frontend URL
+- [ ] `PROPERTIESAPI_Cors__AllowedOrigins__0` — your production frontend URL
+- [ ] `CONTACTSAPI_Cors__AllowedOrigins__0` — your production frontend URL
+- [ ] `APPOINTMENTSAPI_Cors__AllowedOrigins__0` — your production frontend URL
+- [ ] `PUBLISHINGAPI_Cors__AllowedOrigins__0` — your production frontend URL
 - [ ] All passwords — changed from defaults
 - [ ] `ORGSAPI_Smtp__EnableSsl=true` or switch to SendGrid
+- [ ] `PROPERTIESAPI_Storage__Provider=gcp` with bucket configured

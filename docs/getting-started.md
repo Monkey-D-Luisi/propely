@@ -1,6 +1,6 @@
 # Getting Started Guide
 
-This guide takes you from cloning the repository to a fully running SaaS application. The default configuration works out of the box for local development — no API keys or external services required.
+This guide takes you from cloning the repository to a fully running Propely application. The default configuration works out of the box for local development — no API keys or external services required.
 
 ---
 
@@ -36,16 +36,16 @@ The fastest way to get running. This checks prerequisites, creates your `.env` f
 **Linux / macOS:**
 
 ```bash
-git clone https://github.com/your-org/saas-starter-kit.git
-cd saas-starter-kit
+git clone https://github.com/your-org/propely.git
+cd propely
 make dev
 ```
 
 **Windows (PowerShell):**
 
 ```powershell
-git clone https://github.com/your-org/saas-starter-kit.git
-cd saas-starter-kit
+git clone https://github.com/your-org/propely.git
+cd propely
 .\scripts\bootstrap.ps1
 ```
 
@@ -60,8 +60,8 @@ Once the script completes, the application opens at [http://localhost:3000](http
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-org/saas-starter-kit.git
-cd saas-starter-kit
+git clone https://github.com/your-org/propely.git
+cd propely
 ```
 
 ### 2. Create Your Environment File
@@ -84,7 +84,7 @@ For a full reference of every environment variable, see the [Configuration Guide
 
 **Option A: Full Docker (recommended for first run)**
 
-All three application services run inside Docker containers with hot reload.
+All application services run inside Docker containers with hot reload.
 
 ```bash
 # Linux / macOS
@@ -117,7 +117,23 @@ Then start each service separately in its own terminal:
 ./scripts/run-orgs-api.sh        # Linux/macOS
 .\scripts\run-orgs-api.ps1       # Windows
 
-# Terminal 3 — Web (port 3000)
+# Terminal 3 — Properties API (port 5030)
+./scripts/run-properties-api.sh  # Linux/macOS
+.\scripts\run-properties-api.ps1 # Windows
+
+# Terminal 4 — Publishing API (port 5040)
+./scripts/run-publishing-api.sh  # Linux/macOS
+.\scripts\run-publishing-api.ps1 # Windows
+
+# Terminal 5 — Contacts API (port 5050)
+./scripts/run-contacts-api.sh    # Linux/macOS
+.\scripts\run-contacts-api.ps1   # Windows
+
+# Terminal 6 — Appointments API (port 5060)
+./scripts/run-appointments-api.sh  # Linux/macOS
+.\scripts\run-appointments-api.ps1 # Windows
+
+# Terminal 7 — Web (port 3000)
 ./scripts/run-web.sh             # Linux/macOS
 .\scripts\run-web.ps1            # Windows
 ```
@@ -131,12 +147,16 @@ Wait for the services to start (first run takes longer due to Docker image build
 | **Web** | [http://localhost:3000](http://localhost:3000) | Login page loads |
 | **AI API** | [http://localhost:5010/health/live](http://localhost:5010/health/live) | Returns `Healthy` |
 | **Orgs API** | [http://localhost:5020/health/live](http://localhost:5020/health/live) | Returns `Healthy` |
+| **Properties API** | [http://localhost:5030/health/live](http://localhost:5030/health/live) | Returns `Healthy` |
+| **Publishing API** | [http://localhost:5040/health/live](http://localhost:5040/health/live) | Returns `Healthy` |
+| **Contacts API** | [http://localhost:5050/health/live](http://localhost:5050/health/live) | Returns `Healthy` |
+| **Appointments API** | [http://localhost:5060/health/live](http://localhost:5060/health/live) | Returns `Healthy` |
 
 **Infrastructure dashboards:**
 
 | Service | URL | Purpose |
 |---------|-----|---------|
-| RabbitMQ Management | [http://localhost:15672](http://localhost:15672) | Message queues (user: `saastemplate` / pass: `saastemplate_dev_password`) |
+| RabbitMQ Management | [http://localhost:15672](http://localhost:15672) | Message queues (user: `propely` / pass: `propely_dev_password`) |
 | Aspire Dashboard | [http://localhost:18888](http://localhost:18888) | Distributed traces and logs |
 | Mailhog | [http://localhost:18025](http://localhost:18025) | Captured emails (verification, invites, password resets) |
 
@@ -145,8 +165,8 @@ Wait for the services to start (first run takes longer due to Docker image build
 1. Open [http://localhost:3000](http://localhost:3000)
 2. Click **Register** and create an account
 3. Open [Mailhog](http://localhost:18025) to find the verification email and verify your account
-4. Log in and create an organization
-5. Explore the dashboard: work items, members, billing, settings
+4. Log in and create an agency
+5. Explore the dashboard: properties, contacts, appointments, billing, settings
 
 ---
 
@@ -168,9 +188,9 @@ This creates:
 
 | Item | Value |
 |------|-------|
-| Owner account | `admin@saastemplate.test` / `Admin123!` |
-| Organization | Acme Corp |
-| Invite | Sent to `invitee@saastemplate.test` (check Mailhog) |
+| Owner account | `admin@propely.test` / `Admin123!` |
+| Agency | Acme Realty |
+| Invite | Sent to `invitee@propely.test` (check Mailhog) |
 
 After seeding, log in with the owner credentials at [http://localhost:3000/login](http://localhost:3000/login).
 
@@ -223,7 +243,7 @@ ORGSAPI_OAuth__Google__ClientSecret=GOCSPX-...
 
 1. Go to [GitHub Developer Settings](https://github.com/settings/developers) and click **New OAuth App**
 2. Set the following values:
-   - **Application name:** SaaS Starter Kit (Dev)
+   - **Application name:** Propely (Dev)
    - **Homepage URL:** `http://localhost:3000`
    - **Authorization callback URL:** `http://localhost:5020/auth/oauth/github-callback`
 3. Click **Register application**, then generate a new client secret
@@ -238,7 +258,7 @@ ORGSAPI_OAuth__GitHub__ClientSecret=your-github-client-secret
 
 ### OpenAI (AI Smart Fill)
 
-The work items form includes a Smart Fill feature that uses AI to parse natural language into structured fields. To enable it:
+The property editor includes a Smart Fill feature that uses AI to extract structured property fields (type, location, price, area, features, etc.) from natural language descriptions. To enable it:
 
 1. Get an API key from [OpenAI](https://platform.openai.com/api-keys)
 2. Update `.env`:
@@ -263,7 +283,7 @@ By default, email is routed to Mailhog (a local SMTP capture tool). To send real
 ORGSAPI_Email__Provider=sendgrid
 ORGSAPI_SendGrid__ApiKey=SG....
 ORGSAPI_SendGrid__From=noreply@yourdomain.com
-ORGSAPI_SendGrid__FromName=Your App Name
+ORGSAPI_SendGrid__FromName=Propely
 ```
 
 3. Restart the Orgs API.
@@ -326,6 +346,10 @@ If a port is already in use, you'll see an error like `bind: address already in 
 | 3000 | Web | Stop other Node.js dev servers |
 | 5010 | AI API | Stop other .NET processes on this port |
 | 5020 | Orgs API | Stop other .NET processes on this port |
+| 5030 | Properties API | Stop other .NET processes on this port |
+| 5040 | Publishing API | Stop other .NET processes on this port |
+| 5050 | Contacts API | Stop other .NET processes on this port |
+| 5060 | Appointments API | Stop other .NET processes on this port |
 | 5432 | PostgreSQL | Stop local PostgreSQL service |
 | 5672 / 15672 | RabbitMQ | Stop local RabbitMQ service |
 | 6379 | Redis | Stop local Redis service |
@@ -387,27 +411,31 @@ taskkill /PID <PID> /F
 ## Project Structure
 
 ```
-saas-starter-kit/
+propely/
   apps/
-    web/                  # Next.js 16 frontend (port 3000)
+    web/                      # Next.js 16 frontend (port 3000)
   services/
-    ai-api/               # .NET 10 AI service (port 5010)
-    orgs-api/             # .NET 10 organizations/auth service (port 5020)
+    ai-api/                   # .NET 10 AI service (port 5010)
+    orgs-api/                 # .NET 10 organizations/auth service (port 5020)
+    properties-api/           # .NET 10 property management service (port 5030)
+    publishing-api/           # .NET 10 portal publication service (port 5040)
+    contacts-api/             # .NET 10 contacts/leads service (port 5050)
+    appointments-api/         # .NET 10 appointments/calendar service (port 5060)
   infra/
-    postgres/             # Database initialization scripts
-    terraform/            # Cloud deployment (GCP Cloud Run)
-  scripts/                # Dev scripts (bootstrap, dev-up, seed, etc.)
-  docs/                   # Documentation (you are here)
-  docker-compose.yml      # Infrastructure + app services
-  Makefile                # Quick commands (make dev, make down, make reset)
-  .env.example            # Environment template
+    postgres/                 # Database initialization scripts
+    terraform/                # Cloud deployment (GCP Cloud Run)
+  scripts/                    # Dev scripts (bootstrap, dev-up, seed, etc.)
+  docs/                       # Documentation (you are here)
+  docker-compose.yml          # Infrastructure + app services
+  Makefile                    # Quick commands (make dev, make down, make reset)
+  .env.example                # Environment template
 ```
 
 ---
 
 ## What's Next
 
+- [Roadmap](roadmap.md) — Phased execution plan and upcoming features
 - [Configuration Guide](configuration.md) — Full reference for every environment variable
 - [Production Hardening Guide](production-hardening.md) — Preparing for production deployment
 - [Recovery Runbook](recovery-runbook.md) — Disaster recovery procedures
-- [Licensing Guide](licensing-guide.md) — What you can and cannot do with this template

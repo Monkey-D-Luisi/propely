@@ -1,6 +1,6 @@
 # Quick Start Guide
 
-Get the SaaS Starter Kit running locally.
+Get Propely running locally.
 
 ## Prerequisites
 
@@ -14,15 +14,15 @@ Get the SaaS Starter Kit running locally.
 
 **Linux/macOS:**
 ```bash
-git clone https://github.com/Monkey-D-Luisi/saas-template.git
-cd saas-template
+git clone https://github.com/Monkey-D-Luisi/propely.git
+cd propely
 cp .env.example .env
 ```
 
 **Windows PowerShell:**
 ```powershell
-git clone https://github.com/Monkey-D-Luisi/saas-template.git
-cd saas-template
+git clone https://github.com/Monkey-D-Luisi/propely.git
+cd propely
 Copy-Item .env.example .env
 ```
 
@@ -41,7 +41,7 @@ Copy-Item .env.example .env
 ```
 
 This starts PostgreSQL, RabbitMQ, Redis, Aspire Dashboard, and Mailhog.
-It also starts `ai-api`, `orgs-api`, and `web` in Docker.
+It also starts all Propely services (`ai-api`, `orgs-api`, `properties-api`, `contacts-api`, `appointments-api`, `publishing-api`, and `web`) in Docker.
 
 > Infrastructure-only mode is still available:
 > - Linux/macOS: `./scripts/dev-up.sh --infra-only`
@@ -56,8 +56,8 @@ cd apps/web && npm install
 ### 4. Apply Database Migrations
 
 ```bash
-dotnet ef database update --project services/ai-api/src/SaasTemplate.AiApi.Infrastructure --startup-project services/ai-api/src/SaasTemplate.AiApi.Api
-dotnet ef database update --project services/orgs-api/src/SaasTemplate.OrgsApi.Infrastructure --startup-project services/orgs-api/src/SaasTemplate.OrgsApi.Api
+dotnet ef database update --project services/ai-api/src/Propely.AiApi.Infrastructure --startup-project services/ai-api/src/Propely.AiApi.Api
+dotnet ef database update --project services/orgs-api/src/Propely.OrgsApi.Infrastructure --startup-project services/orgs-api/src/Propely.OrgsApi.Api
 ```
 
 ### 5. Optional: Run Services on Host (instead of Docker)
@@ -105,8 +105,8 @@ Then open [Mailhog UI](http://localhost:18025) to find the invitation email.
 **Linux/macOS:**
 ```bash
 ./scripts/dev-up.sh          # Start full stack in Docker
-dotnet test services/ai-api/SaasTemplate.AiApi.sln      # Tests
-dotnet test services/orgs-api/SaasTemplate.OrgsApi.sln
+dotnet test services/ai-api/Propely.AiApi.sln      # Tests
+dotnet test services/orgs-api/Propely.OrgsApi.sln
 cd apps/web && npm test                                   # Frontend tests
 ./scripts/dev-down.sh        # Stop all containers
 ```
@@ -114,8 +114,8 @@ cd apps/web && npm test                                   # Frontend tests
 **Windows PowerShell:**
 ```powershell
 .\scripts\dev-up.ps1         # Start full stack in Docker
-dotnet test services\ai-api\SaasTemplate.AiApi.sln
-dotnet test services\orgs-api\SaasTemplate.OrgsApi.sln
+dotnet test services\ai-api\Propely.AiApi.sln
+dotnet test services\orgs-api\Propely.OrgsApi.sln
 cd apps\web; npm test                                     # Frontend tests
 .\scripts\dev-down.ps1       # Stop all containers
 ```
