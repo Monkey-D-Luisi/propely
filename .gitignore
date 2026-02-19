@@ -19,7 +19,8 @@ TestResults/
 # === IDE ===
 .idea/
 .vs/
-.claude/
+.claude/*
+!.claude/commands/
 *.user
 *.suo
 *.userosscache

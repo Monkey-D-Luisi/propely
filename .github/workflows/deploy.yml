@@ -38,7 +38,7 @@ jobs:
   # ---------------------------------------------------------------------------
   prepare:
     name: Determine deployment target
-    runs-on: self-hosted
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     if: >-
       github.event_name == 'workflow_dispatch' ||
       (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
@@ -85,7 +85,7 @@ jobs:
   deploy-apis:
     name: Deploy ${{ matrix.service }}
     needs: prepare
-    runs-on: self-hosted
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     environment: staging
     strategy:
       fail-fast: false
@@ -169,7 +169,7 @@ jobs:
   deploy-web:
     name: Deploy web
     needs: prepare
-    runs-on: self-hosted
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     environment: staging
     steps:
       - name: Checkout code
@@ -233,7 +233,7 @@ jobs:
     name: Deployment summary
     needs: [prepare, deploy-apis, deploy-web]
     if: always()
-    runs-on: self-hosted
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     steps:
       - name: Write summary
         env:
