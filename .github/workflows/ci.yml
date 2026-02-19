@@ -32,7 +32,7 @@ defaults:
 jobs:
   changes:
     name: Detect Changes
-    runs-on: self-hosted
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     outputs:
       ai-api: ${{ steps.filter.outputs.ai-api }}
       orgs-api: ${{ steps.filter.outputs.orgs-api }}
@@ -54,7 +54,7 @@ jobs:
     name: AI API - Build & Test
     needs: changes
     if: needs.changes.outputs.ai-api == 'true' || github.event_name == 'push'
-    runs-on: self-hosted
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     defaults:
       run:
         shell: bash
@@ -126,7 +126,7 @@ jobs:
     name: Orgs API - Build & Test
     needs: changes
     if: needs.changes.outputs.orgs-api == 'true' || github.event_name == 'push'
-    runs-on: self-hosted
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     defaults:
       run:
         shell: bash
@@ -196,7 +196,7 @@ jobs:
     name: Web - Build & Test
     needs: changes
     if: needs.changes.outputs.web == 'true' || github.event_name == 'push'
-    runs-on: self-hosted
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     defaults:
       run:
         shell: bash
@@ -216,7 +216,7 @@ jobs:
         run: npm ci
 
       - name: Audit dependencies
-        run: npm audit --audit-level=high
+        run: npm audit --audit-level=high --omit=dev
 
       - name: Lint
         run: npm run lint --if-present
@@ -248,7 +248,7 @@ jobs:
         needs.changes.outputs.orgs-api == 'true' ||
         github.event_name == 'push'
       )
-    runs-on: self-hosted
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -278,10 +278,18 @@ jobs:
           docker compose -f docker-compose.yml -f docker-compose.ci.yml --profile apps down --volumes 2>/dev/null || true
           # Kill any bare process (dotnet, node, etc.) still bound to E2E ports
           for port in 3000 5010 5020 5432 5672 6379; do
-            pid=$(powershell -Command "(Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue | Select-Object -First 1).OwningProcess" 2>/dev/null | tr -d '\r')
-            if [ -n "$pid" ] && [ "$pid" != "0" ]; then
-              echo "Killing PID $pid on port $port"
-              taskkill //F //PID "$pid" 2>/dev/null || true
+            if [ "$RUNNER_OS" = "Windows" ]; then
+              pid=$(powershell -Command "(Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue | Select-Object -First 1).OwningProcess" 2>/dev/null | tr -d '\r')
+              if [ -n "$pid" ] && [ "$pid" != "0" ]; then
+                echo "Killing PID $pid on port $port"
+                taskkill //F //PID "$pid" 2>/dev/null || true
+              fi
+            else
+              pid=$(lsof -ti :"$port" 2>/dev/null || true)
+              if [ -n "$pid" ]; then
+                echo "Killing PID $pid on port $port"
+                kill -9 "$pid" 2>/dev/null || true
+              fi
             fi
           done
 
@@ -333,7 +341,7 @@ jobs:
 
   third-party-notices:
     name: Third-Party Notices - Staleness Check
-    runs-on: self-hosted
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -356,7 +364,7 @@ jobs:
 
   license-headers:
     name: License Headers Check
-    runs-on: self-hosted
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v6

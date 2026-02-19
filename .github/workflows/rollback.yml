@@ -42,7 +42,7 @@ jobs:
   # ---------------------------------------------------------------------------
   resolve-services:
     name: Resolve target services
-    runs-on: self-hosted
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     outputs:
       matrix: ${{ steps.set.outputs.matrix }}
     steps:
@@ -63,7 +63,7 @@ jobs:
   rollback:
     name: Rollback ${{ matrix.service }}
     needs: resolve-services
-    runs-on: self-hosted
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     environment: ${{ inputs.environment }}
     strategy:
       fail-fast: false
@@ -136,7 +136,7 @@ jobs:
     name: Rollback summary
     needs: [resolve-services, rollback]
     if: always()
-    runs-on: self-hosted
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     steps:
       - name: Write summary
         env:

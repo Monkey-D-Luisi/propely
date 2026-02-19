@@ -18,7 +18,7 @@ defaults:
 jobs:
   terraform-validate:
     name: Terraform Validate
-    runs-on: self-hosted
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     strategy:
       fail-fast: false
       matrix:
@@ -33,7 +33,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: '~> 1.9'
+          terraform_version: '~> 1.11'
 
       - name: Terraform Init
         working-directory: ${{ matrix.config.dir }}
@@ -45,12 +45,23 @@ jobs:
 
   actionlint:
     name: Lint GitHub Actions workflows
-    runs-on: self-hosted
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
 
+      - name: Install actionlint
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION=$(gh api repos/rhysd/actionlint/releases/latest --jq '.tag_name' | sed 's/^v//')
+          if [ "$RUNNER_OS" = "Windows" ]; then
+            curl -sL "https://github.com/rhysd/actionlint/releases/download/v${VERSION}/actionlint_${VERSION}_windows_amd64.zip" -o "$RUNNER_TEMP/actionlint.zip"
+            unzip -o "$RUNNER_TEMP/actionlint.zip" actionlint.exe -d "$RUNNER_TEMP"
+          else
+            curl -sL "https://github.com/rhysd/actionlint/releases/download/v${VERSION}/actionlint_${VERSION}_linux_amd64.tar.gz" | tar xz -C "$RUNNER_TEMP" actionlint
+          fi
+          echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
+
       - name: Run actionlint
-        uses: raven-actions/actionlint@v2
-        with:
-          fail-on-error: true
+        run: actionlint
