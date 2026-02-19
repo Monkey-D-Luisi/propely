@@ -40,7 +40,7 @@ rg -n "^- GitHub Issue: #[0-9]+" docs/tasks/*.md
 If the task has a GitHub issue, capture the issue number and carry it into the PR body using a closing keyword.
 
 Analyze the changes to determine:
-- **Affected areas**: Which services/apps are modified (ai-api, orgs-api, web)
+- **Affected areas**: Which services/apps are modified (ai-api, orgs-api, properties-api, publishing-api, contacts-api, appointments-api, web)
 - **Change type**: feat, fix, docs, refactor, test, chore
 - **Scope**: The feature area (auth, orgs, ai, infra, web, agent)
 
@@ -74,10 +74,18 @@ Closes #<issue-number>
 2. <Step 2>
 
 ## Testing
-- [x] `dotnet build services/ai-api/Propely.AiApi.sln`
-- [x] `dotnet build services/orgs-api/Propely.OrgsApi.sln`
-- [x] `dotnet test services/ai-api/Propely.AiApi.sln`
-- [x] `dotnet test services/orgs-api/Propely.OrgsApi.sln`
+- [ ] `dotnet build services/ai-api/Propely.AiApi.sln`
+- [ ] `dotnet build services/orgs-api/Propely.OrgsApi.sln`
+- [ ] `dotnet build services/properties-api/Propely.PropertiesApi.sln`
+- [ ] `dotnet build services/contacts-api/Propely.ContactsApi.sln`
+- [ ] `dotnet build services/appointments-api/Propely.AppointmentsApi.sln`
+- [ ] `dotnet build services/publishing-api/Propely.PublishingApi.sln`
+- [ ] `dotnet test services/ai-api/Propely.AiApi.sln`
+- [ ] `dotnet test services/orgs-api/Propely.OrgsApi.sln`
+- [ ] `dotnet test services/properties-api/Propely.PropertiesApi.sln`
+- [ ] `dotnet test services/contacts-api/Propely.ContactsApi.sln`
+- [ ] `dotnet test services/appointments-api/Propely.AppointmentsApi.sln`
+- [ ] `dotnet test services/publishing-api/Propely.PublishingApi.sln`
 - [ ] `cd apps/web && npm run build`
 - [ ] Other (describe):
 
