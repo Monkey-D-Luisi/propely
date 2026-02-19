@@ -2,13 +2,13 @@
 
 **Effective Date:** Upon purchase or download of the Software
 
-**Last Updated:** 2026-02-12
+**Last Updated:** 2026-02-19
 
 ---
 
 ## 1. Definitions
 
-- **"Software"** refers to the SaaS Starter Kit source code, documentation, configuration files, scripts, and all associated materials included in this repository.
+- **"Software"** refers to the Propely source code, documentation, configuration files, scripts, and all associated materials included in this repository.
 - **"Licensee"** (or "you") refers to the individual or entity that has purchased or obtained a valid license to use the Software.
 - **"Licensor"** refers to the copyright holder of the Software.
 - **"Derivative Work"** refers to any application, product, or service built using the Software as a foundation.

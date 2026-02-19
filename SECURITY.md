@@ -8,11 +8,11 @@
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability in the SaaS Starter Kit, please report it responsibly.
+If you discover a security vulnerability in Propely, please report it responsibly.
 
 **Do NOT open a public GitHub issue for security vulnerabilities.**
 
-Instead, please report vulnerabilities by emailing the maintainer directly or using [GitHub's private vulnerability reporting](https://github.com/Monkey-D-Luisi/saas-template/security/advisories/new).
+Instead, please report vulnerabilities by emailing the maintainer directly or using [GitHub's private vulnerability reporting](https://github.com/Monkey-D-Luisi/propely/security/advisories/new).
 
 ### What to include
 
@@ -29,10 +29,10 @@ Instead, please report vulnerabilities by emailing the maintainer directly or us
 
 ## Security Practices
 
-This template includes several security measures out of the box:
+Propely includes several security measures:
 
 - **Authentication**: JWT with HTTP-only cookies, refresh token rotation, CSRF protection (HMAC-signed with TTL)
-- **Authorization**: Role-based access control (RBAC) with Owner/Admin/Member hierarchy
+- **Authorization**: Role-based access control (RBAC) with Owner/Admin/Agent/Viewer hierarchy and granular permission overrides
 - **Rate limiting**: Per-endpoint and global rate limits on authentication and destructive endpoints
 - **Input validation**: Server-side validation on all endpoints with max-length constraints
 - **Multi-tenancy isolation**: EF Core global query filters prevent cross-tenant data access
