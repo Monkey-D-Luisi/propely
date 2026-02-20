@@ -415,7 +415,7 @@ Create a reusable SDK client pattern for inter-service communication, starting w
 
 ### Task 0.5 --- Docker Compose & Infrastructure Updates
 
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** Task 0.2 (rename), Task 0.3 (new services exist)
 - **File:** `docs/tasks/0005-docker-compose-infrastructure-updates.md`
 
@@ -624,7 +624,7 @@ Update the CI/CD pipeline to build, test, and validate all 6 backend services pl
 | 0.2 | Rename SaasTemplate to Propely | DONE | 0.1 |
 | 0.3 | Scaffold New Service Solutions | DONE | 0.2 |
 | 0.4 | NuGet SDK Client Infrastructure | DONE | 0.2 |
-| 0.5 | Docker Compose & Infrastructure Updates | PENDING | 0.2, 0.3 |
+| 0.5 | Docker Compose & Infrastructure Updates | DONE | 0.2, 0.3 |
 | 0.6 | CI Pipeline Updates | PENDING | 0.2, 0.3, 0.5 |
 
 ## Port Allocation (Phase 0 Final State)
