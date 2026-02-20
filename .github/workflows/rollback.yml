@@ -23,6 +23,10 @@ on:
           - web
           - ai-api
           - orgs-api
+          - properties-api
+          - publishing-api
+          - contacts-api
+          - appointments-api
 
 permissions:
   contents: read
@@ -52,7 +56,7 @@ jobs:
           SERVICES: ${{ inputs.services }}
         run: |
           if [ "$SERVICES" = "all" ]; then
-            echo 'matrix=["ai-api","orgs-api","web"]' >> "$GITHUB_OUTPUT"
+            echo 'matrix=["ai-api","orgs-api","properties-api","publishing-api","contacts-api","appointments-api","web"]' >> "$GITHUB_OUTPUT"
           else
             echo "matrix=[\"${SERVICES}\"]" >> "$GITHUB_OUTPUT"
           fi

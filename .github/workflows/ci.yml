@@ -34,8 +34,7 @@ jobs:
     name: Detect Changes
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     outputs:
-      ai-api: ${{ steps.filter.outputs.ai-api }}
-      orgs-api: ${{ steps.filter.outputs.orgs-api }}
+      backend: ${{ steps.filter.outputs.backend }}
       web: ${{ steps.filter.outputs.web }}
     steps:
       - uses: actions/checkout@v6
@@ -43,22 +42,28 @@ jobs:
         id: filter
         with:
           filters: |
-            ai-api:
-              - 'services/ai-api/**'
-            orgs-api:
-              - 'services/orgs-api/**'
+            backend:
+              - 'services/**'
             web:
               - 'apps/web/**'
 
-  ai-api:
-    name: AI API - Build & Test
-    needs: changes
-    if: needs.changes.outputs.ai-api == 'true' || github.event_name == 'push'
+  dotnet-services:
+    name: ${{ matrix.service.label }} - Build & Test
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        service:
+          - { name: ai-api, solution: Propely.AiApi, label: AI API }
+          - { name: orgs-api, solution: Propely.OrgsApi, label: Orgs API }
+          - { name: properties-api, solution: Propely.PropertiesApi, label: Properties API }
+          - { name: publishing-api, solution: Propely.PublishingApi, label: Publishing API }
+          - { name: contacts-api, solution: Propely.ContactsApi, label: Contacts API }
+          - { name: appointments-api, solution: Propely.AppointmentsApi, label: Appointments API }
     defaults:
       run:
         shell: bash
-        working-directory: services/ai-api
+        working-directory: services/${{ matrix.service.name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -72,29 +77,29 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-ai-api-${{ hashFiles('services/ai-api/**/*.csproj') }}
+          key: ${{ runner.os }}-nuget-${{ matrix.service.name }}-${{ hashFiles(format('services/{0}/**/*.csproj', matrix.service.name)) }}
           restore-keys: |
-            ${{ runner.os }}-nuget-ai-api-
+            ${{ runner.os }}-nuget-${{ matrix.service.name }}-
 
       - name: Restore dependencies
-        run: dotnet restore Propely.AiApi.sln
+        run: dotnet restore ${{ matrix.service.solution }}.sln
 
       - name: Check vulnerable NuGet packages
         run: |
-          dotnet list Propely.AiApi.sln package --vulnerable --include-transitive 2>&1 | tee vuln-report.txt
+          dotnet list ${{ matrix.service.solution }}.sln package --vulnerable --include-transitive 2>&1 | tee vuln-report.txt
           if grep -qi "Critical\|High" vuln-report.txt; then
-            echo "::error::High or critical NuGet vulnerabilities found in ai-api"
+            echo "::error::High or critical NuGet vulnerabilities found in ${{ matrix.service.name }}"
             exit 1
           fi
 
       - name: Build
-        run: dotnet build Propely.AiApi.sln --no-restore --configuration Release
+        run: dotnet build ${{ matrix.service.solution }}.sln --no-restore --configuration Release
 
       - name: Test with coverage
         env:
-          AIAPI_OpenAi__ApiKey: ${{ secrets.AIAPI_OPENAI_API_KEY }}
+          AIAPI_OpenAi__ApiKey: ${{ matrix.service.name == 'ai-api' && secrets.AIAPI_OPENAI_API_KEY || '' }}
         run: |
-          dotnet test Propely.AiApi.sln --no-build --configuration Release \
+          dotnet test ${{ matrix.service.solution }}.sln --no-build --configuration Release \
             --collect:"XPlat Code Coverage" \
             --results-directory ./coverage \
             --logger "trx;LogFileName=test-results.trx"
@@ -102,100 +107,28 @@ jobs:
       - name: Check coverage threshold
         uses: ./.github/actions/check-coverage
         with:
-          coverage-path: services/ai-api/coverage/**/coverage.cobertura.xml
+          coverage-path: services/${{ matrix.service.name }}/coverage/**/coverage.cobertura.xml
           threshold: '60'
-          report-dir: services/ai-api/coverage/report
+          report-dir: services/${{ matrix.service.name }}/coverage/report
 
       - name: Upload test results
         uses: actions/upload-artifact@v6
         if: always()
         with:
-          name: ai-api-test-results
-          path: services/ai-api/coverage/**/*.trx
+          name: ${{ matrix.service.name }}-test-results
+          path: services/${{ matrix.service.name }}/coverage/**/*.trx
           retention-days: 7
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v6
         if: always()
         with:
-          name: ai-api-coverage
-          path: services/ai-api/coverage/report/
-          retention-days: 7
-
-  orgs-api:
-    name: Orgs API - Build & Test
-    needs: changes
-    if: needs.changes.outputs.orgs-api == 'true' || github.event_name == 'push'
-    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
-    defaults:
-      run:
-        shell: bash
-        working-directory: services/orgs-api
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-
-      - name: Cache NuGet packages
-        uses: actions/cache@v5
-        with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-orgs-api-${{ hashFiles('services/orgs-api/**/*.csproj') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-orgs-api-
-
-      - name: Restore dependencies
-        run: dotnet restore Propely.OrgsApi.sln
-
-      - name: Check vulnerable NuGet packages
-        run: |
-          dotnet list Propely.OrgsApi.sln package --vulnerable --include-transitive 2>&1 | tee vuln-report.txt
-          if grep -qi "Critical\|High" vuln-report.txt; then
-            echo "::error::High or critical NuGet vulnerabilities found in orgs-api"
-            exit 1
-          fi
-
-      - name: Build
-        run: dotnet build Propely.OrgsApi.sln --no-restore --configuration Release
-
-      - name: Test with coverage
-        run: |
-          dotnet test Propely.OrgsApi.sln --no-build --configuration Release \
-            --collect:"XPlat Code Coverage" \
-            --results-directory ./coverage \
-            --logger "trx;LogFileName=test-results.trx"
-
-      - name: Check coverage threshold
-        uses: ./.github/actions/check-coverage
-        with:
-          coverage-path: services/orgs-api/coverage/**/coverage.cobertura.xml
-          threshold: '60'
-          report-dir: services/orgs-api/coverage/report
-
-      - name: Upload test results
-        uses: actions/upload-artifact@v6
-        if: always()
-        with:
-          name: orgs-api-test-results
-          path: services/orgs-api/coverage/**/*.trx
-          retention-days: 7
-
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v6
-        if: always()
-        with:
-          name: orgs-api-coverage
-          path: services/orgs-api/coverage/report/
+          name: ${{ matrix.service.name }}-coverage
+          path: services/${{ matrix.service.name }}/coverage/report/
           retention-days: 7
 
   web:
     name: Web - Build & Test
-    needs: changes
-    if: needs.changes.outputs.web == 'true' || github.event_name == 'push'
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     defaults:
       run:
@@ -237,15 +170,14 @@ jobs:
 
   e2e:
     name: E2E Smoke Tests
-    needs: [changes, ai-api, orgs-api, web, license-headers, third-party-notices]
+    needs: [changes, dotnet-services, web, license-headers, third-party-notices]
     if: >-
       always() &&
       !cancelled() &&
       !contains(needs.*.result, 'failure') &&
       (
+        needs.changes.outputs.backend == 'true' ||
         needs.changes.outputs.web == 'true' ||
-        needs.changes.outputs.ai-api == 'true' ||
-        needs.changes.outputs.orgs-api == 'true' ||
         github.event_name == 'push'
       )
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
@@ -277,7 +209,7 @@ jobs:
           docker compose --profile apps down --volumes 2>/dev/null || true
           docker compose -f docker-compose.yml -f docker-compose.ci.yml --profile apps down --volumes 2>/dev/null || true
           # Kill any bare process (dotnet, node, etc.) still bound to E2E ports
-          for port in 3000 5010 5020 5432 5672 6379; do
+          for port in 3000 5010 5020 5030 5040 5050 5060 5432 5672 6379; do
             if [ "$RUNNER_OS" = "Windows" ]; then
               pid=$(powershell -Command "(Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue | Select-Object -First 1).OwningProcess" 2>/dev/null | tr -d '\r')
               if [ -n "$pid" ] && [ "$pid" != "0" ]; then
@@ -307,8 +239,15 @@ jobs:
           for i in $(seq 1 60); do
             ai_ok=$(curl -sf http://localhost:5010/health/ready || echo "fail")
             orgs_ok=$(curl -sf http://localhost:5020/health/ready || echo "fail")
+            props_ok=$(curl -sf http://localhost:5030/health/ready || echo "fail")
+            pub_ok=$(curl -sf http://localhost:5040/health/ready || echo "fail")
+            contacts_ok=$(curl -sf http://localhost:5050/health/ready || echo "fail")
+            appts_ok=$(curl -sf http://localhost:5060/health/ready || echo "fail")
             web_ok=$(curl -sf http://localhost:3000/en || echo "fail")
-            if [ "$ai_ok" != "fail" ] && [ "$orgs_ok" != "fail" ] && [ "$web_ok" != "fail" ]; then
+            if [ "$ai_ok" != "fail" ] && [ "$orgs_ok" != "fail" ] && \
+               [ "$props_ok" != "fail" ] && [ "$pub_ok" != "fail" ] && \
+               [ "$contacts_ok" != "fail" ] && [ "$appts_ok" != "fail" ] && \
+               [ "$web_ok" != "fail" ]; then
               echo "All services are ready."
               exit 0
             fi
@@ -354,7 +293,7 @@ jobs:
       - name: Compute current dependency hash
         id: hash
         run: |
-          CURRENT_HASH=$( (find services/ai-api/src services/orgs-api/src -name '*.csproj' -print; echo "apps/web/package-lock.json") | sort | xargs sha256sum | awk '{print $1}' | sort | sha256sum | cut -d' ' -f1)
+          CURRENT_HASH=$( (find services/ai-api/src services/orgs-api/src services/properties-api/src services/publishing-api/src services/contacts-api/src services/appointments-api/src -name '*.csproj' -print; echo "apps/web/package-lock.json") | sort | xargs sha256sum | awk '{print $1}' | sort | sha256sum | cut -d' ' -f1)
           STORED_HASH=$(cat .third-party-notices-hash 2>/dev/null || echo "none")
           echo "current=$CURRENT_HASH" >> "$GITHUB_OUTPUT"
           echo "stored=$STORED_HASH" >> "$GITHUB_OUTPUT"

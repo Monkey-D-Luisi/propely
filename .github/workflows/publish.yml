@@ -32,6 +32,14 @@ jobs:
             dockerfile: services/ai-api/Dockerfile
           - name: orgs-api
             dockerfile: services/orgs-api/Dockerfile
+          - name: properties-api
+            dockerfile: services/properties-api/Dockerfile
+          - name: publishing-api
+            dockerfile: services/publishing-api/Dockerfile
+          - name: contacts-api
+            dockerfile: services/contacts-api/Dockerfile
+          - name: appointments-api
+            dockerfile: services/appointments-api/Dockerfile
     steps:
       - name: Checkout code
         uses: actions/checkout@v6

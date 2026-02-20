@@ -78,7 +78,7 @@ jobs:
           fi
 
   # ---------------------------------------------------------------------------
-  # Job 2: Deploy API services (ai-api, orgs-api)
+  # Job 2: Deploy API services
   #   - Copies GHCR images to Artifact Registry
   #   - Updates Cloud Run services via deploy-cloudrun action
   # ---------------------------------------------------------------------------
@@ -90,7 +90,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        service: [ai-api, orgs-api]
+        service: [ai-api, orgs-api, properties-api, publishing-api, contacts-api, appointments-api]
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
