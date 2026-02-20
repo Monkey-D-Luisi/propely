@@ -1,0 +1,10 @@
+@model Propely.OrgsApi.Application.Common.Email.InvitationEmailModel
+<h2>You have been invited</h2>
+<p>You have been invited to join <strong>@Model.OrganizationName</strong>.</p>
+<p>Use the button below to accept the invitation:</p>
+<p>
+    <a class="button" href="@Model.InviteUrl">Accept invitation</a>
+</p>
+<p>If the button does not work, copy this URL into your browser:</p>
+<p><a href="@Model.InviteUrl">@Model.InviteUrl</a></p>
+<p>This invitation expires in 7 days.</p>

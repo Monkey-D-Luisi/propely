@@ -1,0 +1,10 @@
+@model Propely.OrgsApi.Application.Common.Email.InvitationEmailModel
+<h2>Has recibido una invitaci&oacute;n</h2>
+<p>Te han invitado a unirte a <strong>@Model.OrganizationName</strong>.</p>
+<p>Usa el siguiente bot&oacute;n para aceptar la invitaci&oacute;n:</p>
+<p>
+    <a class="button" href="@Model.InviteUrl">Aceptar invitaci&oacute;n</a>
+</p>
+<p>Si el bot&oacute;n no funciona, copia esta URL en tu navegador:</p>
+<p><a href="@Model.InviteUrl">@Model.InviteUrl</a></p>
+<p>Esta invitaci&oacute;n vence en 7 d&iacute;as.</p>

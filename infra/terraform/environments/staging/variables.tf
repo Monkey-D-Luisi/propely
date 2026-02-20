@@ -51,7 +51,7 @@ variable "frontend_url" {
 variable "sendgrid_from_email" {
   type        = string
   description = "Sender email address for transactional emails via SendGrid"
-  default     = "noreply@saastemplate.dev"
+  default     = "noreply@propely.dev"
 }
 
 variable "billing_mode" {

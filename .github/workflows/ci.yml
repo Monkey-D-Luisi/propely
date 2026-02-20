@@ -77,24 +77,24 @@ jobs:
             ${{ runner.os }}-nuget-ai-api-
 
       - name: Restore dependencies
-        run: dotnet restore SaasTemplate.AiApi.sln
+        run: dotnet restore Propely.AiApi.sln
 
       - name: Check vulnerable NuGet packages
         run: |
-          dotnet list SaasTemplate.AiApi.sln package --vulnerable --include-transitive 2>&1 | tee vuln-report.txt
+          dotnet list Propely.AiApi.sln package --vulnerable --include-transitive 2>&1 | tee vuln-report.txt
           if grep -qi "Critical\|High" vuln-report.txt; then
             echo "::error::High or critical NuGet vulnerabilities found in ai-api"
             exit 1
           fi
 
       - name: Build
-        run: dotnet build SaasTemplate.AiApi.sln --no-restore --configuration Release
+        run: dotnet build Propely.AiApi.sln --no-restore --configuration Release
 
       - name: Test with coverage
         env:
           AIAPI_OpenAi__ApiKey: ${{ secrets.AIAPI_OPENAI_API_KEY }}
         run: |
-          dotnet test SaasTemplate.AiApi.sln --no-build --configuration Release \
+          dotnet test Propely.AiApi.sln --no-build --configuration Release \
             --collect:"XPlat Code Coverage" \
             --results-directory ./coverage \
             --logger "trx;LogFileName=test-results.trx"
@@ -149,22 +149,22 @@ jobs:
             ${{ runner.os }}-nuget-orgs-api-
 
       - name: Restore dependencies
-        run: dotnet restore SaasTemplate.OrgsApi.sln
+        run: dotnet restore Propely.OrgsApi.sln
 
       - name: Check vulnerable NuGet packages
         run: |
-          dotnet list SaasTemplate.OrgsApi.sln package --vulnerable --include-transitive 2>&1 | tee vuln-report.txt
+          dotnet list Propely.OrgsApi.sln package --vulnerable --include-transitive 2>&1 | tee vuln-report.txt
           if grep -qi "Critical\|High" vuln-report.txt; then
             echo "::error::High or critical NuGet vulnerabilities found in orgs-api"
             exit 1
           fi
 
       - name: Build
-        run: dotnet build SaasTemplate.OrgsApi.sln --no-restore --configuration Release
+        run: dotnet build Propely.OrgsApi.sln --no-restore --configuration Release
 
       - name: Test with coverage
         run: |
-          dotnet test SaasTemplate.OrgsApi.sln --no-build --configuration Release \
+          dotnet test Propely.OrgsApi.sln --no-build --configuration Release \
             --collect:"XPlat Code Coverage" \
             --results-directory ./coverage \
             --logger "trx;LogFileName=test-results.trx"

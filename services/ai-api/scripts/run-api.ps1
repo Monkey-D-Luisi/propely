@@ -2,7 +2,7 @@ $ErrorActionPreference = "Stop"
 
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $RepoRoot = Split-Path -Parent $ScriptDir
-$ApiDir = Join-Path $RepoRoot "src\SaasTemplate.AiApi.Api"
+$ApiDir = Join-Path $RepoRoot "src\Propely.AiApi.Api"
 
 # Check .NET SDK
 if (-not (Get-Command dotnet -ErrorAction SilentlyContinue)) {

@@ -75,7 +75,7 @@ try {
     Write-Host ""
     Write-Host "Infrastructure:" -ForegroundColor Cyan
     Write-Host "  PostgreSQL:           localhost:5432" -ForegroundColor White
-    Write-Host "    Databases:          saastemplate_aiapi, saastemplate_orgsapi" -ForegroundColor Gray
+    Write-Host "    Databases:          propely_aiapi, propely_orgsapi" -ForegroundColor Gray
     Write-Host "  RabbitMQ:             localhost:5672" -ForegroundColor White
     Write-Host "  RabbitMQ Management:  http://localhost:15672" -ForegroundColor White
     Write-Host "  Redis:                localhost:6379" -ForegroundColor White

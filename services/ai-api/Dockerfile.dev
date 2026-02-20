@@ -3,11 +3,11 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0
 WORKDIR /src
 
 # Restore dependencies first (layer caching)
-COPY src/SaasTemplate.AiApi.Domain/SaasTemplate.AiApi.Domain.csproj src/SaasTemplate.AiApi.Domain/
-COPY src/SaasTemplate.AiApi.Application/SaasTemplate.AiApi.Application.csproj src/SaasTemplate.AiApi.Application/
-COPY src/SaasTemplate.AiApi.Infrastructure/SaasTemplate.AiApi.Infrastructure.csproj src/SaasTemplate.AiApi.Infrastructure/
-COPY src/SaasTemplate.AiApi.Api/SaasTemplate.AiApi.Api.csproj src/SaasTemplate.AiApi.Api/
-RUN dotnet restore src/SaasTemplate.AiApi.Api/SaasTemplate.AiApi.Api.csproj
+COPY src/Propely.AiApi.Domain/Propely.AiApi.Domain.csproj src/Propely.AiApi.Domain/
+COPY src/Propely.AiApi.Application/Propely.AiApi.Application.csproj src/Propely.AiApi.Application/
+COPY src/Propely.AiApi.Infrastructure/Propely.AiApi.Infrastructure.csproj src/Propely.AiApi.Infrastructure/
+COPY src/Propely.AiApi.Api/Propely.AiApi.Api.csproj src/Propely.AiApi.Api/
+RUN dotnet restore src/Propely.AiApi.Api/Propely.AiApi.Api.csproj
 
 COPY . .
 
@@ -16,4 +16,4 @@ EXPOSE 5010
 ENV ASPNETCORE_ENVIRONMENT=Development
 ENV ASPNETCORE_URLS=http://+:5010
 
-ENTRYPOINT ["dotnet", "watch", "run", "--project", "src/SaasTemplate.AiApi.Api", "--no-launch-profile"]
+ENTRYPOINT ["dotnet", "watch", "run", "--project", "src/Propely.AiApi.Api", "--no-launch-profile"]

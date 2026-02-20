@@ -3,8 +3,8 @@
 # Usage:   docker compose -f docker-compose.yml -f docker-compose.ci.yml --profile apps up -d --build
 #
 # This file overrides container_name and volume name directives so that
-# CI resources (ci-saastemplate-*) are fully independent of dev resources
-# (saastemplate-*). The E2E teardown (down --volumes) only destroys CI
+# CI resources (ci-propely-*) are fully independent of dev resources
+# (propely-*). The E2E teardown (down --volumes) only destroys CI
 # volumes, leaving dev data intact.
 #
 # NOTE: Host ports are NOT changed — the CI workflow stops any existing
@@ -12,33 +12,33 @@
 
 services:
   postgres:
-    container_name: ci-saastemplate-postgres
+    container_name: ci-propely-postgres
 
   rabbitmq:
-    container_name: ci-saastemplate-rabbitmq
+    container_name: ci-propely-rabbitmq
 
   redis:
-    container_name: ci-saastemplate-redis
+    container_name: ci-propely-redis
 
   aspire-dashboard:
-    container_name: ci-saastemplate-aspire-dashboard
+    container_name: ci-propely-aspire-dashboard
 
   mailhog:
-    container_name: ci-saastemplate-mailhog
+    container_name: ci-propely-mailhog
 
   ai-api:
-    container_name: ci-saastemplate-ai-api
+    container_name: ci-propely-ai-api
 
   orgs-api:
-    container_name: ci-saastemplate-orgs-api
+    container_name: ci-propely-orgs-api
 
   web:
-    container_name: ci-saastemplate-web
+    container_name: ci-propely-web
 
 volumes:
   postgres_data:
-    name: ci_saastemplate_postgres_data
+    name: ci_propely_postgres_data
   rabbitmq_data:
-    name: ci_saastemplate_rabbitmq_data
+    name: ci_propely_rabbitmq_data
   redis_data:
-    name: ci_saastemplate_redis_data
+    name: ci_propely_redis_data

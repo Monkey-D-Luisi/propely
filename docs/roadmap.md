@@ -141,7 +141,7 @@ Coverage targets:
 - **Deliverables:** This roadmap, updated agent instructions, new backlog epics, cleaned docs.
 
 ### Task 0.2 — Rename SaasTemplate → Propely
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 0.1
 - **Scope:** Rename all namespaces, solution files, project files, and references from `SaasTemplate.*` to `Propely.*`. Update docker-compose, database names, CI pipelines, scripts, .env files.
 - **Deliverables:** All code compiles and tests pass with `Propely.*` naming.

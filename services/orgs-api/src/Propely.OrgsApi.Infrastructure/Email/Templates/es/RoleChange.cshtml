@@ -1,0 +1,15 @@
+@model Propely.OrgsApi.Application.Common.Email.RoleChangeEmailModel
+<h2>Tu rol ha cambiado</h2>
+<p>Hola @Model.UserName,</p>
+<p>Tu rol en <strong>@Model.OrganizationName</strong> ha sido actualizado:</p>
+<table style="border-collapse: collapse; margin: 16px 0;">
+    <tr>
+        <td style="padding: 8px 16px; border: 1px solid #e0e0e0; font-weight: bold;">Rol anterior</td>
+        <td style="padding: 8px 16px; border: 1px solid #e0e0e0;">@Model.OldRole</td>
+    </tr>
+    <tr>
+        <td style="padding: 8px 16px; border: 1px solid #e0e0e0; font-weight: bold;">Nuevo rol</td>
+        <td style="padding: 8px 16px; border: 1px solid #e0e0e0;">@Model.NewRole</td>
+    </tr>
+</table>
+<p>Si crees que este cambio fue un error, contacta al administrador de tu organizaci&oacute;n.</p>

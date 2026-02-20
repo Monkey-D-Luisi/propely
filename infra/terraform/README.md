@@ -84,9 +84,8 @@ echo -n "Host=/cloudsql/PROJECT:REGION:INSTANCE;Database=propely_aiapi;Username=
 # Repeat for all secrets (see the secrets list below)
 ```
 
-> **Note:** The examples above use the target Propely naming (`propely_aiapi`, `propely` user,
-> `staging-propely-pg`). Terraform defaults currently still provision `saastemplate_*` names.
-> Replace with the actual provisioned names until Task 0.2 completes the full rename.
+> **Note:** The examples above use the Propely naming (`propely_aiapi`, `propely` user,
+> `staging-propely-pg`). Terraform variables default to `propely_*` names.
 
 ### 4. Set the database user password
 

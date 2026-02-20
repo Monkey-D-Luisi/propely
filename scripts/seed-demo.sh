@@ -258,19 +258,19 @@ echo ""
 # --- 1. Register Users ---
 cyan ">>> Step 1: Registering users..."
 
-register_user "alice" "alice@saastemplate.test" "Alice Johnson"
+register_user "alice" "alice@propely.test" "Alice Johnson"
 ALICE_ID="$USER_ID"
 
-register_user "bob" "bob@saastemplate.test" "Bob Chen"
+register_user "bob" "bob@propely.test" "Bob Chen"
 BOB_ID="$USER_ID"
 
-register_user "carol" "carol@saastemplate.test" "Carol Santos"
+register_user "carol" "carol@propely.test" "Carol Santos"
 CAROL_ID="$USER_ID"
 
-register_user "dave" "dave@saastemplate.test" "Dave Miller"
+register_user "dave" "dave@propely.test" "Dave Miller"
 DAVE_ID="$USER_ID"
 
-register_user "eve" "eve@saastemplate.test" "Eve Park"
+register_user "eve" "eve@propely.test" "Eve Park"
 EVE_ID="$USER_ID"
 
 echo ""
@@ -298,37 +298,37 @@ cyan ">>> Step 3: Inviting members..."
 # Acme Corp: alice (owner) invites bob (admin), dave (member), eve (member)
 if [ -n "$ACME_ID" ]; then
   echo "  Acme Corp:"
-  invite_to_org "alice" "$ACME_ID" "bob@saastemplate.test" "Admin"
+  invite_to_org "alice" "$ACME_ID" "bob@propely.test" "Admin"
   BOB_ACME_TOKEN="$INVITE_TOKEN"
 
-  invite_to_org "alice" "$ACME_ID" "dave@saastemplate.test" "Member"
+  invite_to_org "alice" "$ACME_ID" "dave@propely.test" "Member"
   DAVE_ACME_TOKEN="$INVITE_TOKEN"
 
-  invite_to_org "alice" "$ACME_ID" "eve@saastemplate.test" "Member"
+  invite_to_org "alice" "$ACME_ID" "eve@propely.test" "Member"
   EVE_ACME_TOKEN="$INVITE_TOKEN"
 
   # Pending invitation (won't be accepted — for demo)
-  invite_to_org "alice" "$ACME_ID" "pending@saastemplate.test" "Member"
+  invite_to_org "alice" "$ACME_ID" "pending@propely.test" "Member"
 
   # Accept invitations
   echo "  Accepting invitations..."
-  login_user "bob" "bob@saastemplate.test"
+  login_user "bob" "bob@propely.test"
   accept_invite "bob" "$BOB_ACME_TOKEN"
 
-  login_user "dave" "dave@saastemplate.test"
+  login_user "dave" "dave@propely.test"
   accept_invite "dave" "$DAVE_ACME_TOKEN"
 
-  login_user "eve" "eve@saastemplate.test"
+  login_user "eve" "eve@propely.test"
   accept_invite "eve" "$EVE_ACME_TOKEN"
 fi
 
 # Startup Labs: carol (owner) invites alice (admin)
 if [ -n "$STARTUP_ID" ]; then
   echo "  Startup Labs:"
-  invite_to_org "carol" "$STARTUP_ID" "alice@saastemplate.test" "Admin"
+  invite_to_org "carol" "$STARTUP_ID" "alice@propely.test" "Admin"
   ALICE_STARTUP_TOKEN="$INVITE_TOKEN"
 
-  login_user "alice" "alice@saastemplate.test"
+  login_user "alice" "alice@propely.test"
   accept_invite "alice" "$ALICE_STARTUP_TOKEN"
 fi
 
@@ -421,7 +421,7 @@ echo ""
 cyan ">>> Step 5: Toggling feature flags..."
 
 # Alice is an admin — log in and toggle flags
-login_user "alice" "alice@saastemplate.test"
+login_user "alice" "alice@propely.test"
 toggle_feature_flag "alice" "BetaFeatures" true
 toggle_feature_flag "alice" "DarkMode" true
 
@@ -434,11 +434,11 @@ cyan "  Demo seed complete!"
 cyan "=========================================="
 echo ""
 echo "  Users (all password: $PASSWORD):"
-echo "    alice@saastemplate.test  (Alice Johnson)"
-echo "    bob@saastemplate.test    (Bob Chen)"
-echo "    carol@saastemplate.test  (Carol Santos)"
-echo "    dave@saastemplate.test   (Dave Miller)"
-echo "    eve@saastemplate.test    (Eve Park)"
+echo "    alice@propely.test  (Alice Johnson)"
+echo "    bob@propely.test    (Bob Chen)"
+echo "    carol@propely.test  (Carol Santos)"
+echo "    dave@propely.test   (Dave Miller)"
+echo "    eve@propely.test    (Eve Park)"
 echo ""
 echo "  Organizations:"
 echo "    Acme Corp     — alice (owner), bob (admin), dave & eve (members)"
@@ -452,8 +452,8 @@ echo "  Feature Flags: BetaFeatures=ON, DarkMode=ON"
 echo "                 Notifications=ON (default)"
 echo "                 MaintenanceMode=OFF, UpdateCheck=OFF"
 echo ""
-echo "  Pending invitation: pending@saastemplate.test -> Acme Corp"
+echo "  Pending invitation: pending@propely.test -> Acme Corp"
 echo ""
-echo "  Recommended login: alice@saastemplate.test / $PASSWORD"
+echo "  Recommended login: alice@propely.test / $PASSWORD"
 echo "  Mailhog UI: http://localhost:18025"
 echo ""

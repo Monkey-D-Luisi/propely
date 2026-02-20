@@ -240,11 +240,11 @@ Write-Host ""
 
 # --- 1. Register Users ---
 Write-Host ">>> Step 1: Registering users..." -ForegroundColor Cyan
-$aliceId = Register-User -Key "alice" -Email "alice@saastemplate.test" -Name "Alice Johnson"
-$bobId = Register-User -Key "bob" -Email "bob@saastemplate.test" -Name "Bob Chen"
-$carolId = Register-User -Key "carol" -Email "carol@saastemplate.test" -Name "Carol Santos"
-$daveId = Register-User -Key "dave" -Email "dave@saastemplate.test" -Name "Dave Miller"
-$eveId = Register-User -Key "eve" -Email "eve@saastemplate.test" -Name "Eve Park"
+$aliceId = Register-User -Key "alice" -Email "alice@propely.test" -Name "Alice Johnson"
+$bobId = Register-User -Key "bob" -Email "bob@propely.test" -Name "Bob Chen"
+$carolId = Register-User -Key "carol" -Email "carol@propely.test" -Name "Carol Santos"
+$daveId = Register-User -Key "dave" -Email "dave@propely.test" -Name "Dave Miller"
+$eveId = Register-User -Key "eve" -Email "eve@propely.test" -Name "Eve Park"
 Write-Host ""
 
 # --- 2. Create Organizations ---
@@ -259,24 +259,24 @@ Write-Host ">>> Step 3: Inviting members..." -ForegroundColor Cyan
 
 if ($acmeId) {
     Write-Host "  Acme Corp:"
-    $bobToken = Send-Invitation -Key "alice" -OrgId $acmeId -Email "bob@saastemplate.test" -Role "Admin"
-    $daveToken = Send-Invitation -Key "alice" -OrgId $acmeId -Email "dave@saastemplate.test" -Role "Member"
-    $eveToken = Send-Invitation -Key "alice" -OrgId $acmeId -Email "eve@saastemplate.test" -Role "Member"
-    Send-Invitation -Key "alice" -OrgId $acmeId -Email "pending@saastemplate.test" -Role "Member" | Out-Null
+    $bobToken = Send-Invitation -Key "alice" -OrgId $acmeId -Email "bob@propely.test" -Role "Admin"
+    $daveToken = Send-Invitation -Key "alice" -OrgId $acmeId -Email "dave@propely.test" -Role "Member"
+    $eveToken = Send-Invitation -Key "alice" -OrgId $acmeId -Email "eve@propely.test" -Role "Member"
+    Send-Invitation -Key "alice" -OrgId $acmeId -Email "pending@propely.test" -Role "Member" | Out-Null
 
     Write-Host "  Accepting invitations..."
-    Login-User -Key "bob" -Email "bob@saastemplate.test"
+    Login-User -Key "bob" -Email "bob@propely.test"
     Accept-Invitation -Key "bob" -Token $bobToken
-    Login-User -Key "dave" -Email "dave@saastemplate.test"
+    Login-User -Key "dave" -Email "dave@propely.test"
     Accept-Invitation -Key "dave" -Token $daveToken
-    Login-User -Key "eve" -Email "eve@saastemplate.test"
+    Login-User -Key "eve" -Email "eve@propely.test"
     Accept-Invitation -Key "eve" -Token $eveToken
 }
 
 if ($startupId) {
     Write-Host "  Startup Labs:"
-    $aliceStartupToken = Send-Invitation -Key "carol" -OrgId $startupId -Email "alice@saastemplate.test" -Role "Admin"
-    Login-User -Key "alice" -Email "alice@saastemplate.test"
+    $aliceStartupToken = Send-Invitation -Key "carol" -OrgId $startupId -Email "alice@propely.test" -Role "Admin"
+    Login-User -Key "alice" -Email "alice@propely.test"
     Accept-Invitation -Key "alice" -Token $aliceStartupToken
 }
 Write-Host ""
@@ -314,7 +314,7 @@ Write-Host ""
 
 # --- 5. Toggle Feature Flags ---
 Write-Host ">>> Step 5: Toggling feature flags..." -ForegroundColor Cyan
-Login-User -Key "alice" -Email "alice@saastemplate.test"
+Login-User -Key "alice" -Email "alice@propely.test"
 Set-FeatureFlag -Key "alice" -FlagName "BetaFeatures" -Enabled $true
 Set-FeatureFlag -Key "alice" -FlagName "DarkMode" -Enabled $true
 Write-Host ""
@@ -326,11 +326,11 @@ Write-Host "  Demo seed complete!" -ForegroundColor Cyan
 Write-Host "==========================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "  Users (all password: $Password):"
-Write-Host "    alice@saastemplate.test  (Alice Johnson)"
-Write-Host "    bob@saastemplate.test    (Bob Chen)"
-Write-Host "    carol@saastemplate.test  (Carol Santos)"
-Write-Host "    dave@saastemplate.test   (Dave Miller)"
-Write-Host "    eve@saastemplate.test    (Eve Park)"
+Write-Host "    alice@propely.test  (Alice Johnson)"
+Write-Host "    bob@propely.test    (Bob Chen)"
+Write-Host "    carol@propely.test  (Carol Santos)"
+Write-Host "    dave@propely.test   (Dave Miller)"
+Write-Host "    eve@propely.test    (Eve Park)"
 Write-Host ""
 Write-Host "  Organizations:"
 Write-Host "    Acme Corp     — alice (owner), bob (admin), dave & eve (members)"
@@ -344,8 +344,8 @@ Write-Host "  Feature Flags: BetaFeatures=ON, DarkMode=ON"
 Write-Host "                 Notifications=ON (default)"
 Write-Host "                 MaintenanceMode=OFF, UpdateCheck=OFF"
 Write-Host ""
-Write-Host "  Pending invitation: pending@saastemplate.test -> Acme Corp"
+Write-Host "  Pending invitation: pending@propely.test -> Acme Corp"
 Write-Host ""
-Write-Host "  Recommended login: alice@saastemplate.test / $Password"
+Write-Host "  Recommended login: alice@propely.test / $Password"
 Write-Host "  Mailhog UI: http://localhost:18025"
 Write-Host ""

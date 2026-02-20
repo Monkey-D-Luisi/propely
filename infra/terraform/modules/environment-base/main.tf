@@ -27,7 +27,7 @@ resource "google_project_service" "apis" {
 resource "google_artifact_registry_repository" "containers" {
   location      = var.region
   project       = var.project_id
-  repository_id = "saastemplate-${var.environment}-containers"
+  repository_id = "propely-${var.environment}-containers"
   format        = "DOCKER"
   description   = "Container images for SaaS Starter Kit (${var.environment})"
 
