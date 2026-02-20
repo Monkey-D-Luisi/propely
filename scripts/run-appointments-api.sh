@@ -11,13 +11,13 @@ if ! command -v dotnet &> /dev/null; then
     exit 1
 fi
 
-# Load .env from repo root
+# Load .env from repo root (using read loop to preserve semicolons in values)
 ENV_FILE="$REPO_ROOT/.env"
 if [ -f "$ENV_FILE" ]; then
-    set -a
-    # shellcheck disable=SC1090
-    source <(grep -v '^\s*#' "$ENV_FILE" | grep -v '^\s*$')
-    set +a
+    while IFS= read -r line || [ -n "$line" ]; do
+        [[ -z "$line" || "$line" =~ ^[[:space:]]*# ]] && continue
+        export "$line"
+    done < "$ENV_FILE"
 fi
 
 echo "Starting Appointments API on http://localhost:5060..."

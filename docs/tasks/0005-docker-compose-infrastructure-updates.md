@@ -91,7 +91,7 @@ Follow the existing patterns from ai-api and orgs-api service definitions. Add 4
 ## Security & Privacy
 - All ports bind to 127.0.0.1 only (not 0.0.0.0)
 - .env.example contains only placeholder/dev passwords
-- Database init script grants minimum required privileges
+- Database init script creates databases using the default superuser (least-privilege grants deferred to security hardening task)
 
 ## Observability
 - Each new service will report to Aspire Dashboard via OpenTelemetry (configured in .env)
