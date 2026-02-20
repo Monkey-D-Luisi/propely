@@ -32,6 +32,18 @@ services:
   orgs-api:
     container_name: ci-propely-orgs-api
 
+  properties-api:
+    container_name: ci-propely-properties-api
+
+  publishing-api:
+    container_name: ci-propely-publishing-api
+
+  contacts-api:
+    container_name: ci-propely-contacts-api
+
+  appointments-api:
+    container_name: ci-propely-appointments-api
+
   web:
     container_name: ci-propely-web
 
