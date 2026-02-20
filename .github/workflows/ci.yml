@@ -293,8 +293,13 @@ jobs:
             fi
           done
 
+      - name: Build Docker images (sequential to avoid BuildKit OOM)
+        run: docker compose -f docker-compose.yml -f docker-compose.ci.yml --profile apps build
+        env:
+          COMPOSE_PARALLEL_LIMIT: 1
+
       - name: Start full stack
-        run: docker compose -f docker-compose.yml -f docker-compose.ci.yml --profile apps up -d --build
+        run: docker compose -f docker-compose.yml -f docker-compose.ci.yml --profile apps up -d
 
       - name: Wait for services to be healthy
         run: |
