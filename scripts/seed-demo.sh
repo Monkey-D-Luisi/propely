@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copyright (c) 2026 SaaS Starter Kit. All rights reserved.
+# Copyright (c) 2026 Propely. All rights reserved.
 # Licensed under the Proprietary Software License. See LICENSE.
 
 # seed-demo.sh — Seeds a rich demo environment for showcasing all features.
@@ -251,7 +251,7 @@ toggle_feature_flag() {
 
 echo ""
 cyan "=========================================="
-cyan "  SaaS Starter Kit — Demo Seed"
+cyan "  Propely — Demo Seed"
 cyan "=========================================="
 echo ""
 

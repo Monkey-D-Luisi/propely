@@ -1,4 +1,4 @@
-// Copyright (c) 2026 SaaS Starter Kit. All rights reserved.
+// Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 
 using System.Net;
@@ -92,7 +92,7 @@ public sealed class AuthEndpointTests : IClassFixture<ApiWebApplicationFactory>
         var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
         var secret = configuration["Jwt:Secret"]!;
         var issuer = configuration["Jwt:Issuer"] ?? "orgs-api";
-        var audience = configuration["Jwt:Audience"] ?? "saas-template";
+        var audience = configuration["Jwt:Audience"] ?? "propely";
 
         var claims = new List<Claim>
         {

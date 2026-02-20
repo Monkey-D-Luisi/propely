@@ -7,7 +7,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-MARKER="Copyright (c) 2026 SaaS Starter Kit. All rights reserved."
+MARKER="Copyright (c) 2026 Propely. All rights reserved."
 
 missing=0
 total=0

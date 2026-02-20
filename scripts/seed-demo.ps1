@@ -1,5 +1,5 @@
 #!/usr/bin/env pwsh
-# Copyright (c) 2026 SaaS Starter Kit. All rights reserved.
+# Copyright (c) 2026 Propely. All rights reserved.
 # Licensed under the Proprietary Software License. See LICENSE.
 
 <#
@@ -234,7 +234,7 @@ function Set-FeatureFlag {
 
 Write-Host ""
 Write-Host "==========================================" -ForegroundColor Cyan
-Write-Host "  SaaS Starter Kit - Demo Seed" -ForegroundColor Cyan
+Write-Host "  Propely - Demo Seed" -ForegroundColor Cyan
 Write-Host "==========================================" -ForegroundColor Cyan
 Write-Host ""
 

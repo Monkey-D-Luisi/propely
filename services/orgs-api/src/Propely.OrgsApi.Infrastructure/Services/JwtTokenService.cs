@@ -1,4 +1,4 @@
-// Copyright (c) 2026 SaaS Starter Kit. All rights reserved.
+// Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 
 using System.IdentityModel.Tokens.Jwt;
@@ -203,7 +203,7 @@ public sealed class JwtTokenService : IJwtTokenService
 
     private string GetIssuer() => _configuration["Jwt:Issuer"] ?? "orgs-api";
 
-    private string GetAudience() => _configuration["Jwt:Audience"] ?? "saas-template";
+    private string GetAudience() => _configuration["Jwt:Audience"] ?? "propely";
 
     private static string? GetClaimValue(ClaimsPrincipal principal, string claimType)
     {

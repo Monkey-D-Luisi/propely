@@ -17,11 +17,11 @@ $startFullStack = -not $InfraOnly
 
 if ($startFullStack) {
     Write-Host "==========================================" -ForegroundColor Cyan
-    Write-Host "SaaS Starter Kit - Starting Full Stack" -ForegroundColor Cyan
+    Write-Host "Propely - Starting Full Stack" -ForegroundColor Cyan
     Write-Host "==========================================" -ForegroundColor Cyan
 } else {
     Write-Host "==========================================" -ForegroundColor Cyan
-    Write-Host "SaaS Starter Kit - Starting Infrastructure" -ForegroundColor Cyan
+    Write-Host "Propely - Starting Infrastructure" -ForegroundColor Cyan
     Write-Host "==========================================" -ForegroundColor Cyan
 }
 Write-Host ""

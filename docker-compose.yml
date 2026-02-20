@@ -1,4 +1,4 @@
-# SaaS Starter Kit - Local Development
+# Propely - Local Development
 # Infrastructure only:  docker compose up -d
 # Full stack (+ apps):  docker compose --profile apps up -d
 # Stop:                 .\scripts\dev-down.ps1

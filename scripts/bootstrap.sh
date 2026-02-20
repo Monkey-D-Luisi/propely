@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# bootstrap.sh — One-command developer onboarding for SaaS Starter Kit
+# bootstrap.sh — One-command developer onboarding for Propely
 # Usage: ./scripts/bootstrap.sh
 #        make dev  (calls this script)
 set -euo pipefail
@@ -24,7 +24,7 @@ TOTAL_STEPS=5
 
 echo -e "${BOLD}"
 echo "╔══════════════════════════════════════════════════╗"
-echo "║       SaaS Starter Kit — Developer Setup         ║"
+echo "║       Propely — Developer Setup         ║"
 echo "╚══════════════════════════════════════════════════╝"
 echo -e "${NC}"
 

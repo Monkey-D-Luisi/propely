@@ -110,7 +110,7 @@ module "cloud_run_ai_api" {
   region                = var.region
   environment           = local.environment
   service_name          = "${local.name_prefix}-ai-api"
-  image                 = "${var.artifact_registry_host}/${var.project_id}/${module.base.ar_repository_id}/saas-template-ai-api:${var.image_tag}"
+  image                 = "${var.artifact_registry_host}/${var.project_id}/${module.base.ar_repository_id}/propely-ai-api:${var.image_tag}"
   port                  = 8080
   vpc_connector_id      = module.vpc.vpc_connector_id
   service_account_email = module.iam.service_account_emails["ai-api"]
@@ -168,7 +168,7 @@ module "cloud_run_orgs_api" {
   region                = var.region
   environment           = local.environment
   service_name          = "${local.name_prefix}-orgs-api"
-  image                 = "${var.artifact_registry_host}/${var.project_id}/${module.base.ar_repository_id}/saas-template-orgs-api:${var.image_tag}"
+  image                 = "${var.artifact_registry_host}/${var.project_id}/${module.base.ar_repository_id}/propely-orgs-api:${var.image_tag}"
   port                  = 8080
   vpc_connector_id      = module.vpc.vpc_connector_id
   service_account_email = module.iam.service_account_emails["orgs-api"]
@@ -255,7 +255,7 @@ module "cloud_run_web" {
   region                = var.region
   environment           = local.environment
   service_name          = "${local.name_prefix}-web"
-  image                 = "${var.artifact_registry_host}/${var.project_id}/${module.base.ar_repository_id}/saas-template-web:${var.image_tag}"
+  image                 = "${var.artifact_registry_host}/${var.project_id}/${module.base.ar_repository_id}/propely-web:${var.image_tag}"
   port                  = 3000
   vpc_connector_id      = module.vpc.vpc_connector_id
   service_account_email = module.iam.service_account_emails["web"]

@@ -1,4 +1,4 @@
-// Copyright (c) 2026 SaaS Starter Kit. All rights reserved.
+// Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 
 using Propely.OrgsApi.Application.Common.Email;
@@ -25,7 +25,7 @@ public sealed class RazorEmailTemplateRendererTests
         // Arrange
         var model = new InvitationEmailModel
         {
-            AppName = "SaaS Starter Kit",
+            AppName = "Propely",
             SupportUrl = "https://example.com/support",
             Year = 2026,
             OrganizationName = "Acme Org",
@@ -37,7 +37,7 @@ public sealed class RazorEmailTemplateRendererTests
 
         // Assert
         html.Should().Contain("<html");
-        html.Should().Contain("SaaS Starter Kit");
+        html.Should().Contain("Propely");
         html.Should().Contain("You have been invited");
         html.Should().Contain("Acme Org");
         html.Should().Contain("https://app.test/invite/token-123");
@@ -51,7 +51,7 @@ public sealed class RazorEmailTemplateRendererTests
         // Arrange
         var model = new InvitationEmailModel
         {
-            AppName = "SaaS Starter Kit",
+            AppName = "Propely",
             SupportUrl = "https://example.com/support",
             Year = 2026,
             OrganizationName = "Acme Org",
@@ -75,7 +75,7 @@ public sealed class RazorEmailTemplateRendererTests
         // Arrange
         var model = new InvitationEmailModel
         {
-            AppName = "SaaS Starter Kit",
+            AppName = "Propely",
             SupportUrl = "https://example.com/support",
             Year = 2026,
             OrganizationName = "Acme Org",
@@ -97,7 +97,7 @@ public sealed class RazorEmailTemplateRendererTests
         // Arrange
         var model = new InvitationEmailModel
         {
-            AppName = "SaaS Starter Kit",
+            AppName = "Propely",
             SupportUrl = "https://example.com/support",
             Year = 2026,
             OrganizationName = "Acme Org",
@@ -117,7 +117,7 @@ public sealed class RazorEmailTemplateRendererTests
         // Arrange
         var model = new EmailVerificationEmailModel
         {
-            AppName = "SaaS Starter Kit",
+            AppName = "Propely",
             SupportUrl = "https://example.com/support",
             Year = 2026,
             VerificationUrl = "https://app.test/en/verify-email?token=abc"
@@ -138,7 +138,7 @@ public sealed class RazorEmailTemplateRendererTests
         // Arrange
         var model = new PasswordResetEmailModel
         {
-            AppName = "SaaS Starter Kit",
+            AppName = "Propely",
             SupportUrl = "https://example.com/support",
             Year = 2026,
             ResetUrl = "https://app.test/en/reset-password?token=abc123"

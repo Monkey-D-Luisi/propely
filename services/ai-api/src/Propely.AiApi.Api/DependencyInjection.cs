@@ -1,4 +1,4 @@
-// Copyright (c) 2026 SaaS Starter Kit. All rights reserved.
+// Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 
 using System.Text;
@@ -152,7 +152,7 @@ public static class DependencyInjection
                     ValidateIssuer = true,
                     ValidIssuer = configuration["Jwt:Issuer"] ?? "orgs-api",
                     ValidateAudience = true,
-                    ValidAudience = configuration["Jwt:Audience"] ?? "saas-template",
+                    ValidAudience = configuration["Jwt:Audience"] ?? "propely",
                     ValidateLifetime = true,
                     ClockSkew = TimeSpan.FromMinutes(1)
                 };

@@ -109,7 +109,7 @@ jobs:
       - name: Wait for GHCR image availability
         env:
           DOCKER_CLI_EXPERIMENTAL: enabled
-          GHCR_IMAGE: ${{ env.GHCR_REGISTRY }}/${{ steps.owner.outputs.name }}/saas-template-${{ matrix.service }}:${{ needs.prepare.outputs.image_tag }}
+          GHCR_IMAGE: ${{ env.GHCR_REGISTRY }}/${{ steps.owner.outputs.name }}/propely-${{ matrix.service }}:${{ needs.prepare.outputs.image_tag }}
         run: |
           for i in $(seq 1 30); do
             if docker manifest inspect "$GHCR_IMAGE" > /dev/null 2>&1; then
@@ -140,15 +140,15 @@ jobs:
       - name: Copy image to Artifact Registry
         uses: ./.github/actions/copy-image-to-ar
         with:
-          source-image: ${{ env.GHCR_REGISTRY }}/${{ steps.owner.outputs.name }}/saas-template-${{ matrix.service }}:${{ needs.prepare.outputs.image_tag }}
-          target-image: ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.AR_REPO }}/saas-template-${{ matrix.service }}:${{ needs.prepare.outputs.image_tag }}
+          source-image: ${{ env.GHCR_REGISTRY }}/${{ steps.owner.outputs.name }}/propely-${{ matrix.service }}:${{ needs.prepare.outputs.image_tag }}
+          target-image: ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.AR_REPO }}/propely-${{ matrix.service }}:${{ needs.prepare.outputs.image_tag }}
 
       - name: Deploy to Cloud Run
         id: deploy
         uses: ./.github/actions/deploy-cloudrun
         with:
           service: propely-staging-${{ matrix.service }}
-          image: ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.AR_REPO }}/saas-template-${{ matrix.service }}:${{ needs.prepare.outputs.image_tag }}
+          image: ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.AR_REPO }}/propely-${{ matrix.service }}:${{ needs.prepare.outputs.image_tag }}
           region: ${{ vars.GCP_REGION }}
           project: ${{ vars.GCP_PROJECT_ID }}
           access-token: ${{ steps.auth.outputs.access_token }}
@@ -201,7 +201,7 @@ jobs:
           context: .
           file: apps/web/Dockerfile
           push: true
-          tags: ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.AR_REPO }}/saas-template-web:${{ needs.prepare.outputs.image_tag }}
+          tags: ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.AR_REPO }}/propely-web:${{ needs.prepare.outputs.image_tag }}
           build-args: |
             NEXT_PUBLIC_WEB_URL=${{ vars.NEXT_PUBLIC_WEB_URL }}
             NEXT_PUBLIC_AI_API_URL=${{ vars.NEXT_PUBLIC_AI_API_URL }}
@@ -214,7 +214,7 @@ jobs:
         uses: ./.github/actions/deploy-cloudrun
         with:
           service: propely-staging-web
-          image: ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.AR_REPO }}/saas-template-web:${{ needs.prepare.outputs.image_tag }}
+          image: ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.AR_REPO }}/propely-web:${{ needs.prepare.outputs.image_tag }}
           region: ${{ vars.GCP_REGION }}
           project: ${{ vars.GCP_PROJECT_ID }}
           access-token: ${{ steps.auth.outputs.access_token }}

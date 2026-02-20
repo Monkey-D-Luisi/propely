@@ -1,4 +1,4 @@
-// Copyright (c) 2026 SaaS Starter Kit. All rights reserved.
+// Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 
 using System.IdentityModel.Tokens.Jwt;
@@ -24,7 +24,7 @@ public sealed class JwtTokenServiceTests
             {
                 ["Jwt:Secret"] = JwtSecret,
                 ["Jwt:Issuer"] = "orgs-api",
-                ["Jwt:Audience"] = "saas-template"
+                ["Jwt:Audience"] = "propely"
             })
             .Build();
 
@@ -136,7 +136,7 @@ public sealed class JwtTokenServiceTests
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         var expiredToken = new JwtSecurityToken(
             issuer: "orgs-api",
-            audience: "saas-template",
+            audience: "propely",
             claims:
             [
                 new Claim(JwtRegisteredClaimNames.Sub, Guid.NewGuid().ToString()),
@@ -169,7 +169,7 @@ public sealed class JwtTokenServiceTests
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         var token = new JwtSecurityToken(
             issuer: "orgs-api",
-            audience: "saas-template",
+            audience: "propely",
             claims: claims,
             notBefore: DateTime.UtcNow.AddHours(-2),
             expires: DateTime.UtcNow.AddHours(-1),

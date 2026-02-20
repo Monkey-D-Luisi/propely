@@ -1,4 +1,4 @@
-// Copyright (c) 2026 SaaS Starter Kit. All rights reserved.
+// Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 
 using Microsoft.Extensions.Configuration;
@@ -28,7 +28,7 @@ public sealed class SendGridEmailSender : IEmailSender
     public async Task SendAsync(string to, string subject, string htmlBody, CancellationToken cancellationToken = default)
     {
         var fromAddress = _configuration["SendGrid:From"] ?? _configuration["Smtp:From"] ?? "no-reply@propely.test";
-        var fromName = _configuration["SendGrid:FromName"] ?? "SaaS Starter Kit";
+        var fromName = _configuration["SendGrid:FromName"] ?? "Propely";
 
         var msg = new SendGridMessage
         {
