@@ -1,4 +1,4 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
@@ -20,6 +20,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Propely.OrgsApi.Api", "src\Propely.OrgsApi.Api\Propely.OrgsApi.Api.csproj", "{AA2694A4-0C00-40C8-A98E-02DDE029E4C2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Propely.OrgsApi.ArchitectureTests", "tests\Propely.OrgsApi.ArchitectureTests\Propely.OrgsApi.ArchitectureTests.csproj", "{E7DE1870-765E-4458-AB73-296D53078324}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Propely.OrgsApi.Client", "src\Propely.OrgsApi.Client\Propely.OrgsApi.Client.csproj", "{D377A62B-51CA-41DF-871F-DFD22AA327EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -115,6 +117,18 @@ Global
 		{E7DE1870-765E-4458-AB73-296D53078324}.Release|x64.Build.0 = Release|Any CPU
 		{E7DE1870-765E-4458-AB73-296D53078324}.Release|x86.ActiveCfg = Release|Any CPU
 		{E7DE1870-765E-4458-AB73-296D53078324}.Release|x86.Build.0 = Release|Any CPU
+		{D377A62B-51CA-41DF-871F-DFD22AA327EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D377A62B-51CA-41DF-871F-DFD22AA327EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D377A62B-51CA-41DF-871F-DFD22AA327EB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D377A62B-51CA-41DF-871F-DFD22AA327EB}.Debug|x64.Build.0 = Debug|Any CPU
+		{D377A62B-51CA-41DF-871F-DFD22AA327EB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D377A62B-51CA-41DF-871F-DFD22AA327EB}.Debug|x86.Build.0 = Debug|Any CPU
+		{D377A62B-51CA-41DF-871F-DFD22AA327EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D377A62B-51CA-41DF-871F-DFD22AA327EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D377A62B-51CA-41DF-871F-DFD22AA327EB}.Release|x64.ActiveCfg = Release|Any CPU
+		{D377A62B-51CA-41DF-871F-DFD22AA327EB}.Release|x64.Build.0 = Release|Any CPU
+		{D377A62B-51CA-41DF-871F-DFD22AA327EB}.Release|x86.ActiveCfg = Release|Any CPU
+		{D377A62B-51CA-41DF-871F-DFD22AA327EB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -127,5 +141,6 @@ Global
 		{7E2DA38F-D33D-4A0F-BFBA-081DE3739E90} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 		{AA2694A4-0C00-40C8-A98E-02DDE029E4C2} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{E7DE1870-765E-4458-AB73-296D53078324} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
+		{D377A62B-51CA-41DF-871F-DFD22AA327EB} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 	EndGlobalSection
 EndGlobal
