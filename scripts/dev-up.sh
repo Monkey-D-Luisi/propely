@@ -34,11 +34,11 @@ fi
 
 if [[ "$START_FULL_STACK" == "true" ]]; then
     echo "=========================================="
-    echo "SaaS Starter Kit - Starting Full Stack"
+    echo "Propely - Starting Full Stack"
     echo "=========================================="
 else
     echo "=========================================="
-    echo "SaaS Starter Kit - Starting Infrastructure"
+    echo "Propely - Starting Infrastructure"
     echo "=========================================="
 fi
 echo ""

@@ -1,4 +1,4 @@
-// Copyright (c) 2026 SaaS Starter Kit. All rights reserved.
+// Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
@@ -61,7 +61,7 @@ describe('AppHeader', () => {
 
     renderWithProviders(<AppHeader />);
 
-    expect(screen.getByText('SaaS Starter Kit')).toBeInTheDocument();
+    expect(screen.getByText('Propely')).toBeInTheDocument();
   });
 
   it('shows sign-in link when not authenticated', () => {

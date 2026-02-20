@@ -29,7 +29,7 @@ resource "google_artifact_registry_repository" "containers" {
   project       = var.project_id
   repository_id = "propely-${var.environment}-containers"
   format        = "DOCKER"
-  description   = "Container images for SaaS Starter Kit (${var.environment})"
+  description   = "Container images for Propely (${var.environment})"
 
   labels = {
     environment = var.environment

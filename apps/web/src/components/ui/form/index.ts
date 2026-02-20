@@ -1,4 +1,4 @@
-// Copyright (c) 2026 SaaS Starter Kit. All rights reserved.
+// Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 
 export { FormField, type FormFieldProps } from './form-field';

@@ -15,22 +15,22 @@ if (-not (Test-Path (Join-Path $repoRoot 'LICENSE'))) {
     exit 1
 }
 
-$marker = "Copyright (c) 2026 SaaS Starter Kit. All rights reserved."
+$marker = "Copyright (c) 2026 Propely. All rights reserved."
 
 $csHeader = @"
-// Copyright (c) 2026 SaaS Starter Kit. All rights reserved.
+// Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 
 "@
 
 $tsHeader = @"
-// Copyright (c) 2026 SaaS Starter Kit. All rights reserved.
+// Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 
 "@
 
 $cssHeader = @"
-/* Copyright (c) 2026 SaaS Starter Kit. All rights reserved.
+/* Copyright (c) 2026 Propely. All rights reserved.
    Licensed under the Proprietary Software License. See LICENSE. */
 
 "@

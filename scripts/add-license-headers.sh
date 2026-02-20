@@ -11,17 +11,17 @@ fi
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-MARKER="Copyright (c) 2026 SaaS Starter Kit. All rights reserved."
+MARKER="Copyright (c) 2026 Propely. All rights reserved."
 
-CS_HEADER="// Copyright (c) 2026 SaaS Starter Kit. All rights reserved.
+CS_HEADER="// Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 "
 
-TS_HEADER="// Copyright (c) 2026 SaaS Starter Kit. All rights reserved.
+TS_HEADER="// Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 "
 
-CSS_HEADER="/* Copyright (c) 2026 SaaS Starter Kit. All rights reserved.
+CSS_HEADER="/* Copyright (c) 2026 Propely. All rights reserved.
    Licensed under the Proprietary Software License. See LICENSE. */
 "
 

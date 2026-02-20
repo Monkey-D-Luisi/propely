@@ -9,7 +9,7 @@ resource "google_redis_instance" "main" {
   redis_version      = var.redis_version
   authorized_network = var.network_self_link
   auth_enabled       = var.auth_enabled
-  display_name       = "SaaS Starter Kit Redis (${var.environment})"
+  display_name       = "Propely Redis (${var.environment})"
 
   transit_encryption_mode = "SERVER_AUTHENTICATION"
 

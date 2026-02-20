@@ -58,7 +58,7 @@ jobs:
         env:
           DOCKER_METADATA_PR_HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
         with:
-          images: ${{ env.REGISTRY }}/${{ steps.owner.outputs.name }}/saas-template-${{ matrix.service.name }}
+          images: ${{ env.REGISTRY }}/${{ steps.owner.outputs.name }}/propely-${{ matrix.service.name }}
           tags: |
             type=raw,value=${{ github.event.workflow_run.head_sha }}
             type=raw,value=latest,enable={{is_default_branch}}
@@ -78,7 +78,7 @@ jobs:
       - name: Scan image for vulnerabilities
         uses: aquasecurity/trivy-action@0.34.0
         with:
-          image-ref: ${{ env.REGISTRY }}/${{ steps.owner.outputs.name }}/saas-template-${{ matrix.service.name }}@${{ steps.build.outputs.digest }}
+          image-ref: ${{ env.REGISTRY }}/${{ steps.owner.outputs.name }}/propely-${{ matrix.service.name }}@${{ steps.build.outputs.digest }}
           format: table
           exit-code: 1
           severity: CRITICAL,HIGH

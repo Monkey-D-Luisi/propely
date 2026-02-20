@@ -16,6 +16,6 @@ reset:
 
 ## help: Show available targets
 help:
-	@echo "SaaS Starter Kit — Development Commands"
+	@echo "Propely — Development Commands"
 	@echo ""
 	@grep -E '^## ' $(MAKEFILE_LIST) | sed 's/^## /  /'

@@ -1,4 +1,4 @@
-// Copyright (c) 2026 SaaS Starter Kit. All rights reserved.
+// Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 
 using System.Text;
@@ -161,7 +161,7 @@ public sealed class ApiWebApplicationFactory : WebApplicationFactory<Program>, I
                     ValidateIssuer = true,
                     ValidIssuer = "orgs-api",
                     ValidateAudience = true,
-                    ValidAudience = "saas-template",
+                    ValidAudience = "propely",
                     ValidateLifetime = true,
                     ClockSkew = TimeSpan.FromMinutes(1)
                 };

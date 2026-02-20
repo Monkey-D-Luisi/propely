@@ -1,4 +1,4 @@
-// Copyright (c) 2026 SaaS Starter Kit. All rights reserved.
+// Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 
 using Microsoft.Extensions.Configuration;
@@ -28,11 +28,11 @@ public sealed class EmailService : IEmailService
         _emailSender = emailSender;
         _logger = logger;
 
-        _appName = _configuration["App:Name"] ?? "SaaS Starter Kit";
+        _appName = _configuration["App:Name"] ?? "Propely";
         // TODO: Remove example.com fallback once App:SupportUrl is enforced in production config
         _supportUrl = _configuration["App:SupportUrl"] ?? "https://example.com/support";
 
-        if (_appName == "SaaS Starter Kit")
+        if (_appName == "Propely")
         {
             _logger.LogWarning("App:Name not configured, using default placeholder. Set ORGSAPI_App__Name environment variable.");
         }

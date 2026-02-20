@@ -16,7 +16,7 @@ if (-not (Test-Path (Join-Path $repoRoot 'LICENSE'))) {
     exit 1
 }
 
-$marker = "Copyright (c) 2026 SaaS Starter Kit. All rights reserved."
+$marker = "Copyright (c) 2026 Propely. All rights reserved."
 
 function Get-SourceFiles {
     $files = @()

@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    One-command developer onboarding for SaaS Starter Kit.
+    One-command developer onboarding for Propely.
 .DESCRIPTION
     Checks prerequisites, creates .env if needed, starts all services,
     waits for health checks, and opens the browser.
@@ -39,7 +39,7 @@ try {
 
     Write-Host ""
     Write-Host "========================================================" -ForegroundColor White
-    Write-Host "       SaaS Starter Kit - Developer Setup               " -ForegroundColor White
+    Write-Host "       Propely - Developer Setup               " -ForegroundColor White
     Write-Host "========================================================" -ForegroundColor White
     Write-Host ""
 
