@@ -523,7 +523,7 @@ Update all Docker Compose configuration and infrastructure scripts to support th
 
 ### Task 0.6 --- CI Pipeline Updates
 
-- **Status:** IN_PROGRESS
+- **Status:** DONE
 - **Dependencies:** Task 0.2 (rename), Task 0.3 (new services), Task 0.5 (Docker/infra)
 - **File:** `docs/tasks/0006-ci-pipeline-updates.md`
 
@@ -625,7 +625,7 @@ Update the CI/CD pipeline to build, test, and validate all 6 backend services pl
 | 0.3 | Scaffold New Service Solutions | DONE | 0.2 |
 | 0.4 | NuGet SDK Client Infrastructure | DONE | 0.2 |
 | 0.5 | Docker Compose & Infrastructure Updates | DONE | 0.2, 0.3 |
-| 0.6 | CI Pipeline Updates | IN_PROGRESS | 0.2, 0.3, 0.5 |
+| 0.6 | CI Pipeline Updates | DONE | 0.2, 0.3, 0.5 |
 
 ## Port Allocation (Phase 0 Final State)
 
