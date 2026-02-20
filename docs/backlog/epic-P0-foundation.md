@@ -304,7 +304,7 @@ For each of the 4 services, approximately 15-20 files:
 
 ### Task 0.4 --- NuGet SDK Client Infrastructure
 
-- **Status:** IN_PROGRESS
+- **Status:** DONE
 - **Dependencies:** Task 0.2 (namespaces must be Propely.*)
 - **File:** `docs/tasks/0004-nuget-sdk-client-infrastructure.md`
 
@@ -623,7 +623,7 @@ Update the CI/CD pipeline to build, test, and validate all 6 backend services pl
 | 0.1 | Documentation & Roadmap Overhaul | DONE | None |
 | 0.2 | Rename SaasTemplate to Propely | DONE | 0.1 |
 | 0.3 | Scaffold New Service Solutions | DONE | 0.2 |
-| 0.4 | NuGet SDK Client Infrastructure | IN_PROGRESS | 0.2 |
+| 0.4 | NuGet SDK Client Infrastructure | DONE | 0.2 |
 | 0.5 | Docker Compose & Infrastructure Updates | PENDING | 0.2, 0.3 |
 | 0.6 | CI Pipeline Updates | PENDING | 0.2, 0.3, 0.5 |
 
