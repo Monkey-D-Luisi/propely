@@ -16,7 +16,7 @@ variable "environment" {
 variable "name" {
   type        = string
   description = "Base name for the Redis instance"
-  default     = "saastemplate-redis"
+  default     = "propely-redis"
 }
 
 variable "tier" {

@@ -8,10 +8,10 @@
 set -euo pipefail
 
 API="${API:-http://localhost:5020}"
-INVITE_EMAIL="${INVITE_EMAIL:-invitee@saastemplate.test}"
+INVITE_EMAIL="${INVITE_EMAIL:-invitee@propely.test}"
 INVITE_ROLE="${INVITE_ROLE:-admin}"
 ORG_NAME="${ORG_NAME:-Acme Corp}"
-OWNER_EMAIL="admin@saastemplate.test"
+OWNER_EMAIL="admin@propely.test"
 OWNER_PASSWORD="Admin123!"
 OWNER_NAME="Admin"
 

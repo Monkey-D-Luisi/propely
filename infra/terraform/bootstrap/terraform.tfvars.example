@@ -16,7 +16,7 @@ github_repo       = "your-org/your-repo"
 #
 #   GCP_PROJECT_ID                 = (same as project_id above)
 #   GCP_REGION                     = (same as region above)
-#   AR_REPO                        = saastemplate-<env>-containers
+#   AR_REPO                        = propely-<env>-containers
 #   NEXT_PUBLIC_WEB_URL            = https://your-web-url.com
 #   NEXT_PUBLIC_AI_API_URL         = https://your-ai-api-url.com
 #   NEXT_PUBLIC_ORGS_API_URL       = https://your-orgs-api-url.com

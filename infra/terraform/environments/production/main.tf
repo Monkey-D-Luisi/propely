@@ -9,7 +9,7 @@
 
 locals {
   environment = "production"
-  name_prefix = "saastemplate-${local.environment}"
+  name_prefix = "propely-${local.environment}"
 }
 
 # --- Shared environment base (APIs, Artifact Registry, deploy SA binding) ---

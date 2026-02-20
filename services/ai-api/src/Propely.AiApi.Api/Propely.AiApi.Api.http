@@ -1,0 +1,28 @@
+@Propely.AiApi.Api_HostAddress = http://localhost:5008
+
+### Create Work Item
+POST {{Propely.AiApi.Api_HostAddress}}/v1/work-items
+Content-Type: application/json
+
+{
+  "title": "Sample Work Item",
+  "description": "This is a sample work item description"
+}
+
+###
+
+### Create Work Item without Description
+POST {{Propely.AiApi.Api_HostAddress}}/v1/work-items
+Content-Type: application/json
+
+{
+  "title": "Work Item without Description"
+}
+
+###
+
+### Get Work Item (replace {id} with actual GUID from POST response)
+GET {{Propely.AiApi.Api_HostAddress}}/v1/work-items/{id}
+Accept: application/json
+
+###

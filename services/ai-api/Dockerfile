@@ -7,17 +7,17 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0-alpine AS restore
 WORKDIR /src
 
-COPY services/ai-api/src/SaasTemplate.AiApi.Domain/SaasTemplate.AiApi.Domain.csproj services/ai-api/src/SaasTemplate.AiApi.Domain/
-COPY services/ai-api/src/SaasTemplate.AiApi.Application/SaasTemplate.AiApi.Application.csproj services/ai-api/src/SaasTemplate.AiApi.Application/
-COPY services/ai-api/src/SaasTemplate.AiApi.Infrastructure/SaasTemplate.AiApi.Infrastructure.csproj services/ai-api/src/SaasTemplate.AiApi.Infrastructure/
-COPY services/ai-api/src/SaasTemplate.AiApi.Api/SaasTemplate.AiApi.Api.csproj services/ai-api/src/SaasTemplate.AiApi.Api/
+COPY services/ai-api/src/Propely.AiApi.Domain/Propely.AiApi.Domain.csproj services/ai-api/src/Propely.AiApi.Domain/
+COPY services/ai-api/src/Propely.AiApi.Application/Propely.AiApi.Application.csproj services/ai-api/src/Propely.AiApi.Application/
+COPY services/ai-api/src/Propely.AiApi.Infrastructure/Propely.AiApi.Infrastructure.csproj services/ai-api/src/Propely.AiApi.Infrastructure/
+COPY services/ai-api/src/Propely.AiApi.Api/Propely.AiApi.Api.csproj services/ai-api/src/Propely.AiApi.Api/
 
-RUN dotnet restore services/ai-api/src/SaasTemplate.AiApi.Api/SaasTemplate.AiApi.Api.csproj
+RUN dotnet restore services/ai-api/src/Propely.AiApi.Api/Propely.AiApi.Api.csproj
 
 # Stage 2: Build and publish
 FROM restore AS build
 COPY services/ai-api/src/ services/ai-api/src/
-RUN dotnet publish services/ai-api/src/SaasTemplate.AiApi.Api/SaasTemplate.AiApi.Api.csproj \
+RUN dotnet publish services/ai-api/src/Propely.AiApi.Api/Propely.AiApi.Api.csproj \
     -c Release \
     -o /app/publish \
     --no-restore
@@ -35,4 +35,4 @@ USER appuser
 EXPOSE 8080
 ENV ASPNETCORE_URLS=http://+:8080
 
-ENTRYPOINT ["dotnet", "SaasTemplate.AiApi.Api.dll"]
+ENTRYPOINT ["dotnet", "Propely.AiApi.Api.dll"]

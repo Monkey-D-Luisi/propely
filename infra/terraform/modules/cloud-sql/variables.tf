@@ -16,7 +16,7 @@ variable "environment" {
 variable "instance_name" {
   type        = string
   description = "Base name for the Cloud SQL instance"
-  default     = "saastemplate-pg"
+  default     = "propely-pg"
 }
 
 variable "database_version" {
@@ -57,13 +57,13 @@ variable "network_self_link" {
 variable "databases" {
   type        = list(string)
   description = "List of database names to create"
-  default     = ["saastemplate_aiapi", "saastemplate_orgsapi"]
+  default     = ["propely_aiapi", "propely_orgsapi"]
 }
 
 variable "db_user" {
   type        = string
   description = "Database user name"
-  default     = "saastemplate"
+  default     = "propely"
 }
 
 variable "deletion_protection" {

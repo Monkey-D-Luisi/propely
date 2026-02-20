@@ -1,14 +1,14 @@
 # VPC module — private network for Cloud Run, Cloud SQL, and Redis
 
 resource "google_compute_network" "main" {
-  name                    = "${var.environment}-saastemplate-vpc"
+  name                    = "${var.environment}-propely-vpc"
   project                 = var.project_id
   auto_create_subnetworks = false
   routing_mode            = "REGIONAL"
 }
 
 resource "google_compute_subnetwork" "main" {
-  name          = "${var.environment}-saastemplate-subnet"
+  name          = "${var.environment}-propely-subnet"
   project       = var.project_id
   region        = var.region
   network       = google_compute_network.main.id
@@ -38,7 +38,7 @@ resource "google_service_networking_connection" "private_services" {
 
 # Serverless VPC Access Connector — allows Cloud Run to reach VPC resources
 resource "google_vpc_access_connector" "main" {
-  name          = "${var.environment}-saastemplate-conn"
+  name          = "${var.environment}-propely-conn"
   project       = var.project_id
   region        = var.region
   ip_cidr_range = var.connector_cidr

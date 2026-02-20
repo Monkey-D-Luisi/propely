@@ -111,7 +111,7 @@ export function PricingContent() {
     }
 
     if (planId === "enterprise") {
-      window.location.href = "mailto:sales@saastemplate.com";
+      window.location.href = "mailto:sales@propely.com";
       return;
     }
 

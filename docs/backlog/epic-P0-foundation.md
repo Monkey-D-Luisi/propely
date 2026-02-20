@@ -93,7 +93,7 @@ Rewrite all documentation, agent instructions, roadmap, and backlog to reflect t
 
 ### Task 0.2 --- Rename SaasTemplate to Propely
 
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** Task 0.1 (documentation should reference new names)
 - **File:** `docs/tasks/0002-rename-saastemplate-to-propely.md`
 
@@ -621,7 +621,7 @@ Update the CI/CD pipeline to build, test, and validate all 6 backend services pl
 | Task | Description | Status | Dependencies |
 |------|-------------|--------|--------------|
 | 0.1 | Documentation & Roadmap Overhaul | DONE | None |
-| 0.2 | Rename SaasTemplate to Propely | PENDING | 0.1 |
+| 0.2 | Rename SaasTemplate to Propely | DONE | 0.1 |
 | 0.3 | Scaffold New Service Solutions | PENDING | 0.2 |
 | 0.4 | NuGet SDK Client Infrastructure | PENDING | 0.2 |
 | 0.5 | Docker Compose & Infrastructure Updates | PENDING | 0.2, 0.3 |

@@ -3,7 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(dirname "$SCRIPT_DIR")"
-API_PROJECT="$REPO_ROOT/services/orgs-api/src/SaasTemplate.OrgsApi.Api"
+API_PROJECT="$REPO_ROOT/services/orgs-api/src/Propely.OrgsApi.Api"
 
 # Check .NET SDK
 if ! command -v dotnet &> /dev/null; then

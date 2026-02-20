@@ -147,7 +147,7 @@ jobs:
         id: deploy
         uses: ./.github/actions/deploy-cloudrun
         with:
-          service: saastemplate-staging-${{ matrix.service }}
+          service: propely-staging-${{ matrix.service }}
           image: ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.AR_REPO }}/saas-template-${{ matrix.service }}:${{ needs.prepare.outputs.image_tag }}
           region: ${{ vars.GCP_REGION }}
           project: ${{ vars.GCP_PROJECT_ID }}
@@ -213,7 +213,7 @@ jobs:
         id: deploy
         uses: ./.github/actions/deploy-cloudrun
         with:
-          service: saastemplate-staging-web
+          service: propely-staging-web
           image: ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.AR_REPO }}/saas-template-web:${{ needs.prepare.outputs.image_tag }}
           region: ${{ vars.GCP_REGION }}
           project: ${{ vars.GCP_PROJECT_ID }}
