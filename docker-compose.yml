@@ -152,6 +152,138 @@ services:
       retries: 10
       start_period: 30s
 
+  properties-api:
+    build:
+      context: ./services/properties-api
+      dockerfile: Dockerfile.dev
+    container_name: propely-properties-api
+    restart: unless-stopped
+    profiles: ["apps"]
+    mem_limit: 1g
+    env_file:
+      - .env
+      - .env.docker
+    volumes:
+      - ./services/properties-api:/src
+      - properties-api-obj-domain:/src/src/Propely.PropertiesApi.Domain/obj
+      - properties-api-obj-app:/src/src/Propely.PropertiesApi.Application/obj
+      - properties-api-obj-infra:/src/src/Propely.PropertiesApi.Infrastructure/obj
+      - properties-api-obj-api:/src/src/Propely.PropertiesApi.Api/obj
+    ports:
+      - "127.0.0.1:5030:5030"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:5030/health/live || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  publishing-api:
+    build:
+      context: ./services/publishing-api
+      dockerfile: Dockerfile.dev
+    container_name: propely-publishing-api
+    restart: unless-stopped
+    profiles: ["apps"]
+    mem_limit: 1g
+    env_file:
+      - .env
+      - .env.docker
+    volumes:
+      - ./services/publishing-api:/src
+      - publishing-api-obj-domain:/src/src/Propely.PublishingApi.Domain/obj
+      - publishing-api-obj-app:/src/src/Propely.PublishingApi.Application/obj
+      - publishing-api-obj-infra:/src/src/Propely.PublishingApi.Infrastructure/obj
+      - publishing-api-obj-api:/src/src/Propely.PublishingApi.Api/obj
+    ports:
+      - "127.0.0.1:5040:5040"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:5040/health/live || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  contacts-api:
+    build:
+      context: ./services/contacts-api
+      dockerfile: Dockerfile.dev
+    container_name: propely-contacts-api
+    restart: unless-stopped
+    profiles: ["apps"]
+    mem_limit: 1g
+    env_file:
+      - .env
+      - .env.docker
+    volumes:
+      - ./services/contacts-api:/src
+      - contacts-api-obj-domain:/src/src/Propely.ContactsApi.Domain/obj
+      - contacts-api-obj-app:/src/src/Propely.ContactsApi.Application/obj
+      - contacts-api-obj-infra:/src/src/Propely.ContactsApi.Infrastructure/obj
+      - contacts-api-obj-api:/src/src/Propely.ContactsApi.Api/obj
+    ports:
+      - "127.0.0.1:5050:5050"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:5050/health/live || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  appointments-api:
+    build:
+      context: ./services/appointments-api
+      dockerfile: Dockerfile.dev
+    container_name: propely-appointments-api
+    restart: unless-stopped
+    profiles: ["apps"]
+    mem_limit: 1g
+    env_file:
+      - .env
+      - .env.docker
+    volumes:
+      - ./services/appointments-api:/src
+      - appointments-api-obj-domain:/src/src/Propely.AppointmentsApi.Domain/obj
+      - appointments-api-obj-app:/src/src/Propely.AppointmentsApi.Application/obj
+      - appointments-api-obj-infra:/src/src/Propely.AppointmentsApi.Infrastructure/obj
+      - appointments-api-obj-api:/src/src/Propely.AppointmentsApi.Api/obj
+    ports:
+      - "127.0.0.1:5060:5060"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:5060/health/live || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
   web:
     build:
       context: ./apps/web
@@ -198,5 +330,21 @@ volumes:
   orgs-api-obj-app:
   orgs-api-obj-infra:
   orgs-api-obj-api:
+  properties-api-obj-domain:
+  properties-api-obj-app:
+  properties-api-obj-infra:
+  properties-api-obj-api:
+  publishing-api-obj-domain:
+  publishing-api-obj-app:
+  publishing-api-obj-infra:
+  publishing-api-obj-api:
+  contacts-api-obj-domain:
+  contacts-api-obj-app:
+  contacts-api-obj-infra:
+  contacts-api-obj-api:
+  appointments-api-obj-domain:
+  appointments-api-obj-app:
+  appointments-api-obj-infra:
+  appointments-api-obj-api:
   web-node-modules:
   web-next:

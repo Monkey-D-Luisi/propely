@@ -75,7 +75,8 @@ try {
     Write-Host ""
     Write-Host "Infrastructure:" -ForegroundColor Cyan
     Write-Host "  PostgreSQL:           localhost:5432" -ForegroundColor White
-    Write-Host "    Databases:          propely_aiapi, propely_orgsapi" -ForegroundColor Gray
+    Write-Host "    Databases:          propely_aiapi, propely_orgsapi, propely_propertiesapi," -ForegroundColor Gray
+    Write-Host "                        propely_publishingapi, propely_contactsapi, propely_appointmentsapi" -ForegroundColor Gray
     Write-Host "  RabbitMQ:             localhost:5672" -ForegroundColor White
     Write-Host "  RabbitMQ Management:  http://localhost:15672" -ForegroundColor White
     Write-Host "  Redis:                localhost:6379" -ForegroundColor White
@@ -86,14 +87,22 @@ try {
         Write-Host "Applications:" -ForegroundColor Cyan
         Write-Host "  ai-api:               http://localhost:5010" -ForegroundColor White
         Write-Host "  orgs-api:             http://localhost:5020" -ForegroundColor White
+        Write-Host "  properties-api:       http://localhost:5030" -ForegroundColor White
+        Write-Host "  publishing-api:       http://localhost:5040" -ForegroundColor White
+        Write-Host "  contacts-api:         http://localhost:5050" -ForegroundColor White
+        Write-Host "  appointments-api:     http://localhost:5060" -ForegroundColor White
         Write-Host "  web:                  http://localhost:3000" -ForegroundColor White
         Write-Host ""
     } else {
         Write-Host "Next steps:" -ForegroundColor Cyan
-        Write-Host "  Full stack:  .\scripts\dev-up.ps1" -ForegroundColor White
-        Write-Host "  ai-api:      .\scripts\run-ai-api.ps1" -ForegroundColor White
-        Write-Host "  orgs-api:    .\scripts\run-orgs-api.ps1" -ForegroundColor White
-        Write-Host "  web:         .\scripts\run-web.ps1" -ForegroundColor White
+        Write-Host "  Full stack:        .\scripts\dev-up.ps1" -ForegroundColor White
+        Write-Host "  ai-api:            .\scripts\run-ai-api.ps1" -ForegroundColor White
+        Write-Host "  orgs-api:          .\scripts\run-orgs-api.ps1" -ForegroundColor White
+        Write-Host "  properties-api:    .\scripts\run-properties-api.ps1" -ForegroundColor White
+        Write-Host "  publishing-api:    .\scripts\run-publishing-api.ps1" -ForegroundColor White
+        Write-Host "  contacts-api:      .\scripts\run-contacts-api.ps1" -ForegroundColor White
+        Write-Host "  appointments-api:  .\scripts\run-appointments-api.ps1" -ForegroundColor White
+        Write-Host "  web:               .\scripts\run-web.ps1" -ForegroundColor White
         Write-Host ""
     }
 } finally {
