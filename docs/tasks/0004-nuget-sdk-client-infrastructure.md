@@ -3,7 +3,7 @@
 ## Metadata
 - ID: 0004
 - Type: Standard
-- Status: TODO
+- Status: DONE
 - Owner: Agent
 - Created: 2026-02-20
 - Related docs:
@@ -109,9 +109,9 @@ The Propely platform consists of 6 backend microservices that need to communicat
 Remove the Client project from the solution, delete the project directory. No other services depend on it yet.
 
 ## Definition of Done Checklist
-- [ ] Acceptance criteria met
-- [ ] Build passes
-- [ ] Tests added/updated and pass
-- [ ] Formatting/analyzers pass
-- [ ] No secrets committed
-- [ ] Walkthrough updated
+- [x] Acceptance criteria met
+- [x] Build passes
+- [x] Tests added/updated and pass
+- [x] Formatting/analyzers pass
+- [x] No secrets committed
+- [x] Walkthrough updated
