@@ -3,7 +3,7 @@
 ## Metadata
 - ID: cr-0006
 - Type: CodeReview
-- Status: DOING
+- Status: DONE
 - PR: #16 — `feat(infra): Docker Compose & infrastructure updates for all 6 services (#0005)`
 - Branch: `feat/0005-docker-compose-infrastructure-updates` → `main`
 - CI Status: All checks PASSED (Detect Changes, License Headers, Third-Party Notices)
