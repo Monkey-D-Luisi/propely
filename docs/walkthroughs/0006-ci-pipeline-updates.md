@@ -3,7 +3,7 @@
 ## Task Reference
 - Task: `docs/tasks/0006-ci-pipeline-updates.md`
 - Walkthrough: `docs/walkthroughs/0006-ci-pipeline-updates.md`
-- Branch/PR: `feat/0006-ci-pipeline-updates` / TBD
+- Branch/PR: `feat/0006-ci-pipeline-updates` / #17
 - Date: `2026-02-20`
 
 ## Summary

@@ -18,7 +18,7 @@ The Propely monorepo now has 6 backend services (ai-api, orgs-api, properties-ap
 ## Scope
 ### In scope
 - Refactor `ci.yml` to use a reusable matrix strategy for building/testing all 6 .NET services
-- Add path-based change detection for the 4 new services
+- Use an aggregate `backend` change detection filter (covering `services/**`) to gate E2E tests
 - Update E2E job to reference all 6 backend services in health checks
 - Update `docker-compose.ci.yml` to include CI container overrides for 4 new services
 - Update `publish.yml` to build Docker images for all 6 services
@@ -35,9 +35,9 @@ The Propely monorepo now has 6 backend services (ai-api, orgs-api, properties-ap
 
 ## Requirements
 - R1: All 6 .NET services must be built and tested in CI
-- R2: Path-based change detection must work for all 6 services
+- R2: Aggregate backend change detection must gate E2E tests
 - R3: Docker images must be published for all 6 services
-- R4: Deploy and rollback must support all 6 services
+- R4: Deploy must target provisioned services; rollback must support all 6 services
 - R5: Zero `SaasTemplate` references in workflow files
 
 ## Acceptance Criteria
@@ -60,14 +60,14 @@ The Propely monorepo now has 6 backend services (ai-api, orgs-api, properties-ap
 
 ## Proposed Approach (high-level)
 1. Refactor `ci.yml` from separate per-service jobs to a single matrix job covering all 6 services
-2. Add change detection filters for the 4 new services
+2. Use an aggregate `backend` change detection filter (`services/**`) to gate E2E tests
 3. Update downstream workflows (publish, deploy, rollback) to include the new services
 4. Update `docker-compose.ci.yml` with CI container overrides for new services
 5. Update E2E job health checks and port freeing for new service ports
 
 ## Implementation Steps
 1. Update `ci.yml`: refactor to matrix strategy for all 6 services
-2. Update `ci.yml`: add change detection for 4 new services
+2. Update `ci.yml`: use aggregate backend filter for E2E gating
 3. Update `ci.yml`: update E2E job for all services
 4. Update `ci.yml`: update third-party-notices hash computation
 5. Update `docker-compose.ci.yml`: add 4 new service CI overrides
