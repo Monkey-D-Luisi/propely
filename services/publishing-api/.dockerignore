@@ -1,0 +1,14 @@
+**/bin
+**/obj
+**/out
+**/.vs
+**/.vscode
+**/.idea
+*.user
+*.suo
+*.sln.docstates
+.git
+.gitignore
+README.md
+docs/
+tests/

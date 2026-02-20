@@ -1,0 +1,19 @@
+FROM mcr.microsoft.com/dotnet/sdk:10.0
+
+WORKDIR /src
+
+# Restore dependencies first (layer caching)
+COPY src/Propely.AppointmentsApi.Domain/Propely.AppointmentsApi.Domain.csproj src/Propely.AppointmentsApi.Domain/
+COPY src/Propely.AppointmentsApi.Application/Propely.AppointmentsApi.Application.csproj src/Propely.AppointmentsApi.Application/
+COPY src/Propely.AppointmentsApi.Infrastructure/Propely.AppointmentsApi.Infrastructure.csproj src/Propely.AppointmentsApi.Infrastructure/
+COPY src/Propely.AppointmentsApi.Api/Propely.AppointmentsApi.Api.csproj src/Propely.AppointmentsApi.Api/
+RUN dotnet restore src/Propely.AppointmentsApi.Api/Propely.AppointmentsApi.Api.csproj
+
+COPY . .
+
+EXPOSE 5060
+
+ENV ASPNETCORE_ENVIRONMENT=Development
+ENV ASPNETCORE_URLS=http://+:5060
+
+ENTRYPOINT ["dotnet", "watch", "run", "--project", "src/Propely.AppointmentsApi.Api", "--no-launch-profile"]

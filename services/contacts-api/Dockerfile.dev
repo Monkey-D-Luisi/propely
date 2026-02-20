@@ -1,0 +1,19 @@
+FROM mcr.microsoft.com/dotnet/sdk:10.0
+
+WORKDIR /src
+
+# Restore dependencies first (layer caching)
+COPY src/Propely.ContactsApi.Domain/Propely.ContactsApi.Domain.csproj src/Propely.ContactsApi.Domain/
+COPY src/Propely.ContactsApi.Application/Propely.ContactsApi.Application.csproj src/Propely.ContactsApi.Application/
+COPY src/Propely.ContactsApi.Infrastructure/Propely.ContactsApi.Infrastructure.csproj src/Propely.ContactsApi.Infrastructure/
+COPY src/Propely.ContactsApi.Api/Propely.ContactsApi.Api.csproj src/Propely.ContactsApi.Api/
+RUN dotnet restore src/Propely.ContactsApi.Api/Propely.ContactsApi.Api.csproj
+
+COPY . .
+
+EXPOSE 5050
+
+ENV ASPNETCORE_ENVIRONMENT=Development
+ENV ASPNETCORE_URLS=http://+:5050
+
+ENTRYPOINT ["dotnet", "watch", "run", "--project", "src/Propely.ContactsApi.Api", "--no-launch-profile"]

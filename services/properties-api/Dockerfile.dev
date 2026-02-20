@@ -1,0 +1,19 @@
+FROM mcr.microsoft.com/dotnet/sdk:10.0
+
+WORKDIR /src
+
+# Restore dependencies first (layer caching)
+COPY src/Propely.PropertiesApi.Domain/Propely.PropertiesApi.Domain.csproj src/Propely.PropertiesApi.Domain/
+COPY src/Propely.PropertiesApi.Application/Propely.PropertiesApi.Application.csproj src/Propely.PropertiesApi.Application/
+COPY src/Propely.PropertiesApi.Infrastructure/Propely.PropertiesApi.Infrastructure.csproj src/Propely.PropertiesApi.Infrastructure/
+COPY src/Propely.PropertiesApi.Api/Propely.PropertiesApi.Api.csproj src/Propely.PropertiesApi.Api/
+RUN dotnet restore src/Propely.PropertiesApi.Api/Propely.PropertiesApi.Api.csproj
+
+COPY . .
+
+EXPOSE 5030
+
+ENV ASPNETCORE_ENVIRONMENT=Development
+ENV ASPNETCORE_URLS=http://+:5030
+
+ENTRYPOINT ["dotnet", "watch", "run", "--project", "src/Propely.PropertiesApi.Api", "--no-launch-profile"]

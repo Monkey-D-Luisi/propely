@@ -185,7 +185,7 @@ Perform a comprehensive rename of all SaasTemplate references throughout the ent
 
 ### Task 0.3 --- Scaffold New Service Solutions
 
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** Task 0.2 (namespace must be Propely.* before scaffolding)
 - **File:** `docs/tasks/0003-scaffold-new-services.md`
 
@@ -622,7 +622,7 @@ Update the CI/CD pipeline to build, test, and validate all 6 backend services pl
 |------|-------------|--------|--------------|
 | 0.1 | Documentation & Roadmap Overhaul | DONE | None |
 | 0.2 | Rename SaasTemplate to Propely | DONE | 0.1 |
-| 0.3 | Scaffold New Service Solutions | PENDING | 0.2 |
+| 0.3 | Scaffold New Service Solutions | DONE | 0.2 |
 | 0.4 | NuGet SDK Client Infrastructure | PENDING | 0.2 |
 | 0.5 | Docker Compose & Infrastructure Updates | PENDING | 0.2, 0.3 |
 | 0.6 | CI Pipeline Updates | PENDING | 0.2, 0.3, 0.5 |
