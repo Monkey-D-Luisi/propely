@@ -1,5 +1,5 @@
 # =============================================================================
-# Properties API — Multi-stage Production Dockerfile
+# Publishing API — Multi-stage Production Dockerfile
 # Build from repo root: docker build -f services/publishing-api/Dockerfile .
 # =============================================================================
 
