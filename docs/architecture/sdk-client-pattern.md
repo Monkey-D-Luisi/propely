@@ -110,6 +110,7 @@ public static IServiceCollection AddPropertiesApiClient(
     var options = new PropertiesApiClientOptions();
     configure(options);
 
+    services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
     services.AddTransient<TenantDelegatingHandler>();
 
     services
@@ -117,7 +118,7 @@ public static IServiceCollection AddPropertiesApiClient(
         .ConfigureHttpClient(client =>
         {
             client.BaseAddress = new Uri(options.BaseUrl);
-            client.Timeout = options.Timeout;
+            client.Timeout = Timeout.InfiniteTimeSpan; // Polly manages timeout
         })
         .AddHttpMessageHandler<TenantDelegatingHandler>()
         .AddResilienceHandler("properties-api", (builder, _) =>
@@ -147,6 +148,15 @@ public static IServiceCollection AddPropertiesApiClient(
 
     return services;
 }
+
+private static bool ShouldRetry(Outcome<HttpResponseMessage> outcome)
+{
+    if (outcome.Exception is not null)
+        return true;
+
+    var statusCode = (int?)outcome.Result?.StatusCode;
+    return statusCode is >= 500 or 408 or 429;
+}
 ```
 
 ### 6. Add to Solution
@@ -157,7 +167,7 @@ dotnet sln add src/Propely.<Service>.Client/Propely.<Service>.Client.csproj --so
 
 ## Consumer Registration
 
-Consuming services register the SDK client in their `Program.cs` or `DependencyInjection.cs`:
+Consuming services register the SDK client in their `Program.cs` or `DependencyInjection.cs`. The extension method automatically registers `IHttpContextAccessor` if not already present:
 
 ```csharp
 services.AddOrgsApiClient(options =>
@@ -194,7 +204,7 @@ All SDK clients include:
 | Policy | Default | Description |
 |--------|---------|-------------|
 | Retry | 3 attempts, exponential backoff + jitter | Retries on 5xx, 408, 429 |
-| Circuit Breaker | Opens after 5 failures in 30s, breaks for 30s | Prevents cascading failures |
+| Circuit Breaker | Opens when >=50% of at least 5 requests fail within 30s, breaks for 30s | Prevents cascading failures |
 | Timeout | 30 seconds | Per-request timeout |
 
 ## SDK Client Matrix

@@ -38,7 +38,7 @@ public sealed class TenantDelegatingHandler : DelegatingHandler
 
             if (!string.IsNullOrWhiteSpace(tenantId))
             {
-                request.Headers.Add(TenantIdHeaderName, tenantId);
+                request.Headers.TryAddWithoutValidation(TenantIdHeaderName, tenantId);
                 _logger.LogDebug("Propagated {Header} header with value {TenantId}", TenantIdHeaderName, tenantId);
             }
             else

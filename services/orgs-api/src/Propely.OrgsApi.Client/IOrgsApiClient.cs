@@ -14,9 +14,10 @@ public interface IOrgsApiClient
 {
     /// <summary>
     /// Gets the current authenticated user's profile.
+    /// The API returns an envelope: <c>{ "user": { ... } }</c>.
     /// </summary>
     [Get("/auth/me")]
-    Task<UserResponse> GetCurrentUserAsync(CancellationToken ct = default);
+    Task<MeResponse> GetCurrentUserAsync(CancellationToken ct = default);
 
     /// <summary>
     /// Gets an organization by its ID.

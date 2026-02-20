@@ -24,7 +24,7 @@ public sealed class OrgsApiClientOptions
     public int RetryCount { get; set; } = 3;
 
     /// <summary>
-    /// Number of consecutive failures before the circuit breaker opens.
+    /// Minimum number of requests in the sampling window before the circuit breaker evaluates the failure ratio.
     /// </summary>
     public int CircuitBreakerFailureThreshold { get; set; } = 5;
 

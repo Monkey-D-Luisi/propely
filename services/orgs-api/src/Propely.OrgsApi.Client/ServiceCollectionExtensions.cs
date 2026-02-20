@@ -1,7 +1,9 @@
 // Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Http.Resilience;
 using Polly;
 using Refit;
@@ -27,6 +29,7 @@ public static class ServiceCollectionExtensions
         var options = new OrgsApiClientOptions();
         configure(options);
 
+        services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddTransient<TenantDelegatingHandler>();
 
         services
@@ -34,7 +37,7 @@ public static class ServiceCollectionExtensions
             .ConfigureHttpClient(client =>
             {
                 client.BaseAddress = new Uri(options.BaseUrl);
-                client.Timeout = options.Timeout;
+                client.Timeout = System.Threading.Timeout.InfiniteTimeSpan;
             })
             .AddHttpMessageHandler<TenantDelegatingHandler>()
             .AddResilienceHandler("orgs-api", (builder, _) =>
