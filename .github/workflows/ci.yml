@@ -129,6 +129,8 @@ jobs:
 
   web:
     name: Web - Build & Test
+    needs: changes
+    if: needs.changes.outputs.web == 'true' || github.event_name == 'push'
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     defaults:
       run:
@@ -206,7 +208,7 @@ jobs:
       - name: Free ports used by E2E stack
         run: |
           # Stop any Docker Compose stacks (dev or CI) that might hold ports
-          docker compose --profile apps down --volumes 2>/dev/null || true
+          docker compose --profile apps down 2>/dev/null || true
           docker compose -f docker-compose.yml -f docker-compose.ci.yml --profile apps down --volumes 2>/dev/null || true
           # Kill any bare process (dotnet, node, etc.) still bound to E2E ports
           for port in 3000 5010 5020 5030 5040 5050 5060 5432 5672 6379; do
