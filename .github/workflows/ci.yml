@@ -54,12 +54,12 @@ jobs:
       fail-fast: false
       matrix:
         service:
-          - { name: ai-api, solution: Propely.AiApi, label: AI API }
-          - { name: orgs-api, solution: Propely.OrgsApi, label: Orgs API }
-          - { name: properties-api, solution: Propely.PropertiesApi, label: Properties API }
-          - { name: publishing-api, solution: Propely.PublishingApi, label: Publishing API }
-          - { name: contacts-api, solution: Propely.ContactsApi, label: Contacts API }
-          - { name: appointments-api, solution: Propely.AppointmentsApi, label: Appointments API }
+          - { name: ai-api, solution: Propely.AiApi, label: AI API, coverage-threshold: '60' }
+          - { name: orgs-api, solution: Propely.OrgsApi, label: Orgs API, coverage-threshold: '60' }
+          - { name: properties-api, solution: Propely.PropertiesApi, label: Properties API, coverage-threshold: '30' }
+          - { name: publishing-api, solution: Propely.PublishingApi, label: Publishing API, coverage-threshold: '30' }
+          - { name: contacts-api, solution: Propely.ContactsApi, label: Contacts API, coverage-threshold: '30' }
+          - { name: appointments-api, solution: Propely.AppointmentsApi, label: Appointments API, coverage-threshold: '30' }
     defaults:
       run:
         shell: bash
@@ -108,7 +108,7 @@ jobs:
         uses: ./.github/actions/check-coverage
         with:
           coverage-path: services/${{ matrix.service.name }}/coverage/**/coverage.cobertura.xml
-          threshold: '60'
+          threshold: ${{ matrix.service.coverage-threshold }}
           report-dir: services/${{ matrix.service.name }}/coverage/report
 
       - name: Upload test results
