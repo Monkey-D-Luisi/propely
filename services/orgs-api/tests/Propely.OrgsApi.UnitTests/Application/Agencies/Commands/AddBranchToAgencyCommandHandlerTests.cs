@@ -158,6 +158,22 @@ public sealed class AddBranchToAgencyCommandHandlerTests
     }
 
     [Fact]
+    public async Task Handle_WhenUserIsOrgAgent_ShouldThrowForbiddenException()
+    {
+        // Arrange
+        var command = new AddBranchToAgencyCommand(_agency.Id, _organization.Id, _userId);
+        _membershipRepository.GetAsync(_organization.Id, _userId, Arg.Any<CancellationToken>())
+            .Returns(Membership.Create(_userId, _organization.Id, MembershipRole.Agent));
+
+        // Act
+        var act = () => _handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        await act.Should().ThrowAsync<ForbiddenException>()
+            .WithMessage("You must be an owner or admin of the organization to add it as a branch.");
+    }
+
+    [Fact]
     public async Task Handle_WhenUserIsOrgAdmin_ShouldSucceed()
     {
         // Arrange

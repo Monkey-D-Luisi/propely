@@ -78,9 +78,10 @@ public sealed class Agency : Entity, ISoftDeletable
             throw new DomainException("This branch is already part of the agency.");
 
         _branchIds.Add(organizationId);
-        UpdatedAtUtc = DateTime.UtcNow;
+        var now = DateTime.UtcNow;
+        UpdatedAtUtc = now;
 
-        RaiseDomainEvent(new BranchAddedToAgencyV1(Id, organizationId, DateTime.UtcNow));
+        RaiseDomainEvent(new BranchAddedToAgencyV1(Id, organizationId, now));
     }
 
     public void RemoveBranch(Guid organizationId)
@@ -89,9 +90,10 @@ public sealed class Agency : Entity, ISoftDeletable
             throw new NotFoundException("This branch is not part of the agency.");
 
         _branchIds.Remove(organizationId);
-        UpdatedAtUtc = DateTime.UtcNow;
+        var now = DateTime.UtcNow;
+        UpdatedAtUtc = now;
 
-        RaiseDomainEvent(new BranchRemovedFromAgencyV1(Id, organizationId, DateTime.UtcNow));
+        RaiseDomainEvent(new BranchRemovedFromAgencyV1(Id, organizationId, now));
     }
 
     /// <summary>
