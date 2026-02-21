@@ -1,6 +1,7 @@
 // Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 
+using Propely.OrgsApi.Domain.Agencies;
 using Propely.OrgsApi.Domain.Organizations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -30,6 +31,15 @@ public sealed class OrganizationConfiguration : IEntityTypeConfiguration<Organiz
 
         builder.Property(o => o.AgencyId)
             .HasColumnName("agency_id");
+
+        // FK to agencies table with SetNull on delete (agency deletion clears branch assignment)
+        builder.HasOne<Agency>()
+            .WithMany()
+            .HasForeignKey(o => o.AgencyId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        builder.HasIndex(o => o.AgencyId)
+            .HasDatabaseName("ix_organizations_agency_id");
 
         builder.Property(o => o.CreatedAtUtc)
             .HasColumnName("created_at_utc")

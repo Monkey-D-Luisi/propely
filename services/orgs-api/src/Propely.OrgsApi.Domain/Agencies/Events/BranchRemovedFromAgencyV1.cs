@@ -31,4 +31,4 @@ public sealed record BranchRemovedFromAgencyV1 : IDomainEvent
 public sealed record BranchRemovedFromAgencyV1Data(
     Guid AgencyId,
     Guid OrganizationId,
-    DateTime OccurredAtUtc);
+    DateTime RemovedAtUtc);

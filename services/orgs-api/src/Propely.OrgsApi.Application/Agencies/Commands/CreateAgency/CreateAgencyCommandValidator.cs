@@ -21,7 +21,7 @@ public sealed class CreateAgencyCommandValidator : AbstractValidator<CreateAgenc
             .WithMessage($"Agency slug must be at least {AgencySlug.MinLength} characters.")
             .MaximumLength(AgencySlug.MaxLength)
             .WithMessage($"Agency slug must not exceed {AgencySlug.MaxLength} characters.")
-            .Matches(@"^[a-z0-9][a-z0-9-]{1,48}[a-z0-9]$")
+            .Matches(@"^[a-z0-9](?:[a-z0-9]|-(?!-))*[a-z0-9]$")
             .WithMessage("Agency slug must contain only lowercase letters, numbers, and hyphens, and must start and end with a letter or number.");
 
         RuleFor(x => x.CreatedByUserId)

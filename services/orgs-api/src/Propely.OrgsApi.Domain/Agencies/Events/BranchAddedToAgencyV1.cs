@@ -31,4 +31,4 @@ public sealed record BranchAddedToAgencyV1 : IDomainEvent
 public sealed record BranchAddedToAgencyV1Data(
     Guid AgencyId,
     Guid OrganizationId,
-    DateTime OccurredAtUtc);
+    DateTime AddedAtUtc);
