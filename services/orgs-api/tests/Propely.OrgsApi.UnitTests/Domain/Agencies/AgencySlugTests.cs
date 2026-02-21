@@ -71,6 +71,8 @@ public sealed class AgencySlugTests
     [InlineData("has_underscore")]
     [InlineData("has.dot")]
     [InlineData("has@special")]
+    [InlineData("test--agency")]
+    [InlineData("a--b")]
     public void Create_WithInvalidFormat_ShouldThrow(string slug)
     {
         // Act

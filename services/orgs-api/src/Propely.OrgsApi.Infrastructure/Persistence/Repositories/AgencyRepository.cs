@@ -26,7 +26,8 @@ public sealed class AgencyRepository : IAgencyRepository
         var agency = await _context.Agencies.FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
         if (agency is not null)
         {
-            await LoadBranchIdsAsync(agency, cancellationToken);
+            var branchIds = await GetBranchIdsForAgencyAsync(agency.Id, cancellationToken);
+            agency.HydrateBranches(branchIds);
         }
         return agency;
     }
@@ -36,17 +37,16 @@ public sealed class AgencyRepository : IAgencyRepository
         var agency = await _context.Agencies.FirstOrDefaultAsync(a => EF.Property<string>(a, "Slug") == slug, cancellationToken);
         if (agency is not null)
         {
-            await LoadBranchIdsAsync(agency, cancellationToken);
+            var branchIds = await GetBranchIdsForAgencyAsync(agency.Id, cancellationToken);
+            agency.HydrateBranches(branchIds);
         }
         return agency;
     }
 
     public async Task<bool> ExistsBySlugAsync(string slug, Guid? excludeAgencyId = null, CancellationToken cancellationToken = default)
     {
-        var normalizedSlug = slug.Trim().ToLower();
-
         return await _context.Agencies
-            .Where(a => EF.Property<string>(a, "Slug") == normalizedSlug)
+            .Where(a => EF.Property<string>(a, "Slug") == slug)
             .Where(a => excludeAgencyId == null || a.Id != excludeAgencyId)
             .AnyAsync(cancellationToken);
     }
@@ -70,39 +70,39 @@ public sealed class AgencyRepository : IAgencyRepository
             .Distinct()
             .ToListAsync(cancellationToken);
 
+        var ownedAgencyIds = ownedAgencies.Select(a => a.Id).ToHashSet();
         var memberAgencies = await _context.Agencies
-            .Where(a => memberAgencyIds.Contains(a.Id) && !ownedAgencies.Select(oa => oa.Id).Contains(a.Id))
+            .Where(a => memberAgencyIds.Contains(a.Id) && !ownedAgencyIds.Contains(a.Id))
             .ToListAsync(cancellationToken);
 
         var allAgencies = ownedAgencies.Concat(memberAgencies).ToList();
 
-        // Load branch IDs for each agency
+        // Batch-load all branch IDs in a single query
+        var allAgencyIds = allAgencies.Select(a => a.Id).ToList();
+        var branchIdsByAgency = await _context.Organizations
+            .Where(o => o.AgencyId != null && allAgencyIds.Contains(o.AgencyId.Value))
+            .GroupBy(o => o.AgencyId!.Value)
+            .ToDictionaryAsync(
+                g => g.Key,
+                g => g.Select(o => o.Id).ToList(),
+                cancellationToken);
+
         foreach (var agency in allAgencies)
         {
-            await LoadBranchIdsAsync(agency, cancellationToken);
+            if (branchIdsByAgency.TryGetValue(agency.Id, out var branchIds))
+            {
+                agency.HydrateBranches(branchIds);
+            }
         }
 
         return allAgencies;
     }
 
-    private async Task LoadBranchIdsAsync(Agency agency, CancellationToken cancellationToken)
+    private async Task<List<Guid>> GetBranchIdsForAgencyAsync(Guid agencyId, CancellationToken cancellationToken)
     {
-        var branchIds = await _context.Organizations
-            .Where(o => o.AgencyId == agency.Id)
+        return await _context.Organizations
+            .Where(o => o.AgencyId == agencyId)
             .Select(o => o.Id)
             .ToListAsync(cancellationToken);
-
-        foreach (var branchId in branchIds)
-        {
-            // Only add if not already tracked (to avoid duplicates if called multiple times)
-            if (!agency.BranchIds.Contains(branchId))
-            {
-                agency.AddBranch(branchId);
-                // Clear the domain event since this is just loading, not a real add
-            }
-        }
-
-        // Clear domain events raised during loading
-        agency.ClearDomainEvents();
     }
 }

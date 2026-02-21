@@ -94,6 +94,15 @@ public sealed class Agency : Entity, ISoftDeletable
         RaiseDomainEvent(new BranchRemovedFromAgencyV1(Id, organizationId, DateTime.UtcNow));
     }
 
+    /// <summary>
+    /// Hydrates the branch list from persistence. Does not raise domain events.
+    /// </summary>
+    internal void HydrateBranches(IEnumerable<Guid> branchIds)
+    {
+        _branchIds.Clear();
+        _branchIds.AddRange(branchIds);
+    }
+
     public void SoftDelete()
     {
         IsDeleted = true;

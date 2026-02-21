@@ -47,6 +47,6 @@ public sealed partial class AgencySlug
     public override bool Equals(object? obj) => obj is AgencySlug other && Value == other.Value;
     public override int GetHashCode() => Value.GetHashCode();
 
-    [GeneratedRegex(@"^[a-z0-9][a-z0-9-]{1,48}[a-z0-9]$")]
+    [GeneratedRegex(@"^[a-z0-9](?:[a-z0-9]|-(?!-))*[a-z0-9]$")]
     private static partial Regex SlugRegex();
 }

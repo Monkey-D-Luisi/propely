@@ -5,6 +5,7 @@ using Propely.OrgsApi.Application.Agencies.Interfaces;
 using Propely.OrgsApi.Application.Common.Interfaces;
 using Propely.OrgsApi.Application.Organizations.Interfaces;
 using Propely.OrgsApi.Domain.Common.Exceptions;
+using Propely.OrgsApi.Domain.Organizations;
 using MediatR;
 
 namespace Propely.OrgsApi.Application.Agencies.Commands.AddBranchToAgency;
@@ -13,15 +14,18 @@ public sealed class AddBranchToAgencyCommandHandler : IRequestHandler<AddBranchT
 {
     private readonly IAgencyRepository _agencyRepository;
     private readonly IOrganizationRepository _organizationRepository;
+    private readonly IMembershipRepository _membershipRepository;
     private readonly IUnitOfWork _unitOfWork;
 
     public AddBranchToAgencyCommandHandler(
         IAgencyRepository agencyRepository,
         IOrganizationRepository organizationRepository,
+        IMembershipRepository membershipRepository,
         IUnitOfWork unitOfWork)
     {
         _agencyRepository = agencyRepository;
         _organizationRepository = organizationRepository;
+        _membershipRepository = membershipRepository;
         _unitOfWork = unitOfWork;
     }
 
@@ -38,6 +42,11 @@ public sealed class AddBranchToAgencyCommandHandler : IRequestHandler<AddBranchT
 
         if (organization.AgencyId is not null)
             throw new DomainException("This organization is already assigned to an agency.");
+
+        // Verify requesting user has Owner or Admin role in the target organization
+        var membership = await _membershipRepository.GetAsync(request.OrganizationId, request.RequestingUserId, cancellationToken);
+        if (membership is null || (membership.Role != MembershipRole.Owner && membership.Role != MembershipRole.Admin))
+            throw new ForbiddenException("You must be an owner or admin of the organization to add it as a branch.");
 
         agency.AddBranch(request.OrganizationId);
         organization.AssignToAgency(request.AgencyId);
