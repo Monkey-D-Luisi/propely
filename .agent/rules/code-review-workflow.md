@@ -319,6 +319,66 @@ For agent-originated findings, no GitHub reply is needed (they are documented in
 
 ---
 
+## Phase D: CI Verification, Conflict Resolution, and Merge
+
+**The code review task is NOT complete until ALL CI checks are green and the PR is merged.** This phase is mandatory and cannot be skipped.
+
+### Step D.1: Verify ALL CI Checks Pass (Hard Gate)
+
+After pushing fixes, monitor CI until ALL checks complete:
+
+```bash
+gh pr checks <PR_NUMBER> --watch
+```
+
+**Rules:**
+- **Every CI check must pass.** If any check fails, investigate and fix the root cause.
+- **Fix CI proactively, not by lowering standards.** Never reduce coverage thresholds, disable linting rules, skip tests, or remove checks to make CI pass. Apply the boy scout rule: leave the codebase better than you found it.
+- If coverage is below the threshold, **add tests** to increase coverage — do not lower the threshold.
+- If a linter fails, **fix the code** — do not disable the rule.
+- If a test fails, **fix the test or the code** — do not skip the test.
+- If a pre-existing CI failure exists on `main` that is unrelated to the PR, **fix it anyway** as part of the boy scout rule.
+- Keep iterating (fix → push → watch CI) until all checks are green. There is no limit on the number of iterations.
+
+### Step D.2: Resolve Merge Conflicts with Main
+
+Before merging, ensure the branch is up to date with the target branch:
+
+```bash
+git fetch origin main
+git rebase origin/main
+```
+
+If conflicts arise:
+1. Resolve each conflict manually, preserving both the PR changes and the latest main changes.
+2. Run the full test suite again to verify nothing is broken.
+3. Push the rebased branch: `git push --force-with-lease`.
+4. Wait for CI to go green again (repeat Step D.1).
+
+### Step D.3: Merge with Rebase
+
+Once ALL checks are green and there are no conflicts:
+
+```bash
+gh pr merge <PR_NUMBER> --rebase --delete-branch
+```
+
+Verify the merge succeeded:
+
+```bash
+gh pr view <PR_NUMBER> --json state,mergedAt
+```
+
+### Completion Criteria
+
+The code review task is **only complete** when:
+- [ ] All agent findings and reviewer comments are addressed (Phase C)
+- [ ] All CI checks are green (Phase D.1)
+- [ ] No merge conflicts with main (Phase D.2)
+- [ ] PR is merged with rebase (Phase D.3)
+
+---
+
 ## Summary: Review Dimensions
 
 The agent review covers these dimensions in every pass:
