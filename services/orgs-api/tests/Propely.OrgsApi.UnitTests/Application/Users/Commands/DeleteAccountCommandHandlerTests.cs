@@ -200,7 +200,7 @@ public sealed class DeleteAccountCommandHandlerTests
         var user = User.Create("test@example.com", "hash", "John Doe");
         var otherUserId = Guid.NewGuid();
         var org = Organization.Create("Shared Org");
-        var userMembership = Membership.Create(user.Id, org.Id, MembershipRole.Member);
+        var userMembership = Membership.Create(user.Id, org.Id, MembershipRole.Agent);
         var ownerMembership = Membership.Create(otherUserId, org.Id, MembershipRole.Owner);
         var command = new DeleteAccountCommand(user.Id, "CorrectPassword!");
 

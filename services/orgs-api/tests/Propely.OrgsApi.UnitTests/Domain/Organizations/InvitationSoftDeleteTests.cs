@@ -13,7 +13,7 @@ public sealed class InvitationSoftDeleteTests
     public void SoftDelete_ShouldSetIsDeletedToTrue()
     {
         // Arrange
-        var invitation = Invitation.Create(Guid.NewGuid(), "test@example.com", MembershipRole.Member);
+        var invitation = Invitation.Create(Guid.NewGuid(), "test@example.com", MembershipRole.Agent);
 
         // Act
         invitation.SoftDelete();
@@ -40,7 +40,7 @@ public sealed class InvitationSoftDeleteTests
     public void Create_ShouldNotBeDeleted()
     {
         // Act
-        var invitation = Invitation.Create(Guid.NewGuid(), "test@example.com", MembershipRole.Member);
+        var invitation = Invitation.Create(Guid.NewGuid(), "test@example.com", MembershipRole.Agent);
 
         // Assert
         invitation.IsDeleted.Should().BeFalse();

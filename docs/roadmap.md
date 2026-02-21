@@ -177,16 +177,17 @@ Coverage targets:
 **Goal:** Extend orgs-api with agency hierarchy and granular permission system. This is foundational — all subsequent phases depend on it.
 
 ### Task 1.1 — Agency Domain Model
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 0.2
 - **Scope:** Add `Agency` entity to orgs-api Domain layer. An Agency owns one or more Organizations (branches). Define the aggregate, value objects, and domain events (`AgencyCreatedV1`, `BranchAddedToAgencyV1`).
 - **TDD:** Domain entity tests (creation, validation, invariants).
 
 ### Task 1.2 — Agency Persistence & API
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 1.1
 - **Scope:** EF Core configuration for Agency. Migrations. API endpoints: create agency, list agencies for user, add branch to agency, get agency details. Update Organization to include optional `AgencyId` FK.
 - **TDD:** Integration tests for all endpoints. Repository tests.
+- **Note:** Merged into a single implementation pass with Task 1.1 (task 0007).
 
 ### Task 1.3 — Permission System Domain Model
 - **Status:** PENDING

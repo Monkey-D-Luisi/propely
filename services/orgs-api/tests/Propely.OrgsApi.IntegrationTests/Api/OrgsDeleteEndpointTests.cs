@@ -93,7 +93,7 @@ public sealed class OrgsDeleteEndpointTests : IClassFixture<ApiWebApplicationFac
     private async Task<Guid> InviteAndAcceptAsync(
         HttpClient ownerClient, string orgId,
         HttpClient inviteeClient, string inviteeEmail,
-        string role = "Member")
+        string role = "Agent")
     {
         var inviteResponse = await ownerClient.PostAsJsonAsync(
             $"/orgs/{orgId}/invitations",

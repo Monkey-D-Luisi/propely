@@ -88,7 +88,7 @@ public sealed class UpdateOrganizationCommandHandlerTests
         // Arrange
         var org = CreateTestOrg();
         var userId = Guid.NewGuid();
-        var membership = CreateTestMembership(userId, org.Id, MembershipRole.Member);
+        var membership = CreateTestMembership(userId, org.Id, MembershipRole.Agent);
         var command = new UpdateOrganizationCommand(org.Id, userId, "New Name", null);
 
         _membershipRepository.GetAsync(org.Id, userId, Arg.Any<CancellationToken>())

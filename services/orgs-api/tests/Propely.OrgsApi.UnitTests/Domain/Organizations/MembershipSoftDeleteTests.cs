@@ -13,7 +13,7 @@ public sealed class MembershipSoftDeleteTests
     public void SoftDelete_ShouldSetIsDeletedToTrue()
     {
         // Arrange
-        var membership = Membership.Create(Guid.NewGuid(), Guid.NewGuid(), MembershipRole.Member);
+        var membership = Membership.Create(Guid.NewGuid(), Guid.NewGuid(), MembershipRole.Agent);
 
         // Act
         membership.SoftDelete();

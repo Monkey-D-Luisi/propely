@@ -34,7 +34,7 @@ public sealed class GetSubscriptionQueryHandlerTests
         // Arrange
         var orgId = Guid.NewGuid();
         var userId = Guid.NewGuid();
-        var membership = Membership.Create(userId, orgId, MembershipRole.Member);
+        var membership = Membership.Create(userId, orgId, MembershipRole.Agent);
 
         _membershipRepository.GetAsync(orgId, userId, Arg.Any<CancellationToken>()).Returns(membership);
         _subscriptionRepository.GetByOrgIdAsync(orgId, Arg.Any<CancellationToken>()).Returns((Subscription?)null);
@@ -58,7 +58,7 @@ public sealed class GetSubscriptionQueryHandlerTests
         // Arrange
         var orgId = Guid.NewGuid();
         var userId = Guid.NewGuid();
-        var membership = Membership.Create(userId, orgId, MembershipRole.Member);
+        var membership = Membership.Create(userId, orgId, MembershipRole.Agent);
         var periodEnd = DateTime.UtcNow.AddDays(30);
         var subscription = Subscription.Create(orgId, "cus_123", "sub_123", "pro", SubscriptionStatus.Active, periodEnd);
         var proPlan = new PlanInfo("pro", "Pro", 0, 5, ["Unlimited members", "5 orgs"]);
@@ -86,7 +86,7 @@ public sealed class GetSubscriptionQueryHandlerTests
         // Arrange
         var orgId = Guid.NewGuid();
         var userId = Guid.NewGuid();
-        var membership = Membership.Create(userId, orgId, MembershipRole.Member);
+        var membership = Membership.Create(userId, orgId, MembershipRole.Agent);
         var periodEnd = DateTime.UtcNow.AddDays(14);
         var subscription = Subscription.Create(orgId, "cus_123", "sub_123", "pro", SubscriptionStatus.Trialing, periodEnd);
         var proPlan = new PlanInfo("pro", "Pro", 0, 5, ["Unlimited members", "5 orgs"]);
@@ -111,7 +111,7 @@ public sealed class GetSubscriptionQueryHandlerTests
         // Arrange
         var orgId = Guid.NewGuid();
         var userId = Guid.NewGuid();
-        var membership = Membership.Create(userId, orgId, MembershipRole.Member);
+        var membership = Membership.Create(userId, orgId, MembershipRole.Agent);
         var subscription = Subscription.Create(orgId, "cus_123", "sub_123", "pro", SubscriptionStatus.Cancelled, DateTime.UtcNow);
 
         _membershipRepository.GetAsync(orgId, userId, Arg.Any<CancellationToken>()).Returns(membership);
@@ -152,7 +152,7 @@ public sealed class GetSubscriptionQueryHandlerTests
         // Arrange
         var orgId = Guid.NewGuid();
         var userId = Guid.NewGuid();
-        var membership = Membership.Create(userId, orgId, MembershipRole.Member);
+        var membership = Membership.Create(userId, orgId, MembershipRole.Agent);
         var subscription = Subscription.Create(orgId, "cus_123", "sub_123", "unknown_plan", SubscriptionStatus.Active, DateTime.UtcNow.AddDays(30));
 
         _membershipRepository.GetAsync(orgId, userId, Arg.Any<CancellationToken>()).Returns(membership);

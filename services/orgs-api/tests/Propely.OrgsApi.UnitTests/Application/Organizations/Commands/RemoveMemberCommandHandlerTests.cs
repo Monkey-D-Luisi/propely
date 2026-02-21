@@ -41,7 +41,7 @@ public sealed class RemoveMemberCommandHandlerTests
         var ownerId = Guid.NewGuid();
         var memberId = Guid.NewGuid();
         var ownerMembership = Membership.Create(ownerId, orgId, MembershipRole.Owner);
-        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Member);
+        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Agent);
         var org = Organization.Create("Test Org");
         var command = new RemoveMemberCommand(orgId, memberId, ownerId);
 
@@ -66,7 +66,7 @@ public sealed class RemoveMemberCommandHandlerTests
         var adminId = Guid.NewGuid();
         var memberId = Guid.NewGuid();
         var adminMembership = Membership.Create(adminId, orgId, MembershipRole.Admin);
-        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Member);
+        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Agent);
         var org = Organization.Create("Test Org");
         var command = new RemoveMemberCommand(orgId, memberId, adminId);
 
@@ -132,8 +132,8 @@ public sealed class RemoveMemberCommandHandlerTests
         var orgId = Guid.NewGuid();
         var memberId = Guid.NewGuid();
         var otherMemberId = Guid.NewGuid();
-        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Member);
-        var otherMemberMembership = Membership.Create(otherMemberId, orgId, MembershipRole.Member);
+        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Agent);
+        var otherMemberMembership = Membership.Create(otherMemberId, orgId, MembershipRole.Agent);
         var command = new RemoveMemberCommand(orgId, otherMemberId, memberId);
 
         _membershipRepository.GetByOrgIdForUpdateAsync(orgId, Arg.Any<CancellationToken>())
@@ -195,7 +195,7 @@ public sealed class RemoveMemberCommandHandlerTests
         var ownerId = Guid.NewGuid();
         var memberId = Guid.NewGuid();
         var ownerMembership = Membership.Create(ownerId, orgId, MembershipRole.Owner);
-        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Member);
+        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Agent);
         var org = Organization.Create("Test Org");
         var command = new RemoveMemberCommand(orgId, memberId, ownerId);
 
@@ -221,7 +221,7 @@ public sealed class RemoveMemberCommandHandlerTests
         var ownerId = Guid.NewGuid();
         var memberId = Guid.NewGuid();
         var ownerMembership = Membership.Create(ownerId, orgId, MembershipRole.Owner);
-        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Member);
+        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Agent);
         var org = Organization.Create("Test Org");
         var command = new RemoveMemberCommand(orgId, memberId, ownerId);
 
@@ -244,8 +244,8 @@ public sealed class RemoveMemberCommandHandlerTests
         var orgId = Guid.NewGuid();
         var memberId = Guid.NewGuid();
         var otherMemberId = Guid.NewGuid();
-        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Member);
-        var otherMemberMembership = Membership.Create(otherMemberId, orgId, MembershipRole.Member);
+        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Agent);
+        var otherMemberMembership = Membership.Create(otherMemberId, orgId, MembershipRole.Agent);
         var command = new RemoveMemberCommand(orgId, otherMemberId, memberId);
 
         _membershipRepository.GetByOrgIdForUpdateAsync(orgId, Arg.Any<CancellationToken>())
@@ -267,7 +267,7 @@ public sealed class RemoveMemberCommandHandlerTests
         var ownerId = Guid.NewGuid();
         var memberId = Guid.NewGuid();
         var ownerMembership = Membership.Create(ownerId, orgId, MembershipRole.Owner);
-        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Member);
+        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Agent);
         var org = Organization.Create("Test Org");
         var command = new RemoveMemberCommand(orgId, memberId, ownerId);
         using var cts = new CancellationTokenSource();
@@ -297,7 +297,7 @@ public sealed class RemoveMemberCommandHandlerTests
         var ownerId = Guid.NewGuid();
         var memberId = Guid.NewGuid();
         var ownerMembership = Membership.Create(ownerId, orgId, MembershipRole.Owner);
-        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Member);
+        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Agent);
         var org = Organization.Create("Test Org");
         var command = new RemoveMemberCommand(orgId, memberId, ownerId);
 
@@ -320,7 +320,7 @@ public sealed class RemoveMemberCommandHandlerTests
         var orgId = Guid.NewGuid();
         var requestingUserId = Guid.NewGuid();
         var targetUserId = Guid.NewGuid();
-        var targetMembership = Membership.Create(targetUserId, orgId, MembershipRole.Member);
+        var targetMembership = Membership.Create(targetUserId, orgId, MembershipRole.Agent);
         var command = new RemoveMemberCommand(orgId, targetUserId, requestingUserId);
 
         _membershipRepository.GetByOrgIdForUpdateAsync(orgId, Arg.Any<CancellationToken>())

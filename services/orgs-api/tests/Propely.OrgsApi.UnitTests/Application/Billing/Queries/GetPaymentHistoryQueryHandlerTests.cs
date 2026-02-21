@@ -32,7 +32,7 @@ public sealed class GetPaymentHistoryQueryHandlerTests
         // Arrange
         var orgId = Guid.NewGuid();
         var userId = Guid.NewGuid();
-        var membership = Membership.Create(userId, orgId, MembershipRole.Member);
+        var membership = Membership.Create(userId, orgId, MembershipRole.Agent);
 
         _membershipRepository.GetAsync(orgId, userId, Arg.Any<CancellationToken>()).Returns(membership);
 
@@ -100,7 +100,7 @@ public sealed class GetPaymentHistoryQueryHandlerTests
         // Arrange
         var orgId = Guid.NewGuid();
         var userId = Guid.NewGuid();
-        var membership = Membership.Create(userId, orgId, MembershipRole.Member);
+        var membership = Membership.Create(userId, orgId, MembershipRole.Agent);
 
         _membershipRepository.GetAsync(orgId, userId, Arg.Any<CancellationToken>()).Returns(membership);
 

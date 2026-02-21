@@ -38,7 +38,7 @@ public sealed class LeaveOrganizationCommandHandlerTests
         // Arrange
         var orgId = Guid.NewGuid();
         var userId = Guid.NewGuid();
-        var membership = Membership.Create(userId, orgId, MembershipRole.Member);
+        var membership = Membership.Create(userId, orgId, MembershipRole.Agent);
         var command = new LeaveOrganizationCommand(orgId, userId);
 
         _membershipRepository.GetByOrgIdForUpdateAsync(orgId, Arg.Any<CancellationToken>())
@@ -118,7 +118,7 @@ public sealed class LeaveOrganizationCommandHandlerTests
         // Arrange
         var orgId = Guid.NewGuid();
         var userId = Guid.NewGuid();
-        var membership = Membership.Create(userId, orgId, MembershipRole.Member);
+        var membership = Membership.Create(userId, orgId, MembershipRole.Agent);
         var command = new LeaveOrganizationCommand(orgId, userId);
 
         _membershipRepository.GetByOrgIdForUpdateAsync(orgId, Arg.Any<CancellationToken>())
@@ -178,7 +178,7 @@ public sealed class LeaveOrganizationCommandHandlerTests
         var userId = Guid.NewGuid();
         var adminId = Guid.NewGuid();
         var ownerId = Guid.NewGuid();
-        var membership = Membership.Create(userId, orgId, MembershipRole.Member);
+        var membership = Membership.Create(userId, orgId, MembershipRole.Agent);
         var adminMembership = Membership.Create(adminId, orgId, MembershipRole.Admin);
         var ownerMembership = Membership.Create(ownerId, orgId, MembershipRole.Owner);
         var command = new LeaveOrganizationCommand(orgId, userId);
@@ -203,7 +203,7 @@ public sealed class LeaveOrganizationCommandHandlerTests
         // Arrange
         var orgId = Guid.NewGuid();
         var userId = Guid.NewGuid();
-        var membership = Membership.Create(userId, orgId, MembershipRole.Member);
+        var membership = Membership.Create(userId, orgId, MembershipRole.Agent);
         var command = new LeaveOrganizationCommand(orgId, userId);
         using var cts = new CancellationTokenSource();
         var token = cts.Token;
@@ -226,7 +226,7 @@ public sealed class LeaveOrganizationCommandHandlerTests
         // Arrange
         var orgId = Guid.NewGuid();
         var userId = Guid.NewGuid();
-        var membership = Membership.Create(userId, orgId, MembershipRole.Member);
+        var membership = Membership.Create(userId, orgId, MembershipRole.Agent);
         var command = new LeaveOrganizationCommand(orgId, userId);
 
         _membershipRepository.GetByOrgIdForUpdateAsync(orgId, Arg.Any<CancellationToken>())

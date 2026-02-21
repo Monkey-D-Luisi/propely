@@ -1,6 +1,7 @@
 // Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 
+using Propely.OrgsApi.Application.Agencies.Interfaces;
 using Propely.OrgsApi.Application.AuditLogs.Interfaces;
 using Propely.OrgsApi.Application.Billing;
 using Propely.OrgsApi.Application.Billing.Interfaces;
@@ -51,6 +52,7 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserExternalLoginRepository, UserExternalLoginRepository>();
+        services.AddScoped<IAgencyRepository, AgencyRepository>();
         services.AddScoped<IOrganizationRepository, OrganizationRepository>();
         services.AddScoped<IMembershipRepository, MembershipRepository>();
         services.AddScoped<IInvitationRepository, InvitationRepository>();

@@ -166,7 +166,7 @@ public sealed class EntitlementServiceTests
         _subscriptionRepository.GetByOrgIdAsync(orgId, Arg.Any<CancellationToken>()).Returns((Subscription?)null);
 
         var members = Enumerable.Range(0, 5)
-            .Select(_ => Membership.Create(Guid.NewGuid(), orgId, MembershipRole.Member))
+            .Select(_ => Membership.Create(Guid.NewGuid(), orgId, MembershipRole.Agent))
             .ToList();
         _membershipRepository.GetByOrgIdAsync(orgId, Arg.Any<CancellationToken>()).Returns(members);
 
@@ -189,7 +189,7 @@ public sealed class EntitlementServiceTests
         _planProvider.GetPlan("pro").Returns(ProPlan); // MaxMembers = 0 (unlimited)
 
         var members = Enumerable.Range(0, 100)
-            .Select(_ => Membership.Create(Guid.NewGuid(), orgId, MembershipRole.Member))
+            .Select(_ => Membership.Create(Guid.NewGuid(), orgId, MembershipRole.Agent))
             .ToList();
         _membershipRepository.GetByOrgIdAsync(orgId, Arg.Any<CancellationToken>()).Returns(members);
 
@@ -211,7 +211,7 @@ public sealed class EntitlementServiceTests
         _subscriptionRepository.GetByOrgIdAsync(orgId, Arg.Any<CancellationToken>()).Returns(subscription);
 
         var members = Enumerable.Range(0, 5)
-            .Select(_ => Membership.Create(Guid.NewGuid(), orgId, MembershipRole.Member))
+            .Select(_ => Membership.Create(Guid.NewGuid(), orgId, MembershipRole.Agent))
             .ToList();
         _membershipRepository.GetByOrgIdAsync(orgId, Arg.Any<CancellationToken>()).Returns(members);
 

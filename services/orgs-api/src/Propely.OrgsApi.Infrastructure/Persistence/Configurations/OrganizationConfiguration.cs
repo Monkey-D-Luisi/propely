@@ -28,6 +28,9 @@ public sealed class OrganizationConfiguration : IEntityTypeConfiguration<Organiz
             .HasColumnName("description")
             .HasMaxLength(Organization.DescriptionMaxLength);
 
+        builder.Property(o => o.AgencyId)
+            .HasColumnName("agency_id");
+
         builder.Property(o => o.CreatedAtUtc)
             .HasColumnName("created_at_utc")
             .IsRequired();

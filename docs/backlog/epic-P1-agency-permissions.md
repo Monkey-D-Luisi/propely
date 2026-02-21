@@ -65,7 +65,7 @@ Agency (new parent entity)
 
 | # | Title | Status | Dependencies |
 |---|---|---|---|
-| 1.1 | Agency Entity & Hierarchy | PENDING | 0.2 |
+| 1.1 | Agency Entity & Hierarchy | DONE | 0.2 |
 | 1.2 | Permission Domain Model | PENDING | 1.1 |
 | 1.3 | Authorization Policies & Middleware | PENDING | 1.2 |
 | 1.4 | OrgsApi SDK Client for Permissions | PENDING | 1.3, 0.4 |
@@ -77,7 +77,7 @@ Agency (new parent entity)
 
 ## Task 1.1 -- Agency Entity & Hierarchy
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 0.2 (namespaces must be `Propely.*` before adding new domain entities)
 
 ### Goal
@@ -936,7 +936,7 @@ Write the test scenarios and expected outcomes first as failing tests. For each 
 
 | Task | Title | Status | Dependencies |
 |---|---|---|---|
-| 1.1 | Agency Entity & Hierarchy | PENDING | 0.2 |
+| 1.1 | Agency Entity & Hierarchy | DONE | 0.2 |
 | 1.2 | Permission Domain Model | PENDING | 1.1 |
 | 1.3 | Authorization Policies & Middleware | PENDING | 1.2 |
 | 1.4 | OrgsApi SDK Client for Permissions | PENDING | 1.3, 0.4 |

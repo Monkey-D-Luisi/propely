@@ -32,7 +32,7 @@ public sealed class AcceptInvitationCommandHandlerTests
             _invitationRepository, _membershipRepository, _organizationRepository, _notificationRepository, _unitOfWork);
     }
 
-    private static Invitation CreateValidInvitation(Guid orgId, string email, MembershipRole role = MembershipRole.Member)
+    private static Invitation CreateValidInvitation(Guid orgId, string email, MembershipRole role = MembershipRole.Agent)
     {
         return Invitation.Create(orgId, email, role, TimeSpan.FromDays(7));
     }
@@ -65,7 +65,7 @@ public sealed class AcceptInvitationCommandHandlerTests
         capturedMembership.Should().NotBeNull();
         capturedMembership!.UserId.Should().Be(userId);
         capturedMembership.OrganizationId.Should().Be(orgId);
-        capturedMembership.Role.Should().Be(MembershipRole.Member);
+        capturedMembership.Role.Should().Be(MembershipRole.Agent);
         invitation.Status.Should().Be(InvitationStatus.Accepted);
     }
 
@@ -111,7 +111,7 @@ public sealed class AcceptInvitationCommandHandlerTests
         // Arrange
         var orgId = Guid.NewGuid();
         // Create an invitation that expired 1 day ago
-        var invitation = Invitation.Create(orgId, "user@example.com", MembershipRole.Member, TimeSpan.FromDays(-1));
+        var invitation = Invitation.Create(orgId, "user@example.com", MembershipRole.Agent, TimeSpan.FromDays(-1));
 
         var command = new AcceptInvitationCommand(invitation.Token, Guid.NewGuid(), "user@example.com");
         _invitationRepository.GetByTokenAsync(invitation.Token, Arg.Any<CancellationToken>())
@@ -151,7 +151,7 @@ public sealed class AcceptInvitationCommandHandlerTests
         var orgId = Guid.NewGuid();
         var userId = Guid.NewGuid();
         var invitation = CreateValidInvitation(orgId, "user@example.com");
-        var existingMembership = Membership.Create(userId, orgId, MembershipRole.Member);
+        var existingMembership = Membership.Create(userId, orgId, MembershipRole.Agent);
 
         var command = new AcceptInvitationCommand(invitation.Token, userId, "user@example.com");
         _invitationRepository.GetByTokenAsync(invitation.Token, Arg.Any<CancellationToken>())

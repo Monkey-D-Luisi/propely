@@ -115,7 +115,7 @@ public sealed class NotificationEndpointTests : IClassFixture<ApiWebApplicationF
         var inviteeEmail = UniqueEmail();
         var inviteResponse = await clientA.PostAsJsonAsync(
             $"/orgs/{orgId}/invitations",
-            new { email = inviteeEmail, role = "Member" });
+            new { email = inviteeEmail, role = "Agent" });
         var inviteBody = await inviteResponse.Content.ReadFromJsonAsync<JsonElement>();
         var token = await GetInvitationTokenAsync(inviteeEmail);
 
@@ -153,7 +153,7 @@ public sealed class NotificationEndpointTests : IClassFixture<ApiWebApplicationF
         var inviteeEmail = UniqueEmail();
         var inviteResponse = await clientA.PostAsJsonAsync(
             $"/orgs/{orgId}/invitations",
-            new { email = inviteeEmail, role = "Member" });
+            new { email = inviteeEmail, role = "Agent" });
         var inviteBody = await inviteResponse.Content.ReadFromJsonAsync<JsonElement>();
         var token = await GetInvitationTokenAsync(inviteeEmail);
 
@@ -195,7 +195,7 @@ public sealed class NotificationEndpointTests : IClassFixture<ApiWebApplicationF
         var inviteeEmail = UniqueEmail();
         var inviteResponse = await clientA.PostAsJsonAsync(
             $"/orgs/{orgId}/invitations",
-            new { email = inviteeEmail, role = "Member" });
+            new { email = inviteeEmail, role = "Agent" });
         var inviteBody = await inviteResponse.Content.ReadFromJsonAsync<JsonElement>();
         var token = await GetInvitationTokenAsync(inviteeEmail);
 
@@ -205,7 +205,7 @@ public sealed class NotificationEndpointTests : IClassFixture<ApiWebApplicationF
 
         // Change role twice to generate multiple notifications
         await clientA.PutAsJsonAsync($"/orgs/{orgId}/members/{memberUserId}", new { role = "Admin" });
-        await clientA.PutAsJsonAsync($"/orgs/{orgId}/members/{memberUserId}", new { role = "Member" });
+        await clientA.PutAsJsonAsync($"/orgs/{orgId}/members/{memberUserId}", new { role = "Agent" });
 
         // Verify there are unread notifications
         var beforeResponse = await clientB.GetAsync("/notifications");
