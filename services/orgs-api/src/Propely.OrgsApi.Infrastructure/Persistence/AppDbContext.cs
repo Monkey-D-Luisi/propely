@@ -4,6 +4,7 @@
 using System.Text.Json;
 using Propely.OrgsApi.Application.Common.Interfaces;
 using Propely.OrgsApi.Application.Common.Models;
+using Propely.OrgsApi.Domain.Agencies;
 using Propely.OrgsApi.Domain.Billing;
 using Propely.OrgsApi.Domain.Common;
 using Propely.OrgsApi.Domain.FeatureFlags;
@@ -61,6 +62,7 @@ public sealed class AppDbContext : DbContext
     public DbSet<ProcessedEvent> ProcessedEvents => Set<ProcessedEvent>();
     public DbSet<User> Users => Set<User>();
     public DbSet<UserExternalLogin> UserExternalLogins => Set<UserExternalLogin>();
+    public DbSet<Agency> Agencies => Set<Agency>();
     public DbSet<Organization> Organizations => Set<Organization>();
     public DbSet<Membership> Memberships => Set<Membership>();
     public DbSet<Invitation> Invitations => Set<Invitation>();
@@ -80,6 +82,7 @@ public sealed class AppDbContext : DbContext
         modelBuilder.ApplyConfiguration(new ProcessedEventConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new UserExternalLoginConfiguration());
+        modelBuilder.ApplyConfiguration(new AgencyConfiguration());
         modelBuilder.ApplyConfiguration(new OrganizationConfiguration());
         modelBuilder.ApplyConfiguration(new MembershipConfiguration());
         modelBuilder.ApplyConfiguration(new InvitationConfiguration());

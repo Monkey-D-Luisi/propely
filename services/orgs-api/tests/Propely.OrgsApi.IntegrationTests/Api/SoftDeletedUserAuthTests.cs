@@ -207,7 +207,7 @@ public sealed class SoftDeletedUserAuthTests : IClassFixture<ApiWebApplicationFa
         // Arrange: create second user and add membership directly
         var memberClient = CreateClient();
         var (memberUserId, memberEmail) = await RegisterUserAsync(memberClient);
-        await AddMembershipAsync(memberUserId, orgId, MembershipRole.Member);
+        await AddMembershipAsync(memberUserId, orgId, MembershipRole.Agent);
 
         // Pre-condition: member appears in list
         var beforeResponse = await ownerClient.GetAsync($"/orgs/{orgId}/members");

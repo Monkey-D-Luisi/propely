@@ -41,7 +41,7 @@ public sealed class UpdateMemberRoleCommandHandlerTests
         var ownerId = Guid.NewGuid();
         var memberId = Guid.NewGuid();
         var ownerMembership = Membership.Create(ownerId, orgId, MembershipRole.Owner);
-        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Member);
+        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Agent);
         var org = Organization.Create("Test Org");
         var command = new UpdateMemberRoleCommand(orgId, memberId, ownerId, MembershipRole.Admin);
 
@@ -65,7 +65,7 @@ public sealed class UpdateMemberRoleCommandHandlerTests
         var adminId = Guid.NewGuid();
         var memberId = Guid.NewGuid();
         var adminMembership = Membership.Create(adminId, orgId, MembershipRole.Admin);
-        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Member);
+        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Agent);
         var org = Organization.Create("Test Org");
         var command = new UpdateMemberRoleCommand(orgId, memberId, adminId, MembershipRole.Viewer);
 
@@ -104,7 +104,7 @@ public sealed class UpdateMemberRoleCommandHandlerTests
         var orgId = Guid.NewGuid();
         var requestingUserId = Guid.NewGuid();
         var targetUserId = Guid.NewGuid();
-        var targetMembership = Membership.Create(targetUserId, orgId, MembershipRole.Member);
+        var targetMembership = Membership.Create(targetUserId, orgId, MembershipRole.Agent);
         var command = new UpdateMemberRoleCommand(orgId, targetUserId, requestingUserId, MembershipRole.Admin);
 
         _membershipRepository.GetByOrgIdForUpdateAsync(orgId, Arg.Any<CancellationToken>())
@@ -148,7 +148,7 @@ public sealed class UpdateMemberRoleCommandHandlerTests
         var ownerId = Guid.NewGuid();
         var adminMembership = Membership.Create(adminId, orgId, MembershipRole.Admin);
         var ownerMembership = Membership.Create(ownerId, orgId, MembershipRole.Owner);
-        var command = new UpdateMemberRoleCommand(orgId, ownerId, adminId, MembershipRole.Member);
+        var command = new UpdateMemberRoleCommand(orgId, ownerId, adminId, MembershipRole.Agent);
 
         _membershipRepository.GetByOrgIdForUpdateAsync(orgId, Arg.Any<CancellationToken>())
             .Returns(new List<Membership> { adminMembership, ownerMembership });
@@ -170,7 +170,7 @@ public sealed class UpdateMemberRoleCommandHandlerTests
         var otherAdminId = Guid.NewGuid();
         var adminMembership = Membership.Create(adminId, orgId, MembershipRole.Admin);
         var otherAdminMembership = Membership.Create(otherAdminId, orgId, MembershipRole.Admin);
-        var command = new UpdateMemberRoleCommand(orgId, otherAdminId, adminId, MembershipRole.Member);
+        var command = new UpdateMemberRoleCommand(orgId, otherAdminId, adminId, MembershipRole.Agent);
 
         _membershipRepository.GetByOrgIdForUpdateAsync(orgId, Arg.Any<CancellationToken>())
             .Returns(new List<Membership> { adminMembership, otherAdminMembership });
@@ -191,7 +191,7 @@ public sealed class UpdateMemberRoleCommandHandlerTests
         var adminId = Guid.NewGuid();
         var memberId = Guid.NewGuid();
         var adminMembership = Membership.Create(adminId, orgId, MembershipRole.Admin);
-        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Member);
+        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Agent);
         var command = new UpdateMemberRoleCommand(orgId, memberId, adminId, MembershipRole.Owner);
 
         _membershipRepository.GetByOrgIdForUpdateAsync(orgId, Arg.Any<CancellationToken>())
@@ -213,7 +213,7 @@ public sealed class UpdateMemberRoleCommandHandlerTests
         var adminId = Guid.NewGuid();
         var memberId = Guid.NewGuid();
         var adminMembership = Membership.Create(adminId, orgId, MembershipRole.Admin);
-        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Member);
+        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Agent);
         var command = new UpdateMemberRoleCommand(orgId, memberId, adminId, MembershipRole.Admin);
 
         _membershipRepository.GetByOrgIdForUpdateAsync(orgId, Arg.Any<CancellationToken>())
@@ -234,8 +234,8 @@ public sealed class UpdateMemberRoleCommandHandlerTests
         var orgId = Guid.NewGuid();
         var memberId = Guid.NewGuid();
         var otherMemberId = Guid.NewGuid();
-        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Member);
-        var otherMemberMembership = Membership.Create(otherMemberId, orgId, MembershipRole.Member);
+        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Agent);
+        var otherMemberMembership = Membership.Create(otherMemberId, orgId, MembershipRole.Agent);
         var command = new UpdateMemberRoleCommand(orgId, otherMemberId, memberId, MembershipRole.Viewer);
 
         _membershipRepository.GetByOrgIdForUpdateAsync(orgId, Arg.Any<CancellationToken>())
@@ -257,7 +257,7 @@ public sealed class UpdateMemberRoleCommandHandlerTests
         var viewerId = Guid.NewGuid();
         var memberId = Guid.NewGuid();
         var viewerMembership = Membership.Create(viewerId, orgId, MembershipRole.Viewer);
-        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Member);
+        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Agent);
         var command = new UpdateMemberRoleCommand(orgId, memberId, viewerId, MembershipRole.Admin);
 
         _membershipRepository.GetByOrgIdForUpdateAsync(orgId, Arg.Any<CancellationToken>())
@@ -303,7 +303,7 @@ public sealed class UpdateMemberRoleCommandHandlerTests
         var ownerId = Guid.NewGuid();
         var memberId = Guid.NewGuid();
         var ownerMembership = Membership.Create(ownerId, orgId, MembershipRole.Owner);
-        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Member);
+        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Agent);
         var org = Organization.Create("Test Org");
         var command = new UpdateMemberRoleCommand(orgId, memberId, ownerId, MembershipRole.Admin);
 
@@ -329,7 +329,7 @@ public sealed class UpdateMemberRoleCommandHandlerTests
         var ownerId = Guid.NewGuid();
         var memberId = Guid.NewGuid();
         var ownerMembership = Membership.Create(ownerId, orgId, MembershipRole.Owner);
-        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Member);
+        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Agent);
         var org = Organization.Create("Test Org");
         var command = new UpdateMemberRoleCommand(orgId, memberId, ownerId, MembershipRole.Admin);
 
@@ -352,8 +352,8 @@ public sealed class UpdateMemberRoleCommandHandlerTests
         var orgId = Guid.NewGuid();
         var memberId = Guid.NewGuid();
         var otherMemberId = Guid.NewGuid();
-        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Member);
-        var otherMemberMembership = Membership.Create(otherMemberId, orgId, MembershipRole.Member);
+        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Agent);
+        var otherMemberMembership = Membership.Create(otherMemberId, orgId, MembershipRole.Agent);
         var command = new UpdateMemberRoleCommand(orgId, otherMemberId, memberId, MembershipRole.Viewer);
 
         _membershipRepository.GetByOrgIdForUpdateAsync(orgId, Arg.Any<CancellationToken>())
@@ -375,7 +375,7 @@ public sealed class UpdateMemberRoleCommandHandlerTests
         var ownerId = Guid.NewGuid();
         var memberId = Guid.NewGuid();
         var ownerMembership = Membership.Create(ownerId, orgId, MembershipRole.Owner);
-        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Member);
+        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Agent);
         var org = Organization.Create("Test Org");
         var command = new UpdateMemberRoleCommand(orgId, memberId, ownerId, MembershipRole.Admin);
         using var cts = new CancellationTokenSource();
@@ -405,7 +405,7 @@ public sealed class UpdateMemberRoleCommandHandlerTests
         var ownerId = Guid.NewGuid();
         var memberId = Guid.NewGuid();
         var ownerMembership = Membership.Create(ownerId, orgId, MembershipRole.Owner);
-        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Member);
+        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Agent);
         var org = Organization.Create("Test Org");
         var command = new UpdateMemberRoleCommand(orgId, memberId, ownerId, MembershipRole.Admin);
 
@@ -431,7 +431,7 @@ public sealed class UpdateMemberRoleCommandHandlerTests
         var adminMembership = Membership.Create(adminId, orgId, MembershipRole.Admin);
         var viewerMembership = Membership.Create(viewerId, orgId, MembershipRole.Viewer);
         var org = Organization.Create("Test Org");
-        var command = new UpdateMemberRoleCommand(orgId, viewerId, adminId, MembershipRole.Member);
+        var command = new UpdateMemberRoleCommand(orgId, viewerId, adminId, MembershipRole.Agent);
 
         _membershipRepository.GetByOrgIdForUpdateAsync(orgId, Arg.Any<CancellationToken>())
             .Returns(new List<Membership> { adminMembership, viewerMembership });
@@ -442,6 +442,6 @@ public sealed class UpdateMemberRoleCommandHandlerTests
         await _handler.Handle(command, CancellationToken.None);
 
         // Assert
-        viewerMembership.Role.Should().Be(MembershipRole.Member);
+        viewerMembership.Role.Should().Be(MembershipRole.Agent);
     }
 }

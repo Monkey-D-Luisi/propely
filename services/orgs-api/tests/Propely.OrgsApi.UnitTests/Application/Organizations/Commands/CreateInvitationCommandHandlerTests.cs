@@ -48,7 +48,7 @@ public sealed class CreateInvitationCommandHandlerTests
         var ownerId = Guid.NewGuid();
         var org = Organization.Create("Test Org");
         var ownerMembership = Membership.Create(ownerId, orgId, MembershipRole.Owner);
-        var command = new CreateInvitationCommand(orgId, "invite@example.com", ownerId, MembershipRole.Member);
+        var command = new CreateInvitationCommand(orgId, "invite@example.com", ownerId, MembershipRole.Agent);
 
         _membershipRepository.GetAsync(orgId, ownerId, Arg.Any<CancellationToken>())
             .Returns(ownerMembership);
@@ -72,7 +72,7 @@ public sealed class CreateInvitationCommandHandlerTests
         var adminId = Guid.NewGuid();
         var org = Organization.Create("Test Org");
         var adminMembership = Membership.Create(adminId, orgId, MembershipRole.Admin);
-        var command = new CreateInvitationCommand(orgId, "invite@example.com", adminId, MembershipRole.Member);
+        var command = new CreateInvitationCommand(orgId, "invite@example.com", adminId, MembershipRole.Agent);
 
         _membershipRepository.GetAsync(orgId, adminId, Arg.Any<CancellationToken>())
             .Returns(adminMembership);
@@ -92,8 +92,8 @@ public sealed class CreateInvitationCommandHandlerTests
         // Arrange
         var orgId = Guid.NewGuid();
         var memberId = Guid.NewGuid();
-        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Member);
-        var command = new CreateInvitationCommand(orgId, "invite@example.com", memberId, MembershipRole.Member);
+        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Agent);
+        var command = new CreateInvitationCommand(orgId, "invite@example.com", memberId, MembershipRole.Agent);
 
         _membershipRepository.GetAsync(orgId, memberId, Arg.Any<CancellationToken>())
             .Returns(memberMembership);
@@ -113,7 +113,7 @@ public sealed class CreateInvitationCommandHandlerTests
         var orgId = Guid.NewGuid();
         var viewerId = Guid.NewGuid();
         var viewerMembership = Membership.Create(viewerId, orgId, MembershipRole.Viewer);
-        var command = new CreateInvitationCommand(orgId, "invite@example.com", viewerId, MembershipRole.Member);
+        var command = new CreateInvitationCommand(orgId, "invite@example.com", viewerId, MembershipRole.Agent);
 
         _membershipRepository.GetAsync(orgId, viewerId, Arg.Any<CancellationToken>())
             .Returns(viewerMembership);
@@ -132,7 +132,7 @@ public sealed class CreateInvitationCommandHandlerTests
         // Arrange
         var orgId = Guid.NewGuid();
         var nonMemberId = Guid.NewGuid();
-        var command = new CreateInvitationCommand(orgId, "invite@example.com", nonMemberId, MembershipRole.Member);
+        var command = new CreateInvitationCommand(orgId, "invite@example.com", nonMemberId, MembershipRole.Agent);
 
         _membershipRepository.GetAsync(orgId, nonMemberId, Arg.Any<CancellationToken>())
             .Returns((Membership?)null);
@@ -221,7 +221,7 @@ public sealed class CreateInvitationCommandHandlerTests
         var ownerId = Guid.NewGuid();
         var org = Organization.Create("Test Org");
         var ownerMembership = Membership.Create(ownerId, orgId, MembershipRole.Owner);
-        var command = new CreateInvitationCommand(orgId, "invite@example.com", ownerId, MembershipRole.Member);
+        var command = new CreateInvitationCommand(orgId, "invite@example.com", ownerId, MembershipRole.Agent);
         Invitation? capturedInvitation = null;
 
         _membershipRepository.GetAsync(orgId, ownerId, Arg.Any<CancellationToken>())
@@ -240,7 +240,7 @@ public sealed class CreateInvitationCommandHandlerTests
         capturedInvitation.Should().NotBeNull();
         capturedInvitation!.OrganizationId.Should().Be(orgId);
         capturedInvitation.Email.Should().Be("invite@example.com");
-        capturedInvitation.Role.Should().Be(MembershipRole.Member);
+        capturedInvitation.Role.Should().Be(MembershipRole.Agent);
         capturedInvitation.Status.Should().Be(InvitationStatus.Pending);
     }
 
@@ -277,7 +277,7 @@ public sealed class CreateInvitationCommandHandlerTests
         var orgId = Guid.NewGuid();
         var ownerId = Guid.NewGuid();
         var ownerMembership = Membership.Create(ownerId, orgId, MembershipRole.Owner);
-        var command = new CreateInvitationCommand(orgId, "invite@example.com", ownerId, MembershipRole.Member);
+        var command = new CreateInvitationCommand(orgId, "invite@example.com", ownerId, MembershipRole.Agent);
 
         _membershipRepository.GetAsync(orgId, ownerId, Arg.Any<CancellationToken>())
             .Returns(ownerMembership);
@@ -299,7 +299,7 @@ public sealed class CreateInvitationCommandHandlerTests
         var orgId = Guid.NewGuid();
         var ownerId = Guid.NewGuid();
         var ownerMembership = Membership.Create(ownerId, orgId, MembershipRole.Owner);
-        var command = new CreateInvitationCommand(orgId, "invite@example.com", ownerId, MembershipRole.Member);
+        var command = new CreateInvitationCommand(orgId, "invite@example.com", ownerId, MembershipRole.Agent);
 
         _membershipRepository.GetAsync(orgId, ownerId, Arg.Any<CancellationToken>())
             .Returns(ownerMembership);
@@ -324,7 +324,7 @@ public sealed class CreateInvitationCommandHandlerTests
         var ownerId = Guid.NewGuid();
         var org = Organization.Create("Test Org");
         var ownerMembership = Membership.Create(ownerId, orgId, MembershipRole.Owner);
-        var command = new CreateInvitationCommand(orgId, "invite@example.com", ownerId, MembershipRole.Member);
+        var command = new CreateInvitationCommand(orgId, "invite@example.com", ownerId, MembershipRole.Agent);
 
         _membershipRepository.GetAsync(orgId, ownerId, Arg.Any<CancellationToken>())
             .Returns(ownerMembership);
@@ -346,7 +346,7 @@ public sealed class CreateInvitationCommandHandlerTests
         var ownerId = Guid.NewGuid();
         var org = Organization.Create("Test Org");
         var ownerMembership = Membership.Create(ownerId, orgId, MembershipRole.Owner);
-        var command = new CreateInvitationCommand(orgId, "invite@example.com", ownerId, MembershipRole.Member);
+        var command = new CreateInvitationCommand(orgId, "invite@example.com", ownerId, MembershipRole.Agent);
         using var cts = new CancellationTokenSource();
         var token = cts.Token;
 
@@ -375,7 +375,7 @@ public sealed class CreateInvitationCommandHandlerTests
         var ownerId = Guid.NewGuid();
         var org = Organization.Create("Test Org");
         var ownerMembership = Membership.Create(ownerId, orgId, MembershipRole.Owner);
-        var command = new CreateInvitationCommand(orgId, "invite@example.com", ownerId, MembershipRole.Member);
+        var command = new CreateInvitationCommand(orgId, "invite@example.com", ownerId, MembershipRole.Agent);
 
         _membershipRepository.GetAsync(orgId, ownerId, Arg.Any<CancellationToken>())
             .Returns(ownerMembership);

@@ -28,10 +28,10 @@ public sealed class GetMembersQueryHandlerTests
         // Arrange
         var orgId = Guid.NewGuid();
         var userId = Guid.NewGuid();
-        var membership = Membership.Create(userId, orgId, MembershipRole.Member);
+        var membership = Membership.Create(userId, orgId, MembershipRole.Agent);
         var query = new GetMembersQuery(orgId, userId, 1, 20);
         var expectedResult = new PagedResult<MemberDto>(
-            new[] { new MemberDto(userId, "test@example.com", "John Doe", "Member") },
+            new[] { new MemberDto(userId, "test@example.com", "John Doe", "Agent") },
             1, 1, 20);
 
         _membershipRepository.GetAsync(orgId, userId, Arg.Any<CancellationToken>())
@@ -114,7 +114,7 @@ public sealed class GetMembersQueryHandlerTests
         // Arrange
         var orgId = Guid.NewGuid();
         var userId = Guid.NewGuid();
-        var membership = Membership.Create(userId, orgId, MembershipRole.Member);
+        var membership = Membership.Create(userId, orgId, MembershipRole.Agent);
         var query = new GetMembersQuery(orgId, userId, -3, 20);
 
         _membershipRepository.GetAsync(orgId, userId, Arg.Any<CancellationToken>())
@@ -135,7 +135,7 @@ public sealed class GetMembersQueryHandlerTests
         // Arrange
         var orgId = Guid.NewGuid();
         var userId = Guid.NewGuid();
-        var membership = Membership.Create(userId, orgId, MembershipRole.Member);
+        var membership = Membership.Create(userId, orgId, MembershipRole.Agent);
         var query = new GetMembersQuery(orgId, userId, 1, 200);
 
         _membershipRepository.GetAsync(orgId, userId, Arg.Any<CancellationToken>())
@@ -156,7 +156,7 @@ public sealed class GetMembersQueryHandlerTests
         // Arrange
         var orgId = Guid.NewGuid();
         var userId = Guid.NewGuid();
-        var membership = Membership.Create(userId, orgId, MembershipRole.Member);
+        var membership = Membership.Create(userId, orgId, MembershipRole.Agent);
         var query = new GetMembersQuery(orgId, userId, 1, 20);
         using var cts = new CancellationTokenSource();
         var token = cts.Token;

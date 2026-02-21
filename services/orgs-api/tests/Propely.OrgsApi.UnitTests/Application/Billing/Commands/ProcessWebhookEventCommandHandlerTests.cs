@@ -227,7 +227,7 @@ public sealed class ProcessWebhookEventCommandHandlerTests
         _organizationRepository.GetByIdAsync(orgId, Arg.Any<CancellationToken>()).Returns(org);
 
         var ownerMembership = Membership.Create(ownerId, orgId, MembershipRole.Owner);
-        var memberMembership = Membership.Create(Guid.NewGuid(), orgId, MembershipRole.Member);
+        var memberMembership = Membership.Create(Guid.NewGuid(), orgId, MembershipRole.Agent);
         _membershipRepository.GetByOrgIdAsync(orgId, Arg.Any<CancellationToken>())
             .Returns(new List<Membership> { ownerMembership, memberMembership });
 

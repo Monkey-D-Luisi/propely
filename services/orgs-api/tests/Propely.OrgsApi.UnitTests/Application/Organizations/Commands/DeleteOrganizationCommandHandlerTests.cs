@@ -64,7 +64,7 @@ public sealed class DeleteOrganizationCommandHandlerTests
         var ownerId = Guid.NewGuid();
         var memberId = Guid.NewGuid();
         var ownerMembership = Membership.Create(ownerId, orgId, MembershipRole.Owner);
-        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Member);
+        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Agent);
         var org = Organization.Create("Test Org");
         var command = new DeleteOrganizationCommand(orgId, ownerId);
 
@@ -107,7 +107,7 @@ public sealed class DeleteOrganizationCommandHandlerTests
         // Arrange
         var orgId = Guid.NewGuid();
         var userId = Guid.NewGuid();
-        var membership = Membership.Create(userId, orgId, MembershipRole.Member);
+        var membership = Membership.Create(userId, orgId, MembershipRole.Agent);
         var command = new DeleteOrganizationCommand(orgId, userId);
 
         _membershipRepository.GetByOrgIdAsync(orgId, Arg.Any<CancellationToken>())
@@ -170,7 +170,7 @@ public sealed class DeleteOrganizationCommandHandlerTests
         var memberId = Guid.NewGuid();
         var adminId = Guid.NewGuid();
         var ownerMembership = Membership.Create(ownerId, orgId, MembershipRole.Owner);
-        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Member);
+        var memberMembership = Membership.Create(memberId, orgId, MembershipRole.Agent);
         var adminMembership = Membership.Create(adminId, orgId, MembershipRole.Admin);
         var org = Organization.Create("Test Org");
         var command = new DeleteOrganizationCommand(orgId, ownerId);

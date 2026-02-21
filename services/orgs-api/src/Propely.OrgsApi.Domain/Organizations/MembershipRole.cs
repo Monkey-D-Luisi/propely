@@ -7,6 +7,6 @@ public enum MembershipRole
 {
     Owner,
     Admin,
-    Member,
+    Agent,
     Viewer
 }

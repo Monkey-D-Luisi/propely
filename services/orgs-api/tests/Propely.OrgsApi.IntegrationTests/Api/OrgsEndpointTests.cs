@@ -202,7 +202,7 @@ public sealed class OrgsEndpointTests : IClassFixture<ApiWebApplicationFactory>
         // Act
         var response = await client.PostAsJsonAsync(
             $"/orgs/{orgId}/invitations",
-            new { email = "invitee@example.com", role = "Member" });
+            new { email = "invitee@example.com", role = "Agent" });
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -223,7 +223,7 @@ public sealed class OrgsEndpointTests : IClassFixture<ApiWebApplicationFactory>
         var inviteeEmail = UniqueEmail();
         var inviteResponse = await clientA.PostAsJsonAsync(
             $"/orgs/{orgId}/invitations",
-            new { email = inviteeEmail, role = "Member" });
+            new { email = inviteeEmail, role = "Agent" });
         inviteResponse.EnsureSuccessStatusCode();
         var token = await GetInvitationTokenAsync(inviteeEmail);
 
@@ -259,7 +259,7 @@ public sealed class OrgsEndpointTests : IClassFixture<ApiWebApplicationFactory>
         var inviteeEmail = UniqueEmail();
         var inviteResponse = await clientA.PostAsJsonAsync(
             $"/orgs/{orgId}/invitations",
-            new { email = inviteeEmail, role = "Member" });
+            new { email = inviteeEmail, role = "Agent" });
         inviteResponse.EnsureSuccessStatusCode();
         var token = await GetInvitationTokenAsync(inviteeEmail);
 
@@ -402,7 +402,7 @@ public sealed class OrgsEndpointTests : IClassFixture<ApiWebApplicationFactory>
         var inviteeEmail = UniqueEmail();
         var inviteResponse = await clientA.PostAsJsonAsync(
             $"/orgs/{orgId}/invitations",
-            new { email = inviteeEmail, role = "Member" });
+            new { email = inviteeEmail, role = "Agent" });
         inviteResponse.EnsureSuccessStatusCode();
         var token = await GetInvitationTokenAsync(inviteeEmail);
 

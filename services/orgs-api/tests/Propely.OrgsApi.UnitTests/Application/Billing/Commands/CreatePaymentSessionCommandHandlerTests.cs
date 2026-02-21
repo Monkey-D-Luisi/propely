@@ -103,7 +103,7 @@ public sealed class CreatePaymentSessionCommandHandlerTests
         var orgId = Guid.NewGuid();
         var userId = Guid.NewGuid();
         var org = Organization.Create("Test Org");
-        var membership = Membership.Create(userId, orgId, MembershipRole.Member);
+        var membership = Membership.Create(userId, orgId, MembershipRole.Agent);
 
         _organizationRepository.GetByIdAsync(orgId, Arg.Any<CancellationToken>()).Returns(org);
         _membershipRepository.GetAsync(orgId, userId, Arg.Any<CancellationToken>()).Returns(membership);
