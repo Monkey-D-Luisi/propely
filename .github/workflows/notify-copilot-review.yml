@@ -4,10 +4,15 @@ on:
   pull_request_review:
     types: [submitted]
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   notify:
     if: github.event.review.user.login == 'copilot-pull-request-reviewer[bot]'
-    runs-on: ubuntu-latest
+    permissions: {}
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     steps:
       - name: Send Telegram notification
         env:
@@ -17,7 +22,10 @@ jobs:
           REVIEW_STATE: ${{ github.event.review.state }}
           REVIEW_URL: ${{ github.event.review.html_url }}
         run: |
-          curl -sf -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
-            -d chat_id="${TELEGRAM_CHAT_ID}" \
-            -d parse_mode="Markdown" \
-            -d text="🤖 *Copilot terminó el code review*%0A%0A*PR:* ${PR_TITLE}%0A*Estado:* ${REVIEW_STATE}%0A🔗 [Ver review](${REVIEW_URL})"
+          jq -n --arg chat_id "$TELEGRAM_CHAT_ID" \
+                --arg parse_mode "HTML" \
+                --arg text "$(printf '🤖 <b>Copilot finished the code review</b>\n\n<b>PR:</b> %s\n<b>State:</b> %s\n🔗 <a href="%s">View review</a>' "$PR_TITLE" "$REVIEW_STATE" "$REVIEW_URL")" \
+                '{chat_id: $chat_id, parse_mode: $parse_mode, text: $text}' \
+          | curl -f -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+              -H "Content-Type: application/json" \
+              --data-binary @-
