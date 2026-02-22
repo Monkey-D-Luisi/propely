@@ -15,10 +15,10 @@ Implemented the Permission domain model for orgs-api, including the `Permission`
 - Constraints: Pure domain/application layer -- no persistence, API, or middleware in this task.
 
 ## Decisions & Trade-offs
-- **Decision:** `EffectivePermissionDto` placed in `Permissions.Interfaces` namespace (co-located with the interface that uses it) rather than a separate `DTOs` namespace.
-  - Options considered: Separate DTOs folder/namespace vs. co-location
-  - Why this choice: Follows the existing pattern in the codebase where result types are co-located with their queries
-  - Consequences: Simpler imports, consistent with existing patterns
+- **Decision:** `EffectivePermissionDto` placed in `Permissions.DTOs` namespace matching its folder location (`Permissions/DTOs/`).
+  - Options considered: Co-location in `Permissions.Interfaces` namespace vs. separate `DTOs` namespace matching folder
+  - Why this choice: Follows the established codebase convention where DTOs are placed in separate `DTOs` folders with matching namespaces (e.g., `Agencies.DTOs`). Namespace was corrected during code review (cr-0010).
+  - Consequences: Requires explicit `using` in `IPermissionEvaluator.cs` and `PermissionEvaluator.cs`, but consistent with all other DTOs in the codebase
 - **Decision:** Admin role gets all permissions by default (same as Owner for defaults, but can be restricted via deny overrides).
   - Why this choice: Per the epic specification, admins have full branch access. The difference from Owner is that admin permissions CAN be restricted via deny overrides, while Owner is immune to all overrides.
 - **Decision:** `PermissionOverride` entity does not implement `ISoftDeletable` -- instead it has a `Revoke()` method that raises a domain event. Physical deletion is deferred to the repository implementation in Task 1.3.

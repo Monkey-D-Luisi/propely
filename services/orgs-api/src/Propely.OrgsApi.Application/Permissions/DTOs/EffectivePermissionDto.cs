@@ -3,7 +3,7 @@
 
 using Propely.OrgsApi.Domain.Permissions;
 
-namespace Propely.OrgsApi.Application.Permissions.Interfaces;
+namespace Propely.OrgsApi.Application.Permissions.DTOs;
 
 /// <summary>
 /// Represents a user's effective permission with its source.
