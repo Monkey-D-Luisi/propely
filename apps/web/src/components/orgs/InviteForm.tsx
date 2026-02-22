@@ -34,12 +34,12 @@ export function InviteForm({ orgId, canInvite, onInvited }: InviteFormProps) {
 
   const methods = useForm<InviteFormData>({
     resolver: zodResolver(schema),
-    defaultValues: { email: '', role: 'member' },
+    defaultValues: { email: '', role: 'agent' },
   });
 
   const roleOptions = useMemo<{ label: string; value: InviteRole }[]>(() => [
     { label: t('roles.admin'), value: 'admin' },
-    { label: t('roles.member'), value: 'member' },
+    { label: t('roles.agent'), value: 'agent' },
     { label: t('roles.viewer'), value: 'viewer' },
   ], [t]);
 

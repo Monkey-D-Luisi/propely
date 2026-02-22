@@ -40,7 +40,7 @@ describe('InviteForm', () => {
     expect(screen.getByRole('button', { name: 'Send invitation' })).toBeInTheDocument();
   });
 
-  it('shows role options: Admin, Member, Viewer', () => {
+  it('shows role options: Admin, Agent, Viewer', () => {
     renderWithProviders(
       <InviteForm orgId={ORG_ID} canInvite={true} />,
     );
@@ -50,7 +50,7 @@ describe('InviteForm', () => {
     const values = Array.from(options).map(o => o.getAttribute('value'));
 
     expect(values).toContain('admin');
-    expect(values).toContain('member');
+    expect(values).toContain('agent');
     expect(values).toContain('viewer');
   });
 
@@ -92,7 +92,7 @@ describe('InviteForm', () => {
     await user.click(screen.getByRole('button', { name: 'Send invitation' }));
 
     await waitFor(() => {
-      expect(inviteFn).toHaveBeenCalledWith({ email: 'new@example.com', role: 'member' });
+      expect(inviteFn).toHaveBeenCalledWith({ email: 'new@example.com', role: 'agent' });
     });
 
     await waitFor(() => {

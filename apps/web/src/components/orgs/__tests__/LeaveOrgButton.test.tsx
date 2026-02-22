@@ -17,7 +17,7 @@ const ORG_ID = '00000000-0000-0000-0000-000000000010';
 
 const mockMembers: Member[] = [
   { userId: 'u1', email: 'owner@example.com', name: 'Owner', role: 'owner' },
-  { userId: 'u2', email: 'member@example.com', name: 'Member', role: 'member' },
+  { userId: 'u2', email: 'member@example.com', name: 'Member', role: 'agent' },
 ];
 
 beforeEach(() => {
