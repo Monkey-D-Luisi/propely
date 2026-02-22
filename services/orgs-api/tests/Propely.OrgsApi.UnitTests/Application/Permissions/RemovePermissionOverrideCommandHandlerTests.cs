@@ -74,6 +74,7 @@ public sealed class RemovePermissionOverrideCommandHandlerTests
     public async Task Handle_ExistingOverride_ShouldRemoveAndSave()
     {
         SetupMembership(_adminId, MembershipRole.Admin);
+        SetupMembership(_targetUserId, MembershipRole.Agent);
 
         var existing = PermissionOverride.Create(_targetUserId, _orgId, Permission.PropertiesViewAll, true, _adminId);
         _overrideRepository.GetOverrideAsync(_targetUserId, _orgId, Permission.PropertiesViewAll, Arg.Any<CancellationToken>())
@@ -91,6 +92,7 @@ public sealed class RemovePermissionOverrideCommandHandlerTests
     public async Task Handle_NoExistingOverride_ShouldSucceedSilently()
     {
         SetupMembership(_adminId, MembershipRole.Admin);
+        SetupMembership(_targetUserId, MembershipRole.Agent);
         _overrideRepository.GetOverrideAsync(_targetUserId, _orgId, Permission.PropertiesViewAll, Arg.Any<CancellationToken>())
             .Returns((PermissionOverride?)null);
 
@@ -103,6 +105,39 @@ public sealed class RemovePermissionOverrideCommandHandlerTests
     }
 
     // =========================================================================
+    // Target validation
+    // =========================================================================
+
+    [Fact]
+    public async Task Handle_TargetIsOwner_ShouldThrowInvalidOperation()
+    {
+        SetupMembership(_adminId, MembershipRole.Admin);
+        SetupMembership(_targetUserId, MembershipRole.Owner);
+
+        var command = new RemovePermissionOverrideCommand(_orgId, _targetUserId, Permission.PropertiesViewAll, _adminId);
+
+        var act = () => _sut.Handle(command, CancellationToken.None);
+
+        await act.Should().ThrowAsync<InvalidOperationException>()
+            .WithMessage("*owners*");
+    }
+
+    [Fact]
+    public async Task Handle_TargetNotMember_ShouldThrowInvalidOperation()
+    {
+        SetupMembership(_adminId, MembershipRole.Admin);
+        _membershipRepository.GetAsync(_orgId, _targetUserId, Arg.Any<CancellationToken>())
+            .Returns((Membership?)null);
+
+        var command = new RemovePermissionOverrideCommand(_orgId, _targetUserId, Permission.PropertiesViewAll, _adminId);
+
+        var act = () => _sut.Handle(command, CancellationToken.None);
+
+        await act.Should().ThrowAsync<InvalidOperationException>()
+            .WithMessage("*not a member*");
+    }
+
+    // =========================================================================
     // Cache invalidation
     // =========================================================================
 
@@ -110,6 +145,7 @@ public sealed class RemovePermissionOverrideCommandHandlerTests
     public async Task Handle_ShouldInvalidateCache()
     {
         SetupMembership(_adminId, MembershipRole.Admin);
+        SetupMembership(_targetUserId, MembershipRole.Agent);
 
         var existing = PermissionOverride.Create(_targetUserId, _orgId, Permission.PropertiesViewAll, true, _adminId);
         _overrideRepository.GetOverrideAsync(_targetUserId, _orgId, Permission.PropertiesViewAll, Arg.Any<CancellationToken>())

@@ -45,6 +45,16 @@ public sealed class RemovePermissionOverrideCommandHandler : IRequestHandler<Rem
         if (requestingMembership.Role is not (MembershipRole.Admin or MembershipRole.Owner))
             throw new UnauthorizedAccessException("Only admins and owners can manage permission overrides.");
 
+        // Verify target user is an active member and not an owner
+        var targetMembership = await _membershipRepository.GetAsync(
+            request.OrganizationId, request.TargetUserId, cancellationToken);
+
+        if (targetMembership is null || targetMembership.IsDeleted)
+            throw new InvalidOperationException("Target user is not a member of this organization.");
+
+        if (targetMembership.Role == MembershipRole.Owner)
+            throw new InvalidOperationException("Cannot remove permission overrides for owners. Owners always have full access.");
+
         var existing = await _overrideRepository.GetOverrideAsync(
             request.TargetUserId, request.OrganizationId, request.Permission, cancellationToken);
 

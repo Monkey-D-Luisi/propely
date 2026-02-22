@@ -44,7 +44,19 @@ public sealed class CachedPermissionEvaluator : IPermissionEvaluator
                 return granted;
         }
 
-        return await _inner.HasPermissionAsync(userId, organizationId, permission, ct);
+        // Cache miss: fetch all permissions, populate cache, return the requested one
+        var allPermissions = await _inner.GetEffectivePermissionsAsync(userId, organizationId, ct);
+
+        var toCache = new CachedPermissions
+        {
+            Permissions = allPermissions.ToDictionary(p => p.Permission.ToString(), p => p.Granted),
+            EffectivePermissions = allPermissions.ToList()
+        };
+
+        await _cacheService.SetAsync(cacheKey, toCache, CacheTtl, ct);
+
+        var match = allPermissions.FirstOrDefault(p => p.Permission == permission);
+        return match?.Granted ?? false;
     }
 
     public async Task<IReadOnlyList<EffectivePermissionDto>> GetEffectivePermissionsAsync(
