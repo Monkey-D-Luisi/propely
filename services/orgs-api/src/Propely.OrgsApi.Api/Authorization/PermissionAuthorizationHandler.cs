@@ -46,8 +46,10 @@ public sealed class PermissionAuthorizationHandler : AuthorizationHandler<Permis
             return;
         }
 
+        var cancellationToken = (context.Resource as HttpContext)?.RequestAborted ?? CancellationToken.None;
+
         var hasPermission = await _permissionEvaluator.HasPermissionAsync(
-            userId, orgId.Value, requirement.Permission, CancellationToken.None);
+            userId, orgId.Value, requirement.Permission, cancellationToken);
 
         if (hasPermission)
         {

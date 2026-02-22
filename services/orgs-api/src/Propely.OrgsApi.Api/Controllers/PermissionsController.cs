@@ -45,6 +45,10 @@ public sealed class PermissionsController : ControllerBase
         {
             return Forbid();
         }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
     }
 
     /// <summary>
@@ -59,7 +63,8 @@ public sealed class PermissionsController : ControllerBase
         var requestingUserId = this.GetUserId();
         if (requestingUserId is null) return Unauthorized();
 
-        if (!Enum.TryParse<Permission>(permission, ignoreCase: true, out var parsedPermission))
+        if (!Enum.TryParse<Permission>(permission, ignoreCase: true, out var parsedPermission) ||
+            !Enum.IsDefined(parsedPermission))
             return BadRequest(new { error = $"Invalid permission: {permission}" });
 
         try
@@ -91,7 +96,8 @@ public sealed class PermissionsController : ControllerBase
         var requestingUserId = this.GetUserId();
         if (requestingUserId is null) return Unauthorized();
 
-        if (!Enum.TryParse<Permission>(permission, ignoreCase: true, out var parsedPermission))
+        if (!Enum.TryParse<Permission>(permission, ignoreCase: true, out var parsedPermission) ||
+            !Enum.IsDefined(parsedPermission))
             return BadRequest(new { error = $"Invalid permission: {permission}" });
 
         try
@@ -104,6 +110,10 @@ public sealed class PermissionsController : ControllerBase
         catch (UnauthorizedAccessException)
         {
             return Forbid();
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { error = ex.Message });
         }
     }
 }

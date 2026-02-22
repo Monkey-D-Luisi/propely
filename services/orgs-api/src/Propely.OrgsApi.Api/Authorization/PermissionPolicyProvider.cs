@@ -26,7 +26,8 @@ public sealed class PermissionPolicyProvider : IAuthorizationPolicyProvider
         {
             var permissionName = policyName[RequirePermissionAttribute.PolicyPrefix.Length..];
 
-            if (Enum.TryParse<Permission>(permissionName, ignoreCase: true, out var permission))
+            if (Enum.TryParse<Permission>(permissionName, ignoreCase: true, out var permission) &&
+                Enum.IsDefined(permission))
             {
                 var policy = new AuthorizationPolicyBuilder()
                     .RequireAuthenticatedUser()

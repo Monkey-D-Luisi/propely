@@ -40,6 +40,16 @@ public sealed class GetUserPermissionsQueryHandler
         if (!isSelf && !isAdminOrOwner)
             throw new UnauthorizedAccessException("Only admins and owners can view other users' permissions.");
 
+        // Verify target user is an active member of the organization
+        if (!isSelf)
+        {
+            var targetMembership = await _membershipRepository.GetAsync(
+                request.OrganizationId, request.TargetUserId, cancellationToken);
+
+            if (targetMembership is null || targetMembership.IsDeleted)
+                throw new InvalidOperationException("Target user is not an active member of this organization.");
+        }
+
         return await _permissionEvaluator.GetEffectivePermissionsAsync(
             request.TargetUserId, request.OrganizationId, cancellationToken);
     }

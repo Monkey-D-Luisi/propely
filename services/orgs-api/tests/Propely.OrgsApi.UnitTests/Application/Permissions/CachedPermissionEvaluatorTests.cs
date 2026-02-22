@@ -40,6 +40,7 @@ public sealed class CachedPermissionEvaluatorTests
     {
         // NSubstitute returns default (null) for any GetAsync<T>, simulating cache miss
         SetupMembership(MembershipRole.Owner);
+        SetupNoOverrides();
 
         var result = await _sut.HasPermissionAsync(_userId, _orgId, Permission.PropertiesViewAll, CancellationToken.None);
 
@@ -51,7 +52,7 @@ public sealed class CachedPermissionEvaluatorTests
     public async Task HasPermission_CacheMiss_AgentWithNoPermission_ShouldReturnFalse()
     {
         SetupMembership(MembershipRole.Agent);
-        SetupNoOverride(Permission.PropertiesViewAll);
+        SetupNoOverrides();
 
         var result = await _sut.HasPermissionAsync(_userId, _orgId, Permission.PropertiesViewAll, CancellationToken.None);
 
@@ -62,11 +63,32 @@ public sealed class CachedPermissionEvaluatorTests
     public async Task HasPermission_CacheMiss_AgentWithGrantOverride_ShouldReturnTrue()
     {
         SetupMembership(MembershipRole.Agent);
-        SetupOverride(Permission.PropertiesViewAll, true);
+        var ov = PermissionOverride.Create(_userId, _orgId, Permission.PropertiesViewAll, true, Guid.NewGuid());
+        _overrideRepository.GetOverridesAsync(_userId, _orgId, Arg.Any<CancellationToken>())
+            .Returns(new List<PermissionOverride> { ov });
 
         var result = await _sut.HasPermissionAsync(_userId, _orgId, Permission.PropertiesViewAll, CancellationToken.None);
 
         result.Should().BeTrue();
+    }
+
+    // =========================================================================
+    // HasPermissionAsync - Cache miss populates cache
+    // =========================================================================
+
+    [Fact]
+    public async Task HasPermission_CacheMiss_ShouldPopulateCache()
+    {
+        SetupMembership(MembershipRole.Admin);
+        SetupNoOverrides();
+
+        await _sut.HasPermissionAsync(_userId, _orgId, Permission.PropertiesViewAll, CancellationToken.None);
+
+        await _cacheService.Received(1).SetAsync(
+            $"permissions:{_userId}:{_orgId}",
+            Arg.Any<object>(),
+            TimeSpan.FromSeconds(30),
+            Arg.Any<CancellationToken>());
     }
 
     // =========================================================================
@@ -138,6 +160,7 @@ public sealed class CachedPermissionEvaluatorTests
     public async Task HasPermission_ShouldPropagateCancellationToken()
     {
         SetupMembership(MembershipRole.Owner);
+        SetupNoOverrides();
         var ct = new CancellationToken();
 
         await _sut.HasPermissionAsync(_userId, _orgId, Permission.PropertiesViewAll, ct);
@@ -160,18 +183,5 @@ public sealed class CachedPermissionEvaluatorTests
     {
         _overrideRepository.GetOverridesAsync(_userId, _orgId, Arg.Any<CancellationToken>())
             .Returns(new List<PermissionOverride>());
-    }
-
-    private void SetupNoOverride(Permission permission)
-    {
-        _overrideRepository.GetOverrideAsync(_userId, _orgId, permission, Arg.Any<CancellationToken>())
-            .Returns((PermissionOverride?)null);
-    }
-
-    private void SetupOverride(Permission permission, bool granted)
-    {
-        var ov = PermissionOverride.Create(_userId, _orgId, permission, granted, Guid.NewGuid());
-        _overrideRepository.GetOverrideAsync(_userId, _orgId, permission, Arg.Any<CancellationToken>())
-            .Returns(ov);
     }
 }
