@@ -210,6 +210,14 @@ jobs:
           # Stop any Docker Compose stacks (dev or CI) that might hold ports
           docker compose --profile apps down 2>/dev/null || true
           docker compose -f docker-compose.yml -f docker-compose.ci.yml --profile apps down --volumes 2>/dev/null || true
+
+          # On Windows, reset the NAT service to release Hyper-V dynamic port reservations
+          # This fixes WSAEACCES (10013) errors when Hyper-V reserves ports in our range
+          if [ "$RUNNER_OS" = "Windows" ]; then
+            net stop winnat 2>/dev/null || true
+            net start winnat 2>/dev/null || true
+          fi
+
           # Kill any bare process (dotnet, node, etc.) still bound to E2E ports
           for port in 3000 5010 5020 5030 5040 5050 5060 5432 5672 6379; do
             if [ "$RUNNER_OS" = "Windows" ]; then
@@ -227,13 +235,31 @@ jobs:
             fi
           done
 
+          # Wait for ports to be fully released (TIME_WAIT clearance)
+          sleep 5
+
       - name: Build Docker images (sequential to avoid BuildKit OOM)
         run: docker compose -f docker-compose.yml -f docker-compose.ci.yml --profile apps build
         env:
           COMPOSE_PARALLEL_LIMIT: 1
 
       - name: Start full stack
-        run: docker compose -f docker-compose.yml -f docker-compose.ci.yml --profile apps up -d
+        run: |
+          for attempt in 1 2 3; do
+            if docker compose -f docker-compose.yml -f docker-compose.ci.yml --profile apps up -d 2>&1; then
+              echo "Stack started successfully on attempt $attempt"
+              exit 0
+            fi
+            echo "::warning::Attempt $attempt/3 failed, retrying after cleanup..."
+            docker compose -f docker-compose.yml -f docker-compose.ci.yml --profile apps down 2>/dev/null || true
+            if [ "$RUNNER_OS" = "Windows" ]; then
+              net stop winnat 2>/dev/null || true
+              net start winnat 2>/dev/null || true
+            fi
+            sleep 10
+          done
+          echo "::error::Failed to start stack after 3 attempts"
+          exit 1
 
       - name: Wait for services to be healthy
         run: |
