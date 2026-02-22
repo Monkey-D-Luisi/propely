@@ -1,3 +1,13 @@
+## [1.1.0](https://github.com/Monkey-D-Luisi/propely/compare/v1.0.0...v1.1.0) (2026-02-22)
+
+### Features
+
+* **orgs:** add authorization policies and permission management API ([#0009](https://github.com/Monkey-D-Luisi/propely/issues/0009)) ([9c9db55](https://github.com/Monkey-D-Luisi/propely/commit/9c9db559365af48034eef7764a7cdac5d2dfec64))
+
+### Bug Fixes
+
+* **orgs:** address PR review feedback ([#cr](https://github.com/Monkey-D-Luisi/propely/issues/cr)-0011) ([08fdd36](https://github.com/Monkey-D-Luisi/propely/commit/08fdd36b900a87f57ecb0e483637792f16bc2248)), closes [#cr-0011](https://github.com/Monkey-D-Luisi/propely/issues/cr-0011)
+
 ## 1.0.0 (2026-02-22)
 
 ### Features
