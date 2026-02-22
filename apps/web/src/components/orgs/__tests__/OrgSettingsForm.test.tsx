@@ -140,7 +140,7 @@ describe('OrgSettingsForm', () => {
 
   it('disables form fields for non-admin roles', () => {
     mockUseOrg.mockReturnValue({
-      org: { ...mockOrg, role: 'member' as const },
+      org: { ...mockOrg, role: 'agent' as const },
       isLoading: false,
       error: null,
       refetch: vi.fn(),

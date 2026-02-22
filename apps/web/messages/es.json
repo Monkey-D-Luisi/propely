@@ -209,7 +209,7 @@
     "roles": {
       "owner": "Propietario",
       "admin": "Administrador",
-      "member": "Miembro",
+      "agent": "Agente",
       "viewer": "Visualizador"
     },
     "validation": {

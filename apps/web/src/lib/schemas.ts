@@ -3,10 +3,10 @@
 
 import { z } from "zod";
 
-export const RoleSchema = z.enum(["owner", "admin", "member", "viewer"]);
+export const RoleSchema = z.enum(["owner", "admin", "agent", "viewer"]);
 export type Role = z.infer<typeof RoleSchema>;
 
-export const InviteRoleSchema = z.enum(["admin", "member", "viewer"]);
+export const InviteRoleSchema = z.enum(["admin", "agent", "viewer"]);
 export type InviteRole = z.infer<typeof InviteRoleSchema>;
 
 export const OrgSchema = z.object({

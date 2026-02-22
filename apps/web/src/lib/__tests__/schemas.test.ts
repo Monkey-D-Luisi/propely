@@ -25,7 +25,7 @@ import {
 // RoleSchema
 // ---------------------------------------------------------------------------
 describe('RoleSchema', () => {
-  it.each(['owner', 'admin', 'member', 'viewer'])('accepts "%s"', (role) => {
+  it.each(['owner', 'admin', 'agent', 'viewer'])('accepts "%s"', (role) => {
     expect(RoleSchema.parse(role)).toBe(role);
   });
 
@@ -38,7 +38,7 @@ describe('RoleSchema', () => {
 // InviteRoleSchema
 // ---------------------------------------------------------------------------
 describe('InviteRoleSchema', () => {
-  it.each(['admin', 'member', 'viewer'])('accepts "%s"', (role) => {
+  it.each(['admin', 'agent', 'viewer'])('accepts "%s"', (role) => {
     expect(InviteRoleSchema.parse(role)).toBe(role);
   });
 
@@ -79,7 +79,7 @@ describe('MemberSchema', () => {
     userId: '550e8400-e29b-41d4-a716-446655440000',
     email: 'user@example.com',
     name: 'Alice',
-    role: 'member',
+    role: 'agent',
   };
 
   it('parses a valid member', () => {
@@ -209,12 +209,12 @@ describe('CsrfResponseSchema', () => {
 
 describe('InviteRequestSchema', () => {
   it('parses valid invite request', () => {
-    const data = { email: 'invite@example.com', role: 'member' };
+    const data = { email: 'invite@example.com', role: 'agent' };
     expect(InviteRequestSchema.parse(data)).toEqual(data);
   });
 
   it('rejects invalid email', () => {
-    expect(() => InviteRequestSchema.parse({ email: 'bad', role: 'member' })).toThrow();
+    expect(() => InviteRequestSchema.parse({ email: 'bad', role: 'agent' })).toThrow();
   });
 
   it('rejects owner role in invite', () => {
@@ -364,12 +364,12 @@ describe('createInviteFormSchema', () => {
   const schema = createInviteFormSchema(inviteMessages);
 
   it('accepts valid invite data', () => {
-    const data = { email: 'invite@example.com', role: 'member' as const };
+    const data = { email: 'invite@example.com', role: 'agent' as const };
     expect(schema.parse(data)).toEqual(data);
   });
 
   it('rejects empty email with custom message', () => {
-    const result = schema.safeParse({ email: '', role: 'member' });
+    const result = schema.safeParse({ email: '', role: 'agent' });
     expect(result.success).toBe(false);
     if (!result.success) {
       expect(result.error.issues[0].message).toBe(inviteMessages.emailRequired);

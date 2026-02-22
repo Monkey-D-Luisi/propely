@@ -17,9 +17,9 @@ interface MembersTableProps {
 }
 
 const roleOptionsByMyRole: Record<Role, Role[]> = {
-  owner: ['owner', 'admin', 'member', 'viewer'],
-  admin: ['admin', 'member', 'viewer'],
-  member: ['member'],
+  owner: ['owner', 'admin', 'agent', 'viewer'],
+  admin: ['admin', 'agent', 'viewer'],
+  agent: ['agent'],
   viewer: ['viewer']
 };
 

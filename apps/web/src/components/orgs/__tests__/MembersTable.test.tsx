@@ -8,7 +8,7 @@ import type { Member } from '@/lib/schemas';
 
 const mockMembers: Member[] = [
   { userId: 'u1', email: 'alice@example.com', name: 'Alice', role: 'owner' },
-  { userId: 'u2', email: 'bob@example.com', name: 'Bob', role: 'member' },
+  { userId: 'u2', email: 'bob@example.com', name: 'Bob', role: 'agent' },
   { userId: 'u3', email: 'carol@example.com', name: null, role: 'viewer' },
 ];
 
@@ -63,7 +63,7 @@ describe('MembersTable', () => {
     );
 
     expect(screen.getByText('Owner')).toBeInTheDocument();
-    expect(screen.getByText('Member')).toBeInTheDocument();
+    expect(screen.getByText('Agent')).toBeInTheDocument();
     expect(screen.getByText('Viewer')).toBeInTheDocument();
   });
 
@@ -89,7 +89,7 @@ describe('MembersTable', () => {
       <MembersTable
         members={mockMembers}
         currentUserId="u2"
-        currentUserRole="member"
+        currentUserRole="agent"
       />,
     );
 
@@ -179,7 +179,7 @@ describe('MembersTable', () => {
     const membersWithAdmin: Member[] = [
       { userId: 'u1', email: 'alice@example.com', name: 'Alice', role: 'owner' },
       { userId: 'u2', email: 'bob@example.com', name: 'Bob', role: 'admin' },
-      { userId: 'u3', email: 'carol@example.com', name: 'Carol', role: 'member' },
+      { userId: 'u3', email: 'carol@example.com', name: 'Carol', role: 'agent' },
     ];
     const onRemove = vi.fn();
     renderWithProviders(

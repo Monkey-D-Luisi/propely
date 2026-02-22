@@ -9,7 +9,7 @@ import type { Role } from '@/lib/schemas';
 const styles: Record<Role, string> = {
   owner: 'bg-primary-600/10 text-primary-600',
   admin: 'bg-slate-100 text-slate-600',
-  member: 'bg-slate-100 text-slate-600',
+  agent: 'bg-slate-100 text-slate-600',
   viewer: 'bg-emerald-100 text-emerald-600'
 };
 

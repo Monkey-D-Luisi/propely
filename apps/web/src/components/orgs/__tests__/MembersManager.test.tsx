@@ -42,7 +42,7 @@ const mockUser: Me = {
 
 const mockMembers: Member[] = [
   { userId: 'u1', email: 'owner@example.com', name: 'Owner', role: 'owner' },
-  { userId: 'u2', email: 'bob@example.com', name: 'Bob', role: 'member' },
+  { userId: 'u2', email: 'bob@example.com', name: 'Bob', role: 'agent' },
   { userId: 'u3', email: 'carol@example.com', name: 'Carol', role: 'viewer' },
 ];
 

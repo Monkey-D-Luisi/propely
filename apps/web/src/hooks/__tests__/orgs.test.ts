@@ -40,12 +40,12 @@ const mockUser: Me = {
 
 const mockOrgs: Org[] = [
   { id: '00000000-0000-0000-0000-000000000010', name: 'Org A', role: 'owner' },
-  { id: '00000000-0000-0000-0000-000000000020', name: 'Org B', role: 'member' },
+  { id: '00000000-0000-0000-0000-000000000020', name: 'Org B', role: 'agent' },
 ];
 
 const mockMembers: Member[] = [
   { userId: '00000000-0000-0000-0000-000000000001', email: 'alice@example.com', name: 'Alice', role: 'owner' },
-  { userId: '00000000-0000-0000-0000-000000000002', email: 'bob@example.com', name: 'Bob', role: 'member' },
+  { userId: '00000000-0000-0000-0000-000000000002', email: 'bob@example.com', name: 'Bob', role: 'agent' },
 ];
 
 const ORG_ID = '00000000-0000-0000-0000-000000000010';
@@ -291,7 +291,7 @@ describe('useInviteMember', () => {
     const { result } = renderHook(() => useInviteMember(ORG_ID));
     const invite = result.current;
 
-    const payload = { email: 'new@example.com', role: 'member' as const };
+    const payload = { email: 'new@example.com', role: 'agent' as const };
     const res = await invite(payload);
 
     expect(res).toEqual(response);
@@ -308,7 +308,7 @@ describe('useInviteMember', () => {
     const { result } = renderHook(() => useInviteMember(ORG_ID));
 
     await expect(
-      result.current({ email: 'bad@example.com', role: 'member' }),
+      result.current({ email: 'bad@example.com', role: 'agent' }),
     ).rejects.toThrow('Invite failed');
   });
 });
@@ -356,7 +356,7 @@ describe('useLeaveOrg', () => {
   it('blocks when user is the last owner', async () => {
     const singleOwnerMembers: Member[] = [
       { userId: 'u1', email: 'owner@example.com', name: 'Owner', role: 'owner' },
-      { userId: 'u2', email: 'member@example.com', name: 'Member', role: 'member' },
+      { userId: 'u2', email: 'member@example.com', name: 'Member', role: 'agent' },
     ];
 
     const { result } = renderHook(() => useLeaveOrg(ORG_ID));
@@ -398,7 +398,7 @@ describe('useLeaveOrg', () => {
 
     const res = await result.current({
       members: mockMembers,
-      currentMember: mockMembers[1], // role: 'member'
+      currentMember: mockMembers[1], // role: 'agent'
     });
 
     expect(res).toEqual({ ok: true });
