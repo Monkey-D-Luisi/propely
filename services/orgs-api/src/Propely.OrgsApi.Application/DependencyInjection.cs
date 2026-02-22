@@ -6,6 +6,8 @@ using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Propely.OrgsApi.Application.Common.Behaviors;
+using Propely.OrgsApi.Application.Permissions.Interfaces;
+using Propely.OrgsApi.Application.Permissions.Services;
 
 namespace Propely.OrgsApi.Application;
 
@@ -20,6 +22,11 @@ public static class DependencyInjection
         });
 
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+        // Permission evaluation: concrete evaluator + cached decorator
+        services.AddScoped<PermissionEvaluator>();
+        services.AddScoped<CachedPermissionEvaluator>();
+        services.AddScoped<IPermissionEvaluator>(sp => sp.GetRequiredService<CachedPermissionEvaluator>());
 
         return services;
     }
