@@ -22,12 +22,12 @@ public sealed record PermissionOverrideDeniedV1 : IDomainEvent
 
     public PermissionOverrideDeniedV1(
         Guid overrideId, Guid userId, Guid organizationId,
-        Permission permission, Guid grantedBy, DateTime grantedAtUtc)
+        Permission permission, Guid grantedBy, DateTime deniedAtUtc)
     {
         EventId = Guid.NewGuid();
-        OccurredAtUtc = grantedAtUtc;
+        OccurredAtUtc = deniedAtUtc;
         Data = new PermissionOverrideDeniedV1Data(
-            overrideId, userId, organizationId, permission, grantedBy, grantedAtUtc);
+            overrideId, userId, organizationId, permission, grantedBy, deniedAtUtc);
     }
 }
 

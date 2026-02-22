@@ -2,6 +2,7 @@
 // Licensed under the Proprietary Software License. See LICENSE.
 
 using Propely.OrgsApi.Application.Organizations.Interfaces;
+using Propely.OrgsApi.Application.Permissions.DTOs;
 using Propely.OrgsApi.Application.Permissions.Interfaces;
 using Propely.OrgsApi.Domain.Organizations;
 using Propely.OrgsApi.Domain.Permissions;

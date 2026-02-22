@@ -35,7 +35,7 @@ The Agency entity and hierarchy (Task 1.1/0007) are complete. The next step is t
 
 ## Requirements
 - R1: `Permission` enum lists all 8 granular permissions
-- R2: `PermissionOverride` entity follows the existing Entity pattern with factory method, domain events, and soft-delete
+- R2: `PermissionOverride` entity follows the existing Entity pattern with factory method and domain events (uses Revoke() instead of soft-delete)
 - R3: `DefaultPermissionMatrix` maps each of 4 roles to their default permission set
 - R4: `PermissionEvaluator` resolves effective permissions by combining base role defaults with overrides
 - R5: Owner role always has all permissions regardless of overrides
@@ -45,7 +45,7 @@ The Agency entity and hierarchy (Task 1.1/0007) are complete. The next step is t
 - AC1: `Permission` enum exists with 8 values: `PropertiesViewAll`, `PropertiesEditAll`, `ContactsViewAll`, `ContactsEditAll`, `AppointmentsViewAll`, `PublishingManage`, `LeadsManage`, `ReportsView`
 - AC2: `PermissionOverride` entity has `Id`, `UserId`, `OrganizationId`, `Permission`, `Granted`, `GrantedBy`, `GrantedAtUtc` with private constructor and `Create` factory
 - AC3: `DefaultPermissionMatrix.GetDefaults(MembershipRole.Owner)` returns all permissions
-- AC4: `DefaultPermissionMatrix.GetDefaults(MembershipRole.Admin)` returns all permissions except owner-reserved
+- AC4: `DefaultPermissionMatrix.GetDefaults(MembershipRole.Admin)` returns all permissions (same defaults as Owner; difference is Admin can be restricted via deny overrides)
 - AC5: `DefaultPermissionMatrix.GetDefaults(MembershipRole.Agent)` returns only `LeadsManage`
 - AC6: `DefaultPermissionMatrix.GetDefaults(MembershipRole.Viewer)` returns empty set
 - AC7: `PermissionEvaluator.HasPermissionAsync` returns true when role grants and no deny override

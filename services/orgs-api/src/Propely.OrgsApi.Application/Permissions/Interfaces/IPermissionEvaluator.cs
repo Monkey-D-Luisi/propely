@@ -1,6 +1,7 @@
 // Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 
+using Propely.OrgsApi.Application.Permissions.DTOs;
 using Propely.OrgsApi.Domain.Permissions;
 
 namespace Propely.OrgsApi.Application.Permissions.Interfaces;
