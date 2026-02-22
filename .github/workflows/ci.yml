@@ -219,7 +219,9 @@ jobs:
           fi
 
           # Kill any bare process (dotnet, node, etc.) still bound to E2E ports
-          for port in 3000 5010 5020 5030 5040 5050 5060 5432 5672 6379; do
+          # Note: port 5040 is NOT listed because publishing-api uses 15040 in CI
+          # to avoid conflict with Windows CDPSvc which holds 0.0.0.0:5040
+          for port in 3000 5010 5020 5030 15040 5050 5060 5432 5672 6379; do
             if [ "$RUNNER_OS" = "Windows" ]; then
               pid=$(powershell -Command "(Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue | Select-Object -First 1).OwningProcess" 2>/dev/null | tr -d '\r')
               if [ -n "$pid" ] && [ "$pid" != "0" ]; then
