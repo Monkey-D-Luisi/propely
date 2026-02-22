@@ -3,7 +3,7 @@
 ## Metadata
 - ID: 0008
 - Type: Standard
-- Status: TODO
+- Status: DONE
 - Owner: Agent
 - Created: 2026-02-22
 - Related docs:
@@ -114,9 +114,9 @@ Follow TDD (Red-Green-Refactor) approach:
 Revert the commit. No database migrations or external dependencies involved.
 
 ## Definition of Done Checklist
-- [ ] Acceptance criteria met
-- [ ] Build passes
-- [ ] Tests added/updated and pass
-- [ ] Formatting/analyzers pass
-- [ ] No secrets committed
-- [ ] Walkthrough updated
+- [x] Acceptance criteria met
+- [x] Build passes
+- [x] Tests added/updated and pass
+- [x] Formatting/analyzers pass
+- [x] No secrets committed
+- [x] Walkthrough updated

@@ -66,7 +66,7 @@ Agency (new parent entity)
 | # | Title | Status | Dependencies |
 |---|---|---|---|
 | 1.1 | Agency Entity & Hierarchy | DONE | 0.2 |
-| 1.2 | Permission Domain Model | IN_PROGRESS | 1.1 |
+| 1.2 | Permission Domain Model | DONE | 1.1 |
 | 1.3 | Authorization Policies & Middleware | PENDING | 1.2 |
 | 1.4 | OrgsApi SDK Client for Permissions | PENDING | 1.3, 0.4 |
 | 1.5 | Agency Management UI | PENDING | 1.1 |
@@ -218,7 +218,7 @@ Write domain entity tests first (creation, validation, events, invariants). Then
 
 ## Task 1.2 -- Permission Domain Model
 
-**Status:** IN_PROGRESS
+**Status:** DONE
 **Dependencies:** 1.1 (Agency entity and `MembershipRole.Agent` rename must exist)
 
 ### Goal
@@ -937,7 +937,7 @@ Write the test scenarios and expected outcomes first as failing tests. For each 
 | Task | Title | Status | Dependencies |
 |---|---|---|---|
 | 1.1 | Agency Entity & Hierarchy | DONE | 0.2 |
-| 1.2 | Permission Domain Model | PENDING | 1.1 |
+| 1.2 | Permission Domain Model | DONE | 1.1 |
 | 1.3 | Authorization Policies & Middleware | PENDING | 1.2 |
 | 1.4 | OrgsApi SDK Client for Permissions | PENDING | 1.3, 0.4 |
 | 1.5 | Agency Management UI | PENDING | 1.1 |
