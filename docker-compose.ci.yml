@@ -7,8 +7,9 @@
 # (propely-*). The E2E teardown (down --volumes) only destroys CI
 # volumes, leaving dev data intact.
 #
-# NOTE: Host ports are NOT changed — the CI workflow stops any existing
-# Docker stacks before starting, so port binding is not an issue.
+# Port overrides: publishing-api uses host port 15040 instead of 5040
+# to avoid conflict with Windows CDPSvc (Connected Devices Platform)
+# which binds to 0.0.0.0:5040 on the self-hosted runner.
 
 services:
   postgres:
@@ -37,6 +38,8 @@ services:
 
   publishing-api:
     container_name: ci-propely-publishing-api
+    ports:
+      - "127.0.0.1:15040:5040"
 
   contacts-api:
     container_name: ci-propely-contacts-api

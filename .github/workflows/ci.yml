@@ -268,7 +268,7 @@ jobs:
             ai_ok=$(curl -sf http://localhost:5010/health/ready || echo "fail")
             orgs_ok=$(curl -sf http://localhost:5020/health/ready || echo "fail")
             props_ok=$(curl -sf http://localhost:5030/health/ready || echo "fail")
-            pub_ok=$(curl -sf http://localhost:5040/health/ready || echo "fail")
+            pub_ok=$(curl -sf http://localhost:15040/health/ready || echo "fail")
             contacts_ok=$(curl -sf http://localhost:5050/health/ready || echo "fail")
             appts_ok=$(curl -sf http://localhost:5060/health/ready || echo "fail")
             web_ok=$(curl -sf http://localhost:3000/en || echo "fail")
