@@ -10,6 +10,7 @@ using Propely.OrgsApi.Domain.Common;
 using Propely.OrgsApi.Domain.FeatureFlags;
 using Propely.OrgsApi.Domain.Notifications;
 using Propely.OrgsApi.Domain.Organizations;
+using Propely.OrgsApi.Domain.Permissions;
 using Propely.OrgsApi.Domain.Users;
 using Propely.OrgsApi.Infrastructure.Persistence.Configurations;
 using Propely.OrgsApi.Infrastructure.Persistence.Entities;
@@ -73,6 +74,7 @@ public sealed class AppDbContext : DbContext
     public DbSet<Payment> Payments => Set<Payment>();
     public DbSet<ProcessedWebhookEvent> ProcessedWebhookEvents => Set<ProcessedWebhookEvent>();
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+    public DbSet<PermissionOverride> PermissionOverrides => Set<PermissionOverride>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -93,6 +95,7 @@ public sealed class AppDbContext : DbContext
         modelBuilder.ApplyConfiguration(new PaymentConfiguration());
         modelBuilder.ApplyConfiguration(new ProcessedWebhookEventConfiguration());
         modelBuilder.ApplyConfiguration(new RefreshTokenConfiguration());
+        modelBuilder.ApplyConfiguration(new PermissionOverrideConfiguration());
     }
 
     /// <summary>

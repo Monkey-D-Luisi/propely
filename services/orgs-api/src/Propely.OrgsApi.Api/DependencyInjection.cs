@@ -4,6 +4,7 @@
 using System.Reflection;
 using System.Text;
 using Propely.OrgsApi.Api.Configuration;
+using Propely.OrgsApi.Api.Authorization;
 using Propely.OrgsApi.Api.Middleware;
 using Propely.OrgsApi.Api.Services;
 using Propely.OrgsApi.Application.Common.Interfaces;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authorization;
 using Propely.OrgsApi.Application.Common.Auth;
 
 namespace Propely.OrgsApi.Api;
@@ -171,6 +173,10 @@ public static class DependencyInjection
             .AddPolicy(AuthorizationPolicies.AdminOnly, policy =>
                 policy.RequireAuthenticatedUser()
                       .RequireClaim(AuthClaimTypes.SystemAdmin, "true"));
+
+        // Permission-based authorization
+        services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
+        services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
     }
 
     public static void AddSwaggerGenWithAuth(this IServiceCollection services)

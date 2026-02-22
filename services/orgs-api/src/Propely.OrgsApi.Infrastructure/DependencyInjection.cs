@@ -9,6 +9,7 @@ using Propely.OrgsApi.Application.Common.Interfaces;
 using Propely.OrgsApi.Application.FeatureFlags.Interfaces;
 using Propely.OrgsApi.Application.Notifications.Interfaces;
 using Propely.OrgsApi.Application.Organizations.Interfaces;
+using Propely.OrgsApi.Application.Permissions.Interfaces;
 using Propely.OrgsApi.Application.Users.Interfaces;
 using Propely.OrgsApi.Infrastructure.Billing;
 using Propely.OrgsApi.Infrastructure.Caching;
@@ -60,6 +61,7 @@ public static class DependencyInjection
         services.AddScoped<IFeatureFlagRepository, FeatureFlagRepository>();
         services.AddScoped<IAuditLogRepository, AuditLogRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+        services.AddScoped<IPermissionOverrideRepository, PermissionOverrideRepository>();
 
         // Feature Flags
         services.Configure<Dictionary<string, bool>>(configuration.GetSection("FeatureFlags"));
