@@ -202,7 +202,7 @@ Coverage targets:
 - **TDD:** Integration tests verifying authorization enforcement at API level.
 
 ### Task 1.5 — Orgs-API NuGet SDK Client
-- **Status:** DONE
+- **Status:** IN_PROGRESS
 - **Dependencies:** 1.4, 0.4
 - **Scope:** Create `Propely.OrgsApi.Client` with Refit interfaces for: get user permissions, validate membership, get agency/branch hierarchy. Other services will use this to enforce authorization.
 - **TDD:** Contract tests verifying SDK matches API behavior.

@@ -157,6 +157,24 @@ public sealed class PermissionGuardTests
         await _permissionsApi.Received(1).GetEffectivePermissionsAsync(_orgId, _userId, token);
     }
 
+    [Fact]
+    public async Task HasPermissionAsync_WhenGenuineCancellation_PropagatesException()
+    {
+        // Arrange
+        using var cts = new CancellationTokenSource();
+        cts.Cancel();
+
+        _permissionsApi.GetEffectivePermissionsAsync(_orgId, _userId, Arg.Any<CancellationToken>())
+            .ThrowsAsync(new OperationCanceledException(cts.Token));
+
+        // Act
+        var act = () => _sut.HasPermissionAsync(_userId, _orgId, Permission, cts.Token);
+
+        // Assert
+        await act.Should().ThrowAsync<OperationCanceledException>(
+            "genuine cancellation should propagate, not be swallowed as a permission denial");
+    }
+
     // --- RequirePermissionAsync tests ---
 
     [Fact]

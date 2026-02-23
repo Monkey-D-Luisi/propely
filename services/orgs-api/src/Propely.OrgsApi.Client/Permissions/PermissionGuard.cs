@@ -33,6 +33,10 @@ public sealed class PermissionGuard : IPermissionGuard
 
             return match?.Granted ?? false;
         }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            throw;
+        }
         catch (Exception ex)
         {
             _logger.LogWarning(ex,
