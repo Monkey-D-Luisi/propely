@@ -13,6 +13,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
 using Propely.OrgsApi.Application.Common.Auth;
@@ -56,7 +57,11 @@ public static class DependencyInjection
         AddAuthenticationAndAuthorization(services, configuration, environment);
 
         // Controllers
-        services.AddControllers();
+        services.AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
 
         // Swagger / OpenAPI (available in development)
         services.AddEndpointsApiExplorer();

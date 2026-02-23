@@ -26,7 +26,7 @@ Task 1.3 (0009) established the permission management API with endpoints for que
 - Registration of new interfaces via extended `AddOrgsApiClient()` method
 - Polly fallback policy: fail-closed (deny all) when orgs-api is unreachable
 - Unit tests for `PermissionGuard`
-- Contract tests verifying SDK behavior matches API behavior
+- Contract tests verifying SDK behavior matches API behavior (deferred)
 
 ### Out of scope
 - Modifying orgs-api endpoints (already done in task 1.3)
@@ -35,7 +35,7 @@ Task 1.3 (0009) established the permission management API with endpoints for que
 
 ## Requirements
 - R1: `IPermissionsApi` must expose typed methods for all 3 permission endpoints (`GET`, `PUT`, `DELETE`)
-- R2: `IAgenciesApi` must expose typed methods for agency CRUD and branch management
+- R2: `IAgenciesApi` must expose typed methods for agency create, list, get and branch management
 - R3: `IPermissionGuard.RequirePermissionAsync` must throw `ForbiddenException` on denial
 - R4: Fail-closed: if orgs-api is unreachable, all permission checks must deny access
 - R5: `AddOrgsApiClient()` must register all new interfaces in DI
@@ -49,7 +49,7 @@ Task 1.3 (0009) established the permission management API with endpoints for que
 - AC6: Polly resilience applies to permission and agency clients (retry on 5xx/408/429, circuit breaker)
 - AC7: Fail-closed: permission checks deny when orgs-api is unreachable
 - AC8: `Propely.OrgsApi.Client` package builds without warnings
-- AC9: Contract tests verify: SDK returns correct results for owner, agent without override, agent with grant override
+- AC9: Contract tests deferred to a future task (no `WebApplicationFactory`-based contract tests in this PR)
 - AC10: `dotnet test` passes all new and existing tests
 
 ## Constraints (non-negotiable)
@@ -67,8 +67,8 @@ Task 1.3 (0009) established the permission management API with endpoints for que
 5. Write contract tests for SDK-to-API integration
 
 ## Implementation Steps
-1. Create permission DTOs: `EffectivePermissionResponse`, `PermissionCheckResult`
-2. Create agency DTOs: `AgencyResponse`, `AgencyDetailResponse`, `BranchResponse`, `CreateAgencyRequest`, `AddBranchRequest`
+1. Create permission DTOs: `EffectivePermissionResponse`, `SetPermissionOverrideRequest`
+2. Create agency DTOs: `AgencyResponse`, `AgencyDetailResponse`, `BranchResponse`, `CreateAgencyRequest`, `CreateAgencyResponse`, `AddBranchRequest`
 3. Create `IPermissionsApi` Refit interface matching PermissionsController routes
 4. Create `IAgenciesApi` Refit interface matching AgenciesController routes
 5. Create `ForbiddenException` in the client package
@@ -77,7 +77,7 @@ Task 1.3 (0009) established the permission management API with endpoints for que
 8. Update `ServiceCollectionExtensions.AddOrgsApiClient()` to register `IPermissionsApi`, `IAgenciesApi`, `IPermissionGuard`
 9. Write unit tests for `PermissionGuard` (throws on denial, passes on grant, fail-closed on error)
 10. Write DI registration test
-11. Write contract tests using `WebApplicationFactory`
+11. Write contract tests using `WebApplicationFactory` (deferred to future task)
 
 ## Files to Create / Modify
 ### Create
@@ -86,16 +86,15 @@ Task 1.3 (0009) established the permission management API with endpoints for que
 - `services/orgs-api/src/Propely.OrgsApi.Client/Permissions/PermissionGuard.cs`
 - `services/orgs-api/src/Propely.OrgsApi.Client/Permissions/ForbiddenException.cs`
 - `services/orgs-api/src/Propely.OrgsApi.Client/Dtos/EffectivePermissionResponse.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Client/Dtos/PermissionCheckResult.cs`
+- `services/orgs-api/src/Propely.OrgsApi.Client/Dtos/SetPermissionOverrideRequest.cs`
 - `services/orgs-api/src/Propely.OrgsApi.Client/Agencies/IAgenciesApi.cs`
 - `services/orgs-api/src/Propely.OrgsApi.Client/Dtos/AgencyResponse.cs`
 - `services/orgs-api/src/Propely.OrgsApi.Client/Dtos/AgencyDetailResponse.cs`
 - `services/orgs-api/src/Propely.OrgsApi.Client/Dtos/BranchResponse.cs`
 - `services/orgs-api/src/Propely.OrgsApi.Client/Dtos/CreateAgencyRequest.cs`
+- `services/orgs-api/src/Propely.OrgsApi.Client/Dtos/CreateAgencyResponse.cs`
 - `services/orgs-api/src/Propely.OrgsApi.Client/Dtos/AddBranchRequest.cs`
 - `services/orgs-api/tests/Propely.OrgsApi.UnitTests/Client/PermissionGuardTests.cs`
-- `services/orgs-api/tests/Propely.OrgsApi.IntegrationTests/Client/PermissionsApiContractTests.cs`
-- `services/orgs-api/tests/Propely.OrgsApi.IntegrationTests/Client/AgenciesApiContractTests.cs`
 
 ### Modify
 - `services/orgs-api/src/Propely.OrgsApi.Client/ServiceCollectionExtensions.cs` (register new interfaces)
@@ -111,7 +110,7 @@ Task 1.3 (0009) established the permission management API with endpoints for que
   - Owner has all permissions via SDK
   - Agent without override lacks `PropertiesViewAll` via SDK
   - Agent with grant override has `PropertiesViewAll` via SDK
-  - Agency CRUD via SDK matches API behavior
+  - Agency create, list, get via SDK matches API behavior
 - Manual verification: None required
 
 ## Security & Privacy
