@@ -190,19 +190,19 @@ Coverage targets:
 - **Note:** Merged into a single implementation pass with Task 1.1 (task 0007).
 
 ### Task 1.3 — Permission System Domain Model
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 1.1
 - **Scope:** Define `Permission` enum, `PermissionOverride` entity (UserId, Permission, Granted), and `IPermissionEvaluator` interface. Add default permission matrix per role. Domain tests for permission resolution logic (base role + overrides).
 - **TDD:** Unit tests for every combination: agent + override grant, admin + override deny, owner (all permissions).
 
 ### Task 1.4 — Permission Persistence & Authorization Policies
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 1.3
 - **Scope:** EF Core for PermissionOverride. ASP.NET Core authorization policies that evaluate permissions dynamically (not hardcoded role checks). Middleware/handler to load user permissions. API endpoints: list permissions for user, set override, remove override.
 - **TDD:** Integration tests verifying authorization enforcement at API level.
 
 ### Task 1.5 — Orgs-API NuGet SDK Client
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 1.4, 0.4
 - **Scope:** Create `Propely.OrgsApi.Client` with Refit interfaces for: get user permissions, validate membership, get agency/branch hierarchy. Other services will use this to enforce authorization.
 - **TDD:** Contract tests verifying SDK matches API behavior.

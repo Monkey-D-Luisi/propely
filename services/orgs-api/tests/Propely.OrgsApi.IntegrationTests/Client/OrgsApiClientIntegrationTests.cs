@@ -6,6 +6,8 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Propely.OrgsApi.Client;
+using Propely.OrgsApi.Client.Agencies;
+using Propely.OrgsApi.Client.Permissions;
 
 namespace Propely.OrgsApi.IntegrationTests.Client;
 
@@ -35,6 +37,15 @@ public sealed class OrgsApiClientIntegrationTests
 
         var handler = provider.GetService<TenantDelegatingHandler>();
         handler.Should().NotBeNull("TenantDelegatingHandler should be registered in DI");
+
+        var permissionsApi = provider.GetService<IPermissionsApi>();
+        permissionsApi.Should().NotBeNull("IPermissionsApi should be registered in DI");
+
+        var agenciesApi = provider.GetService<IAgenciesApi>();
+        agenciesApi.Should().NotBeNull("IAgenciesApi should be registered in DI");
+
+        var permissionGuard = provider.GetService<IPermissionGuard>();
+        permissionGuard.Should().NotBeNull("IPermissionGuard should be registered in DI");
     }
 
     [Fact]

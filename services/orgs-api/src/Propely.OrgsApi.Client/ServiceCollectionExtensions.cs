@@ -6,6 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Http.Resilience;
 using Polly;
+using Propely.OrgsApi.Client.Agencies;
+using Propely.OrgsApi.Client.Permissions;
 using Refit;
 
 namespace Propely.OrgsApi.Client;
@@ -16,8 +18,9 @@ namespace Propely.OrgsApi.Client;
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// Registers the <see cref="IOrgsApiClient"/> Refit client with tenant header propagation
-    /// and Polly resilience policies (retry + circuit breaker).
+    /// Registers the <see cref="IOrgsApiClient"/>, <see cref="IPermissionsApi"/>,
+    /// <see cref="IAgenciesApi"/>, and <see cref="IPermissionGuard"/> Refit clients
+    /// with tenant header propagation and Polly resilience policies (retry + circuit breaker).
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <param name="configure">Action to configure <see cref="OrgsApiClientOptions"/>.</param>
@@ -32,15 +35,34 @@ public static class ServiceCollectionExtensions
         services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddTransient<TenantDelegatingHandler>();
 
+        // Register IOrgsApiClient (existing)
+        RegisterRefitClient<IOrgsApiClient>(services, options, "orgs-api");
+
+        // Register IPermissionsApi
+        RegisterRefitClient<IPermissionsApi>(services, options, "orgs-api-permissions");
+
+        // Register IAgenciesApi
+        RegisterRefitClient<IAgenciesApi>(services, options, "orgs-api-agencies");
+
+        // Register IPermissionGuard
+        services.TryAddScoped<IPermissionGuard, PermissionGuard>();
+
+        return services;
+    }
+
+    private static void RegisterRefitClient<T>(
+        IServiceCollection services, OrgsApiClientOptions options, string handlerName)
+        where T : class
+    {
         services
-            .AddRefitClient<IOrgsApiClient>()
+            .AddRefitClient<T>()
             .ConfigureHttpClient(client =>
             {
                 client.BaseAddress = new Uri(options.BaseUrl);
                 client.Timeout = System.Threading.Timeout.InfiniteTimeSpan;
             })
             .AddHttpMessageHandler<TenantDelegatingHandler>()
-            .AddResilienceHandler("orgs-api", (builder, _) =>
+            .AddResilienceHandler(handlerName, (builder, _) =>
             {
                 builder.AddRetry(new HttpRetryStrategyOptions
                 {
@@ -62,8 +84,6 @@ public static class ServiceCollectionExtensions
 
                 builder.AddTimeout(options.Timeout);
             });
-
-        return services;
     }
 
     private static bool ShouldRetry(Outcome<HttpResponseMessage> outcome)
