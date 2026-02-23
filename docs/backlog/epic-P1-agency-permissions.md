@@ -67,8 +67,8 @@ Agency (new parent entity)
 |---|---|---|---|
 | 1.1 | Agency Entity & Hierarchy | DONE | 0.2 |
 | 1.2 | Permission Domain Model | DONE | 1.1 |
-| 1.3 | Authorization Policies & Middleware | IN_PROGRESS | 1.2 |
-| 1.4 | OrgsApi SDK Client for Permissions | PENDING | 1.3, 0.4 |
+| 1.3 | Authorization Policies & Middleware | DONE | 1.2 |
+| 1.4 | OrgsApi SDK Client for Permissions | IN_PROGRESS | 1.3, 0.4 |
 | 1.5 | Agency Management UI | PENDING | 1.1 |
 | 1.6 | Permission Management UI | PENDING | 1.3, 1.5 |
 | 1.7 | E2E Permission Tests | PENDING | 1.3, 1.4, 1.6 |
@@ -326,7 +326,7 @@ Write `DefaultPermissionMatrix` tests first (each role maps to expected permissi
 
 ## Task 1.3 -- Authorization Policies & Middleware
 
-**Status:** IN_PROGRESS
+**Status:** DONE
 **Dependencies:** 1.2 (permission domain model and `IPermissionEvaluator` must exist)
 
 ### Goal
@@ -452,7 +452,7 @@ Write integration tests first: create a test that expects 403 for an agent acces
 
 ## Task 1.4 -- OrgsApi SDK Client for Permissions
 
-**Status:** PENDING
+**Status:** IN_PROGRESS
 **Dependencies:** 1.3 (permission API endpoints must exist), 0.4 (SDK client infrastructure pattern must exist)
 
 ### Goal
@@ -938,8 +938,8 @@ Write the test scenarios and expected outcomes first as failing tests. For each 
 |---|---|---|---|
 | 1.1 | Agency Entity & Hierarchy | DONE | 0.2 |
 | 1.2 | Permission Domain Model | DONE | 1.1 |
-| 1.3 | Authorization Policies & Middleware | IN_PROGRESS | 1.2 |
-| 1.4 | OrgsApi SDK Client for Permissions | PENDING | 1.3, 0.4 |
+| 1.3 | Authorization Policies & Middleware | DONE | 1.2 |
+| 1.4 | OrgsApi SDK Client for Permissions | IN_PROGRESS | 1.3, 0.4 |
 | 1.5 | Agency Management UI | PENDING | 1.1 |
 | 1.6 | Permission Management UI | PENDING | 1.3, 1.5 |
 | 1.7 | E2E Permission Tests | PENDING | 1.3, 1.4, 1.6 |
