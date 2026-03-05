@@ -2,9 +2,11 @@
 
 ## Overview
 
-Build the core property management domain for Propely, enabling real estate agents to create, manage, and search property listings. Properties are the central entity of the platform -- every subsequent phase (AI Smart-Fill, Contacts & Leads, Appointments, Publication) depends on the property model established here. The properties-api service owns all property domain logic, persistence, media management, and exposes a NuGet SDK client for cross-service consumption.
+Build the core property management domain for Propely, enabling real estate agents to create, manage, and search property listings. Properties are the central entity of the platform -- every subsequent phase (AI Action Engine, Contacts & Leads, Appointments) depends on the property model established here. The properties-api service owns all property domain logic, persistence, media management, and exposes a NuGet SDK client for cross-service consumption.
 
 **Target:** Agents can create property listings with structured data (via JSON Forms), upload media, manage status lifecycle, search and filter properties, and view detailed property pages. All backend services can access property data via the `Propely.PropertiesApi.Client` SDK.
+
+**Portal field reference:** The property model includes fields informed by portal schemas (Kyero v3.9, SpainHouses XSD, Thribee XML) to ensure domain completeness. These are fields that portals require for listings and represent the standard data model for real estate in Spain/Portugal. Portal publication (Phase 6) is deprioritized, but the field model remains comprehensive.
 
 ## Service Ownership
 
@@ -72,7 +74,7 @@ Define the `Property` aggregate root, value objects, enums, domain events, and b
 **In scope:**
 - `Property` aggregate root entity in `PropertiesApi.Domain`
 - Enums: `PropertyType` (11 values), `OperationType` (5 values), `PropertyStatus` (6 values), `EnergyRating` (A-G + Exempt), `Orientation` (N, NE, E, SE, S, SW, W, NW)
-- Value objects: `Address` (street, city, province, postalCode, country, latitude, longitude), `PropertyFeatures` (bedrooms, bathrooms, builtArea, usableArea, plotArea, floor, orientation, yearBuilt, energyRating, hasPool, hasGarden, hasGarage, hasElevator, hasTerrace, airConditioning, heating, furnished, parkingSpaces), `PropertyFinancials` (price, communityFees, ipi), `LocalizedText` (es, pt, en)
+- Value objects: `Address` (street, city, province, postalCode, country, provinceCode (INE 2-digit), municipalityCode (INE 5-digit), latitude, longitude), `PropertyFeatures` (bedrooms, bathrooms, builtArea, usableArea, plotArea, floor, orientation, yearBuilt, energyRating, energyConsumption, energyEmissions, hasPool, hasGarden, hasGarage, hasElevator, hasTerrace, airConditioning, heating, furnished, parkingSpaces), `PropertyFinancials` (price, communityFees, ibiTax, catastroReference), `LocalizedText` (es, pt, en, fr, de, nl)
 - Domain events: `PropertyCreatedV1`, `PropertyUpdatedV1`, `PropertyStatusChangedV1`, `PropertyDeletedV1`
 - Status state machine with transition validation
 - Business rules: title required, price >= 0, builtArea >= 0, bedrooms >= 0, valid status transitions only
@@ -137,10 +139,10 @@ Define the `Property` aggregate root, value objects, enums, domain events, and b
 - `services/properties-api/src/Propely.PropertiesApi.Domain/Properties/Events/PropertyStatusChangedV1.cs`
 - `services/properties-api/src/Propely.PropertiesApi.Domain/Properties/Events/PropertyDeletedV1.cs`
 - `services/properties-api/src/Propely.PropertiesApi.Domain/Properties/Exceptions/PropertyValidationException.cs`
-- `services/properties-api/tests/Propely.PropertiesApi.Domain.Tests/Properties/PropertyTests.cs`
-- `services/properties-api/tests/Propely.PropertiesApi.Domain.Tests/Properties/PropertyStatusTransitionTests.cs`
-- `services/properties-api/tests/Propely.PropertiesApi.Domain.Tests/Properties/ValueObjects/AddressTests.cs`
-- `services/properties-api/tests/Propely.PropertiesApi.Domain.Tests/Properties/ValueObjects/LocalizedTextTests.cs`
+- `services/properties-api/tests/Propely.PropertiesApi.UnitTests/Properties/PropertyTests.cs`
+- `services/properties-api/tests/Propely.PropertiesApi.UnitTests/Properties/PropertyStatusTransitionTests.cs`
+- `services/properties-api/tests/Propely.PropertiesApi.UnitTests/Properties/ValueObjects/AddressTests.cs`
+- `services/properties-api/tests/Propely.PropertiesApi.UnitTests/Properties/ValueObjects/LocalizedTextTests.cs`
 
 ### Testing Plan
 
@@ -337,9 +339,9 @@ Expose RESTful API endpoints for creating, reading, updating, deleting, and chan
 - `services/properties-api/src/Propely.PropertiesApi.Application/Properties/Queries/ListProperties/ListPropertiesQuery.cs`
 - `services/properties-api/src/Propely.PropertiesApi.Application/Properties/Queries/ListProperties/ListPropertiesQueryHandler.cs`
 - `services/properties-api/src/Propely.PropertiesApi.Api/Controllers/PropertiesController.cs`
-- `services/properties-api/tests/Propely.PropertiesApi.Application.Tests/Properties/Commands/CreatePropertyCommandHandlerTests.cs`
-- `services/properties-api/tests/Propely.PropertiesApi.Application.Tests/Properties/Commands/CreatePropertyCommandValidatorTests.cs`
-- `services/properties-api/tests/Propely.PropertiesApi.Api.Tests/Controllers/PropertiesControllerTests.cs`
+- `services/properties-api/tests/Propely.PropertiesApi.UnitTests/Properties/Commands/CreatePropertyCommandHandlerTests.cs`
+- `services/properties-api/tests/Propely.PropertiesApi.UnitTests/Properties/Commands/CreatePropertyCommandValidatorTests.cs`
+- `services/properties-api/tests/Propely.PropertiesApi.IntegrationTests/Controllers/PropertiesControllerTests.cs`
 
 ### Testing Plan
 
@@ -535,8 +537,8 @@ Enable agents to upload, manage, and serve property media (photos and floor plan
 - `services/properties-api/src/Propely.PropertiesApi.Infrastructure/Storage/GcpStorageService.cs`
 - `services/properties-api/src/Propely.PropertiesApi.Infrastructure/Storage/ImageProcessingService.cs`
 - `services/properties-api/src/Propely.PropertiesApi.Api/Controllers/PropertyMediaController.cs`
-- `services/properties-api/tests/Propely.PropertiesApi.Application.Tests/Properties/Commands/UploadMediaCommandHandlerTests.cs`
-- `services/properties-api/tests/Propely.PropertiesApi.Application.Tests/Properties/Commands/DeleteMediaCommandHandlerTests.cs`
+- `services/properties-api/tests/Propely.PropertiesApi.UnitTests/Properties/Commands/UploadMediaCommandHandlerTests.cs`
+- `services/properties-api/tests/Propely.PropertiesApi.UnitTests/Properties/Commands/DeleteMediaCommandHandlerTests.cs`
 
 **Modify:**
 - `services/properties-api/src/Propely.PropertiesApi.Infrastructure/Persistence/Configurations/PropertyMediaConfiguration.cs` (new)
@@ -624,8 +626,8 @@ Create a Refit-based NuGet SDK client package (`Propely.PropertiesApi.Client`) t
 - `services/properties-api/src/Propely.PropertiesApi.Client/Dtos/PropertyStatusCount.cs`
 - `services/properties-api/src/Propely.PropertiesApi.Client/Http/TenantDelegatingHandler.cs`
 - `services/properties-api/src/Propely.PropertiesApi.Client/ServiceCollectionExtensions.cs`
-- `services/properties-api/tests/Propely.PropertiesApi.Client.Tests/TenantDelegatingHandlerTests.cs`
-- `services/properties-api/tests/Propely.PropertiesApi.Client.Tests/ResiliencePolicyTests.cs`
+- `services/properties-api/tests/Propely.PropertiesApi.UnitTests/TenantDelegatingHandlerTests.cs`
+- `services/properties-api/tests/Propely.PropertiesApi.UnitTests/ResiliencePolicyTests.cs`
 
 **Modify:**
 - `services/properties-api/Propely.PropertiesApi.sln` (add Client project)
@@ -777,7 +779,7 @@ Build a multi-step form wizard for creating and editing properties using JSON Fo
   - Step 1: Basic Info (type, operation, title)
   - Step 2: Location (address with map preview if coordinates provided)
   - Step 3: Features (bedrooms, bathrooms, areas, amenities)
-  - Step 4: Financial (price, community fees, IPI)
+  - Step 4: Financial (price, community fees, IBI)
   - Step 5: Descriptions (multilingual tabs: ES, PT, EN)
   - Step 6: Media upload (photos, floor plans)
 - Draft save: auto-save to localStorage every 30 seconds; explicit "Save as Draft" button

@@ -1,10 +1,10 @@
-# Epic P7 -- Polish & Launch Readiness
+# Epic P7 -- Intelligence & Analytics
 
 ## Overview
 
-Finalize Propely for production launch by building a consolidated dashboard with analytics, implementing a cross-service notification system (email + in-app), creating a guided onboarding wizard for new agencies, and conducting a comprehensive performance and security audit. This phase takes the feature-complete platform from Phases P0--P6 and adds the operational polish, observability, and hardening required for real-world production use.
+Finalize Propely for production launch by building actionable dashboards, AI conversation intelligence (context/memory for multi-turn interactions), proactive AI suggestions, and a final design refinement pass. This phase takes the feature-complete platform from Phases P0--P5 and adds the intelligence, observability, and polish required for real-world production use.
 
-**Target:** A production-ready platform with actionable dashboards, reliable notifications, a frictionless first-run experience, and verified performance/security/accessibility baselines.
+**Target:** A production-ready platform with data-driven dashboards, AI that remembers context across commands, proactive business suggestions, and a polished, consistent UI.
 
 ## Service Ownership
 
@@ -12,21 +12,18 @@ Finalize Propely for production launch by building a consolidated dashboard with
 |---|---|
 | Dashboard analytics aggregation API | `services/orgs-api` |
 | Cross-service data fetching (properties, contacts, appointments) | `services/orgs-api` via NuGet SDK clients |
-| Notification domain, persistence, delivery | `services/orgs-api` |
-| Email delivery | `services/orgs-api` (Infrastructure layer, SMTP/Mailhog) |
-| Onboarding wizard API | `services/orgs-api` |
-| Frontend dashboard, notifications, onboarding | `apps/web` |
-| Load testing scripts | `tests/load/` (k6) |
-| Security & accessibility audit artifacts | `docs/audits/` |
+| Conversation context & memory | `services/ai-api` |
+| Proactive suggestion engine | `services/ai-api` |
+| Frontend dashboard, suggestion feed | `apps/web` |
 
 ## Tasks
 
 | # | Title | Status | Dependencies |
 |---|---|---|---|
 | 7.1 | Dashboard & Analytics | PENDING | 2.3, 4.3, 5.2 |
-| 7.2 | Notification System | PENDING | 1.4, 2.3, 4.3, 5.2 |
-| 7.3 | Onboarding Flow | PENDING | 1.2, 1.6, 2.3 |
-| 7.4 | Performance & Security Audit | PENDING | All P0--P6 tasks |
+| 7.2 | Conversation Context & Memory | PENDING | 3.1 |
+| 7.3 | Proactive AI Suggestions | PENDING | 3.1, 4.3 |
+| 7.4 | Stitch Design Refinement Pass | PENDING | 7.1 |
 
 ---
 
@@ -37,643 +34,362 @@ Finalize Propely for production launch by building a consolidated dashboard with
 
 ### Goal
 
-Provide agents and admins with a single dashboard that surfaces actionable metrics: property statistics by status, lead pipeline summary, and upcoming appointment overview. The dashboard aggregates data from multiple backend services (properties, contacts, appointments) via their NuGet SDK clients, exposing a unified analytics API consumed by the frontend.
+Build agent and admin dashboards with KPIs, activity feeds, and cross-service analytics. Agents see their own performance; admins/owners see branch-wide metrics.
 
 ### Scope
 
 **In scope:**
-- Dashboard analytics API endpoints in `orgs-api` (aggregation layer)
-- Property statistics: count by status (Draft, Active, Reserved, Sold, Rented, Archived), count by type, count by operation type, average days-on-market for active listings
-- Lead pipeline summary: count by status (New, Contacted, Qualified, Converted, Lost), conversion rate, average time-to-conversion, leads received this week/month
-- Appointment calendar overview: today's appointments, this week's count, upcoming 5 appointments, overdue (past + still Scheduled) count
-- Agent dashboard: scoped to the agent's own data (my properties, my leads, my appointments)
-- Admin/owner dashboard: branch-wide metrics, per-agent breakdown table
-- KPI cards, summary charts (bar chart for property status distribution, funnel for lead pipeline)
-- Data fetched from properties-api, contacts-api, and appointments API via NuGet SDK clients with caching (Redis, 5-minute TTL)
-- Stitch MCP design for agent dashboard and admin dashboard pages
-- i18n support (en, es)
+- Analytics aggregation endpoints in `orgs-api` that query other services via SDK clients
+- Agent dashboard: my properties by status (pie chart), my leads by status (funnel), upcoming appointments (list), recent activity feed
+- Admin dashboard: branch-wide metrics — total properties, active listings, leads this month, conversion rate, appointments this week, agent leaderboard
+- Owner dashboard: cross-branch comparison — properties per branch, leads per branch, revenue pipeline
+- KPI cards: total active listings, new leads this week, appointments today, average days-to-sale
+- Date range filtering (this week, this month, this quarter, custom)
+- Stitch design for all dashboard variants (agent, admin, owner)
+- i18n (en, es)
 
 **Out of scope:**
-- Historical trend charts (time-series analytics requiring dedicated data warehouse)
-- Revenue/financial metrics (no billing data in MVP)
-- Real-time WebSocket updates (polling with cache is sufficient for launch)
+- Real-time WebSocket updates (polling with SWR revalidation is sufficient)
 - Custom report builder
-- Export to PDF/Excel
+- Data export (CSV/PDF) — future enhancement
 
 ### Acceptance Criteria
 
-- [ ] `GET /api/dashboard/agent` returns property stats, lead pipeline summary, and upcoming appointments scoped to the authenticated agent
-- [ ] `GET /api/dashboard/admin` returns branch-wide metrics with per-agent breakdown (admin/owner only; agents receive 403)
-- [ ] Property stats include: `totalByStatus` (object with status keys and counts), `totalByType`, `totalByOperation`, `averageDaysOnMarket`
-- [ ] Lead pipeline includes: `totalByStatus`, `conversionRate` (percentage), `averageTimeToConversion` (days), `leadsThisWeek`, `leadsThisMonth`
-- [ ] Appointment overview includes: `todayCount`, `thisWeekCount`, `upcomingAppointments` (next 5, with title/type/start/propertyAddress), `overdueCount`
-- [ ] Dashboard data is cached in Redis with 5-minute TTL; cache key includes tenant ID and agent ID
-- [ ] Frontend agent dashboard page renders KPI cards, property status bar chart, lead funnel, and upcoming appointments list
-- [ ] Frontend admin dashboard page renders branch-wide KPIs and a per-agent performance table (properties count, leads count, conversion rate)
-- [ ] Stitch designs exist for both agent and admin dashboard pages; implementation matches pixel-for-pixel
-- [ ] All dashboard API endpoints and frontend components have tests (unit + integration)
+- [ ] **AC1:** Agent dashboard shows: my properties by status, my leads by status, upcoming appointments, recent activity
+- [ ] **AC2:** Admin dashboard shows: branch KPIs, agent leaderboard, branch-wide charts
+- [ ] **AC3:** Owner dashboard shows: cross-branch comparison table
+- [ ] **AC4:** KPI cards update based on date range filter
+- [ ] **AC5:** Analytics API aggregates data from properties-api, contacts-api, appointments-api via SDK clients
+- [ ] **AC6:** Dashboard data is cached (Redis, 5-minute TTL) to avoid hammering downstream services
+- [ ] **AC7:** Stitch designs exist for agent, admin, and owner dashboard variants
+- [ ] **AC8:** Responsive layout: cards reflow on mobile
+- [ ] **AC9:** Component tests for all dashboard components
+- [ ] **AC10:** i18n keys for en + es
 
 ### Implementation Steps
 
-1. Add NuGet SDK client references to `orgs-api`: `Propely.PropertiesApi.Client`, `Propely.ContactsApi.Client` (appointments are already in orgs-api)
-2. Create `Application/Dashboard/Queries/GetAgentDashboardQuery.cs` and handler
-3. Create `Application/Dashboard/Queries/GetAdminDashboardQuery.cs` and handler
-4. Create DTOs: `AgentDashboardDto`, `AdminDashboardDto`, `PropertyStatsDto`, `LeadPipelineSummaryDto`, `AppointmentOverviewDto`, `AgentPerformanceDto`
-5. Implement dashboard query handlers: call SDK clients in parallel (`Task.WhenAll`), aggregate results, apply Redis caching
-6. Create `DashboardController` with `GET /api/dashboard/agent` and `GET /api/dashboard/admin` endpoints
-7. Add authorization: agent endpoint requires authentication; admin endpoint requires admin/owner role
-8. Create Stitch design for agent dashboard page
-9. Create Stitch design for admin dashboard page
-10. Download Stitch HTML to `.stitch-html/agent-dashboard.html` and `.stitch-html/admin-dashboard.html`
-11. Create `useDashboard` hook for data fetching with SWR/React Query
-12. Create `DashboardPage` component with KPI cards
-13. Create `PropertyStatusChart` component (bar chart using a lightweight chart library)
-14. Create `LeadFunnelChart` component
-15. Create `UpcomingAppointmentsList` component
-16. Create `AgentPerformanceTable` component (admin dashboard)
-17. Add i18n keys for dashboard labels and metric names
-18. Write unit tests for query handlers with mocked SDK clients
-19. Write integration tests for dashboard endpoints
-20. Write frontend component tests
+1. Define use cases for each dashboard role
+2. Create analytics aggregation endpoints in `orgs-api` (Application layer)
+3. Create SDK client calls to properties-api, contacts-api, appointments-api
+4. Add Redis caching layer for aggregated metrics
+5. Create Stitch designs for all dashboard variants
+6. Implement frontend dashboard pages
+7. Write component tests
 
 ### Files to Create/Modify
 
 **Create:**
-- `services/orgs-api/src/Propely.OrgsApi.Application/Dashboard/Queries/GetAgentDashboard/GetAgentDashboardQuery.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Dashboard/Queries/GetAgentDashboard/GetAgentDashboardQueryHandler.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Dashboard/Queries/GetAdminDashboard/GetAdminDashboardQuery.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Dashboard/Queries/GetAdminDashboard/GetAdminDashboardQueryHandler.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Dashboard/Dtos/AgentDashboardDto.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Dashboard/Dtos/AdminDashboardDto.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Dashboard/Dtos/PropertyStatsDto.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Dashboard/Dtos/LeadPipelineSummaryDto.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Dashboard/Dtos/AppointmentOverviewDto.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Dashboard/Dtos/AgentPerformanceDto.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Api/Controllers/DashboardController.cs`
-- `services/orgs-api/tests/Propely.OrgsApi.Application.Tests/Dashboard/GetAgentDashboardQueryHandlerTests.cs`
-- `services/orgs-api/tests/Propely.OrgsApi.Application.Tests/Dashboard/GetAdminDashboardQueryHandlerTests.cs`
-- `services/orgs-api/tests/Propely.OrgsApi.Api.Tests/Controllers/DashboardControllerTests.cs`
-- `apps/web/src/app/[locale]/(dashboard)/dashboard/page.tsx`
+- `services/orgs-api/src/Propely.OrgsApi.Application/Analytics/Queries/GetAgentDashboard/`
+- `services/orgs-api/src/Propely.OrgsApi.Application/Analytics/Queries/GetAdminDashboard/`
+- `services/orgs-api/src/Propely.OrgsApi.Application/Analytics/Queries/GetOwnerDashboard/`
+- `services/orgs-api/src/Propely.OrgsApi.Api/Controllers/AnalyticsController.cs`
+- `apps/web/src/components/dashboard/AgentDashboard.tsx`
+- `apps/web/src/components/dashboard/AdminDashboard.tsx`
+- `apps/web/src/components/dashboard/OwnerDashboard.tsx`
 - `apps/web/src/components/dashboard/KpiCard.tsx`
-- `apps/web/src/components/dashboard/PropertyStatusChart.tsx`
-- `apps/web/src/components/dashboard/LeadFunnelChart.tsx`
-- `apps/web/src/components/dashboard/UpcomingAppointmentsList.tsx`
-- `apps/web/src/components/dashboard/AgentPerformanceTable.tsx`
-- `apps/web/src/hooks/useDashboard.ts`
-- `apps/web/src/components/dashboard/__tests__/KpiCard.test.tsx`
-- `apps/web/src/components/dashboard/__tests__/PropertyStatusChart.test.tsx`
-- `apps/web/src/components/dashboard/__tests__/LeadFunnelChart.test.tsx`
-- `apps/web/src/components/dashboard/__tests__/UpcomingAppointmentsList.test.tsx`
-- `apps/web/src/components/dashboard/__tests__/AgentPerformanceTable.test.tsx`
-- `.stitch-html/agent-dashboard.html`
-- `.stitch-html/admin-dashboard.html`
+- `apps/web/src/components/dashboard/charts/` (property status pie, lead funnel, etc.)
+- `apps/web/src/hooks/use-dashboard.ts`
 
 **Modify:**
-- `services/orgs-api/src/Propely.OrgsApi.Api/Propely.OrgsApi.Api.csproj` (add SDK client NuGet references)
-- `services/orgs-api/src/Propely.OrgsApi.Infrastructure/DependencyInjection.cs` (register SDK clients and Redis caching)
-- `apps/web/src/components/layout/DashboardSidebar.tsx` (add Dashboard nav item as default landing)
-- `apps/web/src/messages/en.json` (add dashboard i18n keys)
-- `apps/web/src/messages/es.json` (add dashboard i18n keys)
+- `apps/web/src/app/[locale]/(dashboard)/page.tsx` (route to correct dashboard by role)
+- `apps/web/src/messages/en.json`, `apps/web/src/messages/es.json`
 
 ### Testing Plan
 
 | Layer | What to test | Approach |
 |---|---|---|
-| Unit | `GetAgentDashboardQueryHandler` aggregates data from mocked SDK clients | xUnit + FluentAssertions, mock SDK clients |
-| Unit | `GetAdminDashboardQueryHandler` includes per-agent breakdown | xUnit, mock SDK clients |
-| Unit | Redis caching: second call within TTL returns cached result | xUnit, mock `IDistributedCache` |
-| Unit | Agent endpoint returns only own data; admin endpoint returns branch-wide | xUnit, mock identity |
-| Integration | `GET /api/dashboard/agent` returns correct DTO shape | `WebApplicationFactory` |
-| Integration | `GET /api/dashboard/admin` returns 403 for non-admin users | `WebApplicationFactory` |
-| Unit | `KpiCard` renders value, label, and trend indicator | Vitest + RTL |
-| Unit | `PropertyStatusChart` renders bars for each status | Vitest + RTL |
-| Unit | `LeadFunnelChart` renders funnel stages | Vitest + RTL |
-| Unit | `UpcomingAppointmentsList` renders appointment items with links | Vitest + RTL |
+| Unit | Analytics query handlers aggregate data correctly | xUnit, mock SDK clients |
+| Unit | Caching layer stores and retrieves results | xUnit, mock `ICacheService` |
+| Unit | Dashboard components render KPI cards with data | Vitest + RTL |
+| Unit | Date range filter changes trigger data refresh | Vitest + RTL |
+| Integration | Analytics endpoint returns aggregated data | `WebApplicationFactory` |
 | Manual | Visual comparison against Stitch designs | Dev environment |
-
-### Security & Privacy
-
-- Dashboard endpoints require authentication; admin endpoint requires admin/owner role
-- Redis cache keys are tenant-scoped to prevent cross-tenant data leakage
-- SDK client calls propagate `X-Tenant-Id` header via `TenantDelegatingHandler`
-- Dashboard does not expose raw entity IDs externally; uses summary counts only
-- Per-agent performance data (admin dashboard) is visible only to admin/owner roles
 
 ### TDD Reminder
 
-Write query handler unit tests with mocked SDK clients first (define expected DTO shapes and aggregation logic). Then implement the handlers. For frontend, write component render tests with mock data before building the components.
+Write analytics query tests first with mocked SDK responses. Write frontend component tests for each card type. Implement to pass.
 
 ---
 
-## Task 7.2 -- Notification System
+## Task 7.2 -- Conversation Context & Memory
 
 **Status:** PENDING
-**Dependencies:** 1.4 (Permission system), 2.3 (Properties API), 4.3 (Contacts & Leads API), 5.2 (Appointments API)
+**Dependencies:** 3.1 (AI Action Engine core)
 
 ### Goal
 
-Implement an in-app and email notification system that alerts users about key events: new lead received, appointment reminders, property status changes, and permission changes. Notifications are stored in-database for the in-app bell/inbox experience and optionally dispatched as emails. Users can configure per-category notification preferences.
+Add session-scoped conversation context to the AI action engine so users can reference previous commands and entities in follow-up requests.
 
 ### Scope
 
 **In scope:**
-- `Notification` domain entity in orgs-api: id, recipientUserId, tenantId, category, title, body, link (deep link to relevant page), isRead, createdAt
-- Notification categories: `NewLeadReceived`, `AppointmentReminder`, `PropertyStatusChanged`, `PermissionChanged`
-- MediatR event handlers that create notifications in response to domain events:
-  - `LeadReceivedV1` -> notify assigned agent (or branch admins if unassigned)
-  - `AppointmentScheduledV1` / `AppointmentUpdatedV1` -> notify involved agent and contact (if contact has user account)
-  - `PropertyStatusChangedV1` -> notify assigned agent and branch admins
-  - Permission override created/removed -> notify affected user
-- Email delivery via SMTP (Mailhog in dev, configurable provider in production)
-- Email templates: HTML + plain text, branded with Propely logo, i18n (en, es)
-- `NotificationPreference` entity: per-user, per-category toggle for in-app and email independently
-- API endpoints: list notifications (paginated, filtered by read/unread), mark as read, mark all as read, get unread count, get/update preferences
-- Frontend: notification bell icon in header with unread badge, notification dropdown/panel, notification preferences page
-- Appointment reminder: background worker that creates reminder notifications 1 hour before appointment start time (configurable)
-- Stitch MCP design for notification dropdown and preferences page
+- Conversation session: identified by `sessionId` (client-generated UUID, sent with each request)
+- Context window: last N exchanges (default 10) stored server-side
+- Entity memory: track last-mentioned property, contact, appointment per session
+- Pronoun resolution: "it" → last mentioned entity, "her/him" → last mentioned contact, "there" → last mentioned address
+- Demonstrative resolution: "that apartment" → last property of type Apartment, "the same client" → last contact
+- `POST /v1/actions/execute` now accepts optional `sessionId` header or parameter
+- Context stored in Redis with TTL (30 minutes of inactivity)
+- Context is injected into OpenAI system prompt for function calling (recent exchanges as conversation history)
+- Clear context: "forget everything" or "start over" resets the session
 
 **Out of scope:**
-- Push notifications (mobile/browser push via FCM/APNs)
-- SMS notifications
-- Real-time WebSocket delivery (polling with 30-second interval is sufficient for launch)
-- Notification grouping/digest (daily summary email)
-- Third-party notification services (SendGrid, etc.) -- direct SMTP is sufficient
+- Cross-session memory (long-term user preferences)
+- Conversation history UI beyond the command bar's recent commands (P3.10 already shows last 10)
+- Multi-user conversation (each session is single-user)
 
 ### Acceptance Criteria
 
-- [ ] `Notification` entity persists with: `Id`, `RecipientUserId`, `TenantId`, `Category`, `Title`, `Body`, `Link`, `IsRead`, `CreatedAtUtc`
-- [ ] `NotificationPreference` entity stores per-user, per-category preferences: `InAppEnabled` (default: true), `EmailEnabled` (default: true)
-- [ ] When a `LeadReceivedV1` event fires, the assigned agent receives an in-app notification with a deep link to the lead detail page
-- [ ] When an appointment is scheduled, the assigned agent receives an in-app notification with a deep link to the calendar
-- [ ] The `AppointmentReminderWorker` background service creates reminder notifications 1 hour before appointments and sends email reminders
-- [ ] When a property status changes, the assigned agent and branch admins receive notifications
-- [ ] When a permission override is created or removed, the affected user receives a notification
-- [ ] `GET /api/notifications?page=1&pageSize=20&isRead=false` returns paginated notifications for the authenticated user
-- [ ] `PUT /api/notifications/{id}/read` and `PUT /api/notifications/read-all` mark notifications as read
-- [ ] Frontend notification bell in the header shows unread count badge; clicking opens a dropdown with recent notifications
-- [ ] All notification event handlers, API endpoints, and frontend components have tests
+- [ ] **AC1:** `POST /v1/actions/execute` accepts optional `X-Session-Id` header
+- [ ] **AC2:** If no session ID provided, each request is treated independently (stateless, backward-compatible)
+- [ ] **AC3:** With session ID: previous exchanges are loaded from Redis and injected into OpenAI prompt
+- [ ] **AC4:** "Reserve it for her" resolves "it" = last property, "her" = last contact
+- [ ] **AC5:** "Change the price to 300k" (without specifying property) resolves to last-mentioned property
+- [ ] **AC6:** "Show me more like it" resolves "it" to last-mentioned property and queries similar
+- [ ] **AC7:** Context window stores last 10 exchanges (configurable)
+- [ ] **AC8:** Context TTL is 30 minutes; expired sessions return to stateless mode
+- [ ] **AC9:** "Start over" or "forget everything" clears the session context
+- [ ] **AC10:** Context storage does not leak between tenants (key includes tenantId + userId)
+- [ ] **AC11:** Unit tests for pronoun resolution with mocked context
+- [ ] **AC12:** Integration tests for multi-turn conversations
 
 ### Implementation Steps
 
-1. Create `Notification` entity in `Domain/Notifications/`
-2. Create `NotificationCategory` enum: `NewLeadReceived`, `AppointmentReminder`, `PropertyStatusChanged`, `PermissionChanged`
-3. Create `NotificationPreference` entity in `Domain/Notifications/`
-4. Create EF Core configurations and migration for `notifications` and `notification_preferences` tables
-5. Create `INotificationRepository` and `INotificationPreferenceRepository` interfaces in Application layer
-6. Create repository implementations in Infrastructure layer
-7. Create `INotificationSender` interface in Application layer with methods: `SendInAppAsync`, `SendEmailAsync`
-8. Create `NotificationSender` implementation in Infrastructure that persists notification and optionally sends email
-9. Create `IEmailService` interface and `SmtpEmailService` implementation (using `MailKit` or `System.Net.Mail`)
-10. Create email templates in `Infrastructure/Notifications/Templates/`: `lead-received.html`, `appointment-reminder.html`, `property-status-changed.html`, `permission-changed.html`
-11. Create MediatR event handlers:
-    - `LeadReceivedNotificationHandler` (listens for `LeadReceivedV1`)
-    - `AppointmentNotificationHandler` (listens for `AppointmentCreatedV1`, `AppointmentUpdatedV1`)
-    - `PropertyStatusChangedNotificationHandler` (listens for `PropertyStatusChangedV1`)
-    - `PermissionChangedNotificationHandler` (listens for permission override events)
-12. Create `AppointmentReminderWorker` background service: queries appointments starting within the next hour that have not yet been reminded, creates notification + sends email
-13. Create MediatR commands/queries: `ListNotificationsQuery`, `GetUnreadCountQuery`, `MarkNotificationReadCommand`, `MarkAllNotificationsReadCommand`, `GetNotificationPreferencesQuery`, `UpdateNotificationPreferencesCommand`
-14. Create `NotificationsController` API endpoints
-15. Create Stitch design for notification dropdown and preferences page
-16. Download Stitch HTML to `.stitch-html/`
-17. Create `useNotifications` hook (poll for unread count every 30 seconds)
-18. Create `NotificationBell` component (header icon with badge)
-19. Create `NotificationDropdown` component (recent notifications list)
-20. Create `NotificationPreferencesPage` component
-21. Add i18n keys for notification titles, bodies, and preferences labels
-22. Write unit tests for all event handlers and command/query handlers
-23. Write integration tests for API endpoints
-24. Write frontend component tests
+1. Create `IConversationContext` interface in `Application/Actions/Interfaces/`
+2. Create `ConversationExchange` record — `{ UserInput, ActionType, Parameters, Result, Timestamp }`
+3. Create `EntityMemory` record — `{ LastPropertyId, LastContactId, LastAppointmentId, LastAddress }`
+4. Create `RedisConversationContext` in `Infrastructure/Actions/` — stores/loads exchanges and entity memory
+5. Create `ContextualPromptBuilder` — injects conversation history into OpenAI system prompt
+6. Create `PronounResolver` — resolves "it", "her", "him", "that" from entity memory
+7. Update `OpenAiActionClassifier` to accept context and include it in the prompt
+8. Update `ActionsController` to extract `X-Session-Id` and pass context through pipeline
+9. Update frontend `useExecuteAction` to send session ID
+10. Write tests
 
 ### Files to Create/Modify
 
 **Create:**
-- `services/orgs-api/src/Propely.OrgsApi.Domain/Notifications/Notification.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Domain/Notifications/NotificationCategory.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Domain/Notifications/NotificationPreference.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Notifications/Interfaces/INotificationRepository.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Notifications/Interfaces/INotificationPreferenceRepository.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Notifications/Interfaces/INotificationSender.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Notifications/Interfaces/IEmailService.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Notifications/Dtos/NotificationDto.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Notifications/Dtos/NotificationPreferenceDto.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Notifications/Queries/ListNotifications/ListNotificationsQuery.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Notifications/Queries/ListNotifications/ListNotificationsQueryHandler.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Notifications/Queries/GetUnreadCount/GetUnreadCountQuery.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Notifications/Queries/GetUnreadCount/GetUnreadCountQueryHandler.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Notifications/Queries/GetNotificationPreferences/GetNotificationPreferencesQuery.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Notifications/Queries/GetNotificationPreferences/GetNotificationPreferencesQueryHandler.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Notifications/Commands/MarkNotificationRead/MarkNotificationReadCommand.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Notifications/Commands/MarkNotificationRead/MarkNotificationReadCommandHandler.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Notifications/Commands/MarkAllNotificationsRead/MarkAllNotificationsReadCommand.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Notifications/Commands/MarkAllNotificationsRead/MarkAllNotificationsReadCommandHandler.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Notifications/Commands/UpdateNotificationPreferences/UpdateNotificationPreferencesCommand.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Notifications/Commands/UpdateNotificationPreferences/UpdateNotificationPreferencesCommandHandler.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Notifications/EventHandlers/LeadReceivedNotificationHandler.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Notifications/EventHandlers/AppointmentNotificationHandler.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Notifications/EventHandlers/PropertyStatusChangedNotificationHandler.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Notifications/EventHandlers/PermissionChangedNotificationHandler.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Infrastructure/Notifications/NotificationSender.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Infrastructure/Notifications/SmtpEmailService.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Infrastructure/Notifications/Templates/lead-received.html`
-- `services/orgs-api/src/Propely.OrgsApi.Infrastructure/Notifications/Templates/appointment-reminder.html`
-- `services/orgs-api/src/Propely.OrgsApi.Infrastructure/Notifications/Templates/property-status-changed.html`
-- `services/orgs-api/src/Propely.OrgsApi.Infrastructure/Notifications/Templates/permission-changed.html`
-- `services/orgs-api/src/Propely.OrgsApi.Infrastructure/Notifications/AppointmentReminderWorker.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Infrastructure/Persistence/Configurations/NotificationConfiguration.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Infrastructure/Persistence/Configurations/NotificationPreferenceConfiguration.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Infrastructure/Persistence/Repositories/NotificationRepository.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Infrastructure/Persistence/Repositories/NotificationPreferenceRepository.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Api/Controllers/NotificationsController.cs`
-- `services/orgs-api/tests/Propely.OrgsApi.Application.Tests/Notifications/EventHandlers/LeadReceivedNotificationHandlerTests.cs`
-- `services/orgs-api/tests/Propely.OrgsApi.Application.Tests/Notifications/EventHandlers/AppointmentNotificationHandlerTests.cs`
-- `services/orgs-api/tests/Propely.OrgsApi.Application.Tests/Notifications/EventHandlers/PropertyStatusChangedNotificationHandlerTests.cs`
-- `services/orgs-api/tests/Propely.OrgsApi.Application.Tests/Notifications/EventHandlers/PermissionChangedNotificationHandlerTests.cs`
-- `services/orgs-api/tests/Propely.OrgsApi.Application.Tests/Notifications/Commands/MarkNotificationReadCommandHandlerTests.cs`
-- `services/orgs-api/tests/Propely.OrgsApi.Application.Tests/Notifications/Queries/ListNotificationsQueryHandlerTests.cs`
-- `services/orgs-api/tests/Propely.OrgsApi.Api.Tests/Controllers/NotificationsControllerTests.cs`
-- `apps/web/src/components/notifications/NotificationBell.tsx`
-- `apps/web/src/components/notifications/NotificationDropdown.tsx`
-- `apps/web/src/components/notifications/NotificationItem.tsx`
-- `apps/web/src/app/[locale]/(dashboard)/settings/notifications/page.tsx`
-- `apps/web/src/hooks/useNotifications.ts`
-- `apps/web/src/hooks/useNotificationPreferences.ts`
-- `apps/web/src/components/notifications/__tests__/NotificationBell.test.tsx`
-- `apps/web/src/components/notifications/__tests__/NotificationDropdown.test.tsx`
-- `apps/web/src/components/notifications/__tests__/NotificationItem.test.tsx`
-- `.stitch-html/notification-dropdown.html`
-- `.stitch-html/notification-preferences.html`
+- `services/ai-api/src/Propely.AiApi.Application/Actions/Interfaces/IConversationContext.cs`
+- `services/ai-api/src/Propely.AiApi.Application/Actions/Models/ConversationExchange.cs`
+- `services/ai-api/src/Propely.AiApi.Application/Actions/Models/EntityMemory.cs`
+- `services/ai-api/src/Propely.AiApi.Infrastructure/Actions/RedisConversationContext.cs`
+- `services/ai-api/src/Propely.AiApi.Infrastructure/Actions/ContextualPromptBuilder.cs`
+- `services/ai-api/src/Propely.AiApi.Application/Actions/Services/PronounResolver.cs`
+- `services/ai-api/tests/Propely.AiApi.UnitTests/Application/Actions/Services/PronounResolverTests.cs`
+- `services/ai-api/tests/Propely.AiApi.UnitTests/Infrastructure/Actions/RedisConversationContextTests.cs`
+- `services/ai-api/tests/Propely.AiApi.UnitTests/Infrastructure/Actions/ContextualPromptBuilderTests.cs`
+- `services/ai-api/tests/Propely.AiApi.IntegrationTests/Api/ConversationContextTests.cs`
 
 **Modify:**
-- `services/orgs-api/src/Propely.OrgsApi.Infrastructure/Persistence/OrgsApiDbContext.cs` (add `DbSet<Notification>`, `DbSet<NotificationPreference>`)
-- `services/orgs-api/src/Propely.OrgsApi.Infrastructure/DependencyInjection.cs` (register notification services, email service, reminder worker)
-- `apps/web/src/components/layout/DashboardHeader.tsx` (add `NotificationBell` to header)
-- `apps/web/src/messages/en.json` (add notification i18n keys)
-- `apps/web/src/messages/es.json` (add notification i18n keys)
+- `services/ai-api/src/Propely.AiApi.Infrastructure/Actions/OpenAiActionClassifier.cs` (inject context)
+- `services/ai-api/src/Propely.AiApi.Api/Controllers/ActionsController.cs` (extract session ID)
+- `services/ai-api/src/Propely.AiApi.Infrastructure/DependencyInjection.cs` (register context service)
+- `apps/web/src/hooks/use-execute-action.ts` (add session ID to requests)
+- `apps/web/src/hooks/use-command-bar.ts` (manage session ID lifecycle)
 
 ### Testing Plan
 
 | Layer | What to test | Approach |
 |---|---|---|
-| Unit | `LeadReceivedNotificationHandler` creates notification for assigned agent | xUnit + FluentAssertions, mock `INotificationSender` |
-| Unit | `AppointmentNotificationHandler` creates notification for agent | xUnit, mock `INotificationSender` |
-| Unit | `PropertyStatusChangedNotificationHandler` notifies agent and admins | xUnit, mock `INotificationSender` |
-| Unit | `PermissionChangedNotificationHandler` notifies affected user | xUnit, mock `INotificationSender` |
-| Unit | `NotificationSender` respects user preferences (skips email if disabled) | xUnit, mock `IEmailService` |
-| Unit | `AppointmentReminderWorker` finds appointments within 1-hour window | xUnit, mock repository |
-| Unit | `MarkNotificationReadCommandHandler` sets `IsRead = true` | xUnit, mock repository |
-| Unit | `ListNotificationsQueryHandler` filters by read/unread and paginates | xUnit, mock repository |
-| Integration | `GET /api/notifications` returns correct notifications for authenticated user | `WebApplicationFactory` |
-| Integration | `PUT /api/notifications/{id}/read` marks notification as read | `WebApplicationFactory` |
-| Unit | `NotificationBell` shows unread count badge | Vitest + RTL |
-| Unit | `NotificationDropdown` renders notification items with links | Vitest + RTL |
-| Unit | `NotificationItem` renders category icon, title, time ago, read/unread styling | Vitest + RTL |
-| Manual | Trigger events and verify notifications appear in bell dropdown | Dev environment |
-| Manual | Verify emails arrive in Mailhog for each notification category | Dev environment |
-| Manual | Visual comparison against Stitch designs | Dev environment |
+| Unit | `PronounResolver` resolves "it" to last property | xUnit |
+| Unit | `PronounResolver` resolves "her" to last contact | xUnit |
+| Unit | `PronounResolver` returns null when no context matches | xUnit |
+| Unit | `RedisConversationContext` stores and retrieves exchanges | xUnit, mock Redis |
+| Unit | `RedisConversationContext` respects window size limit (10) | xUnit |
+| Unit | `RedisConversationContext` keys include tenantId + userId (isolation) | xUnit |
+| Unit | `ContextualPromptBuilder` injects history into system prompt | xUnit |
+| Unit | `ContextualPromptBuilder` handles empty history gracefully | xUnit |
+| Integration | Multi-turn: "create apartment in Malaga" → "reserve it for Maria" resolves correctly | `WebApplicationFactory` |
+| Integration | "Start over" clears context | `WebApplicationFactory` |
+| Integration | Expired session returns to stateless mode | `WebApplicationFactory` |
 
 ### Security & Privacy
 
-- Notifications are scoped to `RecipientUserId` + `TenantId`; users cannot see notifications for other users or tenants
-- Email templates must not include sensitive data beyond what is necessary (e.g., lead name, property reference, but not full contact details)
-- SMTP credentials stored in environment variables only; never logged
-- `AppointmentReminderWorker` runs with system-level access but creates notifications scoped to individual users
-- Notification API endpoints require authentication; no public access
-- Rate limit notification creation to prevent event storms from flooding user inboxes (max 100 notifications per user per hour)
+- Conversation context stored in Redis with TTL — automatically cleaned up
+- Context is tenant-scoped: Redis key = `conversation:{tenantId}:{userId}:{sessionId}`
+- Context may contain entity references (property IDs, contact names) — same privacy treatment as action execution
+- No PII persisted beyond the TTL window
 
 ### TDD Reminder
 
-Write event handler tests first: given a domain event, assert that the correct notification is created with the correct recipient, title, body, and link. Then implement the handlers. For the frontend, write component tests for the bell badge and dropdown rendering before building the components.
+Write `PronounResolver` tests first (all pronoun types, edge cases). Write context storage tests. Write multi-turn integration tests. Implement to pass.
 
 ---
 
-## Task 7.3 -- Onboarding Flow
+## Task 7.3 -- Proactive AI Suggestions
 
 **Status:** PENDING
-**Dependencies:** 1.2 (Agency Persistence & API), 1.6 (Frontend Agency Management), 2.3 (Property CRUD API)
+**Dependencies:** 3.1 (AI Action Engine core), 4.3 (Contacts & Leads API)
 
 ### Goal
 
-Create a guided onboarding wizard for new agencies that walks the agency owner through the essential first steps: creating the agency, setting up the first branch, inviting team members, and creating the first property listing. The wizard reduces time-to-value by providing a structured, frictionless first-run experience instead of dropping new users into an empty dashboard.
+Generate AI-powered business suggestions based on data patterns — surface actionable insights to agents without them asking.
 
 ### Scope
 
 **In scope:**
-- Onboarding wizard with 4 steps:
-  1. **Create Agency** -- agency name, logo upload, contact email, phone
-  2. **Create First Branch** -- branch name, address, phone, timezone
-  3. **Invite Agents** -- email invitation form (1-5 agents), role assignment (agent/admin), skip option
-  4. **Create First Property** -- simplified property form (type, operation, address, price, title, 1 photo), skip option
-- `OnboardingStatus` tracking entity: records which steps have been completed per agency
-- API endpoints: `GET /api/onboarding/status`, `POST /api/onboarding/complete-step`
-- Wizard is shown automatically after first login when `OnboardingStatus` is incomplete
-- Each step calls existing API endpoints (agency creation, branch creation, invite member, create property) -- the wizard is a UI orchestration layer, not new business logic
-- Skip option on steps 3 and 4 (inviting agents and creating property are optional during onboarding)
-- Progress indicator (step 1 of 4, step 2 of 4, etc.)
-- Completion celebration screen with links to key pages (dashboard, properties, team settings)
-- Stitch MCP design for each wizard step and the completion screen
-- i18n support (en, es)
+- Suggestion engine as a background service in `ai-api`
+- Rule-based triggers (configurable):
+  - "You have N leads that haven't been contacted in X days"
+  - "Property AP-XXX has been in Draft for X days — ready to activate?"
+  - "Contact Y has asked about N similar properties — consider a grouped viewing"
+  - "You have no appointments scheduled this week"
+  - "Lead conversion rate is below X% this month"
+- Each trigger produces a `Suggestion` record: type, message (NL), action link (what to do), priority
+- AI generates human-readable suggestion text from rule trigger data
+- Suggestions API: `GET /v1/suggestions` returns current suggestions for the user
+- Suggestions displayed in the command bar (subtle indicator) and as a notification feed
+- Suggestion lifecycle: Created → Viewed → Dismissed / Actioned
+- Runs periodically (every 15 minutes per tenant, configurable)
 
 **Out of scope:**
-- Billing/subscription setup during onboarding (separate flow)
-- Portal configuration (publishing setup is Phase 6)
-- Calendar integration setup
-- Interactive product tour (tooltips/highlights on existing pages)
-- Onboarding analytics (tracking drop-off rates)
+- Push notifications (email, SMS, browser push)
+- Custom rule creation by users
+- ML-based predictions (rule-based only for now)
 
 ### Acceptance Criteria
 
-- [ ] `OnboardingStatus` entity tracks: `AgencyId`, `AgencyCreated`, `FirstBranchCreated`, `AgentsInvited`, `FirstPropertyCreated`, `CompletedAtUtc`
-- [ ] `GET /api/onboarding/status` returns the current onboarding state for the authenticated user's agency
-- [ ] `POST /api/onboarding/complete-step` updates the onboarding status for the specified step
-- [ ] After first login, if onboarding is incomplete, the user is redirected to `/onboarding` instead of the dashboard
-- [ ] Step 1 (Create Agency) calls the existing agency creation API and advances to step 2 on success
-- [ ] Step 2 (Create First Branch) calls the existing branch creation API and advances to step 3
-- [ ] Step 3 (Invite Agents) sends email invitations via the existing invite API; "Skip" button advances to step 4
-- [ ] Step 4 (Create First Property) uses a simplified property creation form; "Skip" button advances to completion
-- [ ] Completion screen shows a celebration message and links to dashboard, properties, and team settings
-- [ ] Stitch designs exist for all 4 wizard steps and the completion screen; implementation matches pixel-for-pixel
+- [ ] **AC1:** Background service runs periodically per tenant and generates suggestions
+- [ ] **AC2:** "Stale leads" rule: triggers when leads > 7 days without contact (configurable)
+- [ ] **AC3:** "Draft property" rule: triggers when property in Draft > 14 days
+- [ ] **AC4:** "Grouped viewing" rule: triggers when a contact has interests in 3+ similar properties
+- [ ] **AC5:** "Empty calendar" rule: triggers when agent has 0 appointments in next 7 days
+- [ ] **AC6:** "Low conversion" rule: triggers when lead conversion rate < 20% for the month
+- [ ] **AC7:** `GET /v1/suggestions` returns suggestions ordered by priority (high first)
+- [ ] **AC8:** `POST /v1/suggestions/{id}/dismiss` marks suggestion as dismissed
+- [ ] **AC9:** `POST /v1/suggestions/{id}/action` marks as actioned (logs what the user did)
+- [ ] **AC10:** Dismissed suggestions don't reappear for the same trigger data
+- [ ] **AC11:** Suggestions include a recommended action (e.g., "Contact Maria Garcia" links to contact detail)
+- [ ] **AC12:** AI generates natural-sounding suggestion text from rule data
+- [ ] **AC13:** Unit tests for each rule trigger
+- [ ] **AC14:** Integration test for suggestion generation pipeline
 
 ### Implementation Steps
 
-1. Create `OnboardingStatus` entity in `Domain/Onboarding/`
-2. Create EF Core configuration and migration for `onboarding_status` table
-3. Create `IOnboardingRepository` interface in Application layer
-4. Create repository implementation in Infrastructure layer
-5. Create MediatR queries and commands: `GetOnboardingStatusQuery`, `CompleteOnboardingStepCommand`
-6. Create `OnboardingController` with status and complete-step endpoints
-7. Add middleware or page-level check: if user has agency with incomplete onboarding, redirect to `/onboarding`
-8. Create Stitch designs for: onboarding step 1 (agency), step 2 (branch), step 3 (invite), step 4 (property), completion screen
-9. Download Stitch HTML to `.stitch-html/onboarding-step-*.html` and `.stitch-html/onboarding-complete.html`
-10. Create `OnboardingWizard` page component with step routing
-11. Create `OnboardingStepIndicator` component (progress bar with step labels)
-12. Create `CreateAgencyStep` component (reuses agency creation form fields)
-13. Create `CreateBranchStep` component (reuses branch creation form fields)
-14. Create `InviteAgentsStep` component (email list input with role selector, skip button)
-15. Create `CreatePropertyStep` component (simplified property form, skip button)
-16. Create `OnboardingCompleteStep` component (celebration screen with navigation links)
-17. Add `useOnboardingStatus` hook for fetching and updating onboarding state
-18. Add i18n keys for onboarding wizard labels and instructions
-19. Write unit tests for command/query handlers
-20. Write integration tests for onboarding endpoints
-21. Write frontend component tests for each wizard step
+1. Create `Suggestion` entity in `Domain/Suggestions/`
+2. Create `SuggestionRule` interface and implementations per rule type
+3. Create suggestion generation service (background)
+4. Create `SuggestionsController` with list/dismiss/action endpoints
+5. Create frontend suggestion indicator in command bar
+6. Create suggestion notification feed component
+7. Write tests
 
 ### Files to Create/Modify
 
 **Create:**
-- `services/orgs-api/src/Propely.OrgsApi.Domain/Onboarding/OnboardingStatus.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Onboarding/Interfaces/IOnboardingRepository.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Onboarding/Dtos/OnboardingStatusDto.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Onboarding/Queries/GetOnboardingStatus/GetOnboardingStatusQuery.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Onboarding/Queries/GetOnboardingStatus/GetOnboardingStatusQueryHandler.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Onboarding/Commands/CompleteOnboardingStep/CompleteOnboardingStepCommand.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Onboarding/Commands/CompleteOnboardingStep/CompleteOnboardingStepCommandHandler.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Application/Onboarding/Commands/CompleteOnboardingStep/CompleteOnboardingStepCommandValidator.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Infrastructure/Persistence/Configurations/OnboardingStatusConfiguration.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Infrastructure/Persistence/Repositories/OnboardingRepository.cs`
-- `services/orgs-api/src/Propely.OrgsApi.Api/Controllers/OnboardingController.cs`
-- `services/orgs-api/tests/Propely.OrgsApi.Application.Tests/Onboarding/GetOnboardingStatusQueryHandlerTests.cs`
-- `services/orgs-api/tests/Propely.OrgsApi.Application.Tests/Onboarding/CompleteOnboardingStepCommandHandlerTests.cs`
-- `services/orgs-api/tests/Propely.OrgsApi.Api.Tests/Controllers/OnboardingControllerTests.cs`
-- `apps/web/src/app/[locale]/onboarding/page.tsx`
-- `apps/web/src/app/[locale]/onboarding/layout.tsx`
-- `apps/web/src/components/onboarding/OnboardingWizard.tsx`
-- `apps/web/src/components/onboarding/OnboardingStepIndicator.tsx`
-- `apps/web/src/components/onboarding/CreateAgencyStep.tsx`
-- `apps/web/src/components/onboarding/CreateBranchStep.tsx`
-- `apps/web/src/components/onboarding/InviteAgentsStep.tsx`
-- `apps/web/src/components/onboarding/CreatePropertyStep.tsx`
-- `apps/web/src/components/onboarding/OnboardingCompleteStep.tsx`
-- `apps/web/src/hooks/useOnboardingStatus.ts`
-- `apps/web/src/components/onboarding/__tests__/OnboardingWizard.test.tsx`
-- `apps/web/src/components/onboarding/__tests__/OnboardingStepIndicator.test.tsx`
-- `apps/web/src/components/onboarding/__tests__/CreateAgencyStep.test.tsx`
-- `apps/web/src/components/onboarding/__tests__/CreateBranchStep.test.tsx`
-- `apps/web/src/components/onboarding/__tests__/InviteAgentsStep.test.tsx`
-- `apps/web/src/components/onboarding/__tests__/CreatePropertyStep.test.tsx`
-- `apps/web/src/components/onboarding/__tests__/OnboardingCompleteStep.test.tsx`
-- `.stitch-html/onboarding-step-1-agency.html`
-- `.stitch-html/onboarding-step-2-branch.html`
-- `.stitch-html/onboarding-step-3-invite.html`
-- `.stitch-html/onboarding-step-4-property.html`
-- `.stitch-html/onboarding-complete.html`
+- `services/ai-api/src/Propely.AiApi.Domain/Suggestions/Suggestion.cs`
+- `services/ai-api/src/Propely.AiApi.Domain/Suggestions/SuggestionType.cs`
+- `services/ai-api/src/Propely.AiApi.Domain/Suggestions/SuggestionStatus.cs`
+- `services/ai-api/src/Propely.AiApi.Application/Suggestions/Interfaces/ISuggestionRule.cs`
+- `services/ai-api/src/Propely.AiApi.Application/Suggestions/Interfaces/ISuggestionRepository.cs`
+- `services/ai-api/src/Propely.AiApi.Application/Suggestions/Rules/StaleLeadsRule.cs`
+- `services/ai-api/src/Propely.AiApi.Application/Suggestions/Rules/DraftPropertyRule.cs`
+- `services/ai-api/src/Propely.AiApi.Application/Suggestions/Rules/GroupedViewingRule.cs`
+- `services/ai-api/src/Propely.AiApi.Application/Suggestions/Rules/EmptyCalendarRule.cs`
+- `services/ai-api/src/Propely.AiApi.Application/Suggestions/Rules/LowConversionRule.cs`
+- `services/ai-api/src/Propely.AiApi.Application/Suggestions/Services/SuggestionEngine.cs`
+- `services/ai-api/src/Propely.AiApi.Infrastructure/Suggestions/SuggestionGeneratorService.cs` (BackgroundService)
+- `services/ai-api/src/Propely.AiApi.Infrastructure/Persistence/Configurations/SuggestionConfiguration.cs`
+- `services/ai-api/src/Propely.AiApi.Infrastructure/Persistence/Repositories/SuggestionRepository.cs`
+- `services/ai-api/src/Propely.AiApi.Api/Controllers/SuggestionsController.cs`
+- `apps/web/src/components/command-bar/SuggestionIndicator.tsx`
+- `apps/web/src/components/suggestions/SuggestionFeed.tsx`
+- `apps/web/src/hooks/use-suggestions.ts`
+- `services/ai-api/tests/Propely.AiApi.UnitTests/Application/Suggestions/Rules/StaleLeadsRuleTests.cs`
+- `services/ai-api/tests/Propely.AiApi.UnitTests/Application/Suggestions/Rules/DraftPropertyRuleTests.cs`
+- `services/ai-api/tests/Propely.AiApi.UnitTests/Application/Suggestions/Rules/GroupedViewingRuleTests.cs`
+- `services/ai-api/tests/Propely.AiApi.UnitTests/Application/Suggestions/Services/SuggestionEngineTests.cs`
+- `services/ai-api/tests/Propely.AiApi.IntegrationTests/Api/SuggestionsControllerTests.cs`
 
 **Modify:**
-- `services/orgs-api/src/Propely.OrgsApi.Infrastructure/Persistence/OrgsApiDbContext.cs` (add `DbSet<OnboardingStatus>`)
-- `services/orgs-api/src/Propely.OrgsApi.Infrastructure/DependencyInjection.cs` (register onboarding repository)
-- `apps/web/src/middleware.ts` (add onboarding redirect logic for incomplete onboarding)
-- `apps/web/src/messages/en.json` (add onboarding i18n keys)
-- `apps/web/src/messages/es.json` (add onboarding i18n keys)
+- `services/ai-api/src/Propely.AiApi.Infrastructure/Persistence/AppDbContext.cs` (add `DbSet<Suggestion>`)
+- `services/ai-api/src/Propely.AiApi.Infrastructure/DependencyInjection.cs` (register suggestion services)
+- `apps/web/src/components/command-bar/CommandBar.tsx` (add suggestion indicator)
+- `apps/web/src/messages/en.json`, `apps/web/src/messages/es.json`
 
 ### Testing Plan
 
 | Layer | What to test | Approach |
 |---|---|---|
-| Unit | `GetOnboardingStatusQueryHandler` returns correct status for agency | xUnit + FluentAssertions, mock repository |
-| Unit | `CompleteOnboardingStepCommandHandler` updates the correct step flag | xUnit, mock repository |
-| Unit | `CompleteOnboardingStepCommandValidator` rejects invalid step names | xUnit |
-| Unit | Onboarding status is created on first access if none exists | xUnit, mock repository |
-| Integration | `GET /api/onboarding/status` returns onboarding state | `WebApplicationFactory` |
-| Integration | `POST /api/onboarding/complete-step` updates status | `WebApplicationFactory` |
-| Integration | Non-owner users cannot access onboarding endpoints (403) | `WebApplicationFactory` |
-| Unit | `OnboardingWizard` renders correct step based on status | Vitest + RTL |
-| Unit | `OnboardingStepIndicator` highlights current step, marks completed steps | Vitest + RTL |
-| Unit | Each step component validates inputs and calls API on submit | Vitest + RTL, mock fetch |
-| Unit | Skip button on steps 3 and 4 advances without API call | Vitest + RTL |
-| Unit | `OnboardingCompleteStep` renders links to dashboard, properties, and team settings | Vitest + RTL |
-| Manual | Full wizard flow from first login to completion | Dev environment |
-| Manual | Visual comparison against Stitch designs | Dev environment |
+| Unit | `StaleLeadsRule` triggers for leads > 7 days without contact | xUnit, mock SDK |
+| Unit | `StaleLeadsRule` does not trigger for recently contacted leads | xUnit |
+| Unit | `DraftPropertyRule` triggers for properties in Draft > 14 days | xUnit |
+| Unit | `GroupedViewingRule` triggers when contact has 3+ property interests | xUnit |
+| Unit | `EmptyCalendarRule` triggers for 0 appointments in next 7 days | xUnit |
+| Unit | `LowConversionRule` triggers for < 20% conversion | xUnit |
+| Unit | `SuggestionEngine` runs all rules and deduplicates | xUnit |
+| Integration | `GET /v1/suggestions` returns generated suggestions | `WebApplicationFactory` |
+| Integration | `POST /v1/suggestions/{id}/dismiss` marks dismissed | `WebApplicationFactory` |
 
 ### Security & Privacy
 
-- Onboarding endpoints restricted to agency owners only; agents and viewers cannot modify onboarding status
-- Onboarding status is scoped to `AgencyId`; no cross-agency access
-- Invitation emails (step 3) must not include sensitive agency data beyond the agency name and inviter name
-- Onboarding redirect must not create an infinite loop; unauthenticated users go to login, not onboarding
-- Simplified property creation (step 4) still enforces all domain validation rules
+- Suggestions reference entities by ID (property, contact) — no PII in suggestion text
+- Suggestion text is generated by AI from anonymized trigger data
+- Suggestions are scoped to the authenticated user + tenant
 
 ### TDD Reminder
 
-Write handler tests first: given an agency with partially completed onboarding, assert the correct status is returned and the correct step can be completed. For frontend, write wizard step-rendering tests and navigation tests (next step, skip, back) before implementing the components.
+Write rule trigger tests first (each rule with matching and non-matching data). Write engine deduplication tests. Implement to pass.
 
 ---
 
-## Task 7.4 -- Performance & Security Audit
+## Task 7.4 -- Stitch Design Refinement Pass
 
 **Status:** PENDING
-**Dependencies:** All P0--P6 tasks (the complete application must be feature-complete before audit)
+**Dependencies:** 7.1 (all major screens must exist)
 
 ### Goal
 
-Conduct a comprehensive performance, security, and accessibility audit of the entire Propely platform to establish production-readiness baselines. This includes load testing all API services with k6, reviewing the application against the OWASP Top 10, and verifying WCAG 2.1 AA accessibility compliance across all frontend pages. All findings are documented with remediation actions tracked to completion.
+Full design audit and consistency pass across all screens using Stitch MCP. Regenerate designs where needed, fix pixel-level inconsistencies, and verify responsive behavior.
 
 ### Scope
 
 **In scope:**
-- **Load testing (k6):**
-  - Write k6 scripts for critical API paths: authentication, property CRUD, property listing with filters, lead creation, appointment CRUD, dashboard aggregation
-  - Establish performance baselines: P50, P95, P99 latency; throughput (requests/second); error rate
-  - Test with simulated multi-tenant load (50 concurrent users across 10 tenants)
-  - Identify bottlenecks: slow queries (enable EF Core query logging), N+1 problems, missing indexes, inefficient aggregation
-  - Document results and remediate critical issues (P95 latency > 500ms for CRUD, > 1s for aggregation)
-- **OWASP Top 10 review:**
-  - A01: Broken Access Control -- verify tenant isolation, role-based authorization, permission enforcement across all endpoints
-  - A02: Cryptographic Failures -- verify token encryption, password hashing, HTTPS enforcement, no secrets in code
-  - A03: Injection -- verify parameterized queries (EF Core), input validation (FluentValidation), no raw SQL
-  - A04: Insecure Design -- review API rate limiting, account lockout, CORS policy
-  - A05: Security Misconfiguration -- review HTTP headers (HSTS, CSP, X-Frame-Options), error handling (no stack traces in production)
-  - A06: Vulnerable Components -- run `dotnet list package --vulnerable`, `npm audit`
-  - A07: Authentication Failures -- review JWT configuration, token expiry, refresh token rotation
-  - A08: Data Integrity Failures -- review deserialization safety, CI/CD pipeline integrity
-  - A09: Logging Failures -- verify security events are logged (failed auth, authorization violations, data access)
-  - A10: SSRF -- verify outgoing HTTP calls (SDK clients, calendar sync) do not allow user-controlled URLs
-- **Accessibility (WCAG 2.1 AA):**
-  - Automated scan of all pages with axe-core
-  - Manual keyboard navigation test for all interactive flows
-  - Screen reader testing for critical flows (login, property creation, lead management)
-  - Color contrast verification against WCAG AA ratios (4.5:1 normal text, 3:1 large text)
-  - Focus management: visible focus indicators, logical tab order, no focus traps
-  - ARIA labels on all interactive elements, form inputs, and status indicators
-- Remediation: fix all critical and high-severity findings; document accepted risks for medium/low
-- Final audit report documenting all findings, remediations, and accepted risks
+- Audit all existing screens in Stitch project (16786124142182555397)
+- Identify inconsistencies: spacing, colors, typography, border radius, shadows
+- Regenerate updated designs for screens that need refinement
+- Download updated Stitch HTML to `.stitch-html/`
+- Fix implementation to match updated designs
+- Responsive spot-check: all screens on mobile (375px) and tablet (768px)
+- Accessibility pass: color contrast (WCAG AA), focus indicators, ARIA attributes
 
 **Out of scope:**
-- Penetration testing by external security firm (future engagement)
-- SOC 2 or ISO 27001 compliance documentation
-- Mobile app performance testing (web only)
-- Stress testing (finding breaking point) -- load testing focuses on expected production load
-- Performance optimization of third-party services (Google Calendar API, OpenAI API)
+- New feature development
+- Performance optimization
+- Backend changes
 
 ### Acceptance Criteria
 
-- [ ] k6 load test scripts exist for: authentication, property CRUD, property list, lead creation, appointment CRUD, and dashboard endpoints
-- [ ] Load test results documented with P50/P95/P99 latencies; all critical paths meet SLA (CRUD P95 < 500ms, aggregation P95 < 1s, error rate < 1%)
-- [ ] All identified performance bottlenecks are remediated (missing indexes added, N+1 queries fixed, slow queries optimized)
-- [ ] OWASP Top 10 checklist completed for all 6 backend services; all critical findings remediated
-- [ ] Tenant isolation verified: no endpoint returns data from a different tenant (tested with cross-tenant request scripts)
-- [ ] `dotnet list package --vulnerable` returns zero critical/high vulnerabilities; `npm audit` returns zero critical/high
-- [ ] axe-core automated scan passes with zero critical/serious violations on all pages
-- [ ] Keyboard navigation works for all interactive flows: login, property CRUD, lead pipeline, calendar, onboarding wizard
-- [ ] Security headers configured: `Strict-Transport-Security`, `Content-Security-Policy`, `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`
-- [ ] Final audit report (`docs/audits/p7-launch-readiness-audit.md`) documents all findings, remediations, and accepted risks
+- [ ] **AC1:** All Stitch designs in project reviewed and updated where inconsistent
+- [ ] **AC2:** All `.stitch-html/` files updated to latest designs
+- [ ] **AC3:** Implementation matches Stitch designs pixel-for-pixel (verified by visual comparison)
+- [ ] **AC4:** All screens responsive at 375px, 768px, and 1280px
+- [ ] **AC5:** WCAG AA color contrast met on all text elements
+- [ ] **AC6:** All interactive elements have visible focus indicators
+- [ ] **AC7:** All forms have proper label associations and ARIA attributes
+- [ ] **AC8:** No regressions in existing component tests
 
 ### Implementation Steps
 
-1. **Load testing setup:**
-   a. Install k6 and create `tests/load/` directory
-   b. Create `tests/load/config.js` with base configuration (VUs, duration, thresholds)
-   c. Create `tests/load/helpers/auth.js` helper for obtaining JWT tokens
-   d. Create `tests/load/helpers/data-generators.js` for generating test data
-2. **Write k6 scripts:**
-   a. `tests/load/scenarios/auth-flow.js` -- login, token refresh
-   b. `tests/load/scenarios/property-crud.js` -- create, read, update, list with filters
-   c. `tests/load/scenarios/lead-creation.js` -- create leads for properties
-   d. `tests/load/scenarios/appointment-crud.js` -- create, list, status changes
-   e. `tests/load/scenarios/dashboard.js` -- agent and admin dashboard endpoints
-   f. `tests/load/run-all.js` -- orchestrates all scenarios with 50 concurrent VUs across 10 tenants
-3. **Execute load tests** against local Docker Compose stack, capture results
-4. **Analyze results:** identify endpoints exceeding SLA thresholds
-5. **Remediate performance issues:**
-   a. Enable EF Core query logging, identify slow queries
-   b. Add missing database indexes
-   c. Fix N+1 queries with `.Include()` or projection
-   d. Optimize dashboard aggregation queries
-   e. Re-run load tests to verify improvements
-6. **OWASP review:**
-   a. Create `docs/audits/owasp-checklist.md` with checklist for each A01--A10 item
-   b. Review each service systematically against the checklist
-   c. Test tenant isolation: create script that attempts cross-tenant API access
-   d. Run `dotnet list package --vulnerable` on all solutions
-   e. Run `npm audit` on web frontend
-   f. Review HTTP security headers in API responses
-   g. Fix identified vulnerabilities (update packages, add headers, fix authorization gaps)
-7. **Accessibility audit:**
-   a. Install `@axe-core/cli` or integrate axe-core into Playwright/Cypress
-   b. Create accessibility test script that crawls all authenticated pages
-   c. Run automated scan, capture results
-   d. Manual keyboard navigation test: tab through all forms, modals, dropdowns
-   e. Screen reader test: use NVDA or VoiceOver for login, property creation, lead management
-   f. Fix violations: add ARIA labels, fix contrast ratios, add focus indicators, fix tab order
-   g. Re-run automated scan to verify fixes
-8. **Security headers:**
-   a. Add security headers middleware to all .NET services
-   b. Add `Content-Security-Policy` header to Next.js (`next.config.js`)
-   c. Verify headers with `securityheaders.com` or `curl -I`
-9. **Document results:**
-   a. Create `docs/audits/p7-launch-readiness-audit.md` with sections: Executive Summary, Load Test Results, OWASP Findings, Accessibility Findings, Accepted Risks, Remediation Log
-10. **Final verification:** re-run all load tests, OWASP checks, and accessibility scans after remediation
-
-### Files to Create/Modify
-
-**Create:**
-- `tests/load/config.js`
-- `tests/load/helpers/auth.js`
-- `tests/load/helpers/data-generators.js`
-- `tests/load/scenarios/auth-flow.js`
-- `tests/load/scenarios/property-crud.js`
-- `tests/load/scenarios/lead-creation.js`
-- `tests/load/scenarios/appointment-crud.js`
-- `tests/load/scenarios/dashboard.js`
-- `tests/load/run-all.js`
-- `docs/audits/owasp-checklist.md`
-- `docs/audits/p7-launch-readiness-audit.md`
-- `tests/accessibility/axe-scan.ts` (or `.js`)
-- `tests/accessibility/keyboard-navigation.md` (manual test script)
-
-**Modify:**
-- `services/orgs-api/src/Propely.OrgsApi.Api/Program.cs` (add security headers middleware)
-- `services/ai-api/src/Propely.AiApi.Api/Program.cs` (add security headers middleware)
-- `services/properties-api/src/Propely.PropertiesApi.Api/Program.cs` (add security headers middleware)
-- `services/contacts-api/src/Propely.ContactsApi.Api/Program.cs` (add security headers middleware)
-- `services/appointments-api/src/Propely.AppointmentsApi.Api/Program.cs` (add security headers middleware)
-- `services/publishing-api/src/Propely.PublishingApi.Api/Program.cs` (add security headers middleware)
-- `apps/web/next.config.js` (add security headers)
-- Various `.csproj` files (update vulnerable packages)
-- `apps/web/package.json` (update vulnerable packages)
-- Various `.cs` and `.tsx` files (fix N+1 queries, add ARIA labels, fix accessibility issues)
-- EF Core migration files (add missing indexes identified during load testing)
+1. List all screens in Stitch project
+2. Compare each Stitch design against implementation
+3. Document discrepancies
+4. Regenerate Stitch designs where needed
+5. Fix implementation to match
+6. Run responsive checks
+7. Run accessibility checks (aXe or similar)
+8. Verify no test regressions
 
 ### Testing Plan
 
 | Layer | What to test | Approach |
 |---|---|---|
-| Load | Authentication flow under 50 concurrent users | k6 with JWT token generation |
-| Load | Property CRUD P95 latency < 500ms | k6, 50 VUs, 5-minute sustained load |
-| Load | Property list with filters P95 latency < 500ms | k6, paginated queries with varied filters |
-| Load | Dashboard aggregation P95 latency < 1s | k6, agent + admin endpoints |
-| Security | Tenant isolation: cross-tenant requests return 403 or empty | k6 script with mismatched tenant headers |
-| Security | SQL injection: parameterized queries only (EF Core audit) | Code review + automated check |
-| Security | Vulnerable packages: zero critical/high | `dotnet list package --vulnerable`, `npm audit` |
-| Security | Security headers present on all responses | `curl -I` against each service |
-| Accessibility | axe-core scan: zero critical/serious violations | axe-core CLI or Playwright integration |
-| Accessibility | Keyboard navigation: all flows completable via keyboard | Manual testing with checklist |
-| Accessibility | Color contrast: all text meets WCAG AA ratios | axe-core + manual spot-check |
-| Accessibility | Screen reader: critical flows narrated correctly | NVDA/VoiceOver manual testing |
-
-### Security & Privacy
-
-- Load test data must use synthetic/generated data, not real customer data
-- k6 scripts must not contain hardcoded credentials; use environment variables for auth
-- OWASP audit findings classified as Critical/High must be remediated before launch; no exceptions
-- Vulnerability scan results (`npm audit`, `dotnet list package --vulnerable`) must not be committed to the repo if they contain exploitable details; only the summary report is committed
-- Accessibility audit documents may reference page URLs but must not include screenshots containing PII test data
+| Visual | All screens match Stitch designs | Manual comparison |
+| Visual | Responsive layouts at 375px, 768px, 1280px | Browser dev tools |
+| Accessibility | Color contrast | aXe browser extension |
+| Accessibility | Focus indicators | Manual keyboard navigation |
+| Regression | Existing component tests still pass | `npm test` |
 
 ### TDD Reminder
 
-For performance remediation: write a failing performance assertion (e.g., query takes > 500ms), then optimize (add index, fix N+1) until the assertion passes. For security fixes: write an integration test that attempts the attack vector (e.g., cross-tenant access) and asserts rejection. For accessibility: add axe-core assertions to existing component tests where violations are found.
-
----
-
-## Completion Criteria
-
-Phase 7 is complete when:
-
-1. Agent and admin dashboards display accurate, aggregated KPIs from properties, contacts/leads, and appointments
-2. In-app and email notifications fire for all key events (new lead, appointment reminder, property status change, permission change) and users can configure preferences
-3. New agency owners complete the onboarding wizard successfully (agency -> branch -> invite -> property)
-4. All API endpoints meet P95 latency SLAs under simulated production load (50 concurrent users)
-5. OWASP Top 10 review is complete with zero critical/high findings unresolved
-6. WCAG 2.1 AA accessibility scan passes with zero critical/serious violations
-7. Security headers are configured on all services
-8. Zero critical/high vulnerable dependencies in both .NET and npm packages
-9. Final audit report is published at `docs/audits/p7-launch-readiness-audit.md`
-10. All tests pass across all services and the frontend
+Run existing test suite before and after changes. Document visual changes in walkthrough.

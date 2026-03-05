@@ -2,9 +2,11 @@
 
 ## Vision
 
-Propely is a **multi-tenant, AI-powered real estate management SaaS** for agencies operating in the Spanish and Portuguese markets. The platform enables agencies to manage properties across branches, leverage AI for data entry and multilingual content generation, capture and nurture leads, schedule appointments, and publish listings to major real estate portals.
+Propely is a **multi-tenant, AI-powered real estate management SaaS** for agencies operating in the Spanish and Portuguese markets. The platform's core differentiator is **natural language process automation**: agents interact with the system through text and voice commands to create properties, manage leads, schedule appointments, close operations, and perform any system action — without navigating menus or filling forms manually.
 
-**Property is the central entity.** Every other domain concept (contacts, leads, appointments, publications) orbits around properties.
+**The AI is the interface.** Instead of "AI helps fill a form," the vision is "the user speaks or types what they need, and the system executes it."
+
+**Property is the central entity.** Every other domain concept (contacts, leads, appointments) orbits around properties.
 
 ## Target Users
 
@@ -57,7 +59,6 @@ Individual users can receive **permission overrides** that extend or restrict th
 | `contacts.view_all` | View all contacts in the branch | No |
 | `contacts.edit_all` | Edit any contact in the branch | No |
 | `appointments.view_all` | View all appointments in the branch | No |
-| `publishing.manage` | Publish/unpublish properties to portals | No |
 | `leads.manage` | Manage leads (assign, convert, close) | Yes |
 | `reports.view` | Access dashboards and analytics | No |
 
@@ -70,12 +71,64 @@ Overrides are stored as `(UserId, Permission, Granted: bool)` — a deny overrid
 | Service | Port | Purpose | Database |
 |---------|------|---------|----------|
 | `apps/web` | 3000 | Next.js 16 frontend | — |
-| `services/ai-api` | 5010 | AI capabilities (smart-fill, copy generation) | `propely_aiapi` |
+| `services/ai-api` | 5010 | AI action engine — NL intent classification, action execution, voice transcription, copy generation | `propely_aiapi` |
 | `services/orgs-api` | 5020 | Auth, agencies, branches, teams, billing, permissions | `propely_orgsapi` |
 | `services/properties-api` | 5030 | Property management (core domain) | `propely_propertiesapi` |
 | `services/contacts-api` | 5050 | Contacts, leads, communication | `propely_contactsapi` |
 | `services/appointments-api` | 5060 | Appointments, calendar sync | `propely_appointmentsapi` |
-| `services/publishing-api` | 5040 | Portal publication, XML feeds, webhooks | `propely_publishingapi` |
+| `services/publishing-api` | 5040 | Portal publication (deprioritized — scaffolded, no active tasks) | `propely_publishingapi` |
+
+### AI Action Engine Architecture
+
+The `ai-api` service is the orchestrator for all natural language interactions:
+
+```
+User Input (text or voice)
+        │
+        ▼
+┌─────────────────────────────┐
+│  Voice Input?                │
+│  ── gpt-4o-mini-transcribe ─┤── STT (Speech-to-Text)
+│     via OpenAI Audio API     │
+└──────────┬──────────────────┘
+           │ (text)
+           ▼
+┌─────────────────────────────┐
+│  Intent Classifier           │
+│  ── OpenAI function calling ─┤── Classifies intent + extracts entities
+│     with tool definitions    │   "Create a 3-bed apartment in Malaga for 250k"
+│                              │   → intent: CreateProperty
+│                              │   → entities: {bedrooms: 3, type: Apartment, city: Malaga, price: 250000}
+└──────────┬──────────────────┘
+           │
+           ▼
+┌─────────────────────────────┐
+│  Action Router               │
+│  ── IActionHandler<T>        │── Dispatches to typed handler via DI
+│     pattern (MediatR)        │
+└──────────┬──────────────────┘
+           │
+           ▼
+┌─────────────────────────────────────────────────────┐
+│  Action Handlers (one per action type)               │
+│                                                      │
+│  CreatePropertyHandler  → PropertiesApi SDK          │
+│  CreateLeadHandler      → ContactsApi SDK            │
+│  BookViewingHandler     → AppointmentsApi SDK        │
+│  QueryPropertyHandler   → PropertiesApi SDK          │
+│  GenerateCopyHandler    → OpenAI (copy generation)   │
+│  ReservePropertyHandler → PropertiesApi SDK          │
+│  CloseOperationHandler  → PropertiesApi SDK          │
+│  ...extensible via IActionHandler<T> registration    │
+└──────────┬──────────────────────────────────────────┘
+           │
+           ▼
+┌─────────────────────────────┐
+│  Response Builder            │
+│  ── Structured result +      │── Returns action result + NL confirmation
+│     NL confirmation text     │   "Created apartment AP-2024-001 in Malaga"
+└─────────────────────────────┘
+```
 
 ### Inter-Service Communication
 
@@ -84,22 +137,28 @@ Services communicate via **NuGet SDK clients** built with Refit:
 | SDK | Published by | Consumed by |
 |-----|-------------|-------------|
 | `Propely.OrgsApi.Client` | orgs-api | All backend services |
-| `Propely.AiApi.Client` | ai-api | properties-api |
-| `Propely.PropertiesApi.Client` | properties-api | publishing-api, contacts-api, appointments-api |
-| `Propely.ContactsApi.Client` | contacts-api | appointments-api |
+| `Propely.AiApi.Client` | ai-api | web (via HTTP), properties-api |
+| `Propely.PropertiesApi.Client` | properties-api | ai-api, contacts-api, appointments-api |
+| `Propely.ContactsApi.Client` | contacts-api | ai-api, appointments-api |
+| `Propely.AppointmentsApi.Client` | appointments-api | ai-api |
 
 Tenant context (`X-Tenant-Id`) is propagated via `TenantDelegatingHandler` in all SDK clients.
+
+**Key change:** `ai-api` now **consumes** the SDK clients of other services (properties, contacts, appointments) to execute actions on behalf of the user.
 
 ### Key Technology Decisions
 
 | Decision | Choice | Rationale |
 |----------|--------|-----------|
-| Property forms | JSON Forms (`@jsonforms/react`) | JSON Schema-driven, supports i18n via `translate`, dynamic form generation |
-| Calendar UI | FullCalendar Standard (MIT) | Month/week/day views, drag-and-drop, proven library |
+| NL action classification | OpenAI function calling / tool use | Native structured output, reliable intent+entity extraction |
+| Voice transcription | `gpt-4o-mini-transcription` (OpenAI Audio API) | Cost-effective, high-quality STT for Spanish and English |
+| Property forms | JSON Forms (`@jsonforms/react`) | JSON Schema-driven, supports i18n, dynamic form generation |
+| Calendar UI | FullCalendar Standard (MIT) | Month/week/day views, drag-and-drop |
 | Inter-service HTTP | Refit + `IHttpClientFactory` + Polly | Declarative, resilient, testable |
-| AI model | gpt-5-mini (OpenAI) | Cost-effective for field extraction and copy generation |
+| AI model (general) | gpt-5-mini (OpenAI) | Cost-effective for intent classification and content generation |
 | Cloud storage | GCP Cloud Storage | Aligns with existing GCP Cloud Run infrastructure |
-| Portal feeds | XML (per-portal XSD) | Industry standard for Kyero, Thribee, SpainHouses |
+| Command bar UI | cmdk (React) | Lightweight, accessible command palette |
+| Portal field reference | Kyero/SpainHouses/Thribee XSD schemas | Used as reference for property model fields, not for publication |
 
 ## Development Methodology
 
@@ -147,25 +206,25 @@ Coverage targets:
 - **Deliverables:** All code compiles and tests pass with `Propely.*` naming.
 
 ### Task 0.3 — Scaffold New Service Solutions
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 0.2
 - **Scope:** Create solution scaffolding for the 4 new microservices (properties-api, contacts-api, appointments-api, publishing-api). Each gets the Clean Architecture 4-layer structure + test projects. No domain logic yet — just compilable empty shells.
 - **Deliverables:** 4 new `.sln` files, 4×6 projects (Domain, Application, Infrastructure, Api, UnitTests, IntegrationTests), architecture tests enforcing layer dependencies.
 
 ### Task 0.4 — NuGet SDK Client Infrastructure
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 0.3
 - **Scope:** Create the `Propely.<Service>.Client` project pattern with Refit interfaces, `TenantDelegatingHandler`, Polly retry policies, and `IServiceCollection` extensions. Implement for `orgs-api` first as the reference.
 - **Deliverables:** `Propely.OrgsApi.Client` package, consumption example, integration test verifying tenant header propagation.
 
 ### Task 0.5 — Docker Compose & Infrastructure Updates
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 0.3
 - **Scope:** Update `docker-compose.yml` to include all 6 services. Update database init script to create all 6 databases. Add new run scripts for each service. Update `.env.example`.
 - **Deliverables:** `docker-compose up` starts all services. Individual run scripts work. Health endpoints respond.
 
 ### Task 0.6 — CI Pipeline Updates
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 0.5
 - **Scope:** Update GitHub Actions CI to build and test all 6 services. Update deploy workflows. Add per-service build matrix.
 - **Deliverables:** CI pipeline builds and tests all services. Deployment targets updated.
@@ -202,7 +261,7 @@ Coverage targets:
 - **TDD:** Integration tests verifying authorization enforcement at API level.
 
 ### Task 1.5 — Orgs-API NuGet SDK Client
-- **Status:** IN_PROGRESS
+- **Status:** DONE
 - **Dependencies:** 1.4, 0.4
 - **Scope:** Create `Propely.OrgsApi.Client` with Refit interfaces for: get user permissions, validate membership, get agency/branch hierarchy. Other services will use this to enforce authorization.
 - **TDD:** Contract tests verifying SDK matches API behavior.
@@ -229,21 +288,22 @@ Coverage targets:
 
 ## Phase 2 — Properties Microservice
 
-**Goal:** Build the core domain — property management with full CRUD, lifecycle, media, multilingual descriptions, and JSON Forms.
+**Goal:** Build the core domain — property management with full CRUD, lifecycle, media, multilingual descriptions, and JSON Forms. The property model includes fields informed by portal schemas (Kyero, SpainHouses, Thribee) to ensure compatibility if publication is enabled later.
 
 ### Task 2.1 — Property Domain Model
 - **Status:** PENDING
 - **Dependencies:** 0.3
 - **Scope:** Define `Property` aggregate root with:
-  - Value objects: `PropertyType` (Apartment, House, Villa, Townhouse, Penthouse, Studio, Office, Retail, Warehouse, Land, NewConstruction), `OperationType` (Sale, Rent, VacationRental, RentToBuy), `PropertyStatus` (Draft, Active, Reserved, Sold, Rented, Archived), `Address`, `GeoLocation`, `Price`, `Area`
-  - Properties: title, reference code, type, operation, status, address, geo, price, area (built/usable/plot), rooms, bathrooms, floor, has elevator, has parking, has pool, has garden, energy certificate, year built, description (multi-lang), features list
-  - Behavior: `Activate()`, `Reserve()`, `MarkSold()`, `MarkRented()`, `Archive()`, `Reactivate()` with state machine validation
-  - Events: `PropertyCreatedV1`, `PropertyUpdatedV1`, `PropertyStatusChangedV1`, `PropertyArchivedV1`
-  - Agent assignment: `AssignedAgentId` (FK to user)
-  - Tenant isolation: `BranchId` (FK to org)
+  - Enums: `PropertyType` (Apartment, House, Villa, Penthouse, Studio, Commercial, Land, Garage, StorageRoom, Building, Office), `OperationType` (Sale, Rent, SaleOrRent, Transfer, Vacation), `PropertyStatus` (Draft, Active, Reserved, Sold, Rented, Archived), `EnergyRating` (A-G + Exempt), `Orientation` (N/NE/E/SE/S/SW/W/NW)
+  - Value objects: `Address` (street, city, province, postalCode, country, provinceCode (INE 2-digit), municipalityCode (INE 5-digit), latitude, longitude), `PropertyFeatures` (bedrooms, bathrooms, builtArea, usableArea, plotArea, floor, orientation, yearBuilt, energyRating, energyConsumption, energyEmissions, hasPool, hasGarden, hasGarage, hasElevator, hasTerrace, airConditioning, heating, furnished, parkingSpaces), `PropertyFinancials` (price, communityFees, ibiTax, catastroReference), `LocalizedText` (es, pt, en, fr, de, nl)
+  - Behavior: `ChangeStatus()` with state machine validation — `Sold`, `Rented`, `Archived` are terminal states
+  - Events: `PropertyCreatedV1`, `PropertyUpdatedV1`, `PropertyStatusChangedV1`, `PropertyDeletedV1`
+  - Agent assignment: `AgentId` (FK to user), tenant isolation: `TenantId` (FK to org)
+  - Calculated: `PricePerSqm` (price / builtArea when both > 0)
+  - Soft-delete support via `ISoftDeletable`
 - **TDD:** Exhaustive unit tests for state transitions, invariants, validation.
 
-### Task 2.2 — Property Persistence (EF Core)
+### Task 2.2 — Property Persistence & Repository
 - **Status:** PENDING
 - **Dependencies:** 2.1
 - **Scope:** EF Core DbContext, entity configurations (owned types for value objects), migrations, repository implementations, query specifications for filtering/sorting/pagination.
@@ -255,45 +315,9 @@ Coverage targets:
 - **Scope:** CQRS commands and queries: CreateProperty, UpdateProperty, DeleteProperty (soft), ChangePropertyStatus, AssignAgent, ListProperties (paginated, filtered, sorted), GetPropertyById. Authorization via orgs-api SDK (agent sees own, admin/owner sees all, viewer reads only).
 - **TDD:** Integration tests for every endpoint + authorization scenarios (agent owns, agent doesn't own, admin, viewer).
 
-### Task 2.4 — Multi-Language Descriptions
+### Task 2.4 — Property JSON Schema & Validation
 - **Status:** PENDING
 - **Dependencies:** 2.1
-- **Scope:** `PropertyDescription` value object with `Dictionary<string, LocalizedContent>` where key is ISO 639-1 code (es, en, fr, de, ...). `LocalizedContent` contains title, description, and feature highlights. Spanish is the default but none are mandatory beyond at least one.
-- **TDD:** Unit tests for localized content validation, serialization.
-
-### Task 2.5 — Media Management
-- **Status:** PENDING
-- **Dependencies:** 2.3
-- **Scope:**
-  - `PropertyMedia` entity: id, propertyId, type (Photo, FloorPlan, Document, Video, VirtualTour), url, thumbnailUrl, sortOrder, caption, mimeType, sizeBytes
-  - For Photo/FloorPlan/Document: upload to GCP Cloud Storage, generate thumbnails
-  - For Video/VirtualTour: store external URL only (YouTube, Matterport)
-  - API: upload media, reorder, delete, set primary photo
-  - Storage abstraction: `IFileStorageService` with GCP implementation + local filesystem for dev
-- **TDD:** Unit tests for media validation. Integration tests for upload/download. Mock storage for unit tests.
-
-### Task 2.6 — Property Lifecycle State Machine
-- **Status:** PENDING
-- **Dependencies:** 2.3
-- **Scope:** Enforce valid state transitions via domain logic:
-  ```
-  Draft → Active (requires: at least 1 photo, title in at least 1 language, price, type, operation)
-  Active → Reserved
-  Active → Archived
-  Reserved → Active (unreserve)
-  Reserved → Sold (if operation=Sale/RentToBuy)
-  Reserved → Rented (if operation=Rent/VacationRental/RentToBuy)
-  Sold → Archived
-  Rented → Archived
-  Rented → Active (re-list)
-  Archived → Draft (re-open)
-  ```
-  Emit `PropertyStatusChangedV1` event on every transition.
-- **TDD:** Unit tests for every valid transition, every invalid transition, and prerequisite validation.
-
-### Task 2.7 — JSON Forms Schema & Frontend Setup
-- **Status:** PENDING
-- **Dependencies:** 2.3
 - **Scope:**
   1. Define JSON Schema for property data entry (all fields from 2.1)
   2. Define UI Schema for layout and conditional visibility
@@ -302,80 +326,201 @@ Coverage targets:
   5. i18n integration via JSON Forms `translate` function
 - **TDD:** Component tests for custom renderers. Schema validation tests.
 
-### Task 2.8 — Frontend: Property List & Detail
+### Task 2.5 — Property Media Management
 - **Status:** PENDING
-- **Dependencies:** 2.7, 1.6
+- **Dependencies:** 2.2
 - **Scope:**
-  1. Use case definition: list properties (filter by status, type, operation, agent), view property detail
-  2. Stitch MCP design generation
-  3. Implementation: property list with filters/pagination, property detail page with gallery, map, descriptions
-- **TDD:** Component tests. E2E test for list → detail navigation.
+  - `PropertyMedia` entity: id, propertyId, type (Photo, FloorPlan, Document, Video, VirtualTour), url, thumbnailUrl, sortOrder, caption, mimeType, sizeBytes
+  - For Photo/FloorPlan/Document: upload to GCP Cloud Storage, generate thumbnails
+  - For Video/VirtualTour: store external URL only (YouTube, Matterport)
+  - API: upload media, reorder, delete, set primary photo
+  - Storage abstraction: `IFileStorageService` with GCP implementation + local filesystem for dev
+- **TDD:** Unit tests for media validation. Integration tests for upload/download. Mock storage for unit tests.
 
-### Task 2.9 — Frontend: Property Create & Edit
+### Task 2.6 — Properties-API NuGet SDK Client
 - **Status:** PENDING
-- **Dependencies:** 2.7, 2.8
+- **Dependencies:** 2.3, 0.4
+- **Scope:** Create `Propely.PropertiesApi.Client` with Refit interfaces: get property by ID, list properties (filtered), get property media. Used by ai-api, contacts-api, appointments-api.
+- **TDD:** Contract tests.
+
+### Task 2.7 — Frontend: Property List
+- **Status:** PENDING
+- **Dependencies:** 2.3
+- **Scope:**
+  1. Use case definition: list properties (filter by status, type, operation, agent), paginated grid/list views
+  2. Stitch MCP design generation
+  3. Implementation: property list with filters/pagination
+- **TDD:** Component tests. E2E test for list navigation.
+
+### Task 2.8 — Frontend: Property Create & Edit Form
+- **Status:** PENDING
+- **Dependencies:** 2.3, 2.4
 - **Scope:**
   1. Use case definition: create property (JSON Forms wizard), edit property
   2. Stitch MCP design generation
   3. Implementation: multi-step form with JSON Forms, media upload, map picker, preview before save
 - **TDD:** Component tests for form steps. Integration test for full creation flow.
 
-### Task 2.10 — Properties-API NuGet SDK Client
+### Task 2.9 — Frontend: Property Detail View
+- **Status:** PENDING
+- **Dependencies:** 2.3, 2.5
+- **Scope:**
+  1. Use case definition: view property detail with gallery, map, descriptions, status actions
+  2. Stitch MCP design generation
+  3. Implementation: property detail page with gallery, map, descriptions, status change buttons
+- **TDD:** Component tests. E2E test for detail navigation.
+
+### Task 2.10 — Property Search & Advanced Filters
 - **Status:** PENDING
 - **Dependencies:** 2.3
-- **Scope:** Create `Propely.PropertiesApi.Client` with Refit interfaces: get property by ID, list properties (filtered), get property media. Used by publishing-api, contacts-api, appointments-api.
-- **TDD:** Contract tests.
+- **Scope:** Full-text search, advanced filtering (price range, area range, features), saved filters, sorting options. Query specifications for complex filter combinations.
+- **TDD:** Integration tests for search scenarios. Component tests for filter UI.
 
 ---
 
-## Phase 3 — AI Smart-Fill & Content Generation
+## Phase 3 — AI Action Engine
 
-**Goal:** Enable agents to populate property forms from free text or photos using AI, and generate multilingual property descriptions.
+**Goal:** Build the core AI orchestration layer that enables users to perform any system action through natural language (text or voice). This is the platform's primary differentiator.
 
-### Task 3.1 — AI Field Extraction from Text
+**Existing base:** The `ParseWorkItemCommand` pattern in ai-api already demonstrates NL text → structured output. Phase 3 extends this to the entire domain with function calling, cross-service SDKs, and voice input.
+
+### Task 3.1 — Intent Classifier & Action Router
 - **Status:** PENDING
-- **Dependencies:** 2.1, 0.4
-- **Scope:** Extend ai-api with `POST /api/properties/extract-from-text` endpoint. Accepts free-text property description → returns structured JSON matching the property JSON Schema. Uses gpt-5-mini with a carefully engineered system prompt. Returns confidence scores per field.
-- **TDD:** Unit tests with mocked OpenAI (fixed responses). Integration test with real API (optional, behind flag).
+- **Dependencies:** 0.4
+- **Scope:** Build the core AI orchestration infrastructure in `ai-api`:
+  - `POST /api/actions/execute` — accepts text input, classifies intent via OpenAI function calling, routes to the appropriate action handler, returns structured result + NL confirmation
+  - `IActionHandler<TAction, TResult>` interface pattern for typed action dispatch
+  - `ActionRouter` service that maps classified intents to handlers via DI
+  - Action definitions as OpenAI tool schemas (one per action type)
+  - Conversation context support (session-scoped, for follow-up commands)
+- **TDD:** Unit tests for router, handler dispatch, intent mapping. Integration test for end-to-end pipeline.
 
-### Task 3.2 — AI Field Extraction from Photos
+### Task 3.2 — Property Actions via Natural Language
 - **Status:** PENDING
-- **Dependencies:** 3.1, 2.5
-- **Scope:** `POST /api/properties/extract-from-photos` endpoint. Accepts one or more property photos → uses gpt-5-mini vision to extract: property type, room count, features (pool, garden, parking), approximate area, condition, style. Returns partial structured JSON with confidence scores.
-- **TDD:** Unit tests with mocked vision API. Test with sample property photos.
+- **Dependencies:** 3.1, 2.6
+- **Scope:** Implement action handlers for property operations:
+  - `CreatePropertyAction` — extract fields from NL, create property via PropertiesApi SDK
+  - `UpdatePropertyAction` — update specific fields ("change the price to 300k")
+  - `QueryPropertyAction` — search/filter ("show me all apartments in Malaga under 200k")
+  - `ChangePropertyStatusAction` — "activate", "reserve", "mark as sold"
+  - Confidence-scored field extraction with user confirmation for low-confidence fields
+- **TDD:** Unit tests for each handler with mocked SDK. Integration tests for NL→action→SDK pipeline.
 
-### Task 3.3 — AI Copy Generation
+### Task 3.3 — AI Content Generation
 - **Status:** PENDING
 - **Dependencies:** 3.1
-- **Scope:** `POST /api/properties/generate-copy` endpoint. Accepts structured property data + target languages → generates marketing descriptions in each language. Supports tone options (professional, casual, luxury). Returns `Dictionary<string, LocalizedContent>`.
-- **TDD:** Unit tests with mocked API. Test for multiple language outputs.
+- **Scope:** AI-powered content generation exposed through the action engine:
+  - `GenerateCopyAction` — marketing descriptions in multiple languages (es, en, fr, de, nl) with tone options (professional, luxury, casual, concise)
+  - `ExtractFromTextAction` — paste property listing text → structured property data with confidence scores
+  - `ExtractFromPhotosAction` — upload photos → extract property type, features, room count via vision API
+  - Prompt engineering for Spanish real estate terminology
+- **TDD:** Unit tests with mocked OpenAI. Prompt regression test suite (20+ cases).
 
-### Task 3.4 — AI Prompt Engineering & Tuning
+### Task 3.4 — Contact & Lead Actions via Natural Language
 - **Status:** PENDING
-- **Dependencies:** 3.1, 3.2, 3.3
-- **Scope:** Refine system prompts for Spanish real estate terminology, Idealista/Fotocasa style conventions, energy certificate codes, cadastral reference formats. Create prompt test suite with real property descriptions and expected outputs. Measure extraction accuracy.
-- **TDD:** Prompt regression test suite (input descriptions → expected field extractions).
+- **Dependencies:** 3.1, 4.5
+- **Scope:** Action handlers for contacts and leads:
+  - `CreateLeadAction` — "new lead from Maria Garcia for the apartment on Calle Mayor"
+  - `CreateContactAction` — "add contact Juan Lopez, buyer, 650123456"
+  - `QualifyLeadAction` — "qualify the lead from Maria"
+  - `ConvertLeadAction` — "convert Maria's lead to a contact"
+  - `QueryLeadsAction` — "show me new leads from this week"
+  - Automatic property matching from NL descriptions
+- **TDD:** Unit tests for each handler. Integration tests for cross-service action execution.
 
-### Task 3.5 — AI-API NuGet SDK Client Enhancement
+### Task 3.5 — Operation Actions via Natural Language
 - **Status:** PENDING
-- **Dependencies:** 3.1, 3.2, 3.3
-- **Scope:** Extend `Propely.AiApi.Client` with Refit interfaces for text extraction, photo extraction, and copy generation endpoints. Add typed request/response DTOs.
-- **TDD:** Contract tests.
+- **Dependencies:** 3.2
+- **Scope:** Action handlers for property lifecycle operations:
+  - `ReservePropertyAction` — "reserve the apartment on Calle Mayor for Maria Garcia"
+  - `CloseOperationAction` — "close the sale of AP-2024-001" (marks sold/rented based on operation type)
+  - `ArchivePropertyAction` — "archive property AP-2024-015"
+  - `ReactivatePropertyAction` — "relist the apartment on Calle Mayor"
+  - Operations require entity resolution: match property references (code, address, or description) to actual properties
+- **TDD:** Unit tests for operation handlers. Entity resolution tests with fuzzy matching.
 
-### Task 3.6 — Frontend: Smart-Fill UX
+### Task 3.6 — Appointment Actions via Natural Language
 - **Status:** PENDING
-- **Dependencies:** 3.5, 2.9
+- **Dependencies:** 3.1, 5.8
+- **Scope:** Action handlers for appointments:
+  - `BookViewingAction` — "book a viewing for the Malaga villa with Maria Garcia next Tuesday at 10am"
+  - `QueryAppointmentsAction` — "what do I have scheduled this week?"
+  - `CancelAppointmentAction` — "cancel Tuesday's viewing"
+  - `RescheduleAppointmentAction` — "move the viewing to Wednesday at 3pm"
+  - Relative date parsing ("next Tuesday", "this Friday", "tomorrow afternoon")
+- **TDD:** Unit tests for each handler. Date parsing tests with Spanish locale.
+
+### Task 3.7 — Voice Input (Speech-to-Text)
+- **Status:** PENDING
+- **Dependencies:** 3.1
+- **Scope:** Voice transcription endpoint in `ai-api`:
+  - `POST /api/voice/transcribe` — accepts audio (WebM/Opus from browser MediaRecorder, WAV, MP3)
+  - Uses `gpt-4o-mini-transcription` via OpenAI Audio API
+  - Returns transcribed text + language detected
+  - After transcription, optionally chains into `POST /api/actions/execute` for a single-step voice→action pipeline
+  - `POST /api/voice/execute` — accepts audio, transcribes, executes action, returns result (combined endpoint)
+  - Audio size limit: 25 MB (OpenAI limit)
+  - Supported languages: Spanish (primary), English, French, German, Dutch
+- **TDD:** Unit tests with mocked audio API. Integration test for voice→text→action pipeline.
+
+### Task 3.8 — AI-API NuGet SDK Client
+- **Status:** PENDING
+- **Dependencies:** 3.1, 3.7
+- **Scope:** Create `Propely.AiApi.Client` NuGet package:
+  - `IActionApi` — `ExecuteActionAsync(text)`, `ExecuteVoiceActionAsync(audio)`
+  - `IPropertyExtractionApi` — `ExtractFromTextAsync`, `ExtractFromPhotosAsync`
+  - `IContentGenerationApi` — `GenerateCopyAsync`
+  - `IVoiceApi` — `TranscribeAsync(audio)`
+  - Typed request/response DTOs, Polly policies (60s timeout for AI calls)
+- **TDD:** DI registration tests. Polly policy tests.
+
+### Task 3.9 — Prompt Engineering & Spanish RE Vocabulary
+- **Status:** PENDING
+- **Dependencies:** 3.2, 3.3, 3.4
+- **Scope:** Systematic prompt tuning for the Spanish real estate domain:
+  - Property type vocabulary: piso, adosado, chalet, atico, bajo, duplex, finca, cortijo, local, oficina, nave, solar, garaje
+  - Spanish-specific fields: catastro, IBI, comunidad de propietarios, certificado energetico
+  - Few-shot examples for common Spanish listing formats (Idealista, Fotocasa style)
+  - Prompt regression test suite: 20+ input/expected-output pairs
+  - Bilingual support (mixed Spanish/English input)
+- **TDD:** Regression tests run as part of `dotnet test`. Accuracy threshold >= 85%.
+
+### Task 3.10 — Frontend: Command Bar
+- **Status:** PENDING
+- **Dependencies:** 3.8
 - **Scope:**
-  1. Use case definition: paste text → preview extracted fields → accept/modify → save. Upload photos → preview extracted data → merge with text extraction → review → save.
+  1. Use case definition: global command bar for text input, accessible via `Ctrl+K` / `Cmd+K`
   2. Stitch MCP design generation
-  3. Implementation: smart-fill panel in property create form, confidence indicators per field, diff view for review, photo upload zone with extraction progress.
-- **TDD:** Component tests for smart-fill panel. E2E test for full text→extract→review→save flow.
+  3. Implementation:
+     - `cmdk`-based command palette overlay
+     - Free-form text input at the top
+     - Action suggestions as user types (debounced)
+     - Result display: confirmation, created entity link, error with retry
+     - Recent commands history (session-scoped)
+     - Keyboard navigation
+- **TDD:** Component tests for command bar interactions. E2E test for text→action→result flow.
+
+### Task 3.11 — Frontend: Voice Mode
+- **Status:** PENDING
+- **Dependencies:** 3.10, 3.7
+- **Scope:**
+  1. Use case definition: microphone button in command bar, hold-to-record or toggle
+  2. Stitch MCP design generation
+  3. Implementation:
+     - Microphone button in command bar with recording indicator (pulsing ring)
+     - Browser `MediaRecorder` API for audio capture (WebM/Opus or WAV)
+     - `useVoiceInput` hook handling: permission request, recording start/stop, audio upload
+     - Real-time waveform visualization during recording
+     - Transcribed text appears in command bar input, then auto-executes
+     - Error handling: microphone permission denied, no audio detected, transcription failure
+     - Mobile-friendly: large tap target, haptic feedback (vibration API)
+- **TDD:** Component tests with mocked MediaRecorder. Hook tests for recording lifecycle.
 
 ---
 
 ## Phase 4 — Contacts & Leads
 
-**Goal:** Build the contacts domain with dual-role contacts, lead management, and property linkage.
+**Goal:** Build the contacts domain with dual-role contacts, lead management, and property linkage. NL actions for contacts/leads are handled in P3.4.
 
 ### Task 4.1 — Contact Domain Model
 - **Status:** PENDING
@@ -415,7 +560,7 @@ Coverage targets:
 ### Task 4.5 — Contacts-API NuGet SDK Client
 - **Status:** PENDING
 - **Dependencies:** 4.3
-- **Scope:** `Propely.ContactsApi.Client` with Refit interfaces: get contact, list contacts, get leads for property, create lead (used by publishing-api for portal webhooks).
+- **Scope:** `Propely.ContactsApi.Client` with Refit interfaces: get contact, list contacts, get leads for property, create lead. Used by ai-api for NL lead actions.
 - **TDD:** Contract tests.
 
 ### Task 4.6 — Frontend: Contacts List & Detail
@@ -440,7 +585,7 @@ Coverage targets:
 
 ## Phase 5 — Appointments & Calendar
 
-**Goal:** Enable scheduling of property viewings, meetings, and generic appointments with bidirectional calendar sync.
+**Goal:** Enable scheduling of property viewings, meetings, and generic appointments with bidirectional calendar sync. NL scheduling is handled in P3.6.
 
 ### Task 5.1 — Appointment Domain Model
 - **Status:** PENDING
@@ -495,65 +640,36 @@ Coverage targets:
   3. Implementation: booking modal with date/time picker, contact selection, property selection (for viewings)
 - **TDD:** Component tests. Integration test for booking flow.
 
----
-
-## Phase 6 — Portal Publication
-
-**Goal:** Publish property listings to major real estate portals via XML feeds and receive leads via webhooks. This phase is a strong market differentiator but can ship after the core MVP.
-
-### Task 6.1 — Publishing Domain Model
+### Task 5.8 — Appointments-API NuGet SDK Client
 - **Status:** PENDING
-- **Dependencies:** 0.3
-- **Scope:** Define `Publication` entity:
-  - Fields: propertyId, portal (Kyero, Thribee, SpainHouses), status (Pending, Published, Failed, Removed), lastPublishedAt, externalId, feedUrl, errors
-  - `PortalAdapter` interface: `GenerateXml(property)`, `Validate(property)`, `GetRequiredFields()`
-  - Events: `PropertyPublishedV1`, `PropertyUnpublishedV1`, `PublicationFailedV1`
-- **TDD:** Unit tests for publication lifecycle, validation per portal.
-
-### Task 6.2 — Portal Adapters: Kyero
-- **Status:** PENDING
-- **Dependencies:** 6.1, 2.10
-- **Scope:** Implement Kyero XML v3.9 adapter. Map Propely property model → Kyero XML schema. Handle required fields, media URLs, feature mapping. Validate against Kyero XSD.
-- **TDD:** Unit tests with sample properties → expected XML output. XSD validation tests.
-
-### Task 6.3 — Portal Adapters: Thribee
-- **Status:** PENDING
-- **Dependencies:** 6.1, 2.10
-- **Scope:** Implement Thribee XML adapter (covers Trovit, Mitula, Nestoria, Nuroa). Map property model → Thribee XML schema.
-- **TDD:** Unit tests with sample properties → expected XML output.
-
-### Task 6.4 — Portal Adapters: SpainHouses
-- **Status:** PENDING
-- **Dependencies:** 6.1, 2.10
-- **Scope:** Implement SpainHouses.net XML + XSD adapter. Spain-domestic focus.
-- **TDD:** Unit tests with sample properties → expected XML output. XSD validation.
-
-### Task 6.5 — Publishing Worker
-- **Status:** PENDING
-- **Dependencies:** 6.2, 6.3, 6.4
-- **Scope:** Background worker that listens for `PropertyStatusChangedV1` events. When a property is activated and has portal assignments, generates XML feed and publishes. Handles retries, error reporting. Periodic re-sync job.
-- **TDD:** Integration tests for event → XML generation → publish flow.
-
-### Task 6.6 — Lead Intake Webhooks
-- **Status:** PENDING
-- **Dependencies:** 6.1, 4.5
-- **Scope:** Webhook endpoints for each portal. Parse incoming lead data, deduplicate, create lead in contacts-api via SDK (lead always linked to the published property). Handle different portal lead formats.
-- **TDD:** Integration tests with sample webhook payloads for each portal.
-
-### Task 6.7 — Frontend: Publication Management
-- **Status:** PENDING
-- **Dependencies:** 6.5, 2.8
-- **Scope:**
-  1. Use case definition: select portals for a property, view publication status, retry failed, bulk publish/unpublish
-  2. Stitch MCP design generation
-  3. Implementation: publication panel in property detail, portal status badges, bulk actions in property list
-- **TDD:** Component tests. E2E test for publish/unpublish flow.
+- **Dependencies:** 5.2
+- **Scope:** `Propely.AppointmentsApi.Client` with Refit interfaces: create appointment, list by agent/date, get by ID. Used by ai-api for NL appointment actions.
+- **TDD:** Contract tests.
 
 ---
 
-## Phase 7 — Polish & Analytics
+## Phase 6 — Portal Reference (Deprioritized)
 
-**Goal:** Dashboard, analytics, design refinement, and additional features.
+**Goal:** Portal publication infrastructure is **not actively developed**. The `publishing-api` service is scaffolded but has no active tasks. Portal schemas (Kyero v3.9, SpainHouses XSD, Thribee) are used as **reference documentation** for property model fields.
+
+**Status:** DEPRIORITIZED — All original tasks moved to backlog. Lead intake webhooks may be recovered when there is business demand.
+
+### What is kept:
+- `services/publishing-api/` scaffolding (Clean Architecture shell) — exists, no changes planned
+- Portal schema documentation as reference for property field definitions
+
+### What is deferred:
+- Publication domain model and status machine (old 6.1)
+- Portal adapters: Kyero, Thribee, SpainHouses (old 6.2–6.4)
+- Publishing worker (old 6.5)
+- Lead intake webhooks (old 6.6) — recoverable from backlog
+- Frontend publication management (old 6.7)
+
+---
+
+## Phase 7 — Intelligence & Analytics
+
+**Goal:** Dashboard, analytics, AI conversation intelligence, and platform polish.
 
 ### Task 7.1 — Dashboard & Analytics
 - **Status:** PENDING
@@ -564,17 +680,27 @@ Coverage targets:
   3. Implementation: dashboard pages with charts and KPIs
 - **TDD:** Component tests. API tests for analytics endpoints.
 
-### Task 7.2 — AI Property Valuation (Experimental)
+### Task 7.2 — Conversation Context & Memory
 - **Status:** PENDING
-- **Dependencies:** 3.4
-- **Scope:** AI endpoint that estimates property value based on characteristics, location, and comparable properties. Experimental feature — clearly marked as estimate, not professional valuation.
-- **TDD:** Unit tests with mocked AI. Sanity checks for output ranges.
+- **Dependencies:** 3.1
+- **Scope:** Session-scoped conversation context for the AI action engine:
+  - Remember entities referenced in previous commands ("the apartment" → last mentioned property)
+  - Pronoun resolution ("reserve it for her" → last property + last contact)
+  - Conversation history display in command bar
+  - Context window management (last N exchanges)
+  - Server-side session storage with TTL
+- **TDD:** Unit tests for context resolution. Integration tests for multi-turn conversations.
 
-### Task 7.3 — Additional Portal Adapters
+### Task 7.3 — Proactive AI Suggestions
 - **Status:** PENDING
-- **Dependencies:** 6.5
-- **Scope:** Add adapters for Idealista, Fotocasa, Habitaclia (if API access is available — these portals may require partnership agreements).
-- **TDD:** Same pattern as Phase 6 adapters.
+- **Dependencies:** 3.1, 4.3
+- **Scope:** AI-generated suggestions based on data patterns:
+  - "You have 3 leads without contact in 7 days"
+  - "Property AP-2024-001 has been in Draft for 14 days"
+  - "Maria Garcia has asked about 3 similar properties — consider a grouped viewing"
+  - Suggestions displayed as a notification feed and optionally in the command bar
+  - Rule engine: configurable trigger conditions + AI-generated human-readable text
+- **TDD:** Unit tests for suggestion rules. Integration tests for end-to-end suggestion pipeline.
 
 ### Task 7.4 — Stitch Design Refinement Pass
 - **Status:** PENDING
@@ -597,13 +723,22 @@ Phase 1 ──┼── 1.1 Agency ───── 1.2 Agency API ─── 1.6 
            │   └── 1.3 Perms ── 1.4 Perms API ─── 1.7 Perms UI
            │                    └── 1.5 Orgs SDK
            │
-Phase 2 ──┼── 2.1 Property ─── 2.2 EF Core ──── 2.3 CRUD API ── 2.10 SDK
-           │   └── 2.4 i18n     └── 2.5 Media   │
-           │                    └── 2.6 Lifecycle │
-           │                    └── 2.7 JSON Forms ── 2.8 List UI ── 2.9 Create UI
+Phase 2 ──┼── 2.1 Property ─── 2.2 Persistence ── 2.3 CRUD API ── 2.6 SDK
+           │   └── 2.4 Schema   └── 2.5 Media     │  └── 2.10 Search
+           │                                       └── 2.7 List UI
+           │                                       └── 2.8 Create UI (needs 2.4)
+           │                                       └── 2.9 Detail UI (needs 2.5)
            │
-Phase 3 ──┼── 3.1 Text Extract ─── 3.2 Photo Extract
-           │   └── 3.3 Copy Gen ─── 3.4 Prompts ── 3.5 SDK ── 3.6 UI
+Phase 3 ──┼── 3.1 Intent Classifier ─── 3.2 Property Actions
+  (AI)     │   │                         3.3 Content Generation
+           │   ├── 3.4 Contact/Lead Actions (needs 4.5)
+           │   ├── 3.5 Operation Actions
+           │   ├── 3.6 Appointment Actions (needs 5.8)
+           │   ├── 3.7 Voice Input (STT)
+           │   ├── 3.8 AI SDK Client
+           │   ├── 3.9 Prompt Engineering
+           │   ├── 3.10 Frontend: Command Bar
+           │   └── 3.11 Frontend: Voice Mode
            │
 Phase 4 ──┼── 4.1 Contact ──── 4.2 Lead ──── 4.3 API ──── 4.5 SDK
            │                                  └── 4.4 Conversion
@@ -612,24 +747,31 @@ Phase 4 ──┼── 4.1 Contact ──── 4.2 Lead ──── 4.3 API �
 Phase 5 ──┼── 5.1 Appointment ── 5.2 API ──── 5.3 Google ─┐
            │                                   5.4 Outlook ─┤── 5.5 Sync
            │                                   └── 5.6 Calendar UI ── 5.7 Booking
+           │                                   └── 5.8 SDK
            │
-Phase 6 ──┼── 6.1 Publishing ── 6.2 Kyero ─┐
-           │                     6.3 Thribee ├── 6.5 Worker ── 6.7 UI
-           │                     6.4 Spain ──┘   └── 6.6 Webhooks
+Phase 6 ──── (DEPRIORITIZED — scaffolded only, portal schemas as reference)
            │
-Phase 7 ──┴── 7.1 Dashboard ── 7.2 Valuation
-                                7.3 Adapters ── 7.4 Design
+Phase 7 ──┴── 7.1 Dashboard ── 7.2 Conversation Context
+                                7.3 Proactive Suggestions
+                                7.4 Design Refinement
 ```
 
-## Portal Targets
+### Recommended execution order
 
-| Portal | Format | Market | Notes |
-|--------|--------|--------|-------|
-| Kyero | XML v3.9 | Spain, Portugal (international buyers) | English-language portal, most international traffic |
-| Thribee | XML | Multi-country (Trovit, Mitula, Nestoria, Nuroa) | Aggregator covering 4 portals with one feed |
-| SpainHouses.net | XML + XSD | Spain (domestic) | XSD validation required |
-| Idealista | API (future) | Spain, Portugal, Italy | Requires partnership, Phase 7 |
-| Fotocasa | API (future) | Spain | Requires partnership, Phase 7 |
+The AI action engine (P3) depends on service SDKs being available. The recommended build order interleaves domain and AI work:
+
+1. **P1 frontend** (1.6, 1.7) — unblock UI development
+2. **P2 core** (2.1–2.6) — property domain + persistence + API + media + SDK
+3. **P3 core** (3.1, 3.2, 3.3, 3.7) — intent classifier, property NL actions, voice STT
+4. **P2 frontend** (2.4, 2.7–2.10) — JSON schema, property UI (list, create, detail, search)
+5. **P4 core** (4.1–4.5) — contacts/leads domain + SDK
+6. **P3 extend** (3.4, 3.5) — contact/lead NL actions, operation actions
+7. **P5 core** (5.1–5.2, 5.8) — appointments domain + SDK
+8. **P3 extend** (3.6) — appointment NL actions
+9. **P3 frontend** (3.8–3.11) — SDK client, prompt tuning, command bar, voice
+10. **P4–P5 frontend** — contacts UI, calendar UI
+11. **P5 sync** (5.3–5.5) — calendar integrations
+12. **P7** — dashboard, conversation context, proactive suggestions
 
 ## Key Library Decisions
 
@@ -643,3 +785,5 @@ Phase 7 ──┴── 7.1 Dashboard ── 7.2 Valuation
 | Google.Apis.Calendar.v3 | latest | Google Calendar integration | Apache 2.0 |
 | Microsoft.Graph | latest | Outlook calendar integration | MIT |
 | Google.Cloud.Storage.V1 | latest | GCP Cloud Storage for media | Apache 2.0 |
+| OpenAI (NuGet) | latest | Chat completions, function calling, audio API | MIT |
+| cmdk | latest | Command palette/bar for NL input | MIT |

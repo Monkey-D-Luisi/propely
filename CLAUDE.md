@@ -7,13 +7,13 @@
 
 ## Project Overview
 
-Propely is a multi-tenant, AI-powered real estate management SaaS. The repository is a monorepo with 7 services orchestrated by Docker Compose:
+Propely is a multi-tenant, AI-powered real estate management SaaS. The platform's core differentiator is **natural language process automation**: agents interact with the system through text and voice commands to create properties, manage leads, schedule appointments, close operations, and perform any system action. The repository is a monorepo with 7 services orchestrated by Docker Compose:
 
 - `apps/web/` - Next.js 16 + Tailwind CSS frontend (port 3000)
-- `services/ai-api/` - .NET 10 AI API -- AI capabilities, content generation (port 5010)
+- `services/ai-api/` - .NET 10 AI API -- AI action engine, NL intent classification, voice transcription (gpt-4o-mini-transcription), content generation (port 5010)
 - `services/orgs-api/` - .NET 10 Orgs API -- auth, agencies, branches, billing, permissions (port 5020)
 - `services/properties-api/` - .NET 10 Properties API -- core property domain (port 5030)
-- `services/publishing-api/` - .NET 10 Publishing API -- portal feeds, webhooks (port 5040)
+- `services/publishing-api/` - .NET 10 Publishing API -- **deprioritized**, scaffolded only (port 5040)
 - `services/contacts-api/` - .NET 10 Contacts API -- contacts, leads (port 5050)
 - `services/appointments-api/` - .NET 10 Appointments API -- scheduling, calendar sync (port 5060)
 
@@ -53,9 +53,21 @@ Inter-service communication uses Refit NuGet SDK clients:
 | SDK | Published by | Consumed by |
 |-----|-------------|-------------|
 | `Propely.OrgsApi.Client` | orgs-api | All backend services |
-| `Propely.AiApi.Client` | ai-api | properties-api |
-| `Propely.PropertiesApi.Client` | properties-api | publishing-api, contacts-api, appointments-api |
-| `Propely.ContactsApi.Client` | contacts-api | appointments-api |
+| `Propely.AiApi.Client` | ai-api | web (via HTTP), properties-api |
+| `Propely.PropertiesApi.Client` | properties-api | ai-api, contacts-api, appointments-api |
+| `Propely.ContactsApi.Client` | contacts-api | ai-api, appointments-api |
+| `Propely.AppointmentsApi.Client` | appointments-api | ai-api |
+
+### AI Action Engine (core differentiator)
+The `ai-api` service acts as the AI orchestration layer. Architecture:
+1. **Input** — Text (`POST /v1/actions/execute`) or voice audio (`POST /v1/voice/execute`)
+2. **Voice STT** — `gpt-4o-mini-transcription` via OpenAI Audio API (if voice)
+3. **Intent classification** — OpenAI function calling with tool definitions for each action type
+4. **Action routing** — `IActionHandler<T>` pattern (MediatR) dispatches to typed handlers
+5. **Execution** — Handlers call other service SDK clients (PropertiesApi, ContactsApi, AppointmentsApi)
+6. **Response** — Structured result + NL confirmation text
+
+Key: `ai-api` **consumes** other service SDK clients to execute actions on behalf of the user.
 
 ## Key Commands
 
@@ -142,6 +154,7 @@ Design tokens are defined in `apps/web/src/app/globals.css` via Tailwind v4 `@th
 |---------|---------|
 | JSON Forms (`@jsonforms/react`) | Schema-driven property forms |
 | FullCalendar Standard | Calendar views for appointments |
+| cmdk | Command bar / command palette for NL input |
 | Stitch MCP | Design generation (Project ID: `16786124142182555397`, model: `GEMINI_3_PRO`) |
 
 ### Color usage
