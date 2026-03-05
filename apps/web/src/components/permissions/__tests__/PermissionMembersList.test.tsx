@@ -169,7 +169,7 @@ describe('PermissionMembersList', () => {
     expect(screen.getByText('Viewer')).toBeInTheDocument();
   });
 
-  it('renders manage links for each member', () => {
+  it('renders manage links for each member when user is manager', () => {
     vi.mocked(useCurrentUser).mockReturnValue({
       user: { id: 'u1', email: 'alice@example.com', name: 'Alice', emailVerified: true, isSystemAdmin: false },
       isLoading: false,
@@ -188,6 +188,27 @@ describe('PermissionMembersList', () => {
 
     const manageLinks = screen.getAllByRole('link', { name: /Manage/ });
     expect(manageLinks).toHaveLength(4);
+  });
+
+  it('hides manage links for non-manager users', () => {
+    vi.mocked(useCurrentUser).mockReturnValue({
+      user: { id: 'u3', email: 'carol@example.com', name: 'Carol', emailVerified: true, isSystemAdmin: false },
+      isLoading: false,
+      error: null,
+    });
+    vi.mocked(useMembers).mockReturnValue({
+      members: mockMembers,
+      setMembers: vi.fn(),
+      pagination: emptyPagination,
+      isLoading: false,
+      error: null,
+      refetch: vi.fn(),
+    });
+
+    renderWithProviders(<PermissionMembersList orgId="org-1" />);
+
+    const manageLinks = screen.queryAllByRole('link', { name: /Manage/ });
+    expect(manageLinks).toHaveLength(0);
   });
 
   it('shows read-only banner for non-manager users', () => {

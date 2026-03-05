@@ -3,11 +3,12 @@
 
 'use client';
 
-import { useMembers } from '@/hooks/orgs';
+import { useCurrentUser, useMembers } from '@/hooks/orgs';
 import { useTranslations } from 'next-intl';
 import { PermissionDetailPanel } from '@/components/permissions/PermissionDetailPanel';
 import { ErrorMessage } from '@/components/ui/ErrorMessage';
 import { Skeleton } from '@/components/ui/skeleton';
+import { isManager } from '@/lib/roles';
 
 interface PermissionDetailPageClientProps {
   orgId: string;
@@ -19,7 +20,9 @@ export function PermissionDetailPageClient({
   userId,
 }: PermissionDetailPageClientProps) {
   const t = useTranslations('permissions');
-  const { members, isLoading, error } = useMembers(orgId, 1, 100);
+  const { user, isLoading: isUserLoading } = useCurrentUser();
+  const { members, isLoading: isMembersLoading, error } = useMembers(orgId, 1, 100);
+  const isLoading = isUserLoading || isMembersLoading;
 
   if (isLoading) {
     return (
@@ -50,12 +53,16 @@ export function PermissionDetailPageClient({
     return <ErrorMessage message={t('loadError')} />;
   }
 
+  const currentMember = members.find((m) => m.userId === user?.id) ?? null;
+  const viewerCanManage = isManager(currentMember?.role);
+
   return (
     <PermissionDetailPanel
       orgId={orgId}
       userId={userId}
       userName={member.name ?? member.email}
       userRole={member.role}
+      viewerCanManage={viewerCanManage}
     />
   );
 }

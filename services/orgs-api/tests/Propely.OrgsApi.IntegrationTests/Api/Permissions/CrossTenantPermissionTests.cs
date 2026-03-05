@@ -74,8 +74,8 @@ public sealed class CrossTenantPermissionTests : IClassFixture<ApiWebApplication
     {
         // User A creates Org A
         var clientA = CreateClient();
-        var (userAId, _) = await RegisterUserAsync(clientA);
-        var orgAId = await CreateOrgAsync(clientA);
+        await RegisterUserAsync(clientA);
+        _ = await CreateOrgAsync(clientA);
 
         // User B creates Org B
         var clientB = CreateClient();
@@ -95,7 +95,7 @@ public sealed class CrossTenantPermissionTests : IClassFixture<ApiWebApplication
         // User A creates Org A
         var clientA = CreateClient();
         await RegisterUserAsync(clientA);
-        var orgAId = await CreateOrgAsync(clientA);
+        _ = await CreateOrgAsync(clientA);
 
         // User B creates Org B
         var clientB = CreateClient();
@@ -111,7 +111,7 @@ public sealed class CrossTenantPermissionTests : IClassFixture<ApiWebApplication
     }
 
     [Fact]
-    public async Task GetPermissions_ForNonMemberInOwnOrg_ShouldReturnNotFound()
+    public async Task GetPermissions_ForNonMemberInOwnOrg_ShouldReturnBadRequest()
     {
         var client = CreateClient();
         await RegisterUserAsync(client);
