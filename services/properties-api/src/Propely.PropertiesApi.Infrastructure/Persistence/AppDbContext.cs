@@ -5,6 +5,7 @@ using System.Text.Json;
 using Propely.PropertiesApi.Application.Common.Interfaces;
 using Propely.PropertiesApi.Application.Common.Models;
 using Propely.PropertiesApi.Domain.Common;
+using Propely.PropertiesApi.Domain.Properties;
 using Propely.PropertiesApi.Infrastructure.Persistence.Configurations;
 using Propely.PropertiesApi.Infrastructure.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +38,7 @@ public sealed class AppDbContext : DbContext
 
     public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
     public DbSet<ProcessedEvent> ProcessedEvents => Set<ProcessedEvent>();
+    public DbSet<Property> Properties => Set<Property>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -44,6 +46,7 @@ public sealed class AppDbContext : DbContext
 
         modelBuilder.ApplyConfiguration(new OutboxMessageConfiguration());
         modelBuilder.ApplyConfiguration(new ProcessedEventConfiguration());
+        modelBuilder.ApplyConfiguration(new PropertyConfiguration());
     }
 
     /// <summary>

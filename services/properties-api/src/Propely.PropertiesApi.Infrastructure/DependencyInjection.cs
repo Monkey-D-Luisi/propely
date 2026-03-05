@@ -2,6 +2,7 @@
 // Licensed under the Proprietary Software License. See LICENSE.
 
 using Propely.PropertiesApi.Application.Common.Interfaces;
+using Propely.PropertiesApi.Application.Properties.Interfaces;
 using Propely.PropertiesApi.Infrastructure.Caching;
 using Propely.PropertiesApi.Infrastructure.Caching.Configuration;
 using Propely.PropertiesApi.Infrastructure.Messaging;
@@ -36,6 +37,8 @@ public static class DependencyInjection
         // Repositories
         services.AddScoped<IOutboxRepository, OutboxRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IPropertyRepository, PropertyRepository>();
+        services.AddScoped<IPropertyReadRepository, PropertyReadRepository>();
 
         // RabbitMQ
         services.Configure<RabbitMqConfiguration>(configuration.GetSection(RabbitMqConfiguration.SectionName));
