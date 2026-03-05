@@ -577,7 +577,7 @@ Write contract tests first: set up a test orgs-api instance, create users with s
 
 ## Task 1.5 -- Agency Management UI
 
-**Status:** PENDING
+**Status:** IN_PROGRESS
 **Dependencies:** 1.1 (agency API endpoints must exist)
 
 ### Goal
