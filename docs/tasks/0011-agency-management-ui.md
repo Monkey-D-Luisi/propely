@@ -3,7 +3,7 @@
 ## Metadata
 - ID: 0011
 - Type: Standard
-- Status: TODO
+- Status: DONE
 - Owner: Agent
 - Created: 2026-03-05
 - Related docs:
@@ -119,9 +119,9 @@ The backend agency API endpoints exist (create, list, get, add branch, remove br
 Revert the frontend changes. No backend or database changes required.
 
 ## Definition of Done Checklist
-- [ ] Acceptance criteria met
-- [ ] Build passes
-- [ ] Tests added/updated and pass
-- [ ] Formatting/analyzers pass
-- [ ] No secrets committed
-- [ ] Walkthrough updated
+- [x] Acceptance criteria met
+- [x] Build passes
+- [x] Tests added/updated and pass
+- [x] Formatting/analyzers pass
+- [x] No secrets committed
+- [x] Walkthrough updated
