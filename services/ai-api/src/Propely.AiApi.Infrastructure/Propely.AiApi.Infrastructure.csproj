@@ -27,6 +27,7 @@
     <PackageReference Include="FluentValidation" Version="12.1.1" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
     <ProjectReference Include="..\Propely.AiApi.Application\Propely.AiApi.Application.csproj" />
+    <ProjectReference Include="..\..\..\properties-api\src\Propely.PropertiesApi.Client\Propely.PropertiesApi.Client.csproj" />
   </ItemGroup>
 
 </Project>
