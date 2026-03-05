@@ -11,6 +11,7 @@ using Propely.PropertiesApi.Application.Properties.Commands.CreateProperty;
 using Propely.PropertiesApi.Application.Properties.Commands.DeleteProperty;
 using Propely.PropertiesApi.Application.Properties.Commands.UpdateProperty;
 using Propely.PropertiesApi.Application.Properties.Queries.GetPropertyById;
+using Propely.PropertiesApi.Application.Properties.Queries.CountPropertiesByStatus;
 using Propely.PropertiesApi.Application.Properties.Queries.ListProperties;
 using Propely.PropertiesApi.Domain.Properties;
 
@@ -145,6 +146,17 @@ public sealed class PropertiesController : ControllerBase
         var command = new DeletePropertyCommand(id, tenantId.Value);
         await _mediator.Send(command, cancellationToken);
         return NoContent();
+    }
+
+    [HttpGet("count-by-status")]
+    public async Task<IActionResult> CountByStatus(CancellationToken cancellationToken)
+    {
+        var tenantId = this.GetTenantId();
+        if (tenantId is null) return Unauthorized();
+
+        var query = new CountPropertiesByStatusQuery(tenantId.Value);
+        var result = await _mediator.Send(query, cancellationToken);
+        return Ok(result);
     }
 
     [HttpPatch("{id:guid}/status")]

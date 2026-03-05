@@ -25,6 +25,7 @@
     <ProjectReference Include="..\..\src\Propely.PropertiesApi.Domain\Propely.PropertiesApi.Domain.csproj" />
     <ProjectReference Include="..\..\src\Propely.PropertiesApi.Infrastructure\Propely.PropertiesApi.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\Propely.PropertiesApi.Api\Propely.PropertiesApi.Api.csproj" />
+    <ProjectReference Include="..\..\src\Propely.PropertiesApi.Client\Propely.PropertiesApi.Client.csproj" />
   </ItemGroup>
 
 </Project>
