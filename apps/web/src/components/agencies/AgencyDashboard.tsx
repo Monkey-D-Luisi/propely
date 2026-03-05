@@ -104,7 +104,7 @@ export function AgencyDashboard({ agencyId }: AgencyDashboardProps) {
       ) : (
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {agency.branches.map((branch) => (
-            <BranchCard key={branch.id} agencyId={agencyId} branch={branch} />
+            <BranchCard key={branch.id} branch={branch} />
           ))}
         </div>
       )}

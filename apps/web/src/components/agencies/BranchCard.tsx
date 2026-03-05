@@ -8,7 +8,6 @@ import { Link } from '@/i18n/navigation';
 import type { AgencyBranch } from '@/lib/schemas';
 
 interface BranchCardProps {
-  agencyId: string;
   branch: AgencyBranch;
 }
 
