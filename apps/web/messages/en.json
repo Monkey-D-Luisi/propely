@@ -896,5 +896,30 @@
     "noMembers": "No members found",
     "loadError": "Failed to load permissions",
     "readOnly": "You can view permissions but cannot make changes"
+  },
+  "commandBar": {
+    "placeholder": "Type a command...",
+    "submit": "Execute",
+    "loading": "Processing...",
+    "success": "Done",
+    "error": "Something went wrong",
+    "retry": "Try again",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "recentCommands": "Recent commands",
+    "noRecentCommands": "No recent commands",
+    "openShortcut": "Ctrl+K",
+    "close": "Close",
+    "needsConfirmation": "Please confirm",
+    "noSpeechDetected": "No speech detected",
+    "voice": {
+      "record": "Start recording",
+      "stop": "Stop recording",
+      "processing": "Processing voice...",
+      "permissionDenied": "Microphone access required",
+      "permissionGuide": "Please allow microphone access in your browser settings",
+      "noAudioDetected": "No audio detected. Please try again.",
+      "transcriptionFailed": "Could not transcribe audio. Please try again."
+    }
   }
 }
