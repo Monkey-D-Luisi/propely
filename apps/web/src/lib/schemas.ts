@@ -466,3 +466,141 @@ export const EffectivePermissionSchema = z.object({
 export type EffectivePermission = z.infer<typeof EffectivePermissionSchema>;
 
 export const EffectivePermissionsResponseSchema = z.array(EffectivePermissionSchema);
+
+// Property schemas
+export const PropertyTypeEnum = z.enum([
+  'Apartment', 'House', 'Villa', 'Penthouse', 'Studio',
+  'Commercial', 'Land', 'Garage', 'StorageRoom', 'Building', 'Office',
+]);
+export type PropertyTypeType = z.infer<typeof PropertyTypeEnum>;
+
+export const OperationTypeEnum = z.enum(['Sale', 'Rent', 'SaleOrRent', 'Transfer', 'Vacation']);
+export type OperationTypeType = z.infer<typeof OperationTypeEnum>;
+
+export const PropertyStatusEnum = z.enum(['Draft', 'Active', 'Reserved', 'Sold', 'Rented', 'Archived']);
+export type PropertyStatusType = z.infer<typeof PropertyStatusEnum>;
+
+export const EnergyRatingEnum = z.enum(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'Exempt', 'InProgress']);
+export type EnergyRatingType = z.infer<typeof EnergyRatingEnum>;
+
+export const OrientationEnum = z.enum(['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW']);
+export type OrientationType = z.infer<typeof OrientationEnum>;
+
+export const LocalizedTextSchema = z.object({
+  es: z.string().nullable().optional(),
+  pt: z.string().nullable().optional(),
+  en: z.string().nullable().optional(),
+  fr: z.string().nullable().optional(),
+  de: z.string().nullable().optional(),
+  nl: z.string().nullable().optional(),
+});
+export type LocalizedText = z.infer<typeof LocalizedTextSchema>;
+
+export const AddressSchema = z.object({
+  street: z.string().nullable().optional(),
+  city: z.string().nullable().optional(),
+  province: z.string().nullable().optional(),
+  postalCode: z.string().nullable().optional(),
+  country: z.string().nullable().optional(),
+  provinceCode: z.string().nullable().optional(),
+  municipalityCode: z.string().nullable().optional(),
+  latitude: z.number().nullable().optional(),
+  longitude: z.number().nullable().optional(),
+});
+export type Address = z.infer<typeof AddressSchema>;
+
+export const PropertyFeaturesSchema = z.object({
+  bedrooms: z.number().nullable().optional(),
+  bathrooms: z.number().nullable().optional(),
+  builtArea: z.number().nullable().optional(),
+  usableArea: z.number().nullable().optional(),
+  plotArea: z.number().nullable().optional(),
+  floor: z.number().nullable().optional(),
+  orientation: OrientationEnum.nullable().optional(),
+  yearBuilt: z.number().nullable().optional(),
+  energyRating: EnergyRatingEnum.nullable().optional(),
+  energyConsumption: z.number().nullable().optional(),
+  energyEmissions: z.number().nullable().optional(),
+  hasPool: z.boolean().optional().default(false),
+  hasGarden: z.boolean().optional().default(false),
+  hasGarage: z.boolean().optional().default(false),
+  hasElevator: z.boolean().optional().default(false),
+  hasTerrace: z.boolean().optional().default(false),
+  airConditioning: z.boolean().optional().default(false),
+  heating: z.boolean().optional().default(false),
+  furnished: z.boolean().optional().default(false),
+  parkingSpaces: z.number().nullable().optional(),
+});
+export type PropertyFeatures = z.infer<typeof PropertyFeaturesSchema>;
+
+export const PropertyFinancialsSchema = z.object({
+  price: z.number().nullable().optional(),
+  communityFees: z.number().nullable().optional(),
+  ibiTax: z.number().nullable().optional(),
+  catastroReference: z.string().nullable().optional(),
+});
+export type PropertyFinancials = z.infer<typeof PropertyFinancialsSchema>;
+
+export const PropertyListItemSchema = z.object({
+  id: z.string().uuid(),
+  title: z.string(),
+  propertyType: PropertyTypeEnum,
+  operationType: OperationTypeEnum,
+  status: PropertyStatusEnum,
+  price: z.number().nullable().optional(),
+  city: z.string().nullable().optional(),
+  builtArea: z.number().nullable().optional(),
+  bedrooms: z.number().nullable().optional(),
+  bathrooms: z.number().nullable().optional(),
+  agentId: z.string().uuid(),
+  createdAtUtc: z.string(),
+  updatedAtUtc: z.string().nullable().optional(),
+});
+export type PropertyListItem = z.infer<typeof PropertyListItemSchema>;
+
+export const PropertySchema = z.object({
+  id: z.string().uuid(),
+  title: z.string(),
+  propertyType: PropertyTypeEnum,
+  operationType: OperationTypeEnum,
+  status: PropertyStatusEnum,
+  tenantId: z.string().uuid(),
+  agentId: z.string().uuid(),
+  agencyId: z.string().uuid().nullable().optional(),
+  description: LocalizedTextSchema.nullable().optional(),
+  address: AddressSchema.nullable().optional(),
+  features: PropertyFeaturesSchema.nullable().optional(),
+  financials: PropertyFinancialsSchema.nullable().optional(),
+  virtualTourUrl: z.string().nullable().optional(),
+  videoUrl: z.string().nullable().optional(),
+  pricePerSqm: z.number().nullable().optional(),
+  createdAtUtc: z.string(),
+  updatedAtUtc: z.string().nullable().optional(),
+  publishedAtUtc: z.string().nullable().optional(),
+});
+export type Property = z.infer<typeof PropertySchema>;
+
+export const PropertiesListResponseSchema = pagedResponseSchema(PropertyListItemSchema);
+
+export const PropertyMediaSchema = z.object({
+  id: z.string().uuid(),
+  propertyId: z.string().uuid(),
+  mediaType: z.string(),
+  storagePath: z.string(),
+  fileName: z.string(),
+  contentType: z.string(),
+  sizeBytes: z.number(),
+  width: z.number().nullable().optional(),
+  height: z.number().nullable().optional(),
+  displayOrder: z.number(),
+  uploadedAtUtc: z.string(),
+  url: z.string().nullable().optional(),
+  thumbnailUrl: z.string().nullable().optional(),
+});
+export type PropertyMedia = z.infer<typeof PropertyMediaSchema>;
+
+export const StatusCountSchema = z.object({
+  status: PropertyStatusEnum,
+  count: z.number(),
+});
+export type StatusCount = z.infer<typeof StatusCountSchema>;

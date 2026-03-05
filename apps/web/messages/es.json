@@ -55,7 +55,8 @@
       "showing": "Mostrando {count} de {total}",
       "search": "Buscar…"
     },
-    "agencies": "Agencias"
+    "agencies": "Agencias",
+    "properties": "Propiedades"
   },
   "auth": {
     "login": {
@@ -920,6 +921,177 @@
       "permissionGuide": "Por favor, permite el acceso al micr\u00f3fono en la configuraci\u00f3n de tu navegador",
       "noAudioDetected": "No se detect\u00f3 audio. Por favor, int\u00e9ntalo de nuevo.",
       "transcriptionFailed": "No se pudo transcribir el audio. Por favor, int\u00e9ntalo de nuevo."
+    }
+  },
+  "properties": {
+    "title": "Propiedades",
+    "subtitle": "Gestiona tus listados de propiedades",
+    "newProperty": "Nueva Propiedad",
+    "noOrg": "Selecciona o crea una organización para gestionar propiedades.",
+    "createOrg": "Ir a Organizaciones",
+    "loadError": "Error al cargar propiedades. Inténtalo de nuevo.",
+    "searchPlaceholder": "Buscar propiedades...",
+    "allTypes": "Todos los tipos",
+    "allOperations": "Todas las operaciones",
+    "allStatuses": "Todos los estados",
+    "sortBy": "Ordenar por",
+    "sort": {
+      "price": "Precio",
+      "createdAtUtc": "Fecha de publicación",
+      "builtArea": "Superficie",
+      "title": "Título"
+    },
+    "type": {
+      "Apartment": "Apartamento",
+      "House": "Casa",
+      "Villa": "Chalet",
+      "Penthouse": "Ático",
+      "Studio": "Estudio",
+      "Commercial": "Comercial",
+      "Land": "Terreno",
+      "Garage": "Garaje",
+      "StorageRoom": "Trastero",
+      "Building": "Edificio",
+      "Office": "Oficina"
+    },
+    "operation": {
+      "Sale": "Venta",
+      "Rent": "Alquiler",
+      "SaleOrRent": "Venta o Alquiler",
+      "Transfer": "Traspaso",
+      "Vacation": "Vacacional"
+    },
+    "status": {
+      "Draft": "Borrador",
+      "Active": "Activo",
+      "Reserved": "Reservado",
+      "Sold": "Vendido",
+      "Rented": "Alquilado",
+      "Archived": "Archivado"
+    },
+    "table": {
+      "property": "Propiedad",
+      "type": "Tipo",
+      "operation": "Operación",
+      "price": "Precio",
+      "status": "Estado",
+      "updated": "Actualizado",
+      "actions": "Acciones"
+    },
+    "actions": {
+      "edit": "Editar",
+      "changeStatus": "Cambiar Estado",
+      "delete": "Eliminar",
+      "activate": "Activar",
+      "reserve": "Reservar",
+      "markSold": "Marcar Vendido",
+      "markRented": "Marcar Alquilado",
+      "archive": "Archivar",
+      "release": "Liberar reserva"
+    },
+    "empty": {
+      "title": "Sin propiedades aún",
+      "subtitle": "Crea tu primer listado de propiedad para comenzar.",
+      "cta": "Nueva Propiedad"
+    },
+    "delete": {
+      "dialogTitle": "Eliminar Propiedad",
+      "dialogMessage": "¿Estás seguro de que quieres eliminar esta propiedad? Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "confirm": "Eliminar"
+    },
+    "statusChange": {
+      "dialogTitle": "Cambiar Estado",
+      "dialogMessage": "¿Cambiar estado de {from} a {to}?",
+      "confirm": "Cambiar Estado",
+      "cancel": "Cancelar",
+      "success": "Estado actualizado correctamente",
+      "error": "Error al cambiar el estado"
+    },
+    "detail": {
+      "backToList": "Volver a Propiedades",
+      "edit": "Editar Propiedad",
+      "basicInfo": "Información Básica",
+      "location": "Ubicación",
+      "features": "Características",
+      "financial": "Financiero",
+      "descriptions": "Descripciones",
+      "media": "Fotos y Multimedia",
+      "floorPlans": "Planos",
+      "bedrooms": "Dormitorios",
+      "bathrooms": "Baños",
+      "builtArea": "Superficie Construida",
+      "usableArea": "Superficie Útil",
+      "plotArea": "Superficie Parcela",
+      "floor": "Planta",
+      "yearBuilt": "Año de Construcción",
+      "orientation": "Orientación",
+      "energyRating": "Calificación Energética",
+      "price": "Precio",
+      "pricePerSqm": "Precio por m\u00b2",
+      "communityFees": "Gastos de Comunidad",
+      "ibiTax": "IBI",
+      "catastroRef": "Referencia Catastral",
+      "amenities": "Servicios",
+      "pool": "Piscina",
+      "garden": "Jardín",
+      "garage": "Garaje",
+      "elevator": "Ascensor",
+      "terrace": "Terraza",
+      "airConditioning": "Aire Acondicionado",
+      "heating": "Calefacción",
+      "furnished": "Amueblado",
+      "parkingSpaces": "Plazas de Parking",
+      "virtualTour": "Tour Virtual",
+      "video": "Vídeo",
+      "noPhotos": "No hay fotos subidas aún",
+      "noDescription": "No hay descripción disponible"
+    },
+    "form": {
+      "createTitle": "Crear Propiedad",
+      "editTitle": "Editar Propiedad",
+      "step": {
+        "basicInfo": "Info Básica",
+        "location": "Ubicación",
+        "features": "Características",
+        "financial": "Financiero",
+        "descriptions": "Descripciones",
+        "media": "Multimedia"
+      },
+      "next": "Siguiente",
+      "previous": "Anterior",
+      "saveDraft": "Guardar Borrador",
+      "publish": "Publicar",
+      "save": "Guardar Cambios",
+      "saving": "Guardando...",
+      "autoSaved": "Guardado automáticamente",
+      "validation": {
+        "titleRequired": "El título es obligatorio",
+        "titleMaxLength": "El título debe tener 200 caracteres o menos",
+        "pricePositive": "El precio debe ser un número positivo"
+      },
+      "uploadPhotos": "Subir Fotos",
+      "uploadFloorPlans": "Subir Planos",
+      "dragDrop": "Arrastra y suelta archivos aquí o haz clic para buscar",
+      "maxFileSize": "Tamaño máximo: {size}MB",
+      "maxPhotos": "Máximo {count} fotos por propiedad"
+    },
+    "search": {
+      "placeholder": "Buscar por título, descripción o dirección...",
+      "advanced": "Filtros Avanzados",
+      "clearAll": "Limpiar todos los filtros",
+      "activeFilters": "{count} filtros activos",
+      "priceRange": "Rango de precio",
+      "areaRange": "Rango de superficie",
+      "minBedrooms": "Mín. dormitorios",
+      "minBathrooms": "Mín. baños",
+      "province": "Provincia",
+      "agent": "Agente",
+      "amenities": "Servicios",
+      "savedPresets": "Filtros Guardados",
+      "savePreset": "Guardar filtros actuales",
+      "presetName": "Nombre del filtro",
+      "noResults": "Ninguna propiedad coincide con los filtros"
     }
   }
 }

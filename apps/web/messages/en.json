@@ -55,7 +55,8 @@
       "showing": "Showing {count} of {total}",
       "search": "Search…"
     },
-    "agencies": "Agencies"
+    "agencies": "Agencies",
+    "properties": "Properties"
   },
   "auth": {
     "login": {
@@ -920,6 +921,196 @@
       "permissionGuide": "Please allow microphone access in your browser settings",
       "noAudioDetected": "No audio detected. Please try again.",
       "transcriptionFailed": "Could not transcribe audio. Please try again."
+    }
+  },
+  "properties": {
+    "title": "Properties",
+    "subtitle": "Manage your property listings",
+    "newProperty": "New Property",
+    "noOrg": "Select or create an organization to manage properties.",
+    "createOrg": "Go to Organizations",
+    "loadError": "Failed to load properties. Please try again.",
+    "searchPlaceholder": "Search properties...",
+    "allTypes": "All types",
+    "allOperations": "All operations",
+    "allStatuses": "All statuses",
+    "sortBy": "Sort by",
+    "sort": {
+      "price": "Price",
+      "createdAtUtc": "Date listed",
+      "builtArea": "Area",
+      "title": "Title"
+    },
+    "type": {
+      "Apartment": "Apartment",
+      "House": "House",
+      "Villa": "Villa",
+      "Penthouse": "Penthouse",
+      "Studio": "Studio",
+      "Commercial": "Commercial",
+      "Land": "Land",
+      "Garage": "Garage",
+      "StorageRoom": "Storage Room",
+      "Building": "Building",
+      "Office": "Office"
+    },
+    "operation": {
+      "Sale": "Sale",
+      "Rent": "Rent",
+      "SaleOrRent": "Sale or Rent",
+      "Transfer": "Transfer",
+      "Vacation": "Vacation"
+    },
+    "status": {
+      "Draft": "Draft",
+      "Active": "Active",
+      "Reserved": "Reserved",
+      "Sold": "Sold",
+      "Rented": "Rented",
+      "Archived": "Archived"
+    },
+    "table": {
+      "property": "Property",
+      "type": "Type",
+      "operation": "Operation",
+      "price": "Price",
+      "status": "Status",
+      "updated": "Updated",
+      "actions": "Actions"
+    },
+    "actions": {
+      "edit": "Edit",
+      "changeStatus": "Change Status",
+      "delete": "Delete",
+      "activate": "Activate",
+      "reserve": "Reserve",
+      "markSold": "Mark as Sold",
+      "markRented": "Mark as Rented",
+      "archive": "Archive",
+      "release": "Release reservation"
+    },
+    "empty": {
+      "title": "No properties yet",
+      "subtitle": "Create your first property listing to get started.",
+      "cta": "New Property"
+    },
+    "delete": {
+      "dialogTitle": "Delete Property",
+      "dialogMessage": "Are you sure you want to delete this property? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete"
+    },
+    "statusChange": {
+      "dialogTitle": "Change Status",
+      "dialogMessage": "Change status from {from} to {to}?",
+      "confirm": "Change Status",
+      "cancel": "Cancel",
+      "success": "Status updated successfully",
+      "error": "Failed to change status"
+    },
+    "detail": {
+      "backToList": "Back to Properties",
+      "edit": "Edit Property",
+      "basicInfo": "Basic Information",
+      "location": "Location",
+      "features": "Features",
+      "financial": "Financial",
+      "descriptions": "Descriptions",
+      "media": "Photos & Media",
+      "floorPlans": "Floor Plans",
+      "propertyType": "Property Type",
+      "operationType": "Operation Type",
+      "title": "Title",
+      "street": "Street",
+      "city": "City",
+      "province": "Province",
+      "postalCode": "Postal Code",
+      "country": "Country",
+      "bedrooms": "Bedrooms",
+      "bathrooms": "Bathrooms",
+      "builtArea": "Built Area",
+      "usableArea": "Usable Area",
+      "plotArea": "Plot Area",
+      "floor": "Floor",
+      "yearBuilt": "Year Built",
+      "orientation": "Orientation",
+      "energyRating": "Energy Rating",
+      "price": "Price",
+      "pricePerSqm": "Price per m\u00b2",
+      "communityFees": "Community Fees",
+      "ibiTax": "IBI Tax",
+      "catastroRef": "Catastro Reference",
+      "amenities": "Amenities",
+      "pool": "Pool",
+      "garden": "Garden",
+      "garage": "Garage",
+      "elevator": "Elevator",
+      "terrace": "Terrace",
+      "airConditioning": "Air Conditioning",
+      "heating": "Heating",
+      "furnished": "Furnished",
+      "parkingSpaces": "Parking Spaces",
+      "virtualTour": "Virtual Tour",
+      "video": "Video",
+      "noPhotos": "No photos uploaded yet",
+      "noFloorPlans": "No floor plans uploaded yet",
+      "noDescription": "No description available",
+      "loadError": "Failed to load property details. Please try again.",
+      "deleteSuccess": "Property deleted successfully",
+      "deleteError": "Failed to delete property",
+      "statusChangeSuccess": "Status updated successfully",
+      "statusChangeError": "Failed to change status",
+      "confirmStatusChange": "Change status from {from} to {to}?",
+      "lightboxClose": "Close",
+      "lightboxPrev": "Previous",
+      "lightboxNext": "Next",
+      "mapPlaceholder": "Map location"
+    },
+    "form": {
+      "createTitle": "Create Property",
+      "editTitle": "Edit Property",
+      "step": {
+        "basicInfo": "Basic Info",
+        "location": "Location",
+        "features": "Features",
+        "financial": "Financial",
+        "descriptions": "Descriptions",
+        "media": "Media"
+      },
+      "next": "Next",
+      "previous": "Previous",
+      "saveDraft": "Save as Draft",
+      "publish": "Publish",
+      "save": "Save Changes",
+      "saving": "Saving...",
+      "autoSaved": "Auto-saved",
+      "validation": {
+        "titleRequired": "Title is required",
+        "titleMaxLength": "Title must be 200 characters or less",
+        "pricePositive": "Price must be a positive number"
+      },
+      "uploadPhotos": "Upload Photos",
+      "uploadFloorPlans": "Upload Floor Plans",
+      "dragDrop": "Drag and drop files here or click to browse",
+      "maxFileSize": "Max file size: {size}MB",
+      "maxPhotos": "Max {count} photos per property"
+    },
+    "search": {
+      "placeholder": "Search by title, description, or address...",
+      "advanced": "Advanced Filters",
+      "clearAll": "Clear all filters",
+      "activeFilters": "{count} active filters",
+      "priceRange": "Price range",
+      "areaRange": "Area range",
+      "minBedrooms": "Min bedrooms",
+      "minBathrooms": "Min bathrooms",
+      "province": "Province",
+      "agent": "Agent",
+      "amenities": "Amenities",
+      "savedPresets": "Saved Filters",
+      "savePreset": "Save current filters",
+      "presetName": "Filter name",
+      "noResults": "No properties match your filters"
     }
   }
 }

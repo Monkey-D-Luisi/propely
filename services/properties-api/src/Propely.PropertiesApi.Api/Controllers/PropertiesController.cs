@@ -70,6 +70,7 @@ public sealed class PropertiesController : ControllerBase
 
     [HttpGet]
     public async Task<IActionResult> List(
+        [FromQuery] string? search,
         [FromQuery] PropertyType? type,
         [FromQuery] OperationType? operation,
         [FromQuery] PropertyStatus? status,
@@ -77,6 +78,15 @@ public sealed class PropertiesController : ControllerBase
         [FromQuery] decimal? maxPrice,
         [FromQuery] string? city,
         [FromQuery] Guid? agentId,
+        [FromQuery] int? minBedrooms,
+        [FromQuery] int? minBathrooms,
+        [FromQuery] decimal? minArea,
+        [FromQuery] decimal? maxArea,
+        [FromQuery] bool? hasPool,
+        [FromQuery] bool? hasGarden,
+        [FromQuery] bool? hasGarage,
+        [FromQuery] bool? hasElevator,
+        [FromQuery] bool? hasTerrace,
         [FromQuery] string? sortBy,
         [FromQuery] bool sortDesc = false,
         [FromQuery] int page = 1,
@@ -93,6 +103,7 @@ public sealed class PropertiesController : ControllerBase
         var query = new ListPropertiesQuery
         {
             TenantId = tenantId.Value,
+            Search = search,
             Type = type,
             Operation = operation,
             Status = status,
@@ -100,6 +111,15 @@ public sealed class PropertiesController : ControllerBase
             MaxPrice = maxPrice,
             City = city,
             AgentId = agentId,
+            MinBedrooms = minBedrooms,
+            MinBathrooms = minBathrooms,
+            MinArea = minArea,
+            MaxArea = maxArea,
+            HasPool = hasPool,
+            HasGarden = hasGarden,
+            HasGarage = hasGarage,
+            HasElevator = hasElevator,
+            HasTerrace = hasTerrace,
             SortBy = sortBy,
             SortDescending = sortDesc,
             Page = page,

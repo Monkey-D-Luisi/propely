@@ -24,6 +24,7 @@ public interface IPropertiesApiClient
     /// <summary>
     /// Lists properties with optional filtering, sorting, and pagination.
     /// </summary>
+    /// <param name="search">Full-text search across title and address fields.</param>
     /// <param name="type">Filter by property type.</param>
     /// <param name="operation">Filter by operation type.</param>
     /// <param name="status">Filter by property status.</param>
@@ -31,6 +32,15 @@ public interface IPropertiesApiClient
     /// <param name="maxPrice">Maximum price filter.</param>
     /// <param name="city">Filter by city (case-insensitive partial match).</param>
     /// <param name="agentId">Filter by assigned agent.</param>
+    /// <param name="minBedrooms">Minimum number of bedrooms.</param>
+    /// <param name="minBathrooms">Minimum number of bathrooms.</param>
+    /// <param name="minArea">Minimum built area in square meters.</param>
+    /// <param name="maxArea">Maximum built area in square meters.</param>
+    /// <param name="hasPool">Filter properties with pool.</param>
+    /// <param name="hasGarden">Filter properties with garden.</param>
+    /// <param name="hasGarage">Filter properties with garage.</param>
+    /// <param name="hasElevator">Filter properties with elevator.</param>
+    /// <param name="hasTerrace">Filter properties with terrace.</param>
     /// <param name="sortBy">Sort field name.</param>
     /// <param name="sortDesc">Sort in descending order.</param>
     /// <param name="page">Page number (1-based).</param>
@@ -39,6 +49,7 @@ public interface IPropertiesApiClient
     /// <returns>A paged list of property items.</returns>
     [Get("/api/properties")]
     Task<PagedResult<PropertyListItemResponse>> ListAsync(
+        [Query] string? search = null,
         [Query] string? type = null,
         [Query] string? operation = null,
         [Query] string? status = null,
@@ -46,6 +57,15 @@ public interface IPropertiesApiClient
         [Query] decimal? maxPrice = null,
         [Query] string? city = null,
         [Query] Guid? agentId = null,
+        [Query] int? minBedrooms = null,
+        [Query] int? minBathrooms = null,
+        [Query] decimal? minArea = null,
+        [Query] decimal? maxArea = null,
+        [Query] bool? hasPool = null,
+        [Query] bool? hasGarden = null,
+        [Query] bool? hasGarage = null,
+        [Query] bool? hasElevator = null,
+        [Query] bool? hasTerrace = null,
         [Query] string? sortBy = null,
         [Query] bool sortDesc = false,
         [Query] int page = 1,

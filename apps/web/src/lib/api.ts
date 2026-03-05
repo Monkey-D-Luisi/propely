@@ -29,6 +29,9 @@ export function getDomainErrorCode(error: ApiError): string | undefined {
 
 const API_BASE = process.env.NEXT_PUBLIC_ORGS_API_URL ?? "http://localhost:5020";
 const AI_API_BASE = process.env.NEXT_PUBLIC_AI_API_URL ?? "http://localhost:5010";
+const PROPERTIES_API_BASE = process.env.NEXT_PUBLIC_PROPERTIES_API_URL ?? "http://localhost:5030";
+
+const CROSS_ORIGIN_BASES = new Set([AI_API_BASE, PROPERTIES_API_BASE]);
 
 async function baseFetch<T>(
   baseUrl: string,
@@ -41,8 +44,8 @@ async function baseFetch<T>(
     ...(init.headers as Record<string, string> || {}),
   };
 
-  // Attach Bearer token and org context for cross-origin AI API calls
-  if (baseUrl === AI_API_BASE) {
+  // Attach Bearer token and org context for cross-origin API calls
+  if (CROSS_ORIGIN_BASES.has(baseUrl)) {
     const token = getAccessToken();
     if (token) {
       headers["authorization"] = `Bearer ${token}`;
@@ -101,6 +104,27 @@ export async function aiApiFetch<T>(
       const refreshed = await tryRefreshToken();
       if (refreshed) {
         return await baseFetch(AI_API_BASE, path, init, schema);
+      }
+    }
+    throw err;
+  }
+}
+
+/**
+ * Fetch from the Properties API with automatic token refresh on 401.
+ */
+export async function propertiesApiFetch<T>(
+  path: string,
+  init: RequestInit = {},
+  schema?: { parse: (data: unknown) => T },
+): Promise<T> {
+  try {
+    return await baseFetch(PROPERTIES_API_BASE, path, init, schema);
+  } catch (err) {
+    if (isApiError(err) && err.status === 401) {
+      const refreshed = await tryRefreshToken();
+      if (refreshed) {
+        return await baseFetch(PROPERTIES_API_BASE, path, init, schema);
       }
     }
     throw err;
