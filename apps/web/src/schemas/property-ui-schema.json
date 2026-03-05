@@ -1,0 +1,169 @@
+{
+  "type": "Categorization",
+  "elements": [
+    {
+      "type": "Category",
+      "label": "Basic Info",
+      "elements": [
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            { "type": "Control", "scope": "#/properties/title" },
+            { "type": "Control", "scope": "#/properties/propertyType" },
+            { "type": "Control", "scope": "#/properties/operationType" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Category",
+      "label": "Location",
+      "elements": [
+        {
+          "type": "VerticalLayout",
+          "elements": [
+            { "type": "Control", "scope": "#/properties/address/properties/street" },
+            {
+              "type": "HorizontalLayout",
+              "elements": [
+                { "type": "Control", "scope": "#/properties/address/properties/city" },
+                { "type": "Control", "scope": "#/properties/address/properties/province" },
+                { "type": "Control", "scope": "#/properties/address/properties/postalCode" }
+              ]
+            },
+            {
+              "type": "HorizontalLayout",
+              "elements": [
+                { "type": "Control", "scope": "#/properties/address/properties/country" },
+                { "type": "Control", "scope": "#/properties/address/properties/provinceCode" },
+                { "type": "Control", "scope": "#/properties/address/properties/municipalityCode" }
+              ]
+            },
+            {
+              "type": "HorizontalLayout",
+              "elements": [
+                { "type": "Control", "scope": "#/properties/address/properties/latitude" },
+                { "type": "Control", "scope": "#/properties/address/properties/longitude" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Category",
+      "label": "Features",
+      "elements": [
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            { "type": "Control", "scope": "#/properties/features/properties/bedrooms" },
+            { "type": "Control", "scope": "#/properties/features/properties/bathrooms" },
+            { "type": "Control", "scope": "#/properties/features/properties/floor" }
+          ]
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            { "type": "Control", "scope": "#/properties/features/properties/builtArea", "label": "Built Area (m\u00b2)" },
+            { "type": "Control", "scope": "#/properties/features/properties/usableArea", "label": "Usable Area (m\u00b2)" },
+            {
+              "type": "Control",
+              "scope": "#/properties/features/properties/plotArea",
+              "label": "Plot Area (m\u00b2)",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "scope": "#/properties/propertyType",
+                  "schema": { "enum": ["Land", "House", "Villa"] }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            { "type": "Control", "scope": "#/properties/features/properties/yearBuilt" },
+            { "type": "Control", "scope": "#/properties/features/properties/orientation" },
+            { "type": "Control", "scope": "#/properties/features/properties/parkingSpaces" }
+          ]
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            { "type": "Control", "scope": "#/properties/features/properties/energyRating" },
+            { "type": "Control", "scope": "#/properties/features/properties/energyConsumption" },
+            { "type": "Control", "scope": "#/properties/features/properties/energyEmissions" }
+          ]
+        },
+        {
+          "type": "Group",
+          "label": "Amenities",
+          "elements": [
+            {
+              "type": "HorizontalLayout",
+              "elements": [
+                { "type": "Control", "scope": "#/properties/features/properties/hasPool" },
+                { "type": "Control", "scope": "#/properties/features/properties/hasGarden" },
+                { "type": "Control", "scope": "#/properties/features/properties/hasGarage" },
+                { "type": "Control", "scope": "#/properties/features/properties/hasElevator" }
+              ]
+            },
+            {
+              "type": "HorizontalLayout",
+              "elements": [
+                { "type": "Control", "scope": "#/properties/features/properties/hasTerrace" },
+                { "type": "Control", "scope": "#/properties/features/properties/airConditioning" },
+                { "type": "Control", "scope": "#/properties/features/properties/heating" },
+                { "type": "Control", "scope": "#/properties/features/properties/furnished" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Category",
+      "label": "Financial",
+      "elements": [
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            { "type": "Control", "scope": "#/properties/financials/properties/price", "label": "Price (\u20ac)" },
+            { "type": "Control", "scope": "#/properties/financials/properties/communityFees", "label": "Community Fees (\u20ac/month)" },
+            { "type": "Control", "scope": "#/properties/financials/properties/ibiTax", "label": "IBI Tax (\u20ac/year)" }
+          ]
+        },
+        { "type": "Control", "scope": "#/properties/financials/properties/catastroReference" }
+      ]
+    },
+    {
+      "type": "Category",
+      "label": "Description",
+      "elements": [
+        {
+          "type": "VerticalLayout",
+          "elements": [
+            { "type": "Control", "scope": "#/properties/description/properties/es", "label": "Description (Spanish)", "options": { "multi": true } },
+            { "type": "Control", "scope": "#/properties/description/properties/en", "label": "Description (English)", "options": { "multi": true } },
+            { "type": "Control", "scope": "#/properties/description/properties/pt", "label": "Description (Portuguese)", "options": { "multi": true } }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Category",
+      "label": "Media",
+      "elements": [
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            { "type": "Control", "scope": "#/properties/virtualTourUrl" },
+            { "type": "Control", "scope": "#/properties/videoUrl" }
+          ]
+        }
+      ]
+    }
+  ]
+}
