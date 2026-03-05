@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://propely.app/schemas/property/v1",
+  "title": "Property",
+  "description": "Property listing data structure for Propely",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "description": "Property listing title"
+    },
+    "propertyType": {
+      "type": "string",
+      "enum": ["Apartment", "House", "Villa", "Penthouse", "Studio", "Commercial", "Land", "Garage", "StorageRoom", "Building", "Office"],
+      "description": "Type of property"
+    },
+    "operationType": {
+      "type": "string",
+      "enum": ["Sale", "Rent", "RentToBuy", "Transfer"],
+      "description": "Type of operation"
+    },
+    "description": {
+      "type": "object",
+      "properties": {
+        "es": { "type": "string", "maxLength": 10000 },
+        "en": { "type": "string", "maxLength": 10000 },
+        "pt": { "type": "string", "maxLength": 10000 },
+        "fr": { "type": "string", "maxLength": 10000 },
+        "de": { "type": "string", "maxLength": 10000 },
+        "nl": { "type": "string", "maxLength": 10000 }
+      }
+    },
+    "address": {
+      "type": "object",
+      "properties": {
+        "street": { "type": "string", "maxLength": 200 },
+        "city": { "type": "string", "maxLength": 100 },
+        "province": { "type": "string", "maxLength": 100 },
+        "postalCode": { "type": "string", "maxLength": 20 },
+        "country": { "type": "string", "maxLength": 5 },
+        "provinceCode": { "type": "string", "maxLength": 10 },
+        "municipalityCode": { "type": "string", "maxLength": 10 },
+        "latitude": { "type": "number", "minimum": -90, "maximum": 90 },
+        "longitude": { "type": "number", "minimum": -180, "maximum": 180 }
+      }
+    },
+    "features": {
+      "type": "object",
+      "properties": {
+        "bedrooms": { "type": "integer", "minimum": 0 },
+        "bathrooms": { "type": "integer", "minimum": 0 },
+        "builtArea": { "type": "number", "minimum": 0 },
+        "usableArea": { "type": "number", "minimum": 0 },
+        "plotArea": { "type": "number", "minimum": 0 },
+        "floor": { "type": "integer" },
+        "orientation": {
+          "type": "string",
+          "enum": ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+        },
+        "yearBuilt": { "type": "integer", "minimum": 1800, "maximum": 2100 },
+        "energyRating": {
+          "type": "string",
+          "enum": ["A", "B", "C", "D", "E", "F", "G", "Exempt", "InProgress"]
+        },
+        "energyConsumption": { "type": "number", "minimum": 0 },
+        "energyEmissions": { "type": "number", "minimum": 0 },
+        "hasPool": { "type": "boolean" },
+        "hasGarden": { "type": "boolean" },
+        "hasGarage": { "type": "boolean" },
+        "hasElevator": { "type": "boolean" },
+        "hasTerrace": { "type": "boolean" },
+        "airConditioning": { "type": "boolean" },
+        "heating": { "type": "boolean" },
+        "furnished": { "type": "boolean" },
+        "parkingSpaces": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "financials": {
+      "type": "object",
+      "properties": {
+        "price": { "type": "number", "minimum": 0 },
+        "communityFees": { "type": "number", "minimum": 0 },
+        "ibiTax": { "type": "number", "minimum": 0 },
+        "catastroReference": { "type": "string", "maxLength": 50 }
+      }
+    },
+    "virtualTourUrl": { "type": "string", "format": "uri" },
+    "videoUrl": { "type": "string", "format": "uri" }
+  },
+  "required": ["title", "propertyType", "operationType"]
+}
