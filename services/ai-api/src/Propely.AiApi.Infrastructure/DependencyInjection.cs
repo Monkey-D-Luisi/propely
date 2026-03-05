@@ -1,8 +1,10 @@
 // Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 
+using Propely.AiApi.Application.Actions.Interfaces;
 using Propely.AiApi.Application.Common.Interfaces;
 using Propely.AiApi.Application.WorkItems.Interfaces;
+using Propely.AiApi.Infrastructure.AI;
 using Propely.AiApi.Infrastructure.Caching;
 using Propely.AiApi.Infrastructure.Caching.Configuration;
 using Propely.AiApi.Infrastructure.Messaging;
@@ -67,6 +69,10 @@ public static class DependencyInjection
         // We register this here as part of Infrastructure
         services.Configure<OpenAiOptions>(configuration.GetSection(OpenAiOptions.SectionName));
         services.AddSingleton<IOpenAiService, OpenAiService>();
+
+        // AI Action Engine (Intent Classifier + Action Router)
+        services.AddScoped<IIntentClassifier, OpenAiIntentClassifier>();
+        services.AddScoped<IActionRouter, ActionRouter>();
 
         return services;
     }
