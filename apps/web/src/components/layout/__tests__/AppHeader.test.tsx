@@ -16,6 +16,14 @@ vi.mock('@/lib/csrf', () => ({
 vi.mock('@/hooks/orgs', () => ({
   useCurrentUser: vi.fn(),
 }));
+vi.mock('@/hooks/agencies', () => ({
+  useAgencies: vi.fn(() => ({
+    agencies: [],
+    isLoading: false,
+    error: null,
+    refetch: vi.fn(),
+  })),
+}));
 vi.mock('@/hooks/notifications', () => ({
   useNotifications: vi.fn(() => ({
     notifications: [],

@@ -35,7 +35,7 @@
       "feature3Title": "Multi-tenencia",
       "feature3Description": "Soporte integrado para organizaciones que permite crear equipos, invitar miembros y gestionar roles.",
       "trustedBy": "Usado por desarrolladores en",
-      "copyright": "\u00a9 2025 Propely. Todos los derechos reservados.",
+      "copyright": "© 2025 Propely. Todos los derechos reservados.",
       "privacy": "Privacidad",
       "terms": "Términos",
       "github": "GitHub",
@@ -54,7 +54,8 @@
       "pageOf": "Página {page} de {total}",
       "showing": "Mostrando {count} de {total}",
       "search": "Buscar…"
-    }
+    },
+    "agencies": "Agencias"
   },
   "auth": {
     "login": {
@@ -285,7 +286,7 @@
       "dialogDescription": "Esta acción no se puede deshacer. Todos los miembros perderán el acceso y todas las invitaciones pendientes serán canceladas.",
       "typeName": "Escribe \"{name}\" para confirmar:",
       "confirmButton": "Eliminar organización",
-      "deleting": "Eliminando\u2026",
+      "deleting": "Eliminando…",
       "successTitle": "Organización eliminada",
       "successDescription": "La organización ha sido eliminada permanentemente.",
       "errorTitle": "No se pudo eliminar la organización",
@@ -297,7 +298,7 @@
       "dialogTitle": "¿Eliminar miembro?",
       "dialogDescription": "¿Estás seguro de que quieres eliminar a {name} de la organización? Perderá el acceso de inmediato.",
       "confirmButton": "Eliminar miembro",
-      "removing": "Eliminando\u2026",
+      "removing": "Eliminando…",
       "successTitle": "Miembro eliminado",
       "successDescription": "{name} ha sido eliminado de la organización.",
       "errorTitle": "No se pudo eliminar al miembro",
@@ -763,7 +764,7 @@
     "buildDate": "Fecha de compilación",
     "notAvailable": "N/D",
     "checkForUpdates": "Buscar actualizaciones",
-    "checking": "Verificando\u2026",
+    "checking": "Verificando…",
     "updateAvailable": "Actualización disponible",
     "upToDate": "Al día",
     "latestVersion": "Última versión",
@@ -772,5 +773,70 @@
     "enableHint": "Habilita la bandera \"UpdateCheck\" para buscar actualizaciones.",
     "loadError": "No se pudo cargar la información de versión.",
     "checkError": "No se pudo buscar actualizaciones."
+  },
+  "agencies": {
+    "create": {
+      "title": "Crear agencia",
+      "description": "Configura una nueva agencia para gestionar múltiples sucursales.",
+      "nameLabel": "Nombre de la agencia",
+      "namePlaceholder": "Mi Agencia Inmobiliaria",
+      "slugLabel": "Slug de la agencia",
+      "slugPlaceholder": "mi-agencia",
+      "slugHint": "Identificador URL. Se genera automáticamente a partir del nombre.",
+      "createButton": "Crear agencia",
+      "creatingButton": "Creando…",
+      "successTitle": "Agencia creada",
+      "successDescription": "Tu agencia se ha creado correctamente.",
+      "slugAlreadyExists": "Ya existe una agencia con este slug.",
+      "errorDescription": "No se pudo crear la agencia. Inténtalo de nuevo."
+    },
+    "dashboard": {
+      "subtitle": "{slug}",
+      "settings": "Configuración",
+      "branchesTitle": "Sucursales",
+      "branchCount": "{count, plural, =0 {Sin sucursales} one {# sucursal} other {# sucursales}}",
+      "memberCount": "{count, plural, =0 {Sin miembros} one {# miembro} other {# miembros}}",
+      "createdOn": "Creado el {date}",
+      "viewBranch": "Ver",
+      "emptyBranches": "Aún no hay sucursales",
+      "emptyBranchesHint": "Crea una organización y añádela como sucursal.",
+      "loadError": "No pudimos cargar la agencia. Inténtalo de nuevo."
+    },
+    "switcher": {
+      "label": "Cambiar agencia",
+      "agencies": "Agencias",
+      "branchCount": "{count, plural, =0 {Sin sucursales} one {# sucursal} other {# sucursales}}",
+      "createAgency": "Crear agencia"
+    },
+    "settings": {
+      "title": "Configuración de la agencia",
+      "description": "Gestiona el nombre y la configuración de tu agencia.",
+      "nameLabel": "Nombre de la agencia",
+      "slugLabel": "Slug de la agencia",
+      "slugReadOnly": "El slug no se puede cambiar después de la creación.",
+      "saveButton": "Guardar cambios",
+      "savingButton": "Guardando…",
+      "updateNotAvailable": "La actualización de agencia aún no está disponible.",
+      "dangerZone": "Zona de peligro",
+      "deleteDescription": "Una vez elimines una agencia, no hay vuelta atrás. Todas las sucursales se desvincularán.",
+      "typeNameToConfirm": "Escribe \"{name}\" para confirmar:",
+      "deleteButton": "Eliminar agencia",
+      "deletingButton": "Eliminando…",
+      "deleteSuccessTitle": "Agencia eliminada",
+      "deleteSuccessDescription": "La agencia se ha eliminado permanentemente.",
+      "deleteErrorTitle": "No se pudo eliminar la agencia",
+      "deleteErrorDescription": "Inténtalo de nuevo en unos momentos.",
+      "deleteForbidden": "Solo el propietario de la agencia puede eliminarla.",
+      "backToDashboard": "Volver a la agencia",
+      "loadError": "No pudimos cargar la configuración de la agencia."
+    },
+    "validation": {
+      "nameRequired": "El nombre de la agencia es obligatorio.",
+      "nameMaxLength": "El nombre de la agencia debe tener 200 caracteres o menos.",
+      "slugRequired": "El slug es obligatorio.",
+      "slugMinLength": "El slug debe tener al menos 3 caracteres.",
+      "slugMaxLength": "El slug debe tener 50 caracteres o menos.",
+      "slugFormat": "El slug debe ser en minúsculas con guiones (p. ej. mi-agencia)."
+    }
   }
 }

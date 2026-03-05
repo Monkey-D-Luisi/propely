@@ -13,6 +13,8 @@ import { ensureCsrfToken } from '@/lib/csrf';
 import { useToast } from '@/components/ui/toast';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { NotificationBell } from './NotificationBell';
+import { BranchSwitcher } from '@/components/agencies/BranchSwitcher';
+import { useAgencies } from '@/hooks/agencies';
 import { VerificationBanner } from '@/components/auth/VerificationBanner';
 
 export function AppHeader() {
@@ -20,6 +22,7 @@ export function AppHeader() {
   const tAuth = useTranslations('auth');
   const { toast } = useToast();
   const { user, isLoading } = useCurrentUser();
+  const { agencies } = useAgencies();
   const [isProcessing, setProcessing] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
@@ -129,6 +132,7 @@ export function AppHeader() {
               >
                 {t('workItems')}
               </Link>
+              <BranchSwitcher />
               <NotificationBell />
               <Link
                 href="/profile"
@@ -216,6 +220,13 @@ export function AppHeader() {
               className="block rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-900"
             >
               {t('workItems')}
+            </Link>
+            <Link
+              href={agencies.length > 0 ? `/agencies/${agencies[0].id}` : '/agencies/new'}
+              onClick={() => setMobileMenuOpen(false)}
+              className="block rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-900"
+            >
+              {t('agencies')}
             </Link>
             <Link
               href="/profile"

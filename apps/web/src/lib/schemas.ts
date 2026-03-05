@@ -383,3 +383,76 @@ export const UpdateCheckResponseSchema = z.object({
   message: z.string().optional(),
 });
 export type UpdateCheckResponse = z.infer<typeof UpdateCheckResponseSchema>;
+
+// Agency schemas
+export const AgencyBranchSchema = z.object({
+  id: z.string().uuid(),
+  name: z.string(),
+  memberCount: z.number(),
+  createdAtUtc: z.string(),
+});
+export type AgencyBranch = z.infer<typeof AgencyBranchSchema>;
+
+export const AgencySchema = z.object({
+  id: z.string().uuid(),
+  name: z.string(),
+  slug: z.string(),
+  createdAtUtc: z.string(),
+  branchCount: z.number(),
+});
+export type Agency = z.infer<typeof AgencySchema>;
+
+export const AgenciesResponseSchema = z.array(AgencySchema);
+
+export const AgencyDetailSchema = z.object({
+  id: z.string().uuid(),
+  name: z.string(),
+  slug: z.string(),
+  createdByUserId: z.string().uuid(),
+  createdAtUtc: z.string(),
+  updatedAtUtc: z.string().nullable().optional(),
+  branches: z.array(AgencyBranchSchema),
+});
+export type AgencyDetail = z.infer<typeof AgencyDetailSchema>;
+
+export const CreateAgencyResponseSchema = z.object({
+  id: z.string().uuid(),
+  name: z.string(),
+  slug: z.string(),
+});
+export type CreateAgencyResponse = z.infer<typeof CreateAgencyResponseSchema>;
+
+// Agency form schemas — factory functions for i18n
+export type CreateAgencyValidationMessages = {
+  nameRequired: string;
+  nameMaxLength: string;
+  slugRequired: string;
+  slugMinLength: string;
+  slugMaxLength: string;
+  slugFormat: string;
+};
+
+export function createAgencyFormSchema(messages: CreateAgencyValidationMessages) {
+  return z.object({
+    name: z.string().trim().min(1, messages.nameRequired).max(200, messages.nameMaxLength),
+    slug: z
+      .string()
+      .trim()
+      .min(3, messages.slugMinLength)
+      .max(50, messages.slugMaxLength)
+      .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, messages.slugFormat),
+  });
+}
+export type CreateAgencyFormData = z.infer<ReturnType<typeof createAgencyFormSchema>>;
+
+export type UpdateAgencyValidationMessages = {
+  nameRequired: string;
+  nameMaxLength: string;
+};
+
+export function createUpdateAgencyFormSchema(messages: UpdateAgencyValidationMessages) {
+  return z.object({
+    name: z.string().trim().min(1, messages.nameRequired).max(200, messages.nameMaxLength),
+  });
+}
+export type UpdateAgencyFormData = z.infer<ReturnType<typeof createUpdateAgencyFormSchema>>;
