@@ -456,3 +456,13 @@ export function createUpdateAgencyFormSchema(messages: UpdateAgencyValidationMes
   });
 }
 export type UpdateAgencyFormData = z.infer<ReturnType<typeof createUpdateAgencyFormSchema>>;
+
+// Permission schemas
+export const EffectivePermissionSchema = z.object({
+  permission: z.string(),
+  granted: z.boolean(),
+  source: z.string(),
+});
+export type EffectivePermission = z.infer<typeof EffectivePermissionSchema>;
+
+export const EffectivePermissionsResponseSchema = z.array(EffectivePermissionSchema);

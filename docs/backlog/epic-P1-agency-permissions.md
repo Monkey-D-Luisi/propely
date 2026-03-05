@@ -68,10 +68,10 @@ Agency (new parent entity)
 | 1.1 | Agency Entity & Hierarchy | DONE | 0.2 |
 | 1.2 | Permission Domain Model | DONE | 1.1 |
 | 1.3 | Authorization Policies & Middleware | DONE | 1.2 |
-| 1.4 | OrgsApi SDK Client for Permissions | IN_PROGRESS | 1.3, 0.4 |
-| 1.5 | Agency Management UI | PENDING | 1.1 |
-| 1.6 | Permission Management UI | PENDING | 1.3, 1.5 |
-| 1.7 | E2E Permission Tests | PENDING | 1.3, 1.4, 1.6 |
+| 1.4 | OrgsApi SDK Client for Permissions | DONE | 1.3, 0.4 |
+| 1.5 | Agency Management UI | DONE | 1.1 |
+| 1.6 | Permission Management UI | DONE | 1.3, 1.5 |
+| 1.7 | E2E Permission Tests | DONE | 1.3, 1.4, 1.6 |
 
 ---
 
@@ -452,7 +452,7 @@ Write integration tests first: create a test that expects 403 for an agent acces
 
 ## Task 1.4 -- OrgsApi SDK Client for Permissions
 
-**Status:** IN_PROGRESS
+**Status:** DONE
 **Dependencies:** 1.3 (permission API endpoints must exist), 0.4 (SDK client infrastructure pattern must exist)
 
 ### Goal
@@ -698,7 +698,7 @@ Write component tests first with mock API responses. Define expected renders for
 
 ## Task 1.6 -- Permission Management UI
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 1.3 (permission API endpoints must exist), 1.5 (agency management UI and branch context must exist)
 
 ### Goal
@@ -811,7 +811,7 @@ Write component tests first with mock permission data covering: all permissions 
 
 ## Task 1.7 -- E2E Permission Tests
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 1.3 (authorization middleware), 1.4 (SDK client), 1.6 (frontend UI)
 
 ### Goal
@@ -939,10 +939,10 @@ Write the test scenarios and expected outcomes first as failing tests. For each 
 | 1.1 | Agency Entity & Hierarchy | DONE | 0.2 |
 | 1.2 | Permission Domain Model | DONE | 1.1 |
 | 1.3 | Authorization Policies & Middleware | DONE | 1.2 |
-| 1.4 | OrgsApi SDK Client for Permissions | IN_PROGRESS | 1.3, 0.4 |
-| 1.5 | Agency Management UI | PENDING | 1.1 |
-| 1.6 | Permission Management UI | PENDING | 1.3, 1.5 |
-| 1.7 | E2E Permission Tests | PENDING | 1.3, 1.4, 1.6 |
+| 1.4 | OrgsApi SDK Client for Permissions | DONE | 1.3, 0.4 |
+| 1.5 | Agency Management UI | DONE | 1.1 |
+| 1.6 | Permission Management UI | DONE | 1.3, 1.5 |
+| 1.7 | E2E Permission Tests | DONE | 1.3, 1.4, 1.6 |
 
 ## Dependency Graph
 

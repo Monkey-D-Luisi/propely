@@ -21,7 +21,7 @@ import type { Member, Role } from '@/lib/schemas';
 import { isApiError, getDomainErrorCode } from '@/lib/api';
 import { isManager } from '@/lib/roles';
 import { Link } from '@/i18n/navigation';
-import { SearchIcon, SettingsIcon } from '@/components/ui/icons';
+import { SearchIcon, SettingsIcon, ShieldCheckIcon } from '@/components/ui/icons';
 
 export function MembersManager({ orgId }: { orgId: string }) {
   const t = useTranslations('orgs');
@@ -212,13 +212,22 @@ export function MembersManager({ orgId }: { orgId: string }) {
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold tracking-tight text-slate-900">{t('members.title')}</h1>
           {canManageMembers ? (
-            <Link
-              href={`/orgs/${orgId}/settings`}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
-            >
-              <SettingsIcon className="h-4 w-4" />
-              {t('settings.title')}
-            </Link>
+            <div className="flex items-center gap-2">
+              <Link
+                href={`/orgs/${orgId}/permissions`}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
+              >
+                <ShieldCheckIcon className="h-4 w-4" />
+                {t('permissions.title')}
+              </Link>
+              <Link
+                href={`/orgs/${orgId}/settings`}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
+              >
+                <SettingsIcon className="h-4 w-4" />
+                {t('settings.title')}
+              </Link>
+            </div>
           ) : null}
         </div>
         {currentMember ? (

@@ -334,6 +334,9 @@
         "expired": "Esta invitación ha expirado.",
         "emailMismatch": "Esta invitación fue enviada a una dirección de correo diferente."
       }
+    },
+    "permissions": {
+      "title": "Permisos"
     }
   },
   "profile": {
@@ -838,5 +841,60 @@
       "slugMaxLength": "El slug debe tener 50 caracteres o menos.",
       "slugFormat": "El slug debe ser en minúsculas con guiones (p. ej. mi-agencia)."
     }
+  },
+  "permissions": {
+    "title": "Gesti\u00f3n de permisos",
+    "subtitle": "Gestiona los permisos detallados de los miembros de la sucursal",
+    "backToMembers": "Volver a Miembros",
+    "backToPermissions": "Volver a Permisos",
+    "membersTitle": "Permisos de miembros",
+    "manageButton": "Gestionar",
+    "categories": {
+      "properties": "Propiedades",
+      "contacts": "Contactos",
+      "appointments": "Citas",
+      "publishing": "Publicaci\u00f3n",
+      "leads": "Leads",
+      "reports": "Informes"
+    },
+    "names": {
+      "PropertiesViewAll": "Ver todas las propiedades",
+      "PropertiesEditAll": "Editar todas las propiedades",
+      "ContactsViewAll": "Ver todos los contactos",
+      "ContactsEditAll": "Editar todos los contactos",
+      "AppointmentsViewAll": "Ver todas las citas",
+      "PublishingManage": "Gestionar publicaci\u00f3n",
+      "LeadsManage": "Gestionar leads",
+      "ReportsView": "Ver informes"
+    },
+    "descriptions": {
+      "PropertiesViewAll": "Ver todas las propiedades de la sucursal, no solo las propias",
+      "PropertiesEditAll": "Editar cualquier propiedad de la sucursal",
+      "ContactsViewAll": "Ver todos los contactos de la sucursal",
+      "ContactsEditAll": "Editar cualquier contacto de la sucursal",
+      "AppointmentsViewAll": "Ver todas las citas de la sucursal",
+      "PublishingManage": "Gestionar configuraci\u00f3n de publicaci\u00f3n en portales",
+      "LeadsManage": "Gestionar leads: asignar, convertir, cerrar",
+      "ReportsView": "Acceder a paneles e informes"
+    },
+    "source": {
+      "roleDefault": "Por defecto",
+      "override": "Sobrescrito"
+    },
+    "ownerNote": "Los propietarios siempre tienen acceso completo. Los permisos no se pueden modificar.",
+    "confirmDeny": {
+      "title": "Revocar permiso",
+      "description": "Esto revocar\u00e1 {permission} para {user}. Perder\u00e1 el acceso aunque su rol normalmente lo conceda.",
+      "confirm": "Revocar permiso",
+      "cancel": "Cancelar"
+    },
+    "toast": {
+      "overrideSet": "Permiso sobrescrito configurado",
+      "overrideRemoved": "Sobrescritura de permiso eliminada",
+      "error": "Error al actualizar el permiso"
+    },
+    "noMembers": "No se encontraron miembros",
+    "loadError": "Error al cargar los permisos",
+    "readOnly": "Puedes ver los permisos pero no puedes realizar cambios"
   }
 }

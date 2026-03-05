@@ -334,6 +334,9 @@
         "expired": "This invitation has expired.",
         "emailMismatch": "This invitation was sent to a different email address."
       }
+    },
+    "permissions": {
+      "title": "Permissions"
     }
   },
   "profile": {
@@ -838,5 +841,60 @@
       "slugMaxLength": "Slug must be 50 characters or less.",
       "slugFormat": "Slug must be lowercase with hyphens only (e.g. my-agency)."
     }
+  },
+  "permissions": {
+    "title": "Permission Management",
+    "subtitle": "Manage fine-grained permissions for branch members",
+    "backToMembers": "Back to Members",
+    "backToPermissions": "Back to Permissions",
+    "membersTitle": "Member Permissions",
+    "manageButton": "Manage",
+    "categories": {
+      "properties": "Properties",
+      "contacts": "Contacts",
+      "appointments": "Appointments",
+      "publishing": "Publishing",
+      "leads": "Leads",
+      "reports": "Reports"
+    },
+    "names": {
+      "PropertiesViewAll": "View all properties",
+      "PropertiesEditAll": "Edit all properties",
+      "ContactsViewAll": "View all contacts",
+      "ContactsEditAll": "Edit all contacts",
+      "AppointmentsViewAll": "View all appointments",
+      "PublishingManage": "Manage publishing",
+      "LeadsManage": "Manage leads",
+      "ReportsView": "View reports"
+    },
+    "descriptions": {
+      "PropertiesViewAll": "View all properties in the branch, not just own",
+      "PropertiesEditAll": "Edit any property in the branch",
+      "ContactsViewAll": "View all contacts in the branch",
+      "ContactsEditAll": "Edit any contact in the branch",
+      "AppointmentsViewAll": "View all appointments in the branch",
+      "PublishingManage": "Manage portal publication settings",
+      "LeadsManage": "Manage leads: assign, convert, close",
+      "ReportsView": "Access dashboards and analytics"
+    },
+    "source": {
+      "roleDefault": "Role Default",
+      "override": "Override"
+    },
+    "ownerNote": "Owners always have full access. Permissions cannot be modified.",
+    "confirmDeny": {
+      "title": "Revoke Permission",
+      "description": "This will revoke {permission} for {user}. They will lose access even though their role normally grants it.",
+      "confirm": "Revoke Permission",
+      "cancel": "Cancel"
+    },
+    "toast": {
+      "overrideSet": "Permission override set",
+      "overrideRemoved": "Permission override removed",
+      "error": "Failed to update permission"
+    },
+    "noMembers": "No members found",
+    "loadError": "Failed to load permissions",
+    "readOnly": "You can view permissions but cannot make changes"
   }
 }
