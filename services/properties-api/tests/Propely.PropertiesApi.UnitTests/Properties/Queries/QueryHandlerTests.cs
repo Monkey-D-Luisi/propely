@@ -93,4 +93,79 @@ public class ListPropertiesQueryHandlerTests
         result.TotalCount.Should().Be(0);
         result.Items.Should().BeEmpty();
     }
+
+    [Fact]
+    public async Task Handle_WithSearch_PassesSearchToFilter()
+    {
+        _readRepository.ListAsync(Arg.Any<PropertyListFilter>(), Arg.Any<CancellationToken>())
+            .Returns(new PagedResult<Property>([], 0, 1, 20));
+
+        var query = new ListPropertiesQuery { TenantId = Guid.NewGuid(), Search = "luxury villa" };
+        await _handler.Handle(query, CancellationToken.None);
+
+        await _readRepository.Received(1).ListAsync(
+            Arg.Is<PropertyListFilter>(f => f.Search == "luxury villa"),
+            Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task Handle_WithAdvancedFilters_PassesAllFiltersToRepository()
+    {
+        _readRepository.ListAsync(Arg.Any<PropertyListFilter>(), Arg.Any<CancellationToken>())
+            .Returns(new PagedResult<Property>([], 0, 1, 20));
+
+        var query = new ListPropertiesQuery
+        {
+            TenantId = Guid.NewGuid(),
+            Search = "beach",
+            MinBedrooms = 3,
+            MinBathrooms = 2,
+            MinArea = 100,
+            MaxArea = 300,
+            HasPool = true,
+            HasGarden = true,
+            HasGarage = false,
+            HasElevator = true,
+            HasTerrace = true,
+        };
+        await _handler.Handle(query, CancellationToken.None);
+
+        await _readRepository.Received(1).ListAsync(
+            Arg.Is<PropertyListFilter>(f =>
+                f.Search == "beach"
+                && f.MinBedrooms == 3
+                && f.MinBathrooms == 2
+                && f.MinArea == 100
+                && f.MaxArea == 300
+                && f.HasPool == true
+                && f.HasGarden == true
+                && f.HasGarage == false
+                && f.HasElevator == true
+                && f.HasTerrace == true),
+            Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task Handle_WithNullAdvancedFilters_PassesNullsToRepository()
+    {
+        _readRepository.ListAsync(Arg.Any<PropertyListFilter>(), Arg.Any<CancellationToken>())
+            .Returns(new PagedResult<Property>([], 0, 1, 20));
+
+        var query = new ListPropertiesQuery { TenantId = Guid.NewGuid() };
+        await _handler.Handle(query, CancellationToken.None);
+
+        await _readRepository.Received(1).ListAsync(
+            Arg.Is<PropertyListFilter>(f =>
+                f.Search == null
+                && f.MinBedrooms == null
+                && f.MinBathrooms == null
+                && f.MinArea == null
+                && f.MaxArea == null
+                && f.HasPool == null
+                && f.HasGarden == null
+                && f.HasGarage == null
+                && f.HasElevator == null
+                && f.HasTerrace == null),
+            Arg.Any<CancellationToken>());
+    }
 }

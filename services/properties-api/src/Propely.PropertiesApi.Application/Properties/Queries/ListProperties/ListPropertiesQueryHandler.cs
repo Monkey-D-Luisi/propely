@@ -22,6 +22,7 @@ public sealed class ListPropertiesQueryHandler : IRequestHandler<ListPropertiesQ
         var filter = new PropertyListFilter
         {
             TenantId = request.TenantId,
+            Search = request.Search,
             Type = request.Type,
             Operation = request.Operation,
             Status = request.Status,
@@ -29,6 +30,15 @@ public sealed class ListPropertiesQueryHandler : IRequestHandler<ListPropertiesQ
             MaxPrice = request.MaxPrice,
             City = request.City,
             AgentId = request.AgentId,
+            MinBedrooms = request.MinBedrooms,
+            MinBathrooms = request.MinBathrooms,
+            MinArea = request.MinArea,
+            MaxArea = request.MaxArea,
+            HasPool = request.HasPool,
+            HasGarden = request.HasGarden,
+            HasGarage = request.HasGarage,
+            HasElevator = request.HasElevator,
+            HasTerrace = request.HasTerrace,
             SortBy = request.SortBy,
             SortDescending = request.SortDescending,
             Page = request.Page,

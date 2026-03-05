@@ -47,22 +47,22 @@ Valid transitions:
 
 | # | Title | Status | Dependencies |
 |---|---|---|---|
-| 2.1 | Property Domain Model | PENDING | 0.3 |
-| 2.2 | Property Persistence & Repository | PENDING | 2.1 |
-| 2.3 | Property CRUD API | PENDING | 2.2 |
-| 2.4 | Property JSON Schema & Validation | PENDING | 2.1 |
-| 2.5 | Property Media Management | PENDING | 2.2 |
-| 2.6 | Properties-API NuGet SDK Client | PENDING | 2.3, 0.4 |
-| 2.7 | Property List UI | PENDING | 2.3 |
-| 2.8 | Property Create/Edit Form | PENDING | 2.3, 2.4 |
-| 2.9 | Property Detail View | PENDING | 2.3, 2.5 |
-| 2.10 | Property Search & Advanced Filters | PENDING | 2.3 |
+| 2.1 | Property Domain Model | DONE | 0.3 |
+| 2.2 | Property Persistence & Repository | DONE | 2.1 |
+| 2.3 | Property CRUD API | DONE | 2.2 |
+| 2.4 | Property JSON Schema & Validation | DONE | 2.1 |
+| 2.5 | Property Media Management | DONE | 2.2 |
+| 2.6 | Properties-API NuGet SDK Client | DONE | 2.3, 0.4 |
+| 2.7 | Property List UI | DONE | 2.3 |
+| 2.8 | Property Create/Edit Form | DONE | 2.3, 2.4 |
+| 2.9 | Property Detail View | DONE | 2.3, 2.5 |
+| 2.10 | Property Search & Advanced Filters | DONE | 2.3 |
 
 ---
 
 ## Task 2.1 -- Property Domain Model
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 0.3 (properties-api service scaffold must exist)
 
 ### Goal
@@ -172,7 +172,7 @@ Write all unit tests first. Start with the status state machine tests (all valid
 
 ## Task 2.2 -- Property Persistence & Repository
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 2.1 (domain model must exist)
 
 ### Goal
@@ -263,7 +263,7 @@ Write integration tests first defining expected behavior for all repository meth
 
 ## Task 2.3 -- Property CRUD API
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 2.2 (persistence layer must exist)
 
 ### Goal
@@ -371,7 +371,7 @@ Write integration tests first for each endpoint. Define expected status codes, r
 
 ## Task 2.4 -- Property JSON Schema & Validation
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 2.1 (domain model defines the property structure)
 
 ### Goal
@@ -465,7 +465,7 @@ Write renderer tests first defining expected visual output for each property typ
 
 ## Task 2.5 -- Property Media Management
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 2.2 (property persistence must exist for linking media to properties)
 
 ### Goal
@@ -571,7 +571,7 @@ Write upload validation tests first (file type, size, count limits). Then write 
 
 ## Task 2.6 -- Properties-API NuGet SDK Client
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 2.3 (CRUD API must exist), 0.4 (NuGet SDK client infrastructure from P0)
 
 ### Goal
@@ -655,7 +655,7 @@ Write handler tests first verifying header propagation. Write resilience tests s
 
 ## Task 2.7 -- Property List UI
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 2.3 (API endpoints must exist for data fetching)
 
 ### Goal
@@ -763,7 +763,7 @@ Write component tests first defining expected renders for: table with 5 properti
 
 ## Task 2.8 -- Property Create/Edit Form
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 2.3 (CRUD API), 2.4 (JSON Forms schema and renderers)
 
 ### Goal
@@ -872,7 +872,7 @@ Write tests for step navigation (forward, backward, validation blocking), auto-s
 
 ## Task 2.9 -- Property Detail View
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 2.3 (API to fetch property data), 2.5 (media management for gallery)
 
 ### Goal
@@ -973,7 +973,7 @@ Write tests defining expected renders for: a fully populated property (all field
 
 ## Task 2.10 -- Property Search & Advanced Filters
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 2.3 (API must support filter queries)
 
 ### Goal
@@ -1081,16 +1081,16 @@ Write backend integration tests for full-text search first (Spanish property des
 
 | Task | Title | Status | Dependencies |
 |---|---|---|---|
-| 2.1 | Property Domain Model | PENDING | 0.3 |
-| 2.2 | Property Persistence & Repository | PENDING | 2.1 |
-| 2.3 | Property CRUD API | PENDING | 2.2 |
-| 2.4 | Property JSON Schema & Validation | PENDING | 2.1 |
-| 2.5 | Property Media Management | PENDING | 2.2 |
-| 2.6 | Properties-API NuGet SDK Client | PENDING | 2.3, 0.4 |
-| 2.7 | Property List UI | PENDING | 2.3 |
-| 2.8 | Property Create/Edit Form | PENDING | 2.3, 2.4 |
-| 2.9 | Property Detail View | PENDING | 2.3, 2.5 |
-| 2.10 | Property Search & Advanced Filters | PENDING | 2.3 |
+| 2.1 | Property Domain Model | DONE | 0.3 |
+| 2.2 | Property Persistence & Repository | DONE | 2.1 |
+| 2.3 | Property CRUD API | DONE | 2.2 |
+| 2.4 | Property JSON Schema & Validation | DONE | 2.1 |
+| 2.5 | Property Media Management | DONE | 2.2 |
+| 2.6 | Properties-API NuGet SDK Client | DONE | 2.3, 0.4 |
+| 2.7 | Property List UI | DONE | 2.3 |
+| 2.8 | Property Create/Edit Form | DONE | 2.3, 2.4 |
+| 2.9 | Property Detail View | DONE | 2.3, 2.5 |
+| 2.10 | Property Search & Advanced Filters | DONE | 2.3 |
 
 ## Dependency Graph
 
