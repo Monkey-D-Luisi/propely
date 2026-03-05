@@ -58,6 +58,12 @@ public static class DependencyInjection
                     Endpoint = "POST:/v1/work-items/parse",
                     Period = "1m",
                     Limit = 10  // Stricter limit for AI-powered endpoint
+                },
+                new RateLimitRule
+                {
+                    Endpoint = "POST:/v1/actions/execute",
+                    Period = "1m",
+                    Limit = 20  // Stricter limit for AI action execution
                 }
             ];
         });
