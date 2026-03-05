@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Propely. All rights reserved.
+// Licensed under the Proprietary Software License. See LICENSE.
+
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { JsonForms } from '@jsonforms/react';

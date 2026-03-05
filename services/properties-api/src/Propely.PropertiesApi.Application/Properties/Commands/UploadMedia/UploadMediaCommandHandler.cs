@@ -36,14 +36,18 @@ public sealed class UploadMediaCommandHandler : IRequestHandler<UploadMediaComma
         var property = await _propertyRepository.GetByIdAsync(request.PropertyId, request.TenantId, cancellationToken)
             ?? throw new NotFoundException($"Property with ID '{request.PropertyId}' was not found.");
 
-        if (request.MediaType == MediaType.Photo)
-        {
-            var count = await _mediaRepository.CountByPropertyIdAsync(property.Id, request.TenantId, cancellationToken);
-            if (count >= PropertyMedia.MaxPhotosPerProperty)
-                throw new DomainException($"Maximum of {PropertyMedia.MaxPhotosPerProperty} photos per property exceeded.");
-        }
-
         var currentCount = await _mediaRepository.CountByPropertyIdAsync(property.Id, request.TenantId, cancellationToken);
+
+        if (request.MediaType == MediaType.Photo && currentCount >= PropertyMedia.MaxPhotosPerProperty)
+            throw new DomainException($"Maximum of {PropertyMedia.MaxPhotosPerProperty} photos per property exceeded.");
+
+        if (request.MediaType == MediaType.FloorPlan)
+        {
+            var floorPlanCount = await _mediaRepository.CountByPropertyIdAndMediaTypeAsync(
+                property.Id, request.TenantId, MediaType.FloorPlan, cancellationToken);
+            if (floorPlanCount >= PropertyMedia.MaxFloorPlansPerProperty)
+                throw new DomainException($"Maximum of {PropertyMedia.MaxFloorPlansPerProperty} floor plans per property exceeded.");
+        }
 
         var media = PropertyMedia.Create(
             propertyId: property.Id,
@@ -54,20 +58,25 @@ public sealed class UploadMediaCommandHandler : IRequestHandler<UploadMediaComma
             sizeBytes: request.SizeBytes,
             displayOrder: currentCount);
 
+        // Copy to MemoryStream to ensure seekability for multiple reads
+        await using var memoryStream = new MemoryStream();
+        await request.FileStream.CopyToAsync(memoryStream, cancellationToken);
+
         // Upload main file (resize photos)
         if (request.MediaType == MediaType.Photo && request.ContentType != "application/pdf")
         {
+            memoryStream.Position = 0;
             var (resized, width, height) = await _imageProcessingService.ResizeAsync(
-                request.FileStream, PropertyMedia.MaxWidthPixels, cancellationToken);
+                memoryStream, PropertyMedia.MaxWidthPixels, cancellationToken);
             await using (resized)
             {
                 await _storageService.UploadAsync(media.StoragePath, resized, request.ContentType, cancellationToken);
             }
 
             // Generate thumbnail
-            request.FileStream.Position = 0;
+            memoryStream.Position = 0;
             var (thumbnail, _, _) = await _imageProcessingService.ResizeAsync(
-                request.FileStream, PropertyMedia.ThumbnailWidthPixels, cancellationToken);
+                memoryStream, PropertyMedia.ThumbnailWidthPixels, cancellationToken);
             await using (thumbnail)
             {
                 if (media.ThumbnailPath is not null)
@@ -76,7 +85,8 @@ public sealed class UploadMediaCommandHandler : IRequestHandler<UploadMediaComma
         }
         else
         {
-            await _storageService.UploadAsync(media.StoragePath, request.FileStream, request.ContentType, cancellationToken);
+            memoryStream.Position = 0;
+            await _storageService.UploadAsync(media.StoragePath, memoryStream, request.ContentType, cancellationToken);
         }
 
         await _mediaRepository.AddAsync(media, cancellationToken);

@@ -9,6 +9,7 @@ namespace Propely.PropertiesApi.Domain.Properties;
 public sealed class PropertyMedia : Entity
 {
     public const int MaxPhotosPerProperty = 30;
+    public const int MaxFloorPlansPerProperty = 10;
     public const long MaxPhotoSizeBytes = 10 * 1024 * 1024;
     public const long MaxFloorPlanSizeBytes = 20 * 1024 * 1024;
     public const int MaxWidthPixels = 2048;
