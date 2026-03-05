@@ -5,6 +5,8 @@ using FluentAssertions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
+using Propely.AiApi.Application.Actions.Commands.Content;
+using Propely.AiApi.Application.Actions.Commands.Operations;
 using Propely.AiApi.Application.Actions.Commands.PropertyActions;
 using Propely.AiApi.Domain.Actions;
 using Propely.AiApi.Infrastructure.AI;
@@ -170,15 +172,104 @@ public sealed class ActionRouterTests
             Arg.Any<CancellationToken>());
     }
 
+    [Fact]
+    public async Task RouteAsync_WhenExtractFromText_ShouldDispatchToMediator()
+    {
+        // Arrange
+        var parameters = new Dictionary<string, object?> { ["text"] = "3-bedroom apartment in Malaga" };
+        var intent = new ClassifiedIntent(ActionType.ExtractFromText, parameters, 0.9);
+        var tenantId = Guid.NewGuid();
+        var agentId = Guid.NewGuid();
+
+        var expectedResult = ActionResult.Ok(
+            data: new { propertyType = "apartment" },
+            message: "I extracted property data",
+            type: ActionType.ExtractFromText);
+
+        _mediator.Send(Arg.Any<ExtractFromTextActionCommand>(), Arg.Any<CancellationToken>())
+            .Returns(expectedResult);
+
+        // Act
+        var result = await _router.RouteAsync(intent, tenantId, agentId);
+
+        // Assert
+        result.Success.Should().BeTrue();
+        result.ActionType.Should().Be(ActionType.ExtractFromText);
+        await _mediator.Received(1).Send(
+            Arg.Is<ExtractFromTextActionCommand>(c =>
+                c.Parameters == parameters && c.TenantId == tenantId && c.AgentId == agentId),
+            Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task RouteAsync_WhenExtractFromPhotos_ShouldDispatchToMediator()
+    {
+        // Arrange
+        var parameters = new Dictionary<string, object?> { ["image_urls"] = new List<string> { "https://example.com/photo.jpg" } };
+        var intent = new ClassifiedIntent(ActionType.ExtractFromPhotos, parameters, 0.85);
+        var tenantId = Guid.NewGuid();
+        var agentId = Guid.NewGuid();
+
+        var expectedResult = ActionResult.Ok(
+            data: new { propertyType = "house" },
+            message: "I analyzed 1 photo",
+            type: ActionType.ExtractFromPhotos);
+
+        _mediator.Send(Arg.Any<ExtractFromPhotosActionCommand>(), Arg.Any<CancellationToken>())
+            .Returns(expectedResult);
+
+        // Act
+        var result = await _router.RouteAsync(intent, tenantId, agentId);
+
+        // Assert
+        result.Success.Should().BeTrue();
+        result.ActionType.Should().Be(ActionType.ExtractFromPhotos);
+        await _mediator.Received(1).Send(
+            Arg.Is<ExtractFromPhotosActionCommand>(c =>
+                c.Parameters == parameters && c.TenantId == tenantId && c.AgentId == agentId),
+            Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task RouteAsync_WhenGenerateCopy_ShouldDispatchToMediator()
+    {
+        // Arrange
+        var parameters = new Dictionary<string, object?>
+        {
+            ["property_data"] = "3-bedroom villa in Marbella",
+            ["tone"] = "luxury"
+        };
+        var intent = new ClassifiedIntent(ActionType.GenerateCopy, parameters, 0.95);
+        var tenantId = Guid.NewGuid();
+        var agentId = Guid.NewGuid();
+
+        var expectedResult = ActionResult.Ok(
+            data: new { variants = new Dictionary<string, string> { ["es"] = "Villa de lujo..." } },
+            message: "I generated marketing copy",
+            type: ActionType.GenerateCopy);
+
+        _mediator.Send(Arg.Any<GenerateCopyActionCommand>(), Arg.Any<CancellationToken>())
+            .Returns(expectedResult);
+
+        // Act
+        var result = await _router.RouteAsync(intent, tenantId, agentId);
+
+        // Assert
+        result.Success.Should().BeTrue();
+        result.ActionType.Should().Be(ActionType.GenerateCopy);
+        await _mediator.Received(1).Send(
+            Arg.Is<GenerateCopyActionCommand>(c =>
+                c.Parameters == parameters && c.TenantId == tenantId && c.AgentId == agentId),
+            Arg.Any<CancellationToken>());
+    }
+
     [Theory]
-    [InlineData(ActionType.GenerateCopy)]
-    [InlineData(ActionType.ExtractFromText)]
-    [InlineData(ActionType.ReserveProperty)]
-    [InlineData(ActionType.CloseOperation)]
-    [InlineData(ActionType.ArchiveProperty)]
     [InlineData(ActionType.CreateLead)]
     [InlineData(ActionType.BookViewing)]
-    public async Task RouteAsync_WhenNonPropertyActionType_ShouldReturnPlaceholder(ActionType actionType)
+    [InlineData(ActionType.QueryAppointments)]
+    [InlineData(ActionType.CancelAppointment)]
+    [InlineData(ActionType.RescheduleAppointment)]
+    public async Task RouteAsync_WhenUnimplementedActionType_ShouldReturnPlaceholder(ActionType actionType)
     {
         // Arrange
         var parameters = new Dictionary<string, object?> { ["test_param"] = "value" };
