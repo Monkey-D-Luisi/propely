@@ -51,8 +51,11 @@ export function AgencyCreateForm() {
     defaultValues: { name: '', slug: '' },
   });
 
+  const nameReg = methods.register('name');
+  const slugReg = methods.register('slug');
+
   const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    methods.setValue('name', e.target.value);
+    void nameReg.onChange(e);
     if (!slugManuallyEdited) {
       methods.setValue('slug', generateSlug(e.target.value));
     }
@@ -60,6 +63,7 @@ export function AgencyCreateForm() {
 
   const onSlugChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSlugManuallyEdited(true);
+    void slugReg.onChange(e);
     methods.setValue('slug', e.target.value.toLowerCase());
   };
 
@@ -100,7 +104,9 @@ export function AgencyCreateForm() {
             <input
               id="name"
               type="text"
-              {...methods.register('name')}
+              ref={nameReg.ref}
+              name={nameReg.name}
+              onBlur={nameReg.onBlur}
               onChange={onNameChange}
               className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-transparent focus:ring-2 focus:ring-primary-600"
               placeholder={t('create.namePlaceholder')}
@@ -118,7 +124,9 @@ export function AgencyCreateForm() {
             <input
               id="slug"
               type="text"
-              {...methods.register('slug')}
+              ref={slugReg.ref}
+              name={slugReg.name}
+              onBlur={slugReg.onBlur}
               onChange={onSlugChange}
               className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-transparent focus:ring-2 focus:ring-primary-600"
               placeholder={t('create.slugPlaceholder')}

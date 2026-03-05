@@ -3,7 +3,7 @@
 
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import type { AgencyBranch } from '@/lib/schemas';
 
@@ -13,8 +13,9 @@ interface BranchCardProps {
 
 export function BranchCard({ branch }: BranchCardProps) {
   const t = useTranslations('agencies');
+  const locale = useLocale();
 
-  const formattedDate = new Date(branch.createdAtUtc).toLocaleDateString(undefined, {
+  const formattedDate = new Date(branch.createdAtUtc).toLocaleDateString(locale, {
     year: 'numeric',
     month: 'short',
     day: 'numeric',

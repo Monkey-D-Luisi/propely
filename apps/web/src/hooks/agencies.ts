@@ -1,10 +1,10 @@
 // Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 
-"use client";
+'use client';
 
-import { useCallback, useEffect, useState } from "react";
-import { apiFetch } from "@/lib/api";
+import { useCallback, useEffect, useState } from 'react';
+import { apiFetch } from '@/lib/api';
 import {
   type Agency,
   AgenciesResponseSchema,
@@ -12,7 +12,7 @@ import {
   AgencyDetailSchema,
   type CreateAgencyResponse,
   CreateAgencyResponseSchema,
-} from "@/lib/schemas";
+} from '@/lib/schemas';
 
 // --- List agencies for current user
 export function useAgencies() {
@@ -25,13 +25,13 @@ export function useAgencies() {
     setError(null);
     try {
       const data = await apiFetch<Agency[]>(
-        "/api/agencies",
-        { method: "GET", signal },
+        '/api/agencies',
+        { method: 'GET', signal },
         AgenciesResponseSchema,
       );
       setAgencies(data);
     } catch (e) {
-      if (e instanceof DOMException && e.name === "AbortError") return;
+      if (e instanceof DOMException && e.name === 'AbortError') return;
       setError(e);
     } finally {
       if (!signal?.aborted) setLoading(false);
@@ -61,12 +61,12 @@ export function useAgency(agencyId: string) {
     try {
       const data = await apiFetch<AgencyDetail>(
         `/api/agencies/${agencyId}`,
-        { method: "GET", signal },
+        { method: 'GET', signal },
         AgencyDetailSchema,
       );
       setAgency(data);
     } catch (e) {
-      if (e instanceof DOMException && e.name === "AbortError") return;
+      if (e instanceof DOMException && e.name === 'AbortError') return;
       setError(e);
     } finally {
       if (!signal?.aborted) setLoading(false);
@@ -84,32 +84,32 @@ export function useAgency(agencyId: string) {
 
 // --- Create agency
 export function useCreateAgency() {
-  return async (name: string, slug: string) => {
+  return useCallback(async (name: string, slug: string) => {
     return apiFetch<CreateAgencyResponse>(
-      "/api/agencies",
+      '/api/agencies',
       {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify({ name, slug }),
       },
       CreateAgencyResponseSchema,
     );
-  };
+  }, []);
 }
 
 // --- Delete agency
 export function useDeleteAgency(agencyId: string) {
-  return async () => {
+  return useCallback(async () => {
     await apiFetch(`/api/agencies/${agencyId}`, {
-      method: "DELETE",
+      method: 'DELETE',
     });
-  };
+  }, [agencyId]);
 }
 
 // --- Add branch to agency
 export function useAddBranch(agencyId: string) {
   return async (organizationId: string) => {
     await apiFetch(`/api/agencies/${agencyId}/branches`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({ organizationId }),
     });
   };
@@ -119,7 +119,7 @@ export function useAddBranch(agencyId: string) {
 export function useRemoveBranch(agencyId: string) {
   return async (branchId: string) => {
     await apiFetch(`/api/agencies/${agencyId}/branches/${branchId}`, {
-      method: "DELETE",
+      method: 'DELETE',
     });
   };
 }

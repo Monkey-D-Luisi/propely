@@ -48,6 +48,7 @@ export function BranchSwitcher() {
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
         aria-expanded={isOpen}
+        aria-haspopup="true"
         aria-label={t('switcher.label')}
         className="hidden items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 sm:inline-flex"
       >
@@ -60,11 +61,12 @@ export function BranchSwitcher() {
 
       {isOpen && (
         <div className="absolute right-0 z-50 mt-1 w-64 rounded-xl border border-slate-200 bg-white shadow-lg">
-          <div className="p-2">
+          <div className="p-2" role="menu">
             {agencies.map((agency) => (
               <div key={agency.id} className="mb-1 last:mb-0">
                 <Link
                   href={`/agencies/${agency.id}`}
+                  role="menuitem"
                   onClick={() => setIsOpen(false)}
                   className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition hover:bg-slate-50"
                 >
@@ -84,6 +86,7 @@ export function BranchSwitcher() {
           <div className="border-t border-slate-100 p-2">
             <Link
               href="/agencies/new"
+              role="menuitem"
               onClick={() => setIsOpen(false)}
               className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-primary-600 transition hover:bg-primary-600/5"
             >

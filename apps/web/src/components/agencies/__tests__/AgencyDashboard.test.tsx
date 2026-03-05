@@ -100,13 +100,13 @@ describe('AgencyDashboard', () => {
     expect(screen.getByText('Barcelona Branch')).toBeInTheDocument();
   });
 
-  it('shows settings button for agency owner', () => {
+  it('shows settings link for agency owner', () => {
     renderWithProviders(<AgencyDashboard agencyId={AGENCY_ID} />);
 
-    expect(screen.getByRole('button', { name: /Settings/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Settings/i })).toBeInTheDocument();
   });
 
-  it('hides settings button for non-owner', () => {
+  it('hides settings link for non-owner', () => {
     mockUseCurrentUser.mockReturnValue({
       user: { id: 'other-user-id', email: 'other@test.com', name: 'Other User', emailVerified: true },
       isLoading: false,
@@ -115,7 +115,7 @@ describe('AgencyDashboard', () => {
 
     renderWithProviders(<AgencyDashboard agencyId={AGENCY_ID} />);
 
-    expect(screen.queryByRole('button', { name: /Settings/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: /Settings/i })).not.toBeInTheDocument();
   });
 
   it('shows empty state when no branches', () => {

@@ -77,7 +77,6 @@ export function AgencySettingsForm({ agencyId }: AgencySettingsFormProps) {
     // When the backend adds PATCH /api/agencies/{id}, this form will work.
     toast({
       title: t('settings.updateNotAvailable'),
-      variant: 'destructive',
     });
   };
 

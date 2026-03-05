@@ -5,7 +5,6 @@
 
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ErrorMessage } from '@/components/ui/ErrorMessage';
 import { useAgency } from '@/hooks/agencies';
@@ -73,11 +72,12 @@ export function AgencyDashboard({ agencyId }: AgencyDashboardProps) {
         </div>
         <div className="flex gap-3">
           {isOwner && (
-            <Link href={`/agencies/${agencyId}/settings`}>
-              <Button type="button" className="border border-slate-200 bg-white text-slate-700 shadow-none hover:bg-slate-50">
-                <span className="material-symbols-outlined mr-2 text-sm" aria-hidden="true">settings</span>
-                {t('dashboard.settings')}
-              </Button>
+            <Link
+              href={`/agencies/${agencyId}/settings`}
+              className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-none transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
+            >
+              <span className="material-symbols-outlined text-sm" aria-hidden="true">settings</span>
+              {t('dashboard.settings')}
             </Link>
           )}
         </div>
