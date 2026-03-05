@@ -92,16 +92,16 @@ public static class ToolDefinitions
 
     public static readonly ChatTool GenerateCopy = ChatTool.CreateFunctionTool(
         functionName: "generate_copy",
-        functionDescription: "Generate marketing copy or description text for a property listing.",
+        functionDescription: "Generate marketing copy or description text for a property listing in multiple languages.",
         functionParameters: BinaryData.FromString("""
         {
             "type": "object",
             "properties": {
-                "property_id": { "type": "string", "description": "ID of the property to generate copy for" },
-                "language": { "type": "string", "enum": ["es", "en", "fr", "de", "pt", "it"], "description": "Language for the generated copy" },
-                "tone": { "type": "string", "enum": ["professional", "casual", "luxury", "family_friendly"], "description": "Tone of the generated copy" }
+                "property_data": { "type": "string", "description": "Description of the property to generate copy for (type, location, size, features, price)" },
+                "tone": { "type": "string", "enum": ["professional", "luxury", "casual", "concise"], "description": "Tone of the generated copy" },
+                "languages": { "type": "array", "items": { "type": "string", "enum": ["es", "en", "fr", "de", "nl"] }, "description": "Languages to generate copy in. Defaults to all 5 if not specified." }
             },
-            "required": []
+            "required": ["property_data"]
         }
         """));
 
@@ -115,6 +115,19 @@ public static class ToolDefinitions
                 "text": { "type": "string", "description": "The unstructured text to extract data from" }
             },
             "required": ["text"]
+        }
+        """));
+
+    public static readonly ChatTool ExtractFromPhotos = ChatTool.CreateFunctionTool(
+        functionName: "extract_from_photos",
+        functionDescription: "Extract structured property data from photographs using AI vision analysis. Identifies property type, features, room count, and condition.",
+        functionParameters: BinaryData.FromString("""
+        {
+            "type": "object",
+            "properties": {
+                "image_urls": { "type": "array", "items": { "type": "string" }, "description": "Array of image URLs to analyze (max 10)" }
+            },
+            "required": ["image_urls"]
         }
         """));
 
@@ -163,6 +176,20 @@ public static class ToolDefinitions
         }
         """));
 
+    public static readonly ChatTool ReactivateProperty = ChatTool.CreateFunctionTool(
+        functionName: "reactivate_property",
+        functionDescription: "Reactivate an archived or withdrawn property listing, returning it to active status.",
+        functionParameters: BinaryData.FromString("""
+        {
+            "type": "object",
+            "properties": {
+                "property_id": { "type": "string", "description": "ID of the property to reactivate" },
+                "reference": { "type": "string", "description": "Property reference code or name to identify it" }
+            },
+            "required": []
+        }
+        """));
+
     /// <summary>
     /// Returns all available tool definitions for intent classification.
     /// </summary>
@@ -174,9 +201,11 @@ public static class ToolDefinitions
         ChangePropertyStatus,
         GenerateCopy,
         ExtractFromText,
+        ExtractFromPhotos,
         ReserveProperty,
         CloseOperation,
-        ArchiveProperty
+        ArchiveProperty,
+        ReactivateProperty
     ];
 
     /// <summary>
@@ -190,9 +219,11 @@ public static class ToolDefinitions
         ["change_property_status"] = ActionType.ChangePropertyStatus,
         ["generate_copy"] = ActionType.GenerateCopy,
         ["extract_from_text"] = ActionType.ExtractFromText,
+        ["extract_from_photos"] = ActionType.ExtractFromPhotos,
         ["reserve_property"] = ActionType.ReserveProperty,
         ["close_operation"] = ActionType.CloseOperation,
-        ["archive_property"] = ActionType.ArchiveProperty
+        ["archive_property"] = ActionType.ArchiveProperty,
+        ["reactivate_property"] = ActionType.ReactivateProperty
     };
 
     /// <summary>

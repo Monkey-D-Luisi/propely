@@ -16,7 +16,7 @@ public sealed class ToolDefinitionsTests
         var tools = ToolDefinitions.All;
 
         // Assert
-        tools.Should().HaveCount(9);
+        tools.Should().HaveCount(11);
     }
 
     [Theory]
@@ -26,9 +26,11 @@ public sealed class ToolDefinitionsTests
     [InlineData("change_property_status", ActionType.ChangePropertyStatus)]
     [InlineData("generate_copy", ActionType.GenerateCopy)]
     [InlineData("extract_from_text", ActionType.ExtractFromText)]
+    [InlineData("extract_from_photos", ActionType.ExtractFromPhotos)]
     [InlineData("reserve_property", ActionType.ReserveProperty)]
     [InlineData("close_operation", ActionType.CloseOperation)]
     [InlineData("archive_property", ActionType.ArchiveProperty)]
+    [InlineData("reactivate_property", ActionType.ReactivateProperty)]
     public void ResolveActionType_WithKnownFunctionName_ShouldReturnCorrectActionType(
         string functionName, ActionType expectedType)
     {

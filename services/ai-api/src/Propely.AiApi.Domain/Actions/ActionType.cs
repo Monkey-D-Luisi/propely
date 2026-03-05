@@ -14,6 +14,7 @@ public enum ActionType
     ChangePropertyStatus,
     GenerateCopy,
     ExtractFromText,
+    ExtractFromPhotos,
     CreateLead,
     CreateContact,
     QualifyLead,
@@ -26,5 +27,6 @@ public enum ActionType
     ReserveProperty,
     CloseOperation,
     ArchiveProperty,
+    ReactivateProperty,
     Unknown
 }

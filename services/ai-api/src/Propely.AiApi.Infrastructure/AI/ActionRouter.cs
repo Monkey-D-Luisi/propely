@@ -3,6 +3,8 @@
 
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Propely.AiApi.Application.Actions.Commands.Content;
+using Propely.AiApi.Application.Actions.Commands.Operations;
 using Propely.AiApi.Application.Actions.Commands.PropertyActions;
 using Propely.AiApi.Application.Actions.Interfaces;
 using Propely.AiApi.Domain.Actions;
@@ -11,8 +13,8 @@ namespace Propely.AiApi.Infrastructure.AI;
 
 /// <summary>
 /// Routes classified intents to the appropriate action handler via MediatR.
-/// Property action types (CreateProperty, QueryProperties, UpdateProperty, ChangePropertyStatus)
-/// are dispatched to their respective MediatR command handlers.
+/// Property action types and operation action types are dispatched to their
+/// respective MediatR command handlers.
 /// Remaining action types return "not yet implemented" placeholders.
 /// </summary>
 public sealed class ActionRouter : IActionRouter
@@ -56,6 +58,24 @@ public sealed class ActionRouter : IActionRouter
             ActionType.ChangePropertyStatus => await _mediator.Send(
                 new ChangePropertyStatusActionCommand(intent.Parameters, tenantId, agentId), ct),
 
+            // Operation actions — dispatched to MediatR handlers
+            ActionType.ReserveProperty => await _mediator.Send(
+                new ReservePropertyActionCommand(intent.Parameters, tenantId, agentId), ct),
+            ActionType.CloseOperation => await _mediator.Send(
+                new CloseOperationActionCommand(intent.Parameters, tenantId, agentId), ct),
+            ActionType.ArchiveProperty => await _mediator.Send(
+                new ArchivePropertyActionCommand(intent.Parameters, tenantId, agentId), ct),
+            ActionType.ReactivateProperty => await _mediator.Send(
+                new ReactivatePropertyActionCommand(intent.Parameters, tenantId, agentId), ct),
+
+            // Content / AI generation actions — dispatched to MediatR handlers
+            ActionType.ExtractFromText => await _mediator.Send(
+                new ExtractFromTextActionCommand(intent.Parameters, tenantId, agentId), ct),
+            ActionType.ExtractFromPhotos => await _mediator.Send(
+                new ExtractFromPhotosActionCommand(intent.Parameters, tenantId, agentId), ct),
+            ActionType.GenerateCopy => await _mediator.Send(
+                new GenerateCopyActionCommand(intent.Parameters, tenantId, agentId), ct),
+
             // All other action types — placeholder until subsequent tasks implement them
             _ => ActionResult.Ok(
                 data: new { intent.Parameters },
@@ -67,11 +87,6 @@ public sealed class ActionRouter : IActionRouter
 
     private static string GetPlaceholderMessage(ActionType actionType) => actionType switch
     {
-        ActionType.GenerateCopy => "I understood you want to generate marketing copy. This action will be available soon.",
-        ActionType.ExtractFromText => "I understood you want to extract property data from text. This action will be available soon.",
-        ActionType.ReserveProperty => "I understood you want to reserve a property. This action will be available soon.",
-        ActionType.CloseOperation => "I understood you want to close an operation. This action will be available soon.",
-        ActionType.ArchiveProperty => "I understood you want to archive a property. This action will be available soon.",
         ActionType.CreateLead => "I understood you want to create a lead. This action will be available soon.",
         ActionType.CreateContact => "I understood you want to create a contact. This action will be available soon.",
         ActionType.QualifyLead => "I understood you want to qualify a lead. This action will be available soon.",
