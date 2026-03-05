@@ -90,23 +90,23 @@ User Input (text or voice audio)
 
 | # | Title | Status | Dependencies |
 |---|---|---|---|
-| 3.1 | Intent Classifier & Action Router | PENDING | 0.4 |
-| 3.2 | Property Actions via Natural Language | PENDING | 3.1, 2.6 |
-| 3.3 | AI Content Generation | PENDING | 3.1 |
-| 3.4 | Contact & Lead Actions via Natural Language | PENDING | 3.1, 4.5 |
-| 3.5 | Operation Actions via Natural Language | PENDING | 3.2 |
-| 3.6 | Appointment Actions via Natural Language | PENDING | 3.1, 5.8 |
-| 3.7 | Voice Input (Speech-to-Text) | PENDING | 3.1 |
-| 3.8 | AI-API NuGet SDK Client | PENDING | 3.1, 3.7 |
-| 3.9 | Prompt Engineering & Spanish RE Vocabulary | PENDING | 3.2, 3.3, 3.4 |
-| 3.10 | Frontend: Command Bar | PENDING | 3.8 |
-| 3.11 | Frontend: Voice Mode | PENDING | 3.10, 3.7 |
+| 3.1 | Intent Classifier & Action Router | DONE | 0.4 |
+| 3.2 | Property Actions via Natural Language | DONE | 3.1, 2.6 |
+| 3.3 | AI Content Generation | DONE | 3.1 |
+| 3.4 | Contact & Lead Actions via Natural Language | BLOCKED | 3.1, 4.5 |
+| 3.5 | Operation Actions via Natural Language | DONE | 3.2 |
+| 3.6 | Appointment Actions via Natural Language | BLOCKED | 3.1, 5.8 |
+| 3.7 | Voice Input (Speech-to-Text) | DONE | 3.1 |
+| 3.8 | AI-API NuGet SDK Client | DONE | 3.1, 3.7 |
+| 3.9 | Prompt Engineering & Spanish RE Vocabulary | BLOCKED | 3.2, 3.3, 3.4 |
+| 3.10 | Frontend: Command Bar | DONE | 3.8 |
+| 3.11 | Frontend: Voice Mode | DONE | 3.10, 3.7 |
 
 ---
 
 ## Task 3.1 -- Intent Classifier & Action Router
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 0.4 (NuGet SDK infrastructure)
 
 ### Goal
@@ -226,7 +226,7 @@ Write `ActionCommandFactory` tests first (all 16 action types → correct comman
 
 ## Task 3.2 -- Property Actions via Natural Language
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 3.1 (action engine core), 2.6 (PropertiesApi SDK client)
 
 ### Goal
@@ -334,7 +334,7 @@ Write `SpanishPropertyTypeMapper` tests first (all Spanish terms). Write `Proper
 
 ## Task 3.3 -- AI Content Generation
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 3.1 (action engine core)
 
 ### Goal
@@ -437,7 +437,7 @@ Write `ExtractedPropertyDto` mapping tests first. Write handler tests with known
 
 ## Task 3.4 -- Contact & Lead Actions via Natural Language
 
-**Status:** PENDING
+**Status:** BLOCKED
 **Dependencies:** 3.1 (action engine core), 4.5 (ContactsApi SDK client)
 
 ### Goal
@@ -537,7 +537,7 @@ Write `ContactEntityResolver` tests first (name matching, accent handling, ambig
 
 ## Task 3.5 -- Operation Actions via Natural Language
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 3.2 (property actions — uses `PropertyEntityResolver` and property SDK)
 
 ### Goal
@@ -623,7 +623,7 @@ Write operation inference tests first (Sale→Sold, Rent→Rented). Write handle
 
 ## Task 3.6 -- Appointment Actions via Natural Language
 
-**Status:** PENDING
+**Status:** BLOCKED
 **Dependencies:** 3.1 (action engine core), 5.8 (AppointmentsApi SDK client)
 
 ### Goal
@@ -724,7 +724,7 @@ Write `RelativeDateParser` tests first (both English and Spanish, with fixed clo
 
 ## Task 3.7 -- Voice Input (Speech-to-Text)
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 3.1 (action engine core for pipeline integration)
 
 ### Goal
@@ -823,7 +823,7 @@ Write validator tests first (file size, format). Write transcription service tes
 
 ## Task 3.8 -- AI-API NuGet SDK Client
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 3.1 (actions endpoint), 3.7 (voice endpoint)
 
 ### Goal
@@ -914,7 +914,7 @@ Write DI registration tests first. Verify all interfaces resolve from the servic
 
 ## Task 3.9 -- Prompt Engineering & Spanish RE Vocabulary
 
-**Status:** PENDING
+**Status:** BLOCKED
 **Dependencies:** 3.2, 3.3, 3.4 (all action handlers that use prompts)
 
 ### Goal
@@ -1012,7 +1012,7 @@ Write vocabulary mapping tests first (all terms, accents, plurals). Write regres
 
 ## Task 3.10 -- Frontend: Command Bar
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 3.8 (AI SDK client endpoints available)
 
 ### Goal
@@ -1130,7 +1130,7 @@ Write hook tests first (`useCommandBar` state management, `useExecuteAction` API
 
 ## Task 3.11 -- Frontend: Voice Mode
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 3.10 (command bar must exist), 3.7 (voice transcription endpoint)
 
 ### Goal

@@ -385,7 +385,7 @@ Coverage targets:
 **Existing base:** The `ParseWorkItemCommand` pattern in ai-api already demonstrates NL text → structured output. Phase 3 extends this to the entire domain with function calling, cross-service SDKs, and voice input.
 
 ### Task 3.1 — Intent Classifier & Action Router
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 0.4
 - **Scope:** Build the core AI orchestration infrastructure in `ai-api`:
   - `POST /api/actions/execute` — accepts text input, classifies intent via OpenAI function calling, routes to the appropriate action handler, returns structured result + NL confirmation
@@ -396,7 +396,7 @@ Coverage targets:
 - **TDD:** Unit tests for router, handler dispatch, intent mapping. Integration test for end-to-end pipeline.
 
 ### Task 3.2 — Property Actions via Natural Language
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 3.1, 2.6
 - **Scope:** Implement action handlers for property operations:
   - `CreatePropertyAction` — extract fields from NL, create property via PropertiesApi SDK
@@ -407,7 +407,7 @@ Coverage targets:
 - **TDD:** Unit tests for each handler with mocked SDK. Integration tests for NL→action→SDK pipeline.
 
 ### Task 3.3 — AI Content Generation
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 3.1
 - **Scope:** AI-powered content generation exposed through the action engine:
   - `GenerateCopyAction` — marketing descriptions in multiple languages (es, en, fr, de, nl) with tone options (professional, luxury, casual, concise)
@@ -417,7 +417,7 @@ Coverage targets:
 - **TDD:** Unit tests with mocked OpenAI. Prompt regression test suite (20+ cases).
 
 ### Task 3.4 — Contact & Lead Actions via Natural Language
-- **Status:** PENDING
+- **Status:** BLOCKED
 - **Dependencies:** 3.1, 4.5
 - **Scope:** Action handlers for contacts and leads:
   - `CreateLeadAction` — "new lead from Maria Garcia for the apartment on Calle Mayor"
@@ -429,7 +429,7 @@ Coverage targets:
 - **TDD:** Unit tests for each handler. Integration tests for cross-service action execution.
 
 ### Task 3.5 — Operation Actions via Natural Language
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 3.2
 - **Scope:** Action handlers for property lifecycle operations:
   - `ReservePropertyAction` — "reserve the apartment on Calle Mayor for Maria Garcia"
@@ -440,7 +440,7 @@ Coverage targets:
 - **TDD:** Unit tests for operation handlers. Entity resolution tests with fuzzy matching.
 
 ### Task 3.6 — Appointment Actions via Natural Language
-- **Status:** PENDING
+- **Status:** BLOCKED
 - **Dependencies:** 3.1, 5.8
 - **Scope:** Action handlers for appointments:
   - `BookViewingAction` — "book a viewing for the Malaga villa with Maria Garcia next Tuesday at 10am"
@@ -451,7 +451,7 @@ Coverage targets:
 - **TDD:** Unit tests for each handler. Date parsing tests with Spanish locale.
 
 ### Task 3.7 — Voice Input (Speech-to-Text)
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 3.1
 - **Scope:** Voice transcription endpoint in `ai-api`:
   - `POST /api/voice/transcribe` — accepts audio (WebM/Opus from browser MediaRecorder, WAV, MP3)
@@ -464,7 +464,7 @@ Coverage targets:
 - **TDD:** Unit tests with mocked audio API. Integration test for voice→text→action pipeline.
 
 ### Task 3.8 — AI-API NuGet SDK Client
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 3.1, 3.7
 - **Scope:** Create `Propely.AiApi.Client` NuGet package:
   - `IActionApi` — `ExecuteActionAsync(text)`, `ExecuteVoiceActionAsync(audio)`
@@ -475,7 +475,7 @@ Coverage targets:
 - **TDD:** DI registration tests. Polly policy tests.
 
 ### Task 3.9 — Prompt Engineering & Spanish RE Vocabulary
-- **Status:** PENDING
+- **Status:** BLOCKED
 - **Dependencies:** 3.2, 3.3, 3.4
 - **Scope:** Systematic prompt tuning for the Spanish real estate domain:
   - Property type vocabulary: piso, adosado, chalet, atico, bajo, duplex, finca, cortijo, local, oficina, nave, solar, garaje
@@ -486,7 +486,7 @@ Coverage targets:
 - **TDD:** Regression tests run as part of `dotnet test`. Accuracy threshold >= 85%.
 
 ### Task 3.10 — Frontend: Command Bar
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 3.8
 - **Scope:**
   1. Use case definition: global command bar for text input, accessible via `Ctrl+K` / `Cmd+K`
@@ -501,7 +501,7 @@ Coverage targets:
 - **TDD:** Component tests for command bar interactions. E2E test for text→action→result flow.
 
 ### Task 3.11 — Frontend: Voice Mode
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 3.10, 3.7
 - **Scope:**
   1. Use case definition: microphone button in command bar, hold-to-record or toggle
