@@ -63,6 +63,18 @@ public static class DependencyInjection
                     Endpoint = "POST:/v1/actions/execute",
                     Period = "1m",
                     Limit = 20  // Stricter limit for AI action execution
+                },
+                new RateLimitRule
+                {
+                    Endpoint = "POST:/v1/voice/transcribe",
+                    Period = "1m",
+                    Limit = 10  // Stricter limit for voice transcription
+                },
+                new RateLimitRule
+                {
+                    Endpoint = "POST:/v1/voice/execute",
+                    Period = "1m",
+                    Limit = 10  // Stricter limit for voice-to-action execution
                 }
             ];
         });

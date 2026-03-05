@@ -9,5 +9,7 @@ public class OpenAiOptions
 
     public string ModelId { get; set; } = "gpt-5-mini";
 
+    public string TranscriptionModelId { get; set; } = "gpt-4o-mini-transcription";
+
     public string? ApiKey { get; set; }
 }
