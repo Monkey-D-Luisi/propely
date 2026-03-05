@@ -9,6 +9,7 @@ using Propely.PropertiesApi.Infrastructure.Messaging;
 using Propely.PropertiesApi.Infrastructure.Messaging.Configuration;
 using Propely.PropertiesApi.Infrastructure.Persistence;
 using Propely.PropertiesApi.Infrastructure.Persistence.Repositories;
+using Propely.PropertiesApi.Infrastructure.Storage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,6 +40,11 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IPropertyRepository, PropertyRepository>();
         services.AddScoped<IPropertyReadRepository, PropertyReadRepository>();
+        services.AddScoped<IPropertyMediaRepository, PropertyMediaRepository>();
+
+        // Storage & Image Processing
+        services.AddSingleton<IStorageService, GcpStorageService>();
+        services.AddSingleton<IImageProcessingService, ImageProcessingService>();
 
         // RabbitMQ
         services.Configure<RabbitMqConfiguration>(configuration.GetSection(RabbitMqConfiguration.SectionName));
