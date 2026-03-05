@@ -10,6 +10,7 @@ import { routing } from '@/i18n/routing';
 import { brand } from '@/config/brand';
 import { Providers } from '../providers';
 import { AppHeader } from '@/components/layout/AppHeader';
+import { CommandBar } from '@/components/command-bar/CommandBar';
 
 type Props = {
   children: ReactNode;
@@ -60,6 +61,7 @@ export default async function LocaleLayout({ children, params }: Props) {
               {children}
             </main>
           </div>
+          <CommandBar />
         </Providers>
       </NextIntlClientProvider>
     </>

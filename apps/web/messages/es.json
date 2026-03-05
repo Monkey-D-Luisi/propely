@@ -896,5 +896,30 @@
     "noMembers": "No se encontraron miembros",
     "loadError": "Error al cargar los permisos",
     "readOnly": "Puedes ver los permisos pero no puedes realizar cambios"
+  },
+  "commandBar": {
+    "placeholder": "Escribe un comando...",
+    "submit": "Ejecutar",
+    "loading": "Procesando...",
+    "success": "Hecho",
+    "error": "Algo sali\u00f3 mal",
+    "retry": "Reintentar",
+    "confirm": "Confirmar",
+    "cancel": "Cancelar",
+    "recentCommands": "Comandos recientes",
+    "noRecentCommands": "Sin comandos recientes",
+    "openShortcut": "Ctrl+K",
+    "close": "Cerrar",
+    "needsConfirmation": "Por favor confirma",
+    "noSpeechDetected": "No se detect\u00f3 voz",
+    "voice": {
+      "record": "Iniciar grabaci\u00f3n",
+      "stop": "Detener grabaci\u00f3n",
+      "processing": "Procesando voz...",
+      "permissionDenied": "Se requiere acceso al micr\u00f3fono",
+      "permissionGuide": "Por favor, permite el acceso al micr\u00f3fono en la configuraci\u00f3n de tu navegador",
+      "noAudioDetected": "No se detect\u00f3 audio. Por favor, int\u00e9ntalo de nuevo.",
+      "transcriptionFailed": "No se pudo transcribir el audio. Por favor, int\u00e9ntalo de nuevo."
+    }
   }
 }
