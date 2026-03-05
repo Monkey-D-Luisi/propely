@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Propely.AiApi.Domain\Propely.AiApi.Domain.csproj" />
+    <ProjectReference Include="..\..\..\properties-api\src\Propely.PropertiesApi.Client\Propely.PropertiesApi.Client.csproj" />
   </ItemGroup>
 
 </Project>

@@ -12,6 +12,7 @@ using Propely.AiApi.Infrastructure.Messaging.Configuration;
 using Propely.AiApi.Infrastructure.Persistence;
 using Propely.AiApi.Infrastructure.Persistence.Repositories;
 using Propely.AiApi.Infrastructure.Services;
+using Propely.PropertiesApi.Client;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -73,6 +74,12 @@ public static class DependencyInjection
         // AI Action Engine (Intent Classifier + Action Router)
         services.AddScoped<IIntentClassifier, OpenAiIntentClassifier>();
         services.AddScoped<IActionRouter, ActionRouter>();
+
+        // Properties API SDK Client (cross-service communication)
+        services.AddPropertiesApiClient(options =>
+        {
+            options.BaseUrl = configuration["PropertiesApi:BaseUrl"] ?? "http://localhost:5030";
+        });
 
         return services;
     }

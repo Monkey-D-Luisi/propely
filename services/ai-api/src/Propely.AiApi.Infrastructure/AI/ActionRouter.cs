@@ -1,27 +1,32 @@
 // Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 
+using MediatR;
 using Microsoft.Extensions.Logging;
+using Propely.AiApi.Application.Actions.Commands.PropertyActions;
 using Propely.AiApi.Application.Actions.Interfaces;
 using Propely.AiApi.Domain.Actions;
 
 namespace Propely.AiApi.Infrastructure.AI;
 
 /// <summary>
-/// Routes classified intents to the appropriate action handler.
-/// Currently returns "not yet implemented" for all known action types,
-/// providing the routing plumbing that subsequent tasks (3.2, 3.3, etc.) will plug handlers into.
+/// Routes classified intents to the appropriate action handler via MediatR.
+/// Property action types (CreateProperty, QueryProperties, UpdateProperty, ChangePropertyStatus)
+/// are dispatched to their respective MediatR command handlers.
+/// Remaining action types return "not yet implemented" placeholders.
 /// </summary>
 public sealed class ActionRouter : IActionRouter
 {
+    private readonly IMediator _mediator;
     private readonly ILogger<ActionRouter> _logger;
 
-    public ActionRouter(ILogger<ActionRouter> logger)
+    public ActionRouter(IMediator mediator, ILogger<ActionRouter> logger)
     {
+        _mediator = mediator;
         _logger = logger;
     }
 
-    public Task<ActionResult> RouteAsync(
+    public async Task<ActionResult> RouteAsync(
         ClassifiedIntent intent,
         Guid tenantId,
         Guid agentId,
@@ -33,29 +38,35 @@ public sealed class ActionRouter : IActionRouter
 
         if (intent.ActionType == ActionType.Unknown)
         {
-            return Task.FromResult(ActionResult.Fail(
+            return ActionResult.Fail(
                 ["Unknown action type cannot be routed."],
                 ActionType.Unknown,
-                "I could not determine what action to perform."));
+                "I could not determine what action to perform.");
         }
 
-        // For now, all known action types return a placeholder result.
-        // Individual action handlers will be implemented in subsequent tasks (3.2, 3.3, etc.)
-        var message = GetPlaceholderMessage(intent.ActionType);
+        return intent.ActionType switch
+        {
+            // Property actions — dispatched to MediatR handlers
+            ActionType.CreateProperty => await _mediator.Send(
+                new CreatePropertyActionCommand(intent.Parameters, tenantId, agentId), ct),
+            ActionType.QueryProperties => await _mediator.Send(
+                new QueryPropertiesActionCommand(intent.Parameters, tenantId, agentId), ct),
+            ActionType.UpdateProperty => await _mediator.Send(
+                new UpdatePropertyActionCommand(intent.Parameters, tenantId, agentId), ct),
+            ActionType.ChangePropertyStatus => await _mediator.Send(
+                new ChangePropertyStatusActionCommand(intent.Parameters, tenantId, agentId), ct),
 
-        return Task.FromResult(ActionResult.Ok(
-            data: new { intent.Parameters },
-            message: message,
-            type: intent.ActionType,
-            confidence: intent.Confidence));
+            // All other action types — placeholder until subsequent tasks implement them
+            _ => ActionResult.Ok(
+                data: new { intent.Parameters },
+                message: GetPlaceholderMessage(intent.ActionType),
+                type: intent.ActionType,
+                confidence: intent.Confidence)
+        };
     }
 
     private static string GetPlaceholderMessage(ActionType actionType) => actionType switch
     {
-        ActionType.CreateProperty => "I understood you want to create a property. This action will be available soon.",
-        ActionType.UpdateProperty => "I understood you want to update a property. This action will be available soon.",
-        ActionType.QueryProperties => "I understood you want to search properties. This action will be available soon.",
-        ActionType.ChangePropertyStatus => "I understood you want to change a property's status. This action will be available soon.",
         ActionType.GenerateCopy => "I understood you want to generate marketing copy. This action will be available soon.",
         ActionType.ExtractFromText => "I understood you want to extract property data from text. This action will be available soon.",
         ActionType.ReserveProperty => "I understood you want to reserve a property. This action will be available soon.",
