@@ -114,4 +114,50 @@ public static class ParameterExtractor
 
         return Enum.TryParse<T>(stringValue, ignoreCase: true, out var result) ? result : null;
     }
+
+    /// <summary>
+    /// Extracts a list of strings from the parameters dictionary.
+    /// Handles both native string lists/arrays and JsonElement arrays from JSON deserialization.
+    /// </summary>
+    public static List<string>? GetStringList(Dictionary<string, object?> parameters, string key)
+    {
+        if (!parameters.TryGetValue(key, out var value) || value is null)
+            return null;
+
+        if (value is JsonElement jsonElement)
+        {
+            if (jsonElement.ValueKind == JsonValueKind.Array)
+            {
+                var list = new List<string>();
+                foreach (var item in jsonElement.EnumerateArray())
+                {
+                    var str = item.ValueKind == JsonValueKind.String
+                        ? item.GetString()
+                        : item.GetRawText().Trim('"');
+                    if (str != null) list.Add(str);
+                }
+                return list;
+            }
+            return null;
+        }
+
+        if (value is List<string> stringList)
+            return stringList;
+
+        if (value is string[] stringArray)
+            return [.. stringArray];
+
+        if (value is IEnumerable<object?> enumerable)
+        {
+            var list = new List<string>();
+            foreach (var item in enumerable)
+            {
+                var str = item?.ToString();
+                if (str != null) list.Add(str);
+            }
+            return list;
+        }
+
+        return null;
+    }
 }
