@@ -71,6 +71,9 @@ public static class DependencyInjection
         services.Configure<OpenAiOptions>(configuration.GetSection(OpenAiOptions.SectionName));
         services.AddSingleton<IOpenAiService, OpenAiService>();
 
+        // Voice Transcription Service (OpenAI Audio API)
+        services.AddScoped<IVoiceTranscriptionService, OpenAiVoiceTranscriptionService>();
+
         // AI Action Engine (Intent Classifier + Action Router)
         services.AddScoped<IIntentClassifier, OpenAiIntentClassifier>();
         services.AddScoped<IActionRouter, ActionRouter>();
