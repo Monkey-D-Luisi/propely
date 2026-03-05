@@ -51,11 +51,7 @@ export function AgencyCreateForm() {
     defaultValues: { name: '', slug: '' },
   });
 
-  const nameReg = methods.register('name');
-  const slugReg = methods.register('slug');
-
   const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    void nameReg.onChange(e);
     if (!slugManuallyEdited) {
       methods.setValue('slug', generateSlug(e.target.value));
     }
@@ -63,7 +59,6 @@ export function AgencyCreateForm() {
 
   const onSlugChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSlugManuallyEdited(true);
-    void slugReg.onChange(e);
     methods.setValue('slug', e.target.value.toLowerCase());
   };
 
@@ -104,10 +99,9 @@ export function AgencyCreateForm() {
             <input
               id="name"
               type="text"
-              ref={nameReg.ref}
-              name={nameReg.name}
-              onBlur={nameReg.onBlur}
-              onChange={onNameChange}
+              {...methods.register('name', {
+                onChange: onNameChange,
+              })}
               className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-transparent focus:ring-2 focus:ring-primary-600"
               placeholder={t('create.namePlaceholder')}
               autoFocus
@@ -124,10 +118,9 @@ export function AgencyCreateForm() {
             <input
               id="slug"
               type="text"
-              ref={slugReg.ref}
-              name={slugReg.name}
-              onBlur={slugReg.onBlur}
-              onChange={onSlugChange}
+              {...methods.register('slug', {
+                onChange: onSlugChange,
+              })}
               className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-transparent focus:ring-2 focus:ring-primary-600"
               placeholder={t('create.slugPlaceholder')}
             />
