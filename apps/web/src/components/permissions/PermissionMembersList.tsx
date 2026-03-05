@@ -94,6 +94,7 @@ export function PermissionMembersList({ orgId }: PermissionMembersListProps) {
                   member={member}
                   orgId={orgId}
                   manageLabel={t('manageButton')}
+                  canManage={canManage}
                 />
               ))}
             </tbody>
@@ -108,10 +109,12 @@ function MemberRow({
   member,
   orgId,
   manageLabel,
+  canManage,
 }: {
   member: Member;
   orgId: string;
   manageLabel: string;
+  canManage: boolean;
 }) {
   return (
     <tr className="transition hover:bg-slate-50">
@@ -129,13 +132,15 @@ function MemberRow({
         <RoleBadge role={member.role} />
       </td>
       <td className="px-4 py-3 text-right">
-        <Link
-          href={`/orgs/${orgId}/permissions/${member.userId}`}
-          className="inline-flex items-center gap-1 rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
-        >
-          {manageLabel}
-          <ChevronRightIcon className="h-4 w-4" />
-        </Link>
+        {canManage ? (
+          <Link
+            href={`/orgs/${orgId}/permissions/${member.userId}`}
+            className="inline-flex items-center gap-1 rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
+          >
+            {manageLabel}
+            <ChevronRightIcon className="h-4 w-4" />
+          </Link>
+        ) : null}
       </td>
     </tr>
   );

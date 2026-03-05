@@ -34,7 +34,8 @@ The Playwright spec verifies the permission management UI renders and is navigab
 1. Agent default permissions (only LeadsManage granted)
 2. Grant override on agent → permission becomes granted with Override source
 3. Remove override → permission returns to Role Default
-4. Deny override on admin → permission becomes denied with Override source
+4. Deny override on agent for LeadsManage → permission becomes denied with Override source
+5. Remove deny override on agent for LeadsManage → permission returns to Role Default
 
 ### OwnerImmunityTests
 1. Owner permissions all granted as Role Default

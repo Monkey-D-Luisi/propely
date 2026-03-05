@@ -75,6 +75,7 @@ describe('PermissionDetailPanel', () => {
         userId="u3"
         userName="Carol Agent"
         userRole="agent"
+        viewerCanManage={true}
       />,
     );
 
@@ -95,6 +96,7 @@ describe('PermissionDetailPanel', () => {
         userId="u3"
         userName="Carol Agent"
         userRole="agent"
+        viewerCanManage={true}
       />,
     );
 
@@ -115,6 +117,7 @@ describe('PermissionDetailPanel', () => {
         userId="u3"
         userName="Carol Agent"
         userRole="agent"
+        viewerCanManage={true}
       />,
     );
 
@@ -136,6 +139,7 @@ describe('PermissionDetailPanel', () => {
         userId="u3"
         userName="Carol Agent"
         userRole="agent"
+        viewerCanManage={true}
       />,
     );
 
@@ -161,6 +165,7 @@ describe('PermissionDetailPanel', () => {
         userId="u3"
         userName="Carol Agent"
         userRole="agent"
+        viewerCanManage={true}
       />,
     );
 
@@ -188,6 +193,7 @@ describe('PermissionDetailPanel', () => {
         userId="u3"
         userName="Carol Agent"
         userRole="agent"
+        viewerCanManage={true}
       />,
     );
 
@@ -209,6 +215,7 @@ describe('PermissionDetailPanel', () => {
         userId="u3"
         userName="Carol Agent"
         userRole="agent"
+        viewerCanManage={true}
       />,
     );
 
@@ -232,6 +239,7 @@ describe('PermissionDetailPanel', () => {
         userId="u1"
         userName="Alice Owner"
         userRole="owner"
+        viewerCanManage={true}
       />,
     );
 
@@ -252,6 +260,7 @@ describe('PermissionDetailPanel', () => {
         userId="u1"
         userName="Alice Owner"
         userRole="owner"
+        viewerCanManage={true}
       />,
     );
 
@@ -275,6 +284,7 @@ describe('PermissionDetailPanel', () => {
         userId="u3"
         userName="Carol Agent"
         userRole="agent"
+        viewerCanManage={true}
       />,
     );
 
@@ -296,6 +306,7 @@ describe('PermissionDetailPanel', () => {
         userId="u3"
         userName="Carol Agent"
         userRole="agent"
+        viewerCanManage={true}
         onBack={onBack}
       />,
     );

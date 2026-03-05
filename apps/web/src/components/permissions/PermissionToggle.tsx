@@ -10,6 +10,7 @@ interface PermissionToggleProps {
   onChange: (enabled: boolean) => void;
   disabled: boolean;
   isLoading: boolean;
+  ariaLabel?: string;
 }
 
 export function PermissionToggle({
@@ -17,12 +18,14 @@ export function PermissionToggle({
   onChange,
   disabled,
   isLoading,
+  ariaLabel,
 }: PermissionToggleProps) {
   return (
     <button
       type="button"
       role="switch"
       aria-checked={enabled}
+      aria-label={ariaLabel}
       disabled={disabled || isLoading}
       onClick={() => onChange(!enabled)}
       className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 ${

@@ -167,9 +167,10 @@ public sealed class PermissionLifecycleTests : IClassFixture<ApiWebApplicationFa
         var (ownerClient, _, orgId, _, agentId) = await SetupOrgWithAgentAsync();
 
         // Grant override
-        await ownerClient.PutAsJsonAsync(
+        var grantResponse = await ownerClient.PutAsJsonAsync(
             $"/api/organizations/{orgId}/permissions/{agentId}/PropertiesViewAll",
             new { granted = true });
+        grantResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
         // Remove override
         var deleteResponse = await ownerClient.DeleteAsync(

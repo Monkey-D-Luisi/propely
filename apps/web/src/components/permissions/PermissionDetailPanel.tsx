@@ -16,7 +16,6 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/components/ui/toast';
 import { ArrowLeftIcon } from '@/components/ui/icons';
 import { Link } from '@/i18n/navigation';
-import { isManager } from '@/lib/roles';
 import { isApiError } from '@/lib/api';
 import type { Role } from '@/lib/schemas';
 import type { EffectivePermission } from '@/lib/schemas';
@@ -113,6 +112,7 @@ interface PermissionDetailPanelProps {
   userId: string;
   userName: string;
   userRole: Role;
+  viewerCanManage: boolean;
   onBack?: () => void;
 }
 
@@ -121,6 +121,7 @@ export function PermissionDetailPanel({
   userId,
   userName,
   userRole,
+  viewerCanManage,
   onBack,
 }: PermissionDetailPanelProps) {
   const t = useTranslations('permissions');
@@ -137,7 +138,7 @@ export function PermissionDetailPanel({
   const [isConfirming, setIsConfirming] = useState(false);
 
   const isOwner = userRole === 'owner';
-  const canEdit = isManager(userRole) || isOwner;
+  const canEdit = viewerCanManage;
 
   // Build a permission lookup map
   const permissionMap = new Map<string, EffectivePermission>();
@@ -352,6 +353,7 @@ export function PermissionDetailPanel({
                       onChange={() => handleToggle(permission, granted, source)}
                       disabled={isOwner || !canEdit}
                       isLoading={isPending}
+                      ariaLabel={t(`names.${permission}` as Parameters<typeof t>[0])}
                     />
                   </div>
                 </div>
