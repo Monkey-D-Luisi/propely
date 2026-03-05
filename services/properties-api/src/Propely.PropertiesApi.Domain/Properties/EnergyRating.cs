@@ -12,5 +12,6 @@ public enum EnergyRating
     E = 4,
     F = 5,
     G = 6,
-    Exempt = 7
+    Exempt = 7,
+    InProgress = 8
 }

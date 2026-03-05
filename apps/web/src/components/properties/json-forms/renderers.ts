@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Propely. All rights reserved.
+// Licensed under the Proprietary Software License. See LICENSE.
+
 import type { JsonFormsRendererRegistryEntry } from '@jsonforms/core';
 import { EnergyRatingRenderer, energyRatingTester } from './EnergyRatingRenderer';
 import { OrientationRenderer, orientationTester } from './OrientationRenderer';

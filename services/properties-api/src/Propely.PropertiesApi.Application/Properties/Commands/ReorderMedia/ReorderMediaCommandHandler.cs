@@ -4,6 +4,7 @@
 using MediatR;
 using Propely.PropertiesApi.Application.Common.Interfaces;
 using Propely.PropertiesApi.Application.Properties.Interfaces;
+using Propely.PropertiesApi.Domain.Common.Exceptions;
 
 namespace Propely.PropertiesApi.Application.Properties.Commands.ReorderMedia;
 
@@ -25,13 +26,18 @@ public sealed class ReorderMediaCommandHandler : IRequestHandler<ReorderMediaCom
         var existingMedia = await _mediaRepository.GetByPropertyIdAsync(request.PropertyId, request.TenantId, cancellationToken);
         var mediaById = existingMedia.ToDictionary(m => m.Id);
 
+        if (existingMedia.Count != request.Items.Count || request.Items.Any(i => !mediaById.ContainsKey(i.MediaId)))
+            throw new DomainException("Reorder request must include all media items for the property.");
+
+        var displayOrders = request.Items.Select(i => i.DisplayOrder).ToHashSet();
+        if (displayOrders.Count != request.Items.Count)
+            throw new DomainException("Display orders must be unique.");
+
         foreach (var item in request.Items)
         {
-            if (mediaById.TryGetValue(item.MediaId, out var media))
-            {
-                media.UpdateDisplayOrder(item.DisplayOrder);
-                _mediaRepository.Update(media);
-            }
+            var media = mediaById[item.MediaId];
+            media.UpdateDisplayOrder(item.DisplayOrder);
+            _mediaRepository.Update(media);
         }
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);

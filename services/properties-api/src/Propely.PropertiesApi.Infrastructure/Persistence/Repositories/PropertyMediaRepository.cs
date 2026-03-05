@@ -36,6 +36,12 @@ public sealed class PropertyMediaRepository : IPropertyMediaRepository
             .CountAsync(m => m.PropertyId == propertyId && m.TenantId == tenantId, cancellationToken);
     }
 
+    public async Task<int> CountByPropertyIdAndMediaTypeAsync(Guid propertyId, Guid tenantId, MediaType mediaType, CancellationToken cancellationToken = default)
+    {
+        return await _context.PropertyMedia
+            .CountAsync(m => m.PropertyId == propertyId && m.TenantId == tenantId && m.MediaType == mediaType, cancellationToken);
+    }
+
     public async Task AddAsync(PropertyMedia media, CancellationToken cancellationToken = default)
     {
         await _context.PropertyMedia.AddAsync(media, cancellationToken);

@@ -10,6 +10,7 @@ public interface IPropertyMediaRepository
     Task<PropertyMedia?> GetByIdAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default);
     Task<IReadOnlyList<PropertyMedia>> GetByPropertyIdAsync(Guid propertyId, Guid tenantId, CancellationToken cancellationToken = default);
     Task<int> CountByPropertyIdAsync(Guid propertyId, Guid tenantId, CancellationToken cancellationToken = default);
+    Task<int> CountByPropertyIdAndMediaTypeAsync(Guid propertyId, Guid tenantId, MediaType mediaType, CancellationToken cancellationToken = default);
     Task AddAsync(PropertyMedia media, CancellationToken cancellationToken = default);
     void Update(PropertyMedia media);
     void Delete(PropertyMedia media);

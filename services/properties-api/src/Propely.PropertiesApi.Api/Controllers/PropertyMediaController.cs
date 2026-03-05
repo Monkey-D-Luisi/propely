@@ -4,6 +4,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Propely.PropertiesApi.Api.Dtos;
 using Propely.PropertiesApi.Api.Extensions;
 using Propely.PropertiesApi.Application.Properties.Commands.DeleteMedia;
 using Propely.PropertiesApi.Application.Properties.Commands.ReorderMedia;
@@ -89,15 +90,4 @@ public sealed class PropertyMediaController : ControllerBase
         await _mediator.Send(command, cancellationToken);
         return Ok();
     }
-}
-
-public sealed record ReorderRequest
-{
-    public IReadOnlyList<ReorderItemRequest> Items { get; init; } = [];
-}
-
-public sealed record ReorderItemRequest
-{
-    public Guid MediaId { get; init; }
-    public int DisplayOrder { get; init; }
 }
