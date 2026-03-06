@@ -5,6 +5,8 @@ using System.Text.Json;
 using Propely.ContactsApi.Application.Common.Interfaces;
 using Propely.ContactsApi.Application.Common.Models;
 using Propely.ContactsApi.Domain.Common;
+using Propely.ContactsApi.Domain.Contacts;
+using Propely.ContactsApi.Domain.Leads;
 using Propely.ContactsApi.Infrastructure.Persistence.Configurations;
 using Propely.ContactsApi.Infrastructure.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +39,9 @@ public sealed class AppDbContext : DbContext
 
     public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
     public DbSet<ProcessedEvent> ProcessedEvents => Set<ProcessedEvent>();
+    public DbSet<Contact> Contacts => Set<Contact>();
+    public DbSet<ContactPropertyInterest> ContactPropertyInterests => Set<ContactPropertyInterest>();
+    public DbSet<Lead> Leads => Set<Lead>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -44,6 +49,9 @@ public sealed class AppDbContext : DbContext
 
         modelBuilder.ApplyConfiguration(new OutboxMessageConfiguration());
         modelBuilder.ApplyConfiguration(new ProcessedEventConfiguration());
+        modelBuilder.ApplyConfiguration(new ContactConfiguration());
+        modelBuilder.ApplyConfiguration(new ContactPropertyInterestConfiguration());
+        modelBuilder.ApplyConfiguration(new LeadConfiguration());
     }
 
     /// <summary>

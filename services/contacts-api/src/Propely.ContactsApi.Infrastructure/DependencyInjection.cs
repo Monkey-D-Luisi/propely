@@ -2,6 +2,8 @@
 // Licensed under the Proprietary Software License. See LICENSE.
 
 using Propely.ContactsApi.Application.Common.Interfaces;
+using Propely.ContactsApi.Application.Contacts.Interfaces;
+using Propely.ContactsApi.Application.Leads.Interfaces;
 using Propely.ContactsApi.Infrastructure.Caching;
 using Propely.ContactsApi.Infrastructure.Caching.Configuration;
 using Propely.ContactsApi.Infrastructure.Messaging;
@@ -35,6 +37,10 @@ public static class DependencyInjection
 
         // Repositories
         services.AddScoped<IOutboxRepository, OutboxRepository>();
+        services.AddScoped<IContactRepository, ContactRepository>();
+        services.AddScoped<IContactReadRepository, ContactReadRepository>();
+        services.AddScoped<ILeadRepository, LeadRepository>();
+        services.AddScoped<ILeadReadRepository, LeadReadRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         // RabbitMQ
