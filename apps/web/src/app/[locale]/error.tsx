@@ -5,37 +5,54 @@
 
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { AlertTriangleIcon } from '@/components/ui/icons';
 
 interface ErrorPageProps {
   error: Error & { digest?: string };
   reset: () => void;
 }
 
-export default function ErrorPage({ reset }: ErrorPageProps) {
+export default function ErrorPage({ error, reset }: ErrorPageProps) {
   const t = useTranslations('errors.runtime');
 
   return (
-    <div className="mx-auto flex min-h-[60vh] w-full max-w-md flex-col items-center justify-center px-6 py-16 text-center">
-      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
-        <AlertTriangleIcon className="h-7 w-7 text-red-600" />
-      </div>
-      <h1 className="mt-6 text-2xl font-bold text-slate-900">{t('title')}</h1>
-      <p className="mt-2 text-sm text-slate-500">{t('description')}</p>
-      <div className="mt-8 flex gap-3">
-        <button
-          type="button"
-          onClick={reset}
-          className="inline-flex h-10 items-center rounded-lg bg-primary-600 px-4 text-sm font-medium text-white shadow-sm transition hover:bg-primary-600/90 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 active:scale-[0.98]"
-        >
-          {t('tryAgain')}
-        </button>
-        <Link
-          href="/"
-          className="inline-flex h-10 items-center rounded-lg border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 active:scale-[0.98]"
-        >
-          {t('goHome')}
-        </Link>
+    <div className="flex-1 flex flex-col items-center justify-center p-6">
+      <div className="max-w-[600px] w-full flex flex-col items-center bg-white p-10 rounded-xl shadow-sm border border-slate-200">
+        {/* Warning icon */}
+        <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mb-6">
+          <span className="material-symbols-outlined text-4xl text-red-500">warning</span>
+        </div>
+
+        {/* Text content */}
+        <div className="flex flex-col items-center gap-3 mb-8 text-center">
+          <h1 className="text-3xl font-bold leading-tight tracking-[-0.015em]">
+            {t('title')}
+          </h1>
+          <p className="text-slate-600 text-base font-normal leading-relaxed max-w-[480px]">
+            {t('description')}
+          </p>
+          {error.digest && (
+            <div className="mt-2 inline-flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded text-sm font-mono text-slate-500 border border-slate-200">
+              Error ID: <span className="font-bold text-slate-700">{error.digest}</span>
+            </div>
+          )}
+        </div>
+
+        {/* Buttons */}
+        <div className="flex flex-col sm:flex-row w-full gap-4 justify-center mb-8">
+          <button
+            type="button"
+            onClick={reset}
+            className="flex min-w-[140px] items-center justify-center rounded-lg h-12 px-6 bg-primary-600 hover:bg-primary-600/90 text-white text-base font-medium transition-colors"
+          >
+            {t('tryAgain')}
+          </button>
+          <Link
+            href="/"
+            className="flex min-w-[140px] items-center justify-center rounded-lg h-12 px-6 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 text-base font-medium transition-colors"
+          >
+            {t('goHome')}
+          </Link>
+        </div>
       </div>
     </div>
   );

@@ -693,14 +693,15 @@
     },
     "notFound": {
       "title": "Página no encontrada",
-      "description": "La página que buscas no existe o ha sido movida.",
-      "goHome": "Ir a la página principal"
+      "description": "La página que buscas puede haber sido eliminada, cambiada de nombre o no está disponible temporalmente.",
+      "goHome": "Ir al panel",
+      "goBack": "Volver"
     },
     "runtime": {
       "title": "Algo salió mal",
-      "description": "Ocurrió un error inesperado. Puedes intentar de nuevo o volver a la página principal.",
+      "description": "Hemos encontrado un error inesperado al procesar tu solicitud. Por favor, inténtalo de nuevo o vuelve al panel.",
       "tryAgain": "Intentar de nuevo",
-      "goHome": "Ir a la página principal"
+      "goHome": "Ir al panel"
     },
     "global": {
       "title": "Algo salió mal",
