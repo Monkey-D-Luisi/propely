@@ -25,7 +25,6 @@ interface AgencySettingsFormProps {
 
 export function AgencySettingsForm({ agencyId }: AgencySettingsFormProps) {
   const t = useTranslations('agencies');
-  const tCommon = useTranslations('common');
   const { toast } = useToast();
   const router = useRouter();
   const { agency, isLoading, error } = useAgency(agencyId);

@@ -181,7 +181,9 @@ Design tokens are defined in `apps/web/src/app/globals.css` via Tailwind v4 `@th
 - Detail pages (members, settings, billing, profile, admin): `max-w-5xl`
 
 ### Stitch MCP (UI design tool -- pixel-perfect mandate)
-- **Stitch Project ID**: `16786124142182555397`
+- **Stitch Projects**:
+  - General / P1-P2: `16786124142182555397`
+  - P3 AI Action Engine: `11823747923864658899`
 - **Always use `modelId: GEMINI_3_PRO`** when calling `generate_screen_from_text` or `edit_screens`
 - Every new screen MUST have a corresponding Stitch design in the project
 - **Pixel-perfect implementation is mandatory.** The Stitch design is the single source of truth for all UI work. Implementation must match the Stitch HTML output exactly -- same spacing, colors, typography, layout, and component structure.
