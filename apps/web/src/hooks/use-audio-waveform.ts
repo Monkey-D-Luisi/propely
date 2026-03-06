@@ -29,7 +29,7 @@ export function useAudioWaveform(
   const sourceRef = useRef<MediaStreamAudioSourceNode | null>(null);
   const rafIdRef = useRef<number | null>(null);
 
-  const cleanup = useCallback(() => {
+  const cleanupResources = useCallback(() => {
     if (rafIdRef.current !== null) {
       cancelAnimationFrame(rafIdRef.current);
       rafIdRef.current = null;
@@ -48,13 +48,16 @@ export function useAudioWaveform(
       });
       audioContextRef.current = null;
     }
-    setAnalyserData(null);
-    setIsActive(false);
   }, []);
 
   useEffect(() => {
     if (!mediaStream) {
-      cleanup();
+      cleanupResources();
+      // Schedule state resets to avoid synchronous setState in effect body
+      queueMicrotask(() => {
+        setAnalyserData(null);
+        setIsActive(false);
+      });
       return;
     }
 
@@ -74,7 +77,8 @@ export function useAudioWaveform(
     const bufferLength = analyser.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
 
-    setIsActive(true);
+    // Schedule initial state update to avoid synchronous setState in effect body
+    queueMicrotask(() => setIsActive(true));
 
     const tick = () => {
       analyser.getByteFrequencyData(dataArray);
@@ -85,8 +89,12 @@ export function useAudioWaveform(
 
     rafIdRef.current = requestAnimationFrame(tick);
 
-    return cleanup;
-  }, [mediaStream, cleanup]);
+    return () => {
+      cleanupResources();
+      setAnalyserData(null);
+      setIsActive(false);
+    };
+  }, [mediaStream, cleanupResources]);
 
   return { analyserData, isActive };
 }

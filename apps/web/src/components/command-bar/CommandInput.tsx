@@ -30,7 +30,8 @@ export function CommandInput({
   // Sync external value when set by voice transcription
   useEffect(() => {
     if (externalValue !== undefined && externalValue !== '') {
-      setValue(externalValue);
+      // Schedule state update for next microtask to avoid synchronous setState in effect
+      queueMicrotask(() => setValue(externalValue));
     }
   }, [externalValue]);
 

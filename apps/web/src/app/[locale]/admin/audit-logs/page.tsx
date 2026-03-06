@@ -16,7 +16,7 @@ import { useToast } from '@/components/ui/toast';
 
 export default function AuditLogsPage() {
   const t = useTranslations('auditLogs');
-  const { user, isLoading: userLoading } = useRequireAuth();
+  const { isLoading: userLoading } = useRequireAuth();
   const { toast } = useToast();
 
   const [page, setPage] = useState(1);

@@ -14,7 +14,6 @@ import { Pagination } from '@/components/ui/pagination';
 import { DialogOverlay } from '@/components/ui/dialog-overlay';
 import { ErrorMessage } from '@/components/ui/ErrorMessage';
 import { useToast } from '@/components/ui/toast';
-import { useRouter } from 'next/navigation';
 import type { WorkItemStatusType } from '@/lib/schemas';
 
 const statusOptions: (WorkItemStatusType | '')[] = ['', 'Pending', 'Active', 'Deleted', 'Deactivated', 'Expired'];
@@ -22,9 +21,8 @@ const statusOptions: (WorkItemStatusType | '')[] = ['', 'Pending', 'Active', 'De
 export default function WorkItemsPage() {
   const t = useTranslations('workItems');
   const tCommon = useTranslations('common');
-  const { user, isLoading: userLoading } = useRequireAuth();
+  const { isLoading: userLoading } = useRequireAuth();
   const { orgs, activeOrgId, hasOrgs, isLoading: orgsLoading, selectOrg } = useActiveOrg();
-  const router = useRouter();
   const { toast } = useToast();
 
   const [page, setPage] = useState(1);

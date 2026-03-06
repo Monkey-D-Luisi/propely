@@ -12,7 +12,7 @@ interface ErrorPageProps {
   reset: () => void;
 }
 
-export default function ErrorPage({ error: _error, reset }: ErrorPageProps) {
+export default function ErrorPage({ reset }: ErrorPageProps) {
   const t = useTranslations('errors.runtime');
 
   return (
