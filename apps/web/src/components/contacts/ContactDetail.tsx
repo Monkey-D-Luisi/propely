@@ -3,7 +3,7 @@
 
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { useContact } from '@/hooks/useContact';
 import { ContactRoleBadge } from './ContactRoleBadge';
@@ -14,15 +14,16 @@ interface ContactDetailProps {
   id: string;
 }
 
-function formatDate(dateStr: string | null | undefined): string {
+function formatDate(dateStr: string | null | undefined, locale: string): string {
   if (!dateStr) return '\u2014';
-  return new Intl.DateTimeFormat('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(dateStr));
+  return new Intl.DateTimeFormat(locale, { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(dateStr));
 }
 
 export function ContactDetail({ id }: ContactDetailProps) {
   const t = useTranslations('contacts.detail');
   const tContacts = useTranslations('contacts');
   const tSources = useTranslations('contacts.source');
+  const locale = useLocale();
 
   const { contact, isLoading, error } = useContact(id);
 
@@ -131,12 +132,12 @@ export function ContactDetail({ id }: ContactDetailProps) {
           )}
           <div>
             <dt className="text-sm font-medium text-slate-500">{t('created')}</dt>
-            <dd className="mt-1 text-sm text-slate-900">{formatDate(contact.createdAtUtc)}</dd>
+            <dd className="mt-1 text-sm text-slate-900">{formatDate(contact.createdAtUtc, locale)}</dd>
           </div>
           {contact.updatedAtUtc && (
             <div>
               <dt className="text-sm font-medium text-slate-500">{t('updated')}</dt>
-              <dd className="mt-1 text-sm text-slate-900">{formatDate(contact.updatedAtUtc)}</dd>
+              <dd className="mt-1 text-sm text-slate-900">{formatDate(contact.updatedAtUtc, locale)}</dd>
             </div>
           )}
         </dl>

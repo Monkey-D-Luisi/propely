@@ -67,8 +67,8 @@ public sealed class ContactReadRepository : IContactReadRepository
             var roleFiltered = allFiltered.Where(c => c.Roles.Contains(filter.Role.Value)).ToList();
             totalCount = roleFiltered.Count;
 
-            // Apply sorting
-            var sorted = ApplySorting(roleFiltered.AsQueryable(), filter.SortBy, filter.SortDescending, filter.Search);
+            // Apply sorting (in-memory: avoid EF.Functions.ILike which is provider-only)
+            var sorted = ApplySorting(roleFiltered.AsQueryable(), filter.SortBy, filter.SortDescending, filter.Search, inMemory: true);
 
             // Apply pagination
             items = sorted
@@ -93,11 +93,20 @@ public sealed class ContactReadRepository : IContactReadRepository
         return new PagedResult<Contact>(items, totalCount, filter.Page, filter.PageSize);
     }
 
-    private static IQueryable<Contact> ApplySorting(IQueryable<Contact> query, string? sortBy, bool descending, string? search = null)
+    private static IQueryable<Contact> ApplySorting(IQueryable<Contact> query, string? sortBy, bool descending, string? search = null, bool inMemory = false)
     {
         // When search is active and no explicit sort, use relevance: name matches first
         if (!string.IsNullOrWhiteSpace(search) && string.IsNullOrWhiteSpace(sortBy))
         {
+            if (inMemory)
+            {
+                // EF.Functions.ILike is provider-only; use string.Contains for in-memory sorting
+                return query
+                    .OrderByDescending(c => c.FirstName.Contains(search, StringComparison.OrdinalIgnoreCase)
+                        || c.LastName.Contains(search, StringComparison.OrdinalIgnoreCase))
+                    .ThenByDescending(c => c.CreatedAtUtc);
+            }
+
             var searchPattern = $"%{search}%";
             return query
                 .OrderByDescending(c => EF.Functions.ILike(c.FirstName, searchPattern)

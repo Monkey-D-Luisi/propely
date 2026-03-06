@@ -1,9 +1,9 @@
 // Copyright (c) 2026 Propely. All rights reserved.
-// Licensed under the Proprietary Software License. See LICENSE.
+// Licensed under the Proprietary Software License.
 
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import type { LeadListItem, LeadStatus } from '@/hooks/useLeads';
 import { LeadStatusBadge } from './LeadStatusBadge';
 import { SkeletonTable } from '@/components/ui/skeleton';
@@ -16,15 +16,16 @@ interface LeadListViewProps {
   onConvert: (id: string) => void;
 }
 
-function formatDate(dateStr: string | null | undefined): string {
+function formatDate(dateStr: string | null | undefined, locale: string): string {
   if (!dateStr) return '\u2014';
-  return new Intl.DateTimeFormat('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(dateStr));
+  return new Intl.DateTimeFormat(locale, { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(dateStr));
 }
 
 const ALL_STATUSES: LeadStatus[] = ['New', 'Contacted', 'Qualified', 'Converted', 'Lost'];
 
 export function LeadListView({ items, isLoading, onViewDetails, onChangeStatus, onConvert }: LeadListViewProps) {
   const t = useTranslations('leads');
+  const locale = useLocale();
 
   if (isLoading) {
     return <SkeletonTable rows={5} columns={7} />;
@@ -62,7 +63,7 @@ export function LeadListView({ items, isLoading, onViewDetails, onChangeStatus, 
                   <LeadStatusBadge status={item.status} label={t(`status.${item.status}`)} />
                 </td>
                 <td className="px-4 py-3 text-slate-500">{item.source ?? '\u2014'}</td>
-                <td className="px-4 py-3 text-slate-500">{formatDate(item.createdAtUtc)}</td>
+                <td className="px-4 py-3 text-slate-500">{formatDate(item.createdAtUtc, locale)}</td>
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-1">
                     <select
@@ -78,7 +79,8 @@ export function LeadListView({ items, isLoading, onViewDetails, onChangeStatus, 
                         <option key={s} value={s}>{t(`status.${s}`)}</option>
                       ))}
                     </select>
-                    {item.status !== 'Converted' && item.status !== 'Lost' && (
+                    {/* Only Qualified leads can be converted — domain invariant */}
+                    {item.status === 'Qualified' && (
                       <button
                         type="button"
                         onClick={() => onConvert(item.id)}

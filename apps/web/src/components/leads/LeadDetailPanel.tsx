@@ -1,10 +1,10 @@
 // Copyright (c) 2026 Propely. All rights reserved.
-// Licensed under the Proprietary Software License. See LICENSE.
+// Licensed under the Proprietary Software License.
 
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { useLead } from '@/hooks/useLead';
 import { LeadStatusBadge } from './LeadStatusBadge';
@@ -15,14 +15,15 @@ interface LeadDetailPanelProps {
   onConvert: (id: string) => void;
 }
 
-function formatDate(dateStr: string | null | undefined): string {
+function formatDate(dateStr: string | null | undefined, locale: string): string {
   if (!dateStr) return '\u2014';
-  return new Intl.DateTimeFormat('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(dateStr));
+  return new Intl.DateTimeFormat(locale, { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(dateStr));
 }
 
 export function LeadDetailPanel({ leadId, onClose, onConvert }: LeadDetailPanelProps) {
   const t = useTranslations('leads.detail');
   const tLeads = useTranslations('leads');
+  const locale = useLocale();
   const panelRef = useRef<HTMLDivElement>(null);
 
   const { lead, isLoading } = useLead(leadId);
@@ -113,12 +114,12 @@ export function LeadDetailPanel({ leadId, onClose, onConvert }: LeadDetailPanelP
                 )}
                 <div>
                   <dt className="text-xs font-medium text-slate-500">{t('created')}</dt>
-                  <dd className="mt-0.5 text-sm text-slate-900">{formatDate(lead.createdAtUtc)}</dd>
+                  <dd className="mt-0.5 text-sm text-slate-900">{formatDate(lead.createdAtUtc, locale)}</dd>
                 </div>
                 {lead.updatedAtUtc && (
                   <div>
                     <dt className="text-xs font-medium text-slate-500">{t('updated')}</dt>
-                    <dd className="mt-0.5 text-sm text-slate-900">{formatDate(lead.updatedAtUtc)}</dd>
+                    <dd className="mt-0.5 text-sm text-slate-900">{formatDate(lead.updatedAtUtc, locale)}</dd>
                   </div>
                 )}
               </dl>
@@ -132,8 +133,8 @@ export function LeadDetailPanel({ leadId, onClose, onConvert }: LeadDetailPanelP
               </div>
             )}
 
-            {/* Actions */}
-            {lead.status !== 'Converted' && lead.status !== 'Lost' && (
+            {/* Actions — only Qualified leads can be converted (domain invariant) */}
+            {lead.status === 'Qualified' && (
               <button
                 type="button"
                 onClick={() => onConvert(lead.id)}

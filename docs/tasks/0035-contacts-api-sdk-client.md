@@ -34,13 +34,13 @@ The contacts and leads API (task 0033) and lead conversion endpoint (task 0034) 
 
 ## Requirements
 - R1: `IContactsApiClient` has methods for: GetContactsAsync, GetContactByIdAsync, CreateContactAsync, UpdateContactAsync, DeleteContactAsync
-- R2: `ILeadsApiClient` has methods for: GetLeadsAsync, GetLeadByIdAsync, CreateLeadAsync, UpdateLeadAsync, DeleteLeadAsync, AssignLeadAsync, ChangeLeadStatusAsync, ConvertLeadAsync
+- R2: `ILeadsApiClient` has methods for: GetLeadsAsync, GetLeadByIdAsync, CreateLeadAsync, DeleteLeadAsync, AssignLeadAsync, ChangeLeadStatusAsync, ConvertLeadAsync
 - R3: All DTOs have XML doc comments
-- R4: `AddContactsApiClient(this IServiceCollection, Uri baseUrl)` registers both Refit interfaces
+- R4: `AddContactsApiClient(this IServiceCollection, Action<ContactsApiClientOptions> configure)` registers both Refit interfaces
 - R5: Retry policy: 3 retries with exponential backoff for 5xx and 408
-- R6: Circuit breaker: break after 5 consecutive failures, 30s recovery
+- R6: Circuit breaker: minimum throughput 5 requests sampled, break after 50% failure ratio, 30s recovery
 - R7: Timeout: 30 seconds per request
-- R8: TenantDelegatingHandler adds X-Tenant-Id header from ITenantContext
+- R8: TenantDelegatingHandler propagates X-Tenant-Id header from `IHttpContextAccessor`
 
 ## Acceptance Criteria
 - AC1: `IContactsApiClient` Refit interface has CRUD methods with correct route attributes
