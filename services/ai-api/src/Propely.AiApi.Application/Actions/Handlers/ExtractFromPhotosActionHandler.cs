@@ -117,7 +117,7 @@ public sealed class ExtractFromPhotosActionHandler : IRequestHandler<ExtractFrom
             _logger.LogError(ex, "ExtractFromPhotos failed for tenant {TenantId}", request.TenantId);
 
             return ActionResult.Fail(
-                [$"Failed to analyze photos: {ex.Message}"],
+                ["Failed to analyze the provided photos."],
                 ActionType.ExtractFromPhotos,
                 "I encountered an error while analyzing the photos. Please try again.");
         }

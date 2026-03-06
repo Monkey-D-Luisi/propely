@@ -4,25 +4,29 @@
 'use client';
 
 import { useCallback, useState } from 'react';
-import { getAccessToken, setAccessToken } from '@/lib/token-store';
+import { getAccessToken } from '@/lib/token-store';
 import { getActiveOrgId } from '@/lib/org-store';
+import { tryRefreshToken } from '@/lib/api';
 
 const AI_API_BASE =
   process.env.NEXT_PUBLIC_AI_API_URL ?? 'http://localhost:5010';
-const API_BASE = process.env.NEXT_PUBLIC_ORGS_API_URL ?? 'http://localhost:5020';
 
 export interface VoiceExecuteResult {
-  /** The transcribed text from the audio. */
-  transcription: string;
+  /** The text transcribed from the audio input. */
+  transcribedText: string;
+  /** The detected or specified BCP-47 language code. */
+  language: string;
+  /** Duration of the processed audio in milliseconds. */
+  durationMs: number;
   /** The action result if an action was matched and executed. */
-  actionResult?: {
-    actionType: string;
+  action?: {
     success: boolean;
-    message: string;
+    actionType: string;
     data?: unknown;
+    message: string;
+    errors?: string[];
+    confidence?: number;
   };
-  /** Natural language confirmation text. */
-  confirmationText?: string;
 }
 
 export interface UseExecuteVoiceActionReturn {
@@ -30,25 +34,6 @@ export interface UseExecuteVoiceActionReturn {
   isLoading: boolean;
   result: VoiceExecuteResult | null;
   error: string | null;
-}
-
-async function tryRefreshToken(): Promise<boolean> {
-  try {
-    const res = await fetch(`${API_BASE}/auth/refresh`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'content-type': 'application/json' },
-    });
-    if (!res.ok) return false;
-    const data = await res.json();
-    if (data.accessToken) {
-      setAccessToken(data.accessToken);
-      return true;
-    }
-    return false;
-  } catch {
-    return false;
-  }
 }
 
 async function postVoice(

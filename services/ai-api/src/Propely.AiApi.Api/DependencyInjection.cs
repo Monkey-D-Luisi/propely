@@ -219,6 +219,9 @@ public static class DependencyInjection
 
     public static void AddSwaggerGenWithAuth(this IServiceCollection services)
     {
-        services.AddSwaggerGen();
+        services.AddSwaggerGen(c =>
+        {
+            c.InferSecuritySchemes();
+        });
     }
 }

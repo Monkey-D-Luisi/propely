@@ -122,7 +122,7 @@ public sealed class ExtractFromTextActionHandler : IRequestHandler<ExtractFromTe
             _logger.LogError(ex, "ExtractFromText failed for tenant {TenantId}", request.TenantId);
 
             return ActionResult.Fail(
-                [$"Failed to extract property data: {ex.Message}"],
+                ["Failed to extract property data from the provided text."],
                 ActionType.ExtractFromText,
                 "I encountered an error while extracting property data. Please try again.");
         }

@@ -99,7 +99,7 @@ public sealed class GenerateCopyActionHandler : IRequestHandler<GenerateCopyActi
             _logger.LogError(ex, "GenerateCopy failed for tenant {TenantId}", request.TenantId);
 
             return ActionResult.Fail(
-                [$"Failed to generate copy: {ex.Message}"],
+                ["Failed to generate marketing copy for the property."],
                 ActionType.GenerateCopy,
                 "I encountered an error while generating marketing copy. Please try again.");
         }
