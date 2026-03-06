@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 
-<html class="light" lang="en"><head>
+<html lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Email Verification Error State</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<title>Propely - Verification Failed</title>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#ec1313",
-                        "background-light": "#f8f6f6",
-                        "background-dark": "#221010",
+                        "primary": "#5247e6",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
                     },
                     fontFamily: {
                         "display": ["Inter", "sans-serif"]
@@ -27,41 +27,58 @@
         }
     </script>
 </head>
-<body class="font-display antialiased bg-background-light dark:bg-background-dark min-h-screen flex items-center justify-center p-4">
-<!-- Main Card Container -->
-<div class="w-full max-w-md bg-white dark:bg-[#2a1a1a] rounded-xl shadow-sm border border-gray-100 dark:border-red-900/10 overflow-hidden transform transition-all duration-300 hover:shadow-md">
-<!-- Top decorative bar (optional stripe-like detail) -->
-<div class="h-1.5 w-full bg-primary/80"></div>
-<div class="p-8 sm:p-10 text-center">
-<!-- Icon Wrapper -->
-<div class="mx-auto flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-6">
-<span class="material-icons text-primary text-3xl">close</span>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
+<!-- Subtle indigo gradient mesh -->
+<div class="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-primary/10 to-transparent pointer-events-none"></div>
+<div class="absolute top-[-20%] left-[20%] w-[60%] h-[500px] bg-primary/5 blur-[100px] rounded-full pointer-events-none"></div>
+<div class="w-full max-w-md relative z-10 flex flex-col items-center px-4">
+<!-- Header -->
+<div class="flex items-center gap-3 mb-8">
+<div class="text-primary">
+<svg class="size-8" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
 </div>
-<!-- Content -->
-<h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-3 tracking-tight">
-                Verification failed
-            </h1>
-<p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-8">
-                The verification link is invalid or has expired. It may have been already used or the token is no longer active. Please request a new one below.
-            </p>
+<h2 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Propely</h2>
+</div>
+<!-- Main Card -->
+<div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm w-full overflow-hidden">
+<div class="px-6 py-8 sm:p-10 flex flex-col items-center text-center">
+<!-- Icon -->
+<div class="w-16 h-16 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-red-500 dark:text-red-400 text-3xl">cancel</span>
+</div>
+<!-- Text Content -->
+<h1 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-2">Verification failed</h1>
+<p class="text-slate-500 dark:text-slate-400 text-sm mb-6 max-w-sm">
+                    The verification link has expired or is invalid. Please request a new one to access your account.
+                </p>
+<!-- Error Alert Box -->
+<div class="bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-900/50 rounded-lg p-4 mb-8 w-full text-left flex gap-3 items-start">
+<span class="material-symbols-outlined text-red-500 dark:text-red-400 text-xl shrink-0 mt-0.5">error</span>
+<div>
+<p class="text-sm font-medium text-red-800 dark:text-red-300">Error: Token expired.</p>
+<p class="text-xs text-red-700/80 dark:text-red-400/80 mt-1">Verification links are valid for 24 hours.</p>
+</div>
+</div>
 <!-- Actions -->
-<div class="space-y-4">
-<button class="w-full inline-flex justify-center items-center px-4 py-3 bg-primary hover:bg-red-700 text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary shadow-sm">
-                    Resend verification email
-                </button>
-<div class="pt-2">
-<a class="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors flex items-center justify-center gap-1 group" href="#">
-<span class="material-icons text-base group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
-                        Back to Login
-                    </a>
+<div class="w-full flex flex-col gap-3">
+<button class="flex items-center justify-center gap-2 w-full h-11 px-4 bg-primary hover:bg-primary/90 text-white rounded-lg text-sm font-semibold transition-colors focus:ring-2 focus:ring-primary/50 focus:outline-none">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+                        Resend Verification Email
+                    </button>
+<button class="flex items-center justify-center gap-2 w-full h-11 px-4 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-600 rounded-lg text-sm font-medium transition-colors focus:ring-2 focus:ring-slate-200 focus:outline-none">
+                        Contact Support
+                    </button>
 </div>
 </div>
+<!-- Footer Link -->
+<div class="bg-slate-50 dark:bg-slate-800/50 border-t border-slate-200 dark:border-slate-700 px-6 py-4 flex justify-center">
+<a class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors font-medium" href="#">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                    Back to sign in
+                </a>
 </div>
-<!-- Footer / Support Link Area -->
-<div class="bg-gray-50 dark:bg-[#332222] px-8 py-4 border-t border-gray-100 dark:border-red-900/10 flex justify-center">
-<p class="text-xs text-gray-500 dark:text-gray-400">
-                Need help? <a class="text-primary hover:text-red-700 font-medium underline decoration-primary/30 underline-offset-2" href="#">Contact Support</a>
-</p>
 </div>
 </div>
 </body></html>

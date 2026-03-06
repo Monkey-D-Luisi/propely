@@ -3,11 +3,8 @@
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>SaaS Starter Kit Registration Page</title>
+<title>Propely - Create Account</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -17,7 +14,6 @@
                         "primary": "#5048e5",
                         "background-light": "#f6f6f8",
                         "background-dark": "#121121",
-                        "slate-850": "#1a1f2e", // Additional dark shade
                     },
                     fontFamily: {
                         "display": ["Inter", "sans-serif"]
@@ -27,136 +23,134 @@
             },
         }
     </script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
 </head>
-<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen flex flex-col justify-center items-center py-12 sm:px-6 lg:px-8 transition-colors duration-300">
-<!-- Background Pattern/Decoration -->
-<div class="fixed inset-0 z-0 pointer-events-none opacity-40 dark:opacity-20">
-<div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
-<div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-gradient-to-b from-primary/10 to-transparent blur-3xl"></div>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col items-center justify-center relative overflow-x-hidden selection:bg-primary/30">
+<!-- Subtle Background Gradient Mesh -->
+<div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+<div class="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-primary/10 blur-[120px] mix-blend-multiply dark:mix-blend-screen"></div>
+<div class="absolute top-[60%] -right-[10%] w-[40%] h-[40%] rounded-full bg-primary/5 blur-[100px] mix-blend-multiply dark:mix-blend-screen"></div>
 </div>
-<!-- Main Container -->
-<div class="relative z-10 w-full max-w-md sm:mx-auto">
-<!-- Logo Header -->
-<div class="sm:mx-auto sm:w-full sm:max-w-md flex flex-col items-center mb-8">
-<div class="h-12 w-12 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/30 mb-4">
-<span class="material-icons text-white text-3xl">layers</span>
+<!-- Main Content Wrapper -->
+<div class="relative z-10 w-full max-w-md px-4 py-12 flex flex-col items-center">
+<!-- Header Section (Above Card) -->
+<div class="text-center mb-8 flex flex-col items-center">
+<div class="flex items-center gap-2 mb-6">
+<!-- Diamond Icon -->
+<div class="w-8 h-8 bg-primary rounded shadow-lg shadow-primary/30 flex items-center justify-center rotate-45">
+<div class="w-3 h-3 bg-white rounded-sm"></div>
 </div>
-<h2 class="text-center text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-                Create your account
-            </h2>
-<p class="mt-2 text-center text-sm text-slate-600 dark:text-slate-400">
-                Start your free trial today. No credit card required.
-            </p>
+<h1 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white ml-2">Propely</h1>
 </div>
-<!-- Card -->
-<div class="bg-white dark:bg-slate-850 py-8 px-4 shadow-xl sm:rounded-xl sm:px-10 border border-slate-200 dark:border-slate-700/50 backdrop-blur-sm">
-<!-- Social Login -->
-<div class="grid grid-cols-2 gap-3 mb-6">
-<div>
-<a class="w-full inline-flex justify-center py-2.5 px-4 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm bg-white dark:bg-slate-800 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors duration-200" href="#">
-<span class="sr-only">Sign in with Google</span>
-<svg aria-hidden="true" class="h-5 w-5" fill="currentColor" viewbox="0 0 24 24">
-<path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"></path>
+<h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">Create your account</h2>
+<p class="text-base text-slate-500 dark:text-slate-400">Start your free 14-day trial. No credit card required.</p>
+</div>
+<!-- Registration Card -->
+<div class="w-full bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xl shadow-slate-200/40 dark:shadow-none p-8">
+<!-- Social Logins -->
+<div class="flex gap-4 mb-6">
+<button class="flex-1 flex items-center justify-center gap-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50" type="button">
+<svg class="w-5 h-5" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
 </svg>
-<span class="ml-2">Google</span>
-</a>
-</div>
-<div>
-<a class="w-full inline-flex justify-center py-2.5 px-4 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm bg-white dark:bg-slate-800 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors duration-200" href="#">
-<span class="sr-only">Sign in with GitHub</span>
-<svg aria-hidden="true" class="h-5 w-5" fill="currentColor" viewbox="0 0 24 24">
+                    Google
+                </button>
+<button class="flex-1 flex items-center justify-center gap-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50" type="button">
+<svg aria-hidden="true" class="w-5 h-5 text-slate-900 dark:text-white" fill="currentColor" viewbox="0 0 24 24">
 <path clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" fill-rule="evenodd"></path>
 </svg>
-<span class="ml-2">GitHub</span>
-</a>
-</div>
+                    GitHub
+                </button>
 </div>
 <!-- Divider -->
-<div class="relative mb-6">
-<div class="absolute inset-0 flex items-center">
-<div class="w-full border-t border-slate-300 dark:border-slate-700"></div>
-</div>
-<div class="relative flex justify-center text-sm">
-<span class="px-2 bg-white dark:bg-slate-850 text-slate-500 dark:text-slate-400">or continue with</span>
-</div>
+<div class="relative flex items-center mb-6">
+<div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+<span class="flex-shrink-0 mx-4 text-sm text-slate-500 dark:text-slate-400">or continue with</span>
+<div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
 </div>
 <!-- Form -->
-<form action="#" class="space-y-5" method="POST">
-<!-- Name Field -->
+<form action="#" class="space-y-4" method="POST">
+<!-- Full Name -->
 <div>
-<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="name">
-                        Full Name
-                    </label>
-<div class="relative rounded-md shadow-sm">
-<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-<span class="material-icons text-slate-400 text-lg">person</span>
-</div>
-<input autocomplete="name" class="block w-full pl-10 pr-3 py-2.5 border-slate-300 dark:border-slate-600 rounded-lg text-slate-900 dark:text-white bg-white dark:bg-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-primary focus:border-primary sm:text-sm transition-shadow duration-200" id="name" name="name" placeholder="John Doe" required="" type="text"/>
-</div>
-</div>
-<!-- Email Field -->
-<div>
-<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="email">
-                        Work Email
-                    </label>
-<div class="relative rounded-md shadow-sm">
-<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-<span class="material-icons text-slate-400 text-lg">email</span>
-</div>
-<input autocomplete="email" class="block w-full pl-10 pr-3 py-2.5 border-slate-300 dark:border-slate-600 rounded-lg text-slate-900 dark:text-white bg-white dark:bg-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-primary focus:border-primary sm:text-sm transition-shadow duration-200" id="email" name="email" placeholder="you@company.com" required="" type="email"/>
-</div>
-</div>
-<!-- Password Field -->
-<div>
-<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="password">
-                        Password
-                    </label>
-<div class="relative rounded-md shadow-sm">
-<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-<span class="material-icons text-slate-400 text-lg">lock</span>
-</div>
-<input autocomplete="new-password" class="block w-full pl-10 pr-3 py-2.5 border-slate-300 dark:border-slate-600 rounded-lg text-slate-900 dark:text-white bg-white dark:bg-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-primary focus:border-primary sm:text-sm transition-shadow duration-200" id="password" name="password" placeholder="••••••••" required="" type="password"/>
-</div>
-</div>
-<!-- Confirm Password Field -->
-<div>
-<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="confirm-password">
-                        Confirm Password
-                    </label>
-<div class="relative rounded-md shadow-sm">
-<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-<span class="material-icons text-slate-400 text-lg">lock_clock</span>
-</div>
-<input autocomplete="new-password" class="block w-full pl-10 pr-3 py-2.5 border-slate-300 dark:border-slate-600 rounded-lg text-slate-900 dark:text-white bg-white dark:bg-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-primary focus:border-primary sm:text-sm transition-shadow duration-200" id="confirm-password" name="confirm-password" placeholder="••••••••" required="" type="password"/>
-</div>
-</div>
-<!-- Create Account Button -->
-<div class="pt-2">
-<button class="group relative w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg text-sm font-semibold text-white bg-primary hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary shadow-lg shadow-primary/30 transition-all duration-200 hover:shadow-primary/50 transform hover:-translate-y-0.5" type="submit">
-<span class="absolute left-0 inset-y-0 flex items-center pl-3">
-<span class="material-icons text-indigo-300 group-hover:text-white transition-colors text-sm">arrow_forward</span>
-</span>
-                        Create Account
-                    </button>
-</div>
-</form>
-<!-- Footer Link -->
-<div class="mt-6">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="name">Full Name</label>
 <div class="relative">
-<div class="relative flex justify-center text-sm">
-<p class="text-slate-600 dark:text-slate-400">
-                            Already have an account?
-                            <a class="font-medium text-primary hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline transition-colors ml-1" href="#">
-                                Sign in
-                            </a>
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+<span class="material-symbols-outlined text-xl">person</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary sm:text-sm transition-colors" id="name" name="name" placeholder="e.g. John Doe" type="text"/>
+</div>
+</div>
+<!-- Work Email -->
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="email">Work Email</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+<span class="material-symbols-outlined text-xl">mail</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary sm:text-sm transition-colors" id="email" name="email" placeholder="you@company.com" type="email"/>
+</div>
+</div>
+<!-- Password -->
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="password">Password</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+<span class="material-symbols-outlined text-xl">lock</span>
+</div>
+<input class="block w-full pl-10 pr-10 py-2.5 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary sm:text-sm transition-colors" id="password" name="password" placeholder="••••••••" type="password"/>
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
+<span class="material-symbols-outlined text-xl">visibility_off</span>
+</div>
+</div>
+<!-- Password Strength Meter -->
+<div class="mt-2 flex gap-1.5 h-1.5">
+<div class="flex-1 rounded-full bg-primary"></div>
+<div class="flex-1 rounded-full bg-primary/70"></div>
+<div class="flex-1 rounded-full bg-primary/40"></div>
+<div class="flex-1 rounded-full bg-slate-200 dark:bg-slate-700"></div>
+</div>
+<p class="text-xs text-slate-500 mt-1.5">Password strength: Good</p>
+</div>
+<!-- Confirm Password -->
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="confirm-password">Confirm Password</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+<span class="material-symbols-outlined text-xl">verified_user</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary sm:text-sm transition-colors" id="confirm-password" name="confirm-password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-slate-900 mt-6 shadow-sm" type="submit">
+                    Create Account
+                    <span class="material-symbols-outlined text-xl">arrow_forward</span>
+</button>
+</form>
+</div>
+<!-- Footer Links -->
+<div class="mt-8 text-center text-sm text-slate-600 dark:text-slate-400">
+<p class="mb-4">
+                Already have an account? 
+                <a class="font-medium text-primary hover:text-primary/80 transition-colors" href="#">Sign in</a>
 </p>
+<p class="text-xs text-slate-500 dark:text-slate-500 max-w-xs mx-auto leading-relaxed">
+                By creating an account, you agree to Propely's <br/>
+<a class="underline hover:text-slate-700 dark:hover:text-slate-300" href="#">Terms of Service</a> and 
+                <a class="underline hover:text-slate-700 dark:hover:text-slate-300" href="#">Privacy Policy</a>.
+            </p>
 </div>
-</div>
-</div>
-</div>
-<!-- Terms Footer -->
-<p class="mt-8 text-center text-xs text-slate-500 dark:text-slate-500 max-w-xs mx-auto">
-            By clicking "Create Account", you agree to our <a class="underline hover:text-slate-800 dark:hover:text-slate-300" href="#">Terms of Service</a> and <a class="underline hover:text-slate-800 dark:hover:text-slate-300" href="#">Privacy Policy</a>.
-        </p>
 </div>
 </body></html>

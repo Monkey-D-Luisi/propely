@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Propely - Accepting Invitation</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col antialiased">
+<!-- Header -->
+<header class="w-full py-8 flex justify-center items-center">
+<div class="flex items-center gap-3 text-slate-900 dark:text-white">
+<div class="text-primary size-6">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_6_535)">
+<path clip-rule="evenodd" d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z" fill="currentColor" fill-rule="evenodd"></path>
+</g>
+<defs>
+<clippath id="clip0_6_535"><rect fill="white" height="48" width="48"></rect></clippath>
+</defs>
+</svg>
+</div>
+<h1 class="text-2xl font-bold leading-tight tracking-tight">Propely</h1>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow flex items-center justify-center p-4">
+<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 max-w-md w-full p-8 flex flex-col items-center text-center gap-8">
+<!-- Loading Spinner & Text -->
+<div class="flex flex-col items-center gap-6 w-full">
+<!-- Spinner -->
+<div class="text-primary w-16 h-16 animate-spin">
+<svg class="w-full h-full" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+<path class="opacity-75" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" fill="currentColor"></path>
+</svg>
+</div>
+<div class="space-y-2">
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white">Accepting invitation...</h2>
+<p class="text-slate-500 dark:text-slate-400 text-base">Please wait while we set up your account for your new organization.</p>
+</div>
+</div>
+<!-- Org Info Block -->
+<div class="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4 w-full flex items-center gap-4 text-left border border-slate-100 dark:border-slate-700">
+<div class="bg-white dark:bg-slate-800 p-2.5 rounded-full shadow-sm text-primary flex items-center justify-center border border-slate-100 dark:border-slate-700">
+<span class="material-symbols-outlined">domain</span>
+</div>
+<div class="flex flex-col">
+<span class="font-bold text-slate-900 dark:text-white text-base">Inmobiliaria Madrid</span>
+<span class="text-sm text-slate-500 dark:text-slate-400">Invited by Luis Silva</span>
+</div>
+</div>
+</div>
+</main>
+</body></html>

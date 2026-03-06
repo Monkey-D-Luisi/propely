@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Propely Invitation Error Screen</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4840ed",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111121",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col items-center justify-center p-4">
+<div class="w-full max-w-lg">
+<div class="flex justify-center mb-8">
+<div class="flex items-center gap-2 text-slate-900 dark:text-slate-100">
+<div class="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-white">
+<span class="material-symbols-outlined">real_estate_agent</span>
+</div>
+<h2 class="text-xl font-bold leading-tight tracking-[-0.015em]">Propely</h2>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-8 flex flex-col items-center text-center">
+<div class="w-20 h-20 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-4xl text-red-500">cancel</span>
+</div>
+<h1 class="text-2xl font-bold mb-3 text-slate-900 dark:text-slate-100">Unable to accept invitation</h1>
+<p class="text-slate-500 dark:text-slate-400 mb-8 max-w-sm">
+                The invitation link you clicked has expired or has already been used.
+            </p>
+<div class="bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800 rounded-lg p-4 w-full mb-8 flex items-start text-left gap-3">
+<span class="material-symbols-outlined text-red-500 mt-0.5">error</span>
+<div>
+<p class="text-red-800 dark:text-red-200 font-medium text-sm">Error: Invitation expired</p>
+<p class="text-red-600 dark:text-red-300 text-sm mt-1">Links are valid for 7 days from the time they are sent.</p>
+</div>
+</div>
+<div class="flex flex-col w-full gap-3 mb-6">
+<button class="flex items-center justify-center w-full rounded-xl h-12 px-5 bg-primary hover:bg-primary/90 transition-colors text-white text-base font-bold leading-normal tracking-[0.015em]">
+                    Request New Invitation
+                </button>
+<button class="flex items-center justify-center w-full rounded-xl h-12 px-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors text-slate-900 dark:text-slate-100 text-base font-bold leading-normal tracking-[0.015em]">
+                    Go to My Organizations
+                </button>
+</div>
+<a class="text-slate-500 dark:text-slate-400 text-sm hover:text-primary dark:hover:text-primary transition-colors underline underline-offset-4" href="mailto:support@propely.com">
+                Need help? Contact support@propely.com
+            </a>
+</div>
+</div>
+</body></html>

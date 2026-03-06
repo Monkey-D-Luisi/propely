@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Propely Contacts Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4840ed",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111121",
+                        "slate-50": "#f8fafc",
+                        "slate-100": "#f1f5f9",
+                        "slate-200": "#e2e8f0",
+                        "slate-300": "#cbd5e1",
+                        "slate-400": "#94a3b8",
+                        "slate-500": "#64748b",
+                        "slate-600": "#475569",
+                        "slate-700": "#334155",
+                        "slate-800": "#1e293b",
+                        "slate-900": "#0f172a",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 h-screen flex overflow-hidden">
+<!-- Sidebar -->
+<div class="w-64 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col h-full flex-shrink-0">
+<div class="p-6 flex items-center gap-3">
+<div class="bg-primary/10 text-primary p-2 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl">real_estate_agent</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-slate-900 dark:text-white text-lg font-bold leading-tight">Propely</h1>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium">Real Estate CRM</p>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto px-4 py-2 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-sm font-medium">Properties</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary font-semibold" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-sm">Contacts</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+<span class="text-sm font-medium">Analytics</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-slate-700">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+<div class="mt-4 flex items-center gap-3 px-3 py-2">
+<div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-600 flex-shrink-0 bg-cover bg-center" data-alt="User Avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAuNbj1cYSHCuO8AcvVk9Ny-Px1xsGjNJ75qzIXeqZBcMNVV6zfOq_BY24-jDPHjO2OAVuBD_npWX6lAKbUMUV1HE3l7oc9bzKTjPJGv2fvyMxGbPiIOrrt7d2maTF_FhgwV4MnwuAjwZQUiQNJR8HkoPgMp5NxYvmhf7BL6jlfyVfePtqI3E-gGrmur-3b2TTsnR1RN8Pz6jq2072gXe0rqCQR7pfQr6U03itQMGIVTxv7A_pV2mnUzVM0prNA6WkAeS97hTJWX-ow')"></div>
+<div class="flex flex-col min-w-0">
+<span class="text-sm font-medium text-slate-900 dark:text-white truncate">Tom Cook</span>
+<span class="text-xs text-slate-500 dark:text-slate-400 truncate">tom@propely.com</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Content -->
+<div class="flex-1 flex flex-col h-full overflow-hidden">
+<!-- Header -->
+<header class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 px-8 py-6 flex-shrink-0 flex items-center justify-between z-10">
+<div class="flex items-center gap-4">
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white">Contacts</h2>
+<span class="px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-sm font-medium">156 contacts</span>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-sm">add</span>
+                New Contact
+            </button>
+</header>
+<!-- Content Area -->
+<main class="flex-1 overflow-y-auto p-8 bg-background-light dark:bg-background-dark">
+<!-- Filters & Search -->
+<div class="flex flex-col sm:flex-row gap-4 mb-6 justify-between items-start sm:items-center">
+<div class="relative w-full sm:w-96 flex-shrink-0">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">search</span>
+<input class="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-primary focus:border-primary transition-shadow" placeholder="Search contacts by name, email, or phone..." type="text"/>
+</div>
+<div class="flex gap-2 w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0">
+<button class="flex items-center gap-2 px-3 py-2 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-lg text-slate-500">filter_list</span>
+                        Type
+                        <span class="material-symbols-outlined text-lg">expand_more</span>
+</button>
+<button class="flex items-center gap-2 px-3 py-2 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-lg text-slate-500">source</span>
+                        Source
+                        <span class="material-symbols-outlined text-lg">expand_more</span>
+</button>
+<button class="flex items-center gap-2 px-3 py-2 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-lg text-slate-500">sort</span>
+                        Sort by
+                        <span class="material-symbols-outlined text-lg">expand_more</span>
+</button>
+</div>
+</div>
+<!-- Table Card -->
+<div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm overflow-hidden flex flex-col">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 dark:bg-slate-700/50 border-b border-slate-200 dark:border-slate-700 text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">
+<th class="px-6 py-4 w-12 text-center">
+<input class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4 bg-white dark:bg-slate-700" type="checkbox"/>
+</th>
+<th class="px-6 py-4">Contact</th>
+<th class="px-6 py-4">Phone</th>
+<th class="px-6 py-4">Type</th>
+<th class="px-6 py-4">Source</th>
+<th class="px-6 py-4">Properties</th>
+<th class="px-6 py-4">Last Contact</th>
+<th class="px-6 py-4 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+<!-- Row 1 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors group">
+<td class="px-6 py-4 text-center">
+<input class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4 bg-white dark:bg-slate-700" type="checkbox"/>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-200 bg-cover bg-center flex-shrink-0" data-alt="Contact Avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBNSICF7TqCnll_-JOwEGMR3-hiEOgmXvodxrkF3OllSYvBak-agZy1D6hY8sxgCtl7_x_ANSTsF9ETU0MswSdskCyGprTmSdVb1yreh00avLQX01wPgOEwW7fFEzF38xciW2tQExpeEpTQe_8hP38jG6hqeEM6VMcnLU1TIhlNOHLKWjI8Rfu9XMrqsmqmSA3XbRjkir3bJv2LH1pO1Nli9_rUViMi4OKz1_Yt-CviTiqjAcCjiKGqembumjm8PljJGam9JFbgaMnC')"></div>
+<div>
+<div class="font-medium text-slate-900 dark:text-white">Sarah Jenkins</div>
+<div class="text-xs text-slate-500">sarah.j@example.com</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">(555) 123-4567</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
+                                        Owner
+                                    </span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">Referral</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">2 Properties</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">Oct 12, 2023</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors p-1">
+<span class="material-symbols-outlined text-xl">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors group">
+<td class="px-6 py-4 text-center">
+<input class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4 bg-white dark:bg-slate-700" type="checkbox"/>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-200 bg-cover bg-center flex-shrink-0" data-alt="Contact Avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBT3711oSlqTmglVkoApJXGpfPibyXu4e8kO5weM_yaWqybJEOMx9U4_y9YZ0ol7KCUrdlzeqqqVO582HiBDLEXwI34dOK2N5XUxGl7brkCAThsliMLCxXBm8GrAVTP4LguGrcvNRVxs-PhE2Drr9lOy9rM5OP_9iSpR9SwLfjHyrWkFv62v-cljPEvh60kysR6kTMVQtu-o_O2N834Y8nuaSRrVFyGE4E6jC-6U7lqWkMTC5Z6swhBmYl3qgruY4OUg9493mQJczrT')"></div>
+<div>
+<div class="font-medium text-slate-900 dark:text-white">Michael Chen</div>
+<div class="text-xs text-slate-500">m.chen@example.com</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">(555) 987-6543</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
+                                        Buyer
+                                    </span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">Website</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">0 Properties</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">Oct 10, 2023</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors p-1">
+<span class="material-symbols-outlined text-xl">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors group">
+<td class="px-6 py-4 text-center">
+<input checked="" class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4 bg-white dark:bg-slate-700" type="checkbox"/>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold flex-shrink-0">
+                                            EW
+                                        </div>
+<div>
+<div class="font-medium text-slate-900 dark:text-white">Emily Wong</div>
+<div class="text-xs text-slate-500">emily.w@example.com</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">(555) 555-5555</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300">
+                                        Tenant
+                                    </span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">Zillow</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">1 Property</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">Oct 08, 2023</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors p-1">
+<span class="material-symbols-outlined text-xl">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors group">
+<td class="px-6 py-4 text-center">
+<input class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4 bg-white dark:bg-slate-700" type="checkbox"/>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-200 bg-cover bg-center flex-shrink-0" data-alt="Contact Avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA8jQt31J2Hmuh1Bn1Uf-WjGTiVF8Vb8KpEtpQd7e0Bat9G_kZ7CKHEfzYWWVy4R9g6DvViL8EYElX8sMShr4ciZafDyWxtmybB6gdIpjulaheamTtDGOxwhlC3ZX41eYq0paHCBimvVTDW2ycCj0trrdCtYXZGA21X856sqGRmZVwECV5hFXTb86audVIvXlinPE9u-30U0M3uNzywEXO1YX2af1tLB0ryulMCH4lqh-sc4Ltu50mYua3HRLjMH4vDx7Qi1WOEgnoN')"></div>
+<div>
+<div class="font-medium text-slate-900 dark:text-white">David Miller</div>
+<div class="text-xs text-slate-500">d.miller@example.com</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">(555) 111-2222</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
+                                        Owner
+                                    </span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">Network</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">4 Properties</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">Oct 05, 2023</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors p-1">
+<span class="material-symbols-outlined text-xl">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="border-t border-slate-200 dark:border-slate-700 px-6 py-4 flex items-center justify-between bg-white dark:bg-slate-800">
+<span class="text-sm text-slate-500 dark:text-slate-400">Showing 1 to 4 of 156 results</span>
+<div class="flex gap-1">
+<button class="px-3 py-1 rounded border border-slate-200 dark:border-slate-600 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-50" disabled="">Previous</button>
+<button class="px-3 py-1 rounded bg-primary text-white">1</button>
+<button class="px-3 py-1 rounded border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700">2</button>
+<button class="px-3 py-1 rounded border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700">3</button>
+<span class="px-2 py-1 text-slate-500">...</span>
+<button class="px-3 py-1 rounded border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700">Next</button>
+</div>
+</div>
+</div>
+<!-- Bulk Actions Banner (Simulated Active State) -->
+<div class="mt-6 bg-slate-900 text-white rounded-xl px-6 py-4 flex items-center justify-between shadow-lg">
+<div class="flex items-center gap-4">
+<span class="bg-primary px-2.5 py-1 rounded text-sm font-bold">1 Selected</span>
+<span class="text-sm font-medium">Apply action to selected contacts</span>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-3 py-2 hover:bg-slate-800 rounded-lg text-sm font-medium transition-colors">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+                        Delete
+                    </button>
+<button class="flex items-center gap-2 px-3 py-2 hover:bg-slate-800 rounded-lg text-sm font-medium transition-colors">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+                        Email
+                    </button>
+<button class="flex items-center gap-2 px-3 py-2 bg-white text-slate-900 hover:bg-slate-100 rounded-lg text-sm font-medium transition-colors">
+<span class="material-symbols-outlined text-[20px]">download</span>
+                        Export
+                    </button>
+</div>
+</div>
+</main>
+</div>
+</body></html>

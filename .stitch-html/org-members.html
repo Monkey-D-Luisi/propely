@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 
-<html class="light" lang="en"><head>
+<html lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Organization Members Management</title>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<title>Propely - Team Members</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -17,13 +15,18 @@
                 extend: {
                     colors: {
                         "primary": "#5048e5",
-                        "primary-hover": "#4338ca",
                         "background-light": "#f6f6f8",
                         "background-dark": "#121121",
-                        "surface-light": "#ffffff",
-                        "surface-dark": "#1e1c3a",
-                        "border-light": "#e2e8f0",
-                        "border-dark": "#2d2b4a",
+                        "slate-50": "#f8fafc",
+                        "slate-100": "#f1f5f9",
+                        "slate-200": "#e2e8f0",
+                        "slate-300": "#cbd5e1",
+                        "slate-400": "#94a3b8",
+                        "slate-500": "#64748b",
+                        "slate-600": "#475569",
+                        "slate-700": "#334155",
+                        "slate-800": "#1e293b",
+                        "slate-900": "#0f172a",
                     },
                     fontFamily: {
                         "display": ["Inter", "sans-serif"]
@@ -34,237 +37,282 @@
         }
     </script>
 </head>
-<body class="font-display bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 antialiased min-h-screen flex flex-col">
-<!-- Top Navigation -->
-<nav class="sticky top-0 z-30 w-full bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-<div class="flex items-center gap-2">
-<div class="bg-primary text-white p-1.5 rounded-lg">
-<span class="material-icons-round text-xl">layers</span>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-10 py-3 bg-white dark:bg-slate-900 sticky top-0 z-10">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_6_535)">
+<path clip-rule="evenodd" d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z" fill="currentColor" fill-rule="evenodd"></path>
+</g>
+<defs>
+<clippath id="clip0_6_535"><rect fill="white" height="48" width="48"></rect></clippath>
+</defs>
+</svg>
 </div>
-<span class="font-bold text-lg tracking-tight text-slate-900 dark:text-white">Nexus SaaS</span>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Propely</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Dashboard</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Properties</a>
+<a class="text-primary text-sm font-semibold leading-normal border-b-2 border-primary py-4 -mb-4" href="#">Members</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Settings</a>
 </div>
 <div class="flex items-center gap-4">
-<button class="p-2 text-slate-500 hover:text-primary transition-colors relative">
-<span class="material-icons-round">notifications</span>
-<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-surface-dark"></span>
+<button class="flex items-center justify-center rounded-full size-10 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors" title="Notifications">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
 </button>
-<div class="h-8 w-8 rounded-full overflow-hidden bg-slate-200 ring-2 ring-white dark:ring-slate-700 cursor-pointer">
-<img alt="Profile picture of user" class="h-full w-full object-cover" data-alt="Close up of a smiling man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB38itii_gX__8vUB3-QdQBhaIVZvfC6Ao4R05jWkrBxNJhCOxKcSh1PeC8roPEmJk-iclca4nZBsUwoN21bUtllekfJiWm4TeCD4joxfbIaeidxfOLY0NEA6wM3ZSPeGFeoWzUfvp1k07UkBVXTZa8N3l0IGA3uNMYXcRHYRvJPM1v_0cmjTspX9Rilu_Drup2uF1xyqwwlToNkoRhbt94Xm-FO6ixD46U4qEfPa3YXc9ho8xXhVV6Ywjx2rsNgEK5Gr9Q4sqkyJ-p"/>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-slate-200 dark:border-slate-700" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBpBrjFJD64flYJnsuPHK58nSwnEjYKPdjGfK_Ee-htQDbVx5BIQLlVXtIc9lz4bJylD4DarEm6LsYhYxJ5rilQmH8xXaUuS9sJ2E1s9pdhkk-Gk5xORXsJIkyo6voYHntXz5_5-6HSGxht2xxEw775hzZy7lZjjln5YGkHGLX6PyLWZ-XbjIC3HvNHaEPmXiwP99prqwKK2klHvfiPeqVZMD7OqJqf7NKw6WP5yAV-53WkghYHJqKswysVGI8tDXd44R3dhPFCgRSf");'></div>
 </div>
 </div>
-</nav>
-<!-- Main Content Area -->
-<main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-5xl">
-<!-- Page Header -->
-<div class="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-<div>
-<h1 class="text-2xl font-bold text-slate-900 dark:text-white">Members</h1>
-<p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Manage who has access to this workspace.</p>
+</header>
+<main class="flex flex-1 justify-center py-8 px-4 sm:px-10">
+<div class="layout-content-container flex flex-col max-w-[1024px] flex-1 gap-6">
+<div class="flex flex-col gap-2">
+<h1 class="tracking-tight text-3xl font-bold leading-tight">Team Members</h1>
+<p class="text-slate-500 dark:text-slate-400 text-base font-normal leading-normal">Manage your organization's members, roles, and access permissions.</p>
+</div>
+<div class="rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="p-6 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50">
+<div class="flex flex-col gap-1">
+<h3 class="text-lg font-semibold leading-tight flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">person_add</span>
+                                    Invite New Member
+                                </h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal leading-normal">Invite team members by email and assign their roles.</p>
 </div>
 </div>
-<!-- Main Card -->
-<div class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-sm border border-border-light dark:border-border-dark overflow-hidden">
-<!-- Org Header within Card -->
-<div class="p-6 border-b border-border-light dark:border-border-dark flex items-center justify-between bg-white dark:bg-surface-dark">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-lg bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center text-primary font-bold text-lg">
-                        AC
-                    </div>
-<div>
-<div class="flex items-center gap-2">
-<h2 class="text-lg font-semibold text-slate-900 dark:text-white">Acme Corp</h2>
-<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200">
-                                Owner
-                            </span>
-</div>
-<p class="text-xs text-slate-500 dark:text-slate-400">acme-corp.nexussaas.com</p>
-</div>
-</div>
-</div>
-<!-- Invite Section -->
-<div class="p-6 bg-slate-50 dark:bg-slate-800/50 border-b border-border-light dark:border-border-dark">
-<h3 class="text-sm font-medium text-slate-900 dark:text-white mb-3">Invite new member</h3>
-<div class="flex flex-col sm:flex-row gap-3">
-<div class="relative flex-grow">
+<div class="p-6">
+<div class="flex flex-wrap items-end gap-4">
+<label class="flex flex-col min-w-[240px] flex-1">
+<span class="text-sm font-medium leading-normal pb-2 text-slate-700 dark:text-slate-300">Email Address</span>
+<div class="relative">
 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-<span class="material-icons-round text-slate-400 text-lg">mail</span>
+<span class="material-symbols-outlined text-slate-400 text-[20px]">mail</span>
 </div>
-<input class="block w-full pl-10 pr-3 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg leading-5 bg-white dark:bg-slate-700 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm text-slate-900 dark:text-white" placeholder="name@company.com" type="email"/>
+<input class="form-input flex w-full resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 h-11 pl-10 pr-4 placeholder:text-slate-400 text-sm font-normal leading-normal transition-shadow" placeholder="colleague@propely.com" type="email" value=""/>
 </div>
-<div class="w-full sm:w-48">
-<select class="block w-full pl-3 pr-10 py-2.5 text-base border border-slate-300 dark:border-slate-600 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white">
-<option>Member</option>
-<option>Admin</option>
-<option>Viewer</option>
+</label>
+<label class="flex flex-col min-w-[200px] flex-1 md:flex-none md:w-64">
+<span class="text-sm font-medium leading-normal pb-2 text-slate-700 dark:text-slate-300">Role</span>
+<div class="relative">
+<select class="form-select flex w-full resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 h-11 pl-4 pr-10 text-sm font-normal leading-normal appearance-none transition-shadow">
+<option disabled="" selected="" value="">Select a role</option>
+<option value="owner">Owner</option>
+<option value="admin">Admin</option>
+<option value="agent">Agent</option>
+<option value="viewer">Viewer</option>
 </select>
 </div>
-<button class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-primary hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors sm:w-auto w-full" type="button">
-<span class="material-icons-round text-sm mr-2">send</span>
-                        Send Invite
-                    </button>
+</label>
+<button class="flex min-w-[120px] cursor-pointer items-center justify-center rounded-lg h-11 px-6 bg-primary hover:bg-primary/90 text-white text-sm font-semibold leading-normal shadow-sm transition-colors">
+<span>Send Invite</span>
+</button>
 </div>
 </div>
-<!-- Search Filter -->
-<div class="px-6 py-4 flex items-center justify-between">
-<div class="relative w-full max-w-md">
+</div>
+<div class="rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden mt-2">
+<div class="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+<h3 class="text-base font-semibold leading-tight flex items-center gap-2">
+<span class="material-symbols-outlined text-amber-500 text-[20px]">pending_actions</span>
+                                Pending Invitations
+                            </h3>
+<span class="bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400 text-xs font-semibold px-2.5 py-0.5 rounded-full">2 Pending</span>
+</div>
+<div class="divide-y divide-slate-100 dark:divide-slate-800">
+<div class="flex items-center justify-between p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<div class="flex items-center gap-4">
+<div class="size-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+</div>
+<div>
+<p class="text-sm font-medium text-slate-900 dark:text-white">sarah.j@propely.com</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Invited as <span class="font-medium text-slate-700 dark:text-slate-300">Admin</span> • 2 days ago</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary px-3 py-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Resend</button>
+<button class="text-xs font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 px-3 py-1.5 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">Revoke</button>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<div class="flex items-center gap-4">
+<div class="size-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+</div>
+<div>
+<p class="text-sm font-medium text-slate-900 dark:text-white">mike.williams@propely.com</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Invited as <span class="font-medium text-slate-700 dark:text-slate-300">Agent</span> • 5 days ago</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary px-3 py-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Resend</button>
+<button class="text-xs font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 px-3 py-1.5 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">Revoke</button>
+</div>
+</div>
+</div>
+</div>
+<div class="rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden mt-4">
+<div class="p-5 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-50/50 dark:bg-slate-800/50">
+<h3 class="text-lg font-semibold leading-tight flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-500 text-[20px]">group</span>
+                                Active Members
+                            </h3>
+<div class="relative w-full sm:w-72">
 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-<span class="material-icons-round text-slate-400 text-lg">search</span>
+<span class="material-symbols-outlined text-slate-400 text-[20px]">search</span>
 </div>
-<input class="block w-full pl-10 pr-3 py-2 border border-slate-200 dark:border-slate-700 rounded-lg leading-5 bg-white dark:bg-surface-dark placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm transition-all" placeholder="Filter members..." type="text"/>
+<input class="form-input flex w-full rounded-lg text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 h-10 pl-10 pr-4 placeholder:text-slate-400 text-sm font-normal transition-shadow" placeholder="Search members..." type="text"/>
 </div>
-<div class="text-sm text-slate-500 hidden sm:block">
-                    Showing 3 members
-                </div>
 </div>
-<!-- Members Table -->
 <div class="overflow-x-auto">
-<table class="min-w-full divide-y divide-border-light dark:divide-border-dark">
-<thead class="bg-slate-50 dark:bg-slate-800/50">
-<tr>
-<th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider" scope="col">
-                                Name / Email
-                            </th>
-<th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-40" scope="col">
-                                Role
-                            </th>
-<th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-40" scope="col">
-                                Status
-                            </th>
-<th class="relative px-6 py-3 w-16" scope="col">
-<span class="sr-only">Actions</span>
-</th>
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/80 text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">
+<th class="px-6 py-4">Member</th>
+<th class="px-6 py-4">Role</th>
+<th class="px-6 py-4">Status</th>
+<th class="px-6 py-4 hidden sm:table-cell">Joined</th>
+<th class="px-6 py-4 text-right">Actions</th>
 </tr>
 </thead>
-<tbody class="bg-white dark:bg-surface-dark divide-y divide-border-light dark:divide-border-dark">
-<!-- Row 1: Owner -->
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800/60">
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
 <td class="px-6 py-4 whitespace-nowrap">
-<div class="flex items-center">
-<div class="flex-shrink-0 h-10 w-10">
-<img alt="" class="h-10 w-10 rounded-full object-cover" data-alt="Portrait of a man in suit" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaYM0JuwohWE-JTNu4fzpK317UhN7-48MeKBopUC6VtifKlZCFV2wPiUYX51fb4ePs-ZubdlmhMro1St4gSZZDJTsprURTWO5LOdxK9pKvhAhgmYtNv-4sv0ZGrGv3AgGP2A9eIfi6Yh4isddyACo_0MSOCDmPsfFsyFB4bbghq2FE2enXamJU-BSZ-W7aA0_y67ZJ9jAo2dXPrpNLCKwEIlqhUouERQln3NA03XbThCQ91_kNn0YV6mLG8tBw0RGeDCN3dcTNBtE2"/>
-</div>
-<div class="ml-4">
-<div class="text-sm font-medium text-slate-900 dark:text-white">Tom Cook</div>
-<div class="text-sm text-slate-500 dark:text-slate-400">tom.cook@acme.com</div>
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-cover bg-center border border-slate-200 dark:border-slate-700" data-alt="Avatar of Alex Morgan" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCtZA2GSxelo8SkBDJthMF0XJ-NqF68cYPMcnW7iRtHjZyNViMR2u5MHgYy8R-qy0KuFdOuj8aN_PcIS6yEz37wI_LqttdK0ASW7vFfi4uzUC3mWAJp-tJ1hpAqXfhhE9SRJRLIqvMOOZNj8HQeJyCkMNkkw7PQZzM779puvpRRUWKkvHk1jcIBcShkL_FmnBY-3eGHexMaR190AlEU7oDvjbYOEkC3dGHb_QG0bbbpTf7J-_Uqxz_QRtEEyEgw2EdCmAkj3oV812-X');"></div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Alex Morgan</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">alex@propely.com</p>
 </div>
 </div>
 </td>
 <td class="px-6 py-4 whitespace-nowrap">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200">
-                                    Owner
-                                </span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
+                                                Owner
+                                            </span>
 </td>
 <td class="px-6 py-4 whitespace-nowrap">
-<span class="flex items-center text-sm text-slate-500 dark:text-slate-400">
-<span class="w-2 h-2 rounded-full bg-green-400 mr-2"></span> Active
-                                </span>
+<div class="flex items-center gap-1.5">
+<div class="size-2 rounded-full bg-green-500"></div>
+<span class="text-sm text-slate-600 dark:text-slate-300 font-medium">Active</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap hidden sm:table-cell">
+<span class="text-sm text-slate-500 dark:text-slate-400">Jan 12, 2023</span>
 </td>
 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-<!-- Owner cannot be removed usually -->
-<span class="text-slate-300 dark:text-slate-700 cursor-not-allowed">
-<span class="material-icons-round text-lg">lock</span>
-</span>
-</td>
-</tr>
-<!-- Row 2: Admin -->
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-<td class="px-6 py-4 whitespace-nowrap">
-<div class="flex items-center">
-<div class="flex-shrink-0 h-10 w-10">
-<div class="h-10 w-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold">LW</div>
-</div>
-<div class="ml-4">
-<div class="text-sm font-medium text-slate-900 dark:text-white">Lindsay Walton</div>
-<div class="text-sm text-slate-500 dark:text-slate-400">lindsay.walton@acme.com</div>
-</div>
-</div>
-</td>
-<td class="px-6 py-4 whitespace-nowrap">
-<div class="relative inline-block text-left group">
-<button class="inline-flex items-center justify-between w-28 px-2.5 py-1 text-xs font-medium bg-blue-50 text-blue-700 rounded-full hover:bg-blue-100 border border-transparent dark:bg-blue-900/30 dark:text-blue-300 dark:hover:bg-blue-900/50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" type="button">
-                                        Admin
-                                        <span class="material-icons-round text-sm ml-1 opacity-50">arrow_drop_down</span>
-</button>
-</div>
-</td>
-<td class="px-6 py-4 whitespace-nowrap">
-<span class="flex items-center text-sm text-slate-500 dark:text-slate-400">
-<span class="w-2 h-2 rounded-full bg-green-400 mr-2"></span> Active
-                                </span>
-</td>
-<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-<button class="text-slate-400 hover:text-red-600 transition-colors p-1 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20">
-<span class="material-icons-round text-lg">delete_outline</span>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
 </button>
 </td>
 </tr>
-<!-- Row 3: Member -->
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
 <td class="px-6 py-4 whitespace-nowrap">
-<div class="flex items-center">
-<div class="flex-shrink-0 h-10 w-10">
-<img alt="" class="h-10 w-10 rounded-full object-cover" data-alt="Portrait of a woman smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqVoC_MvxTzxWwOEu0hRyBlDEXmR6ZeTjP6zF00ilTBo0kXw1ESzw6NYXn7uenoE0Suk1cT_-AZ6st03IDGaxWLE9xhDM7sQcs93gvZKEC7fspUrTlbH7lAihfmBqH4P0G9c51eWBBlaPf6WTNEQ-TE4XNkMUsMuQlr7NFLnrqDu4CcYy7r-RhbGWWjje7KdvVnAtFphpw8Yvn2U969vzSLuPoYvWd8rWvXVToEfTzraz6xV9_Los_Zd3WQyT97bGGp7VqXALFliNa"/>
-</div>
-<div class="ml-4">
-<div class="text-sm font-medium text-slate-900 dark:text-white">Whitney Francis</div>
-<div class="text-sm text-slate-500 dark:text-slate-400">whitney.francis@acme.com</div>
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-cover bg-center border border-slate-200 dark:border-slate-700" data-alt="Avatar of David Chen" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBB5c-oLos8njZVuEnIOtBHiiDQerWcyjCQ4VwHBKVCZ-m3IK_fEnBXR9LNzyxmbyXI2jw5eoxaq2MFrHYc25ocPsS638kTrW6ZWP0L-UMv0gNCOLQvi_vqT_eFpA0b-BPc0zrujWfm9IYqO6zhAcKkhgDl7XLly2JkBcYmQufcuK9g2eWkYR7Lfkv4NNQ7Q4wSoasuNEaft9litsOL0gxc4f-qrw26nNYtXQr4w1SW2HRoSwNodp0K2oqYP6wrfiRyGx0Z5410-MLI');"></div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">David Chen</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">david.c@propely.com</p>
 </div>
 </div>
 </td>
 <td class="px-6 py-4 whitespace-nowrap">
-<div class="relative inline-block text-left group">
-<button class="inline-flex items-center justify-between w-28 px-2.5 py-1 text-xs font-medium bg-slate-100 text-slate-700 rounded-full hover:bg-slate-200 border border-transparent dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" type="button">
-                                        Member
-                                        <span class="material-icons-round text-sm ml-1 opacity-50">arrow_drop_down</span>
-</button>
-</div>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700 dark:bg-purple-500/10 dark:text-purple-400 border border-purple-200 dark:border-purple-500/20">
+                                                Admin
+                                            </span>
 </td>
 <td class="px-6 py-4 whitespace-nowrap">
-<span class="flex items-center text-sm text-slate-500 dark:text-slate-400">
-<span class="w-2 h-2 rounded-full bg-yellow-400 mr-2"></span> Pending
-                                </span>
+<div class="flex items-center gap-1.5">
+<div class="size-2 rounded-full bg-green-500"></div>
+<span class="text-sm text-slate-600 dark:text-slate-300 font-medium">Active</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap hidden sm:table-cell">
+<span class="text-sm text-slate-500 dark:text-slate-400">Mar 05, 2023</span>
 </td>
 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-<button class="text-slate-400 hover:text-red-600 transition-colors p-1 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20">
-<span class="material-icons-round text-lg">delete_outline</span>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-cover bg-center border border-slate-200 dark:border-slate-700" data-alt="Avatar of Elena Rodriguez" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCH1_BSqx3WJymBr2_7EPlYYVlGImuU-EKfDpFgBQfmMZZm4GyUmIa4U0HQ-kLxFqXJlgGzRcGw6Xmoo5ppRinQB0Y3v9JjgweljrfykTVnqaNES695QI7hurua0CRgg7puksTNZxq1dSnRtoAxtkawROQ5J7CtBAHq9HO-9bnBfJchQDcUvAdYD7d2K833XrTzIDEsJpapJKxTG5MFKlVmVgmfmI-Nb4AJOrcRddkTBIIvBGr7_W7T3MF_xOVKXR3YRrG6McfxKNUV');"></div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Elena Rodriguez</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">elena.r@propely.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400 border border-blue-200 dark:border-blue-500/20">
+                                                Agent
+                                            </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<div class="size-2 rounded-full bg-green-500"></div>
+<span class="text-sm text-slate-600 dark:text-slate-300 font-medium">Active</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap hidden sm:table-cell">
+<span class="text-sm text-slate-500 dark:text-slate-400">Jun 18, 2023</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-cover bg-center border border-slate-200 dark:border-slate-700" data-alt="Avatar of Marcus Brown" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDDUoCud2TgecoXn15aQMVUUj22J6xd_rWONMRLhBW6-Ue7izly4oYz4aZmh9mgiTTXllBQrj8M3SKuNcU5846BTi5YoCAdMzfJ4NG-RFu_DiJhMGxuHezjgP4MaNjYqICbWfNgEk0lT6KcqrejWXNBDba-ATdUSwiiDXefl1G4YNc0684AH9eb6L9_hO9_vno0y8px5TjkEIvuVTCTfiTFA2GsrA1N6IZdVxv5WRxpxOdCGVRr0Z1d5uMUxMQ58uTBj9pcgoaLWt9F');"></div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Marcus Brown</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">marcus.b@propely.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-600">
+                                                Viewer
+                                            </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<div class="size-2 rounded-full bg-slate-300 dark:bg-slate-600"></div>
+<span class="text-sm text-slate-500 dark:text-slate-400 font-medium">Inactive</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap hidden sm:table-cell">
+<span class="text-sm text-slate-500 dark:text-slate-400">Aug 22, 2023</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
 </button>
 </td>
 </tr>
 </tbody>
 </table>
 </div>
-<!-- Pagination/Footer of Table -->
-<div class="bg-white dark:bg-surface-dark px-4 py-3 border-t border-border-light dark:border-border-dark flex items-center justify-between sm:px-6">
-<div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-<div>
-<p class="text-sm text-slate-700 dark:text-slate-300">
-                            Showing <span class="font-medium">1</span> to <span class="font-medium">3</span> of <span class="font-medium">3</span> results
-                        </p>
-</div>
-<div>
-<nav aria-label="Pagination" class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
-<a class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-surface-dark text-sm font-medium text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800" href="#">
-<span class="sr-only">Previous</span>
-<span class="material-icons-round text-sm">chevron_left</span>
-</a>
-<a aria-current="page" class="z-10 bg-indigo-50 dark:bg-indigo-900 border-primary text-primary relative inline-flex items-center px-4 py-2 border text-sm font-medium" href="#">
-                                1
-                            </a>
-<a class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-surface-dark text-sm font-medium text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800" href="#">
-<span class="sr-only">Next</span>
-<span class="material-icons-round text-sm">chevron_right</span>
-</a>
-</nav>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-sm text-slate-500 dark:text-slate-400 bg-slate-50/30 dark:bg-slate-900/30">
+<span>Showing 4 of 4 members</span>
+<div class="flex gap-1">
+<button class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50" disabled=""><span class="material-symbols-outlined text-[20px]">chevron_left</span></button>
+<button class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50" disabled=""><span class="material-symbols-outlined text-[20px]">chevron_right</span></button>
 </div>
 </div>
 </div>
-</div>
-<!-- Danger Zone / Leave Org -->
-<div class="mt-8 flex justify-end">
-<button class="group flex items-center text-sm font-medium text-slate-500 hover:text-red-600 transition-colors px-4 py-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20">
-<span class="material-icons-round text-lg mr-2 group-hover:text-red-600 transition-colors">logout</span>
-                Leave organization
-            </button>
 </div>
 </main>
+</div>
+</div>
 </body></html>

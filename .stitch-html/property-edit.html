@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Edit Property - Propely</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4840ed",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111121",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display min-h-screen">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar -->
+<div class="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col justify-between shrink-0">
+<div class="flex flex-col gap-4 p-4">
+<div class="flex items-center gap-3 px-2 py-3">
+<div class="bg-primary/10 text-primary rounded-xl p-2 flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl">real_estate_agent</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-slate-900 dark:text-white text-lg font-bold leading-tight">Propely</h1>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium">Real Estate SaaS</p>
+</div>
+</div>
+<nav class="flex flex-col gap-1 mt-4">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px] fill-current">apartment</span>
+<span class="text-sm font-medium">Properties</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">group</span>
+<span class="text-sm font-medium">Tenants</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+<span class="text-sm font-medium">Finances</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</nav>
+</div>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3 px-2">
+<div class="size-8 rounded-full bg-slate-200 dark:bg-slate-700 bg-cover bg-center" data-alt="User profile picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCU-dy7QPMd4uhif0Bw-RKH4o2yQgtBvXUf7R5zCte5AFLiB7L_MRHgy_5nUi3pQoqTol5TQ99QPHjR4XMpririNPlQfe8DqYwuxX1VfsJJRIQSaYYI00BYEllEBNB34g6sIXF0fXV9PVtliotIskFzRCxlgzojgPPxA1Xi0S-Bw834aoNG8gtWKkTjeQr7PhEmKixRWpqOyOl7nbYyRmPaVRSmN0aFB8FsgusKOrep0vXDZb4DchY6RyatyTWN6S_pm4iFmULD5SO6');"></div>
+<div class="flex flex-col">
+<span class="text-sm font-medium text-slate-900 dark:text-white">Alex Morgan</span>
+<span class="text-xs text-slate-500 dark:text-slate-400">Agent</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col overflow-hidden relative">
+<!-- Header -->
+<header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 h-16 flex items-center justify-between px-6 shrink-0 z-10">
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+<a class="hover:text-primary transition-colors" href="#">Properties</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Luxury Apartment Gran Vía</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="font-medium text-slate-900 dark:text-white">Edit</span>
+</div>
+<div class="flex items-center gap-3">
+<button class="size-9 flex items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+</div>
+</header>
+<!-- Scrollable Content -->
+<main class="flex-1 overflow-y-auto p-8 pb-32">
+<div class="max-w-4xl mx-auto space-y-6">
+<!-- Title & Actions -->
+<div class="flex items-end justify-between">
+<div>
+<div class="flex items-center gap-3 mb-1">
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white">Edit Property</h2>
+<span class="px-2 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border border-slate-200 dark:border-slate-700">REF-2026-042</span>
+</div>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm">
+                            Save Changes
+                        </button>
+</div>
+<!-- Tabs -->
+<div class="border-b border-slate-200 dark:border-slate-800 flex gap-6">
+<button class="pb-3 border-b-2 border-primary text-primary font-medium text-sm">Basic Info</button>
+<button class="pb-3 border-b-2 border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 font-medium text-sm transition-colors">Details</button>
+<button class="pb-3 border-b-2 border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 font-medium text-sm transition-colors">Location</button>
+<button class="pb-3 border-b-2 border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 font-medium text-sm transition-colors">Media</button>
+<button class="pb-3 border-b-2 border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 font-medium text-sm transition-colors">Amenities</button>
+</div>
+<!-- Form Card -->
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+<!-- Status Banner -->
+<div class="bg-emerald-50 dark:bg-emerald-900/20 border-b border-emerald-100 dark:border-emerald-800/30 px-6 py-3 flex items-center justify-between">
+<div class="flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+<span class="text-sm font-medium">Property is currently Active and listed on 3 portals.</span>
+</div>
+<button class="text-xs font-medium text-emerald-700 dark:text-emerald-400 hover:underline">Manage Listing</button>
+</div>
+<div class="p-6 space-y-8">
+<!-- Basic Info Section -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="col-span-2">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Property Title</label>
+<input class="w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-primary focus:ring-primary sm:text-sm" type="text" value="Luxury Apartment Gran Vía"/>
+</div>
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Property Type</label>
+<select class="w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-primary focus:ring-primary sm:text-sm">
+<option>Apartment</option>
+<option>House</option>
+<option>Villa</option>
+<option>Commercial</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Operation</label>
+<div class="flex rounded-lg border border-slate-300 dark:border-slate-700 p-1 bg-slate-50 dark:bg-slate-800/50">
+<button class="flex-1 py-1.5 text-sm font-medium rounded-md bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm border border-slate-200 dark:border-slate-600">Sale</button>
+<button class="flex-1 py-1.5 text-sm font-medium rounded-md text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">Rent</button>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Price (€)</label>
+<input class="w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-primary focus:ring-primary sm:text-sm" type="text" value="1,250,000"/>
+</div>
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Size (sqm)</label>
+<input class="w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-primary focus:ring-primary sm:text-sm" type="number" value="145"/>
+</div>
+</div>
+<!-- Specs Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-slate-200 dark:border-slate-800">
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Bedrooms</label>
+<div class="flex items-center">
+<button class="size-9 flex items-center justify-center border border-slate-300 dark:border-slate-700 rounded-l-lg bg-slate-50 dark:bg-slate-800 text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined text-[18px]">remove</span>
+</button>
+<input class="w-full h-9 text-center border-y border-x-0 border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white sm:text-sm focus:ring-0" type="text" value="3"/>
+<button class="size-9 flex items-center justify-center border border-slate-300 dark:border-slate-700 rounded-r-lg bg-slate-50 dark:bg-slate-800 text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Bathrooms</label>
+<div class="flex items-center">
+<button class="size-9 flex items-center justify-center border border-slate-300 dark:border-slate-700 rounded-l-lg bg-slate-50 dark:bg-slate-800 text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined text-[18px]">remove</span>
+</button>
+<input class="w-full h-9 text-center border-y border-x-0 border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white sm:text-sm focus:ring-0" type="text" value="2"/>
+<button class="size-9 flex items-center justify-center border border-slate-300 dark:border-slate-700 rounded-r-lg bg-slate-50 dark:bg-slate-800 text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Year Built</label>
+<input class="w-full h-9 rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-primary focus:ring-primary sm:text-sm" type="number" value="2018"/>
+</div>
+</div>
+<!-- Description -->
+<div class="pt-6 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center justify-between mb-1.5">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Description</label>
+<button class="flex items-center gap-1.5 text-xs font-medium text-primary hover:text-primary/80 transition-colors">
+<span class="material-symbols-outlined text-[14px]">auto_awesome</span>
+                                        AI Enhance
+                                    </button>
+</div>
+<textarea class="w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-primary focus:ring-primary sm:text-sm" rows="4">Stunning luxury apartment located in the heart of the city. Features high-end finishes, panoramic views, and premium amenities...</textarea>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Sticky Bottom Banner -->
+<div class="absolute bottom-0 left-0 right-0 bg-amber-50 dark:bg-amber-900/30 border-t border-amber-200 dark:border-amber-800/50 p-4 shadow-lg transform translate-y-0 transition-transform">
+<div class="max-w-4xl mx-auto flex items-center justify-between">
+<div class="flex items-center gap-3 text-amber-800 dark:text-amber-500">
+<span class="material-symbols-outlined">warning</span>
+<span class="text-sm font-medium">You have unsaved changes</span>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">Discard</button>
+<button class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm">Save Changes</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>

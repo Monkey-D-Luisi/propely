@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Propely - Agency Detail Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2513ec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121022",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="flex flex-col h-full w-full max-w-[1440px] mx-auto bg-white dark:bg-slate-900 shadow-sm min-h-screen">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-10 py-3 bg-white dark:bg-slate-900 sticky top-0 z-10">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-primary">
+<span class="material-symbols-outlined text-3xl">real_estate_agent</span>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight">Propely</h2>
+</div>
+<label class="flex flex-col min-w-40 h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full bg-slate-100 dark:bg-slate-800">
+<div class="text-slate-500 dark:text-slate-400 flex items-center justify-center pl-4 pr-2">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 bg-transparent text-slate-900 dark:text-white focus:outline-0 focus:ring-0 border-none px-2 text-sm placeholder:text-slate-500 dark:placeholder:text-slate-400" placeholder="Search..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-8 items-center">
+<nav class="flex items-center gap-8">
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Dashboard</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Properties</a>
+<a class="text-primary text-sm font-semibold border-b-2 border-primary pb-1" href="#">Agencies</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Agents</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Reports</a>
+</nav>
+<div class="flex gap-3 items-center">
+<button class="flex items-center justify-center rounded-lg size-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+<button class="flex items-center justify-center rounded-lg size-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-xl">settings</span>
+</button>
+<div class="size-10 rounded-full bg-slate-300 bg-cover bg-center ml-2 border border-slate-200 dark:border-slate-700 cursor-pointer" data-alt="User Profile Avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAp2Z7S-Xi1SW1GEkaxFX-D3Bgjo-9zmlv1A3hp-lk91jCJwtTGwycWYqF_MSI6HhRFT_RbEY6gehEPGIoa4DQT6sUllpJmreXMIkbE5patBPJs8cjT2gGiefXMOs8Jz_jz-QBjzeJAgDn6BZl9ZX3Jv_MZu4gTADzeBn7B89KzV_OuCE7K9QO93Zl7QFpRtGlKZpfxMxKJPE0MeHw-syZzrhkhpai7nHiy5fjBv2P7_-kgBQSaNqK7bKWEn6zgkWcQQP-h6eBOdyVF");'></div>
+</div>
+</div>
+</header>
+<main class="flex-1 bg-background-light dark:bg-background-dark p-8">
+<div class="max-w-[1200px] mx-auto space-y-6">
+<nav class="flex flex-wrap gap-2 text-sm">
+<a class="text-slate-500 hover:text-primary transition-colors" href="#">Inmobiliaria Madrid</a>
+<span class="text-slate-400">/</span>
+<a class="text-slate-500 hover:text-primary transition-colors" href="#">Agencies</a>
+<span class="text-slate-400">/</span>
+<span class="text-slate-900 dark:text-white font-medium">Madrid Centro Office</span>
+</nav>
+<div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+<div class="flex items-center gap-5">
+<div class="size-16 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-3xl">apartment</span>
+</div>
+<div>
+<div class="flex items-center gap-3 mb-1">
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">Madrid Centro Office</h1>
+<span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-xs font-semibold uppercase tracking-wide flex items-center gap-1"><span class="size-1.5 rounded-full bg-emerald-500"></span> Active</span>
+</div>
+<p class="text-slate-500 flex items-center gap-1.5 text-sm">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+                                123 Gran Vía, 28013 Madrid, Spain
+                            </p>
+</div>
+</div>
+<div class="flex gap-3 w-full md:w-auto">
+<button class="flex-1 md:flex-none px-4 py-2 rounded-lg bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">edit</span> Edit
+                        </button>
+<button class="flex-1 md:flex-none px-4 py-2 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add</span> Add Property
+                        </button>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<p class="text-slate-500 text-sm font-medium">Properties</p>
+<span class="material-symbols-outlined text-primary bg-primary/10 p-1.5 rounded-md">home</span>
+</div>
+<p class="text-slate-900 dark:text-white text-3xl font-bold">18</p>
+<div class="flex items-center text-xs text-emerald-600 font-medium">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> <span class="ml-1">+2 this month</span>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<p class="text-slate-500 text-sm font-medium">Agents</p>
+<span class="material-symbols-outlined text-purple-600 bg-purple-100 dark:bg-purple-900/30 p-1.5 rounded-md">group</span>
+</div>
+<p class="text-slate-900 dark:text-white text-3xl font-bold">5</p>
+<div class="flex items-center text-xs text-slate-400 font-medium">
+<span class="material-symbols-outlined text-[14px] text-slate-400">remove</span> <span class="ml-1">No change</span>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<p class="text-slate-500 text-sm font-medium">Active Leads</p>
+<span class="material-symbols-outlined text-amber-600 bg-amber-100 dark:bg-amber-900/30 p-1.5 rounded-md">forum</span>
+</div>
+<p class="text-slate-900 dark:text-white text-3xl font-bold">12</p>
+<div class="flex items-center text-xs text-emerald-600 font-medium">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> <span class="ml-1">+4 this week</span>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<p class="text-slate-500 text-sm font-medium">Monthly Revenue</p>
+<span class="material-symbols-outlined text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30 p-1.5 rounded-md">payments</span>
+</div>
+<p class="text-slate-900 dark:text-white text-3xl font-bold">€45,000</p>
+<div class="flex items-center text-xs text-emerald-600 font-medium">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> <span class="ml-1">+8% vs last month</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="lg:col-span-2 space-y-6">
+<div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden flex flex-col">
+<div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50">
+<h3 class="font-semibold text-slate-900 dark:text-white flex items-center gap-2"><span class="material-symbols-outlined text-slate-400">group</span> Team Members</h3>
+<button class="text-primary text-sm font-semibold hover:text-primary/80 transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">add</span> Add Agent
+                                </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+<th class="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Agent</th>
+<th class="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Role</th>
+<th class="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider text-center">Listings</th>
+<th class="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-700 bg-white dark:bg-slate-800">
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors group">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-slate-200 bg-cover bg-center shrink-0" data-alt="John Doe Avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA1a4RluSaft1g6NkfrGcDjFbix_wq3UzxnWSnP_YrLQdJJTMWY0s7Y6LgPFhAE61xtLr7ga_YzBexVXdX3joQLdYfLpiOqD_WWoAFur0eb_s4f46cP4PzslMZhvVVkyehkVy9tMZ_CjPZM3XwGKAN_xRTVRB5J9C8I7y3fkzPaYkdnVfc9vcP5KXofLuKQzLxcaPXejuQIWDW-RXiXugcWsiPvbQecaoRUK4h37Z_S0IgT2zFjdoaUEM_-_EktN1Eyk_905ALgRVu3");'></div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">John Doe</p>
+<p class="text-xs text-slate-500">john@inmomadrid.es</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-primary/10 text-primary">Branch Manager</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center text-sm text-slate-700 dark:text-slate-300">
+<span class="font-semibold">6</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-slate-400 hover:text-primary transition-colors p-1"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors group">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-slate-200 bg-cover bg-center shrink-0" data-alt="Jane Smith Avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBN9W6rwM2slfEh6_wMLMH0hEKPU3c20IHb6PIYOkU9qKeu94TmCgQkh2oRH_5RojC5cHDeXvPaobP2vN_4G2kPVHrJ2b5MZiMvHOUJ0DPPahmUvBkx-811t4LbHt0gUx3lotZ8fzLc2ykbYXApY-uJBQlFF-UOvhntFQIeDoPEQS010h9KlrVD_wQL02JtAHamfiq3JnYmoozJB92poByjFgAfJFKe5_aE6OpqDQr6FG_3HYUAsFlmVzfn_HBgJ7NtcGBeabweAhMo");'></div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Jane Smith</p>
+<p class="text-xs text-slate-500">jane@inmomadrid.es</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">Senior Agent</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center text-sm text-slate-700 dark:text-slate-300">
+<span class="font-semibold">5</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-slate-400 hover:text-primary transition-colors p-1"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors group">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-slate-200 bg-cover bg-center shrink-0" data-alt="Alice Johnson Avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCHwMjmnvRIxlcbW5bdENF2lBvVxbi-Dsas6xqzvI3f0YHwfsc36H2C-fhX4MAvpNasJCbuO3-XXoiml8UXjFLOMfGqvAsD_vK9zUd5Yili3BxOzRXUjbqdKBN5PXEJ4F8f3NzaFpmX4RJ2qcSRYtN4plhGQsn4uLnFO3cKdFAAw8XuLVLDlKeEqFCHcqTTwYtD8bxi8_ejA-0yVOEf-12R5KgT8OvGR4Kd_JzTUG_uOUewwihb9_3VLPnRciWYRLwJvn4pSOI0dLvP");'></div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Alice Johnson</p>
+<p class="text-xs text-slate-500">alice@inmomadrid.es</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">Agent</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center text-sm text-slate-700 dark:text-slate-300">
+<span class="font-semibold">4</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-slate-400 hover:text-primary transition-colors p-1"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors group">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-slate-200 bg-cover bg-center shrink-0" data-alt="Bob Brown Avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAKoWGgH5bbDpPvs41Q3MuQXB1SbNtQG6xd5cXQ1gQDhcOJOzKTX1jA9T09ZgrYHTtUY7XwDyDqUNMSli1eMHP3GkLoLHAw4V1K6F85sxE_Ho3RG9B6HeghzDDlzP_GYyVvnpj39819UdK_8ettSlJqE5afkCCjUZKBaQX1zjpT-EixjljrOu3E9DRQY77_2yf_O3M1efruvEWHQvZf8s1XrwPrrBDA9HCnWGLA_RkI8g8yKwoZHHIYqURR-Ta3QDi0eIPw_JZ3yBnX");'></div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Bob Brown</p>
+<p class="text-xs text-slate-500">bob@inmomadrid.es</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">Agent</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center text-sm text-slate-700 dark:text-slate-300">
+<span class="font-semibold">2</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-slate-400 hover:text-primary transition-colors p-1"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="space-y-6">
+<div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+<div class="px-5 py-4 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50">
+<h3 class="font-semibold text-slate-900 dark:text-white flex items-center gap-2"><span class="material-symbols-outlined text-slate-400">recent_actors</span> Recent Activity</h3>
+</div>
+<div class="p-5">
+<div class="relative pl-6 border-l-2 border-slate-200 dark:border-slate-700 space-y-6 pb-2">
+<div class="relative">
+<div class="absolute -left-[29px] top-0.5 size-3 rounded-full bg-primary border-2 border-white dark:border-slate-800"></div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">New Property Listed</p>
+<p class="text-xs text-slate-500 mt-1">Jane Smith added <span class="font-medium text-slate-700 dark:text-slate-300">Piso en Malasaña</span></p>
+<p class="text-xs text-slate-400 mt-1">2 hours ago</p>
+</div>
+<div class="relative">
+<div class="absolute -left-[29px] top-0.5 size-3 rounded-full bg-emerald-500 border-2 border-white dark:border-slate-800"></div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Status Changed</p>
+<p class="text-xs text-slate-500 mt-1">John Doe marked <span class="font-medium text-slate-700 dark:text-slate-300">Chalet in Pozuelo</span> as Sold</p>
+<p class="text-xs text-slate-400 mt-1">Yesterday</p>
+</div>
+<div class="relative">
+<div class="absolute -left-[29px] top-0.5 size-3 rounded-full bg-amber-500 border-2 border-white dark:border-slate-800"></div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Lead Assigned</p>
+<p class="text-xs text-slate-500 mt-1">New lead assigned to Alice Johnson</p>
+<p class="text-xs text-slate-400 mt-1">2 days ago</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+<div class="px-5 py-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
+<h3 class="font-semibold text-slate-900 dark:text-white flex items-center gap-2"><span class="material-symbols-outlined text-slate-400">info</span> Agency Info</h3>
+</div>
+<div class="p-5 space-y-4">
+<div>
+<p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Contact Email</p>
+<p class="text-sm text-slate-900 dark:text-white font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-slate-400">mail</span> centro@inmomadrid.es
+                                    </p>
+</div>
+<div>
+<p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Phone Number</p>
+<p class="text-sm text-slate-900 dark:text-white font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-slate-400">call</span> +34 91 123 45 67
+                                    </p>
+</div>
+<div class="pt-2 border-t border-slate-100 dark:border-slate-700">
+<p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Operating Hours</p>
+<div class="flex justify-between text-sm mb-1">
+<span class="text-slate-500">Mon - Fri</span>
+<span class="text-slate-900 dark:text-white font-medium">09:00 - 19:00</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-slate-500">Saturday</span>
+<span class="text-slate-900 dark:text-white font-medium">10:00 - 14:00</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

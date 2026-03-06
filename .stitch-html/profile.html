@@ -1,14 +1,9 @@
 <!DOCTYPE html>
 
-<html class="light" lang="en"><head>
+<html lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>User Profile Settings Dashboard</title>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<title>Propely User Profile Screen</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script id="tailwind-config">
         tailwind.config = {
@@ -16,9 +11,9 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#5045e8",
+                        "primary": "#2513ec",
                         "background-light": "#f6f6f8",
-                        "background-dark": "#121121",
+                        "background-dark": "#121022",
                     },
                     fontFamily: {
                         "display": ["Inter"]
@@ -28,155 +23,104 @@
             },
         }
     </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display min-h-screen flex flex-col antialiased">
-<!-- Navigation Bar -->
-<nav class="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="flex justify-between items-center h-16">
-<!-- Branding -->
-<div class="flex items-center">
-<div class="flex-shrink-0 flex items-center gap-2">
-<div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-bold text-lg">S</div>
-<span class="font-semibold text-lg tracking-tight text-slate-900 dark:text-white">SaaS Starter Kit</span>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display min-h-screen antialiased">
+<div class="relative flex min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-10 py-3 sticky top-0 z-10">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-slate-900 dark:text-slate-100">
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_6_535)">
+<path clip-rule="evenodd" d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z" fill="currentColor" fill-rule="evenodd"></path>
+</g>
+<defs>
+<clippath id="clip0_6_535"><rect fill="white" height="48" width="48"></rect></clippath>
+</defs>
+</svg>
 </div>
+<h2 class="text-xl font-bold leading-tight tracking-tight">Propely</h2>
 </div>
-<!-- Right Side Actions -->
-<div class="flex items-center gap-4">
-<button class="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors">
-<span class="material-icons text-xl">notifications_none</span>
-</button>
-<div aria-label="User Avatar" class="h-8 w-8 rounded-full bg-gradient-to-tr from-primary to-purple-400 p-[2px] cursor-pointer" role="img">
-<img alt="User avatar profile picture" class="rounded-full h-full w-full object-cover border-2 border-white dark:border-slate-900" data-alt="Close up of a smiling man wearing a blue shirt" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgooxcEqU4W-GT6MV3mstbTDUtDmQFQmcDMbtl-nOzS_CL8YdWNwsluUY2pzpIJAypA4d2Bh2U_5GDb1onUliMHH0actelm_VrYk1UHfAWCHRTRYC4HsreGobm1VuiZIdNg8dBPeTclMs4xO-ruu6NM7bDVohs49_Y8MoTIaoANOPmTY5V7o8h1RXPqoPi8xJU2D4sEE9oGxbRdbP1DZbgYjD2MnFQz6k_bMvwTIy5KCzx5BR9ybOcp9ZyOm7dR45ZVVb2ZahFmKll"/>
+<label class="flex flex-col min-w-40 !h-10 max-w-64 hidden md:flex">
+<div class="flex w-full flex-1 items-stretch rounded-xl h-full">
+<div class="text-slate-500 dark:text-slate-400 flex border-none bg-slate-100 dark:bg-slate-800 items-center justify-center pl-4 rounded-l-xl border-r-0">
+<span class="material-symbols-outlined">search</span>
 </div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl focus:outline-0 focus:ring-0 border-none bg-slate-100 dark:bg-slate-800 focus:border-none h-full placeholder:text-slate-500 dark:placeholder:text-slate-400 px-4 rounded-l-none border-l-0 pl-2 text-sm font-normal leading-normal text-slate-900 dark:text-slate-100" placeholder="Search" value=""/>
 </div>
+</label>
 </div>
-</div>
+<div class="flex flex-1 justify-end gap-8">
+<nav class="flex items-center gap-9 hidden lg:flex">
+<a class="text-slate-600 hover:text-primary dark:text-slate-400 dark:hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Dashboard</a>
+<a class="text-slate-600 hover:text-primary dark:text-slate-400 dark:hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Properties</a>
+<a class="text-slate-600 hover:text-primary dark:text-slate-400 dark:hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Tenants</a>
+<a class="text-slate-600 hover:text-primary dark:text-slate-400 dark:hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Reports</a>
 </nav>
-<!-- Main Content -->
-<main class="flex-grow py-10 px-4 sm:px-6 lg:px-8">
-<div class="max-w-5xl mx-auto space-y-8">
-<!-- Breadcrumb / Back Link -->
-<div class="flex items-center">
-<a class="group flex items-center text-sm font-medium text-slate-500 hover:text-primary transition-colors" href="#">
-<span class="material-icons text-base mr-1 transform group-hover:-translate-x-1 transition-transform">arrow_back</span>
-                    Back to organizations
-                </a>
-</div>
-<!-- Header -->
-<div>
-<h1 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Account Settings</h1>
-<p class="mt-2 text-sm text-slate-500 dark:text-slate-400">Manage your profile information and secure your account.</p>
-</div>
-<!-- Section 1: Profile Card -->
-<div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
-<div class="p-6 md:p-8">
-<div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-8 border-b border-slate-100 dark:border-slate-800 pb-6">
-<div>
-<h2 class="text-lg font-semibold text-slate-900 dark:text-white">Profile</h2>
-<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Update your photo and personal details here.</p>
-</div>
-<div class="flex-shrink-0">
-<!-- Avatar Upload Placeholder -->
 <div class="flex items-center gap-4">
-<img alt="Current profile photo" class="h-16 w-16 rounded-full object-cover ring-2 ring-slate-100 dark:ring-slate-800" data-alt="Close up of a smiling man wearing a blue shirt" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOLKPslQ5jm_8Yxo6drrTjtUhVR-AT7kHi645IzpEt30Id6o4Om9pTQUenKIqJLQkVLasZiijk3kDv9ptUabp7_M99LJSFLdyBXpTTt6cDjakC4xCd8awU_mUd6cTlknqrLDednMSfEU-497hwnzv1OCDUtCwby6ddZBN8rjaVMSkl3qCJEawwX1j9pVaaPOy_BOwHYQereS14OkOoiYiRSeCGMg4KdCvwlvPh4LXDjn0sgDCNjDoiFLG9yomveJFUmIiH6i6U88mn"/>
-<div class="flex flex-col gap-2">
-<button class="text-sm font-medium text-primary hover:text-primary/80 transition-colors" type="button">Change photo</button>
-<button class="text-xs font-medium text-slate-400 hover:text-red-500 transition-colors" type="button">Remove</button>
+<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary hover:bg-primary/90 text-white text-sm font-bold leading-normal tracking-wide transition-colors hidden sm:flex">
+<span class="truncate">Add Property</span>
+</button>
+<button class="relative flex items-center justify-center size-10 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-xl">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-800"></span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-slate-200 dark:border-slate-700 cursor-pointer" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDZ8Sc-YG5fEOiZnck2uSXBnkf2o78y8b1zOLnZtC1_75fmS5shRJIQqVZjMRaGNQqNt9uC6AQUfK7zU6sFIr5Sm1LjRIkCUHgGID3bzgFpUHGeT1PM00x91cQFT5tZEiTk5m27GNF1lAWY8CkiFL4bTArH-8_yjE6gjbjY8Wa4FzWabsCmZnYucrT7wxknwB3lGoms6dlusk5SgLqZsP6LmYHdYTcJrsJZQmnMZ8sxgQZgkANPjuV9yvgjVLy4LuRn4aWX17QZvwVq");'></div>
 </div>
 </div>
+</header>
+<main class="flex-1 w-full max-w-[960px] mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+<div class="mb-8">
+<h1 class="text-3xl font-bold leading-tight tracking-tight">Profile Settings</h1>
+<p class="text-slate-500 dark:text-slate-400 mt-2">Manage your account details and preferences.</p>
+</div>
+<div class="space-y-6">
+<!-- Personal Information -->
+<section class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 md:p-8">
+<h2 class="text-xl font-bold mb-6">Personal Information</h2>
+<div class="flex items-center gap-6 mb-8">
+<div class="size-20 rounded-full bg-cover bg-center border border-slate-200 dark:border-slate-700 relative group cursor-pointer" data-alt="User profile avatar upload" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAZHQlLsFSD1fEWQNj5eyTIgVUUFBqLzH1HIwtdwdcFhZYHpdSSUNFYQzroZHS412SjUzK9D0V6c8ppcsyhcwbmXH5ajZYQh1xPeXiG9cusWNKGNTa0qziTVYXfKVclZNZLGksKzSJRgP37k4x6pwkyyfLVqJbwYvN-iq8EfglZp2A3FyrxNcc92gJk3ltDA5kSI5-ws4J4xOStsJBci65YhZAWDBwgbScmehLcX_cDZXSHjy7RLF8n29U40WlWe2kbTnsQ9C3irfDa");'>
+<div class="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-white">photo_camera</span>
 </div>
 </div>
-<form action="#" class="space-y-6">
-<div class="grid grid-cols-1 gap-y-6 gap-x-8 sm:grid-cols-2">
-<div class="sm:col-span-1">
-<label class="block text-sm font-medium text-slate-700 dark:text-slate-300" for="full-name">Full Name</label>
-<div class="mt-1">
-<input class="block w-full rounded-lg border-slate-300 shadow-sm focus:border-primary focus:ring-primary dark:bg-slate-800 dark:border-slate-700 dark:text-white sm:text-sm py-2.5" id="full-name" name="full-name" type="text" value="Alex Johnson"/>
+<div>
+<button class="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors mb-2 block">Upload New Photo</button>
+<p class="text-xs text-slate-500 dark:text-slate-400">JPG, GIF or PNG. Max size of 800K</p>
 </div>
 </div>
-<div class="sm:col-span-1">
-<label class="block text-sm font-medium text-slate-700 dark:text-slate-300" for="username">Username</label>
-<div class="mt-1 flex rounded-lg shadow-sm">
-<span class="inline-flex items-center rounded-l-lg border border-r-0 border-slate-300 bg-slate-50 px-3 text-slate-500 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-400 sm:text-sm">saas.com/</span>
-<input class="block w-full min-w-0 flex-1 rounded-none rounded-r-lg border-slate-300 focus:border-primary focus:ring-primary dark:bg-slate-800 dark:border-slate-700 dark:text-white sm:text-sm py-2.5" id="username" name="username" type="text" value="alexj"/>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<label class="flex flex-col flex-1">
+<span class="text-sm font-medium mb-2">Full Name</span>
+<input class="form-input w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:border-primary focus:ring-primary h-12 text-sm" value="Alex Morgan"/>
+</label>
+<label class="flex flex-col flex-1 relative">
+<div class="flex justify-between items-center mb-2">
+<span class="text-sm font-medium">Email</span>
+<span class="inline-flex items-center gap-1 text-xs font-medium text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30 px-2 py-0.5 rounded-full"><span class="material-symbols-outlined text-[14px]">check_circle</span> Verified</span>
 </div>
-</div>
-<div class="sm:col-span-2">
-<label class="block text-sm font-medium text-slate-700 dark:text-slate-300" for="email">Email Address</label>
-<div class="mt-1 relative rounded-lg shadow-sm">
-<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-<span class="material-icons text-slate-400 text-sm">lock</span>
-</div>
-<input class="block w-full rounded-lg border-slate-300 bg-slate-100 pl-10 text-slate-500 shadow-sm focus:border-primary focus:ring-primary dark:bg-slate-800/50 dark:border-slate-700 dark:text-slate-400 sm:text-sm cursor-not-allowed py-2.5" disabled="" id="email" name="email" readonly="" type="email" value="alex.johnson@example.com"/>
-<div class="absolute inset-y-0 right-0 flex items-center pr-3">
-<span class="text-slate-400 text-xs italic">Read-only</span>
-</div>
-</div>
-<p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Contact your administrator to change your email address.</p>
-</div>
-<div class="sm:col-span-2">
-<label class="block text-sm font-medium text-slate-700 dark:text-slate-300" for="bio">Bio</label>
-<div class="mt-1">
-<textarea class="block w-full rounded-lg border-slate-300 shadow-sm focus:border-primary focus:ring-primary dark:bg-slate-800 dark:border-slate-700 dark:text-white sm:text-sm p-3" id="bio" name="bio" placeholder="Write a few sentences about yourself." rows="3"></textarea>
-</div>
-</div>
+<input class="form-input w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:border-primary focus:ring-primary h-12 text-sm" value="alex.morgan@example.com"/>
+</label>
+<label class="flex flex-col flex-1">
+<span class="text-sm font-medium mb-2">Phone</span>
+<input class="form-input w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:border-primary focus:ring-primary h-12 text-sm" value="+1 (555) 123-4567"/>
+</label>
+<label class="flex flex-col flex-1">
+<span class="text-sm font-medium mb-2">Job Title</span>
+<input class="form-input w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:border-primary focus:ring-primary h-12 text-sm" value="Property Manager"/>
+</label>
 </div>
 <div class="flex justify-end pt-4 border-t border-slate-100 dark:border-slate-800">
-<button class="inline-flex justify-center rounded-lg border border-transparent bg-primary py-2.5 px-4 text-sm font-medium text-white shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-slate-900 transition-colors" type="submit">
-                                Save Changes
-                            </button>
+<button class="bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-lg text-sm font-medium transition-colors">Save Changes</button>
 </div>
-</form>
-</div>
-</div>
-<!-- Section 2: Change Password Card -->
-<div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
-<div class="p-6 md:p-8">
-<div class="mb-8 border-b border-slate-100 dark:border-slate-800 pb-6">
-<h2 class="text-lg font-semibold text-slate-900 dark:text-white">Change Password</h2>
-<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Ensure your account is secure with a strong password.</p>
-</div>
-<form action="#" class="space-y-6 max-w-2xl">
-<div>
-<label class="block text-sm font-medium text-slate-700 dark:text-slate-300" for="current-password">Current Password</label>
-<div class="mt-1 relative">
-<input class="block w-full rounded-lg border-slate-300 shadow-sm focus:border-primary focus:ring-primary dark:bg-slate-800 dark:border-slate-700 dark:text-white sm:text-sm py-2.5" id="current-password" name="current-password" type="password"/>
-</div>
-</div>
-<div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
-<div>
-<label class="block text-sm font-medium text-slate-700 dark:text-slate-300" for="new-password">New Password</label>
-<div class="mt-1">
-<input class="block w-full rounded-lg border-slate-300 shadow-sm focus:border-primary focus:ring-primary dark:bg-slate-800 dark:border-slate-700 dark:text-white sm:text-sm py-2.5" id="new-password" name="new-password" type="password"/>
-</div>
-<p class="mt-1 text-xs text-slate-500">Must be at least 8 characters.</p>
-</div>
-<div>
-<label class="block text-sm font-medium text-slate-700 dark:text-slate-300" for="confirm-password">Confirm New Password</label>
-<div class="mt-1">
-<input class="block w-full rounded-lg border-slate-300 shadow-sm focus:border-primary focus:ring-primary dark:bg-slate-800 dark:border-slate-700 dark:text-white sm:text-sm py-2.5" id="confirm-password" name="confirm-password" type="password"/>
-</div>
-</div>
-</div>
-<div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
-<a class="text-sm font-medium text-primary hover:text-primary/80" href="#">Forgot your password?</a>
-<button class="inline-flex justify-center rounded-lg border border-transparent bg-primary py-2.5 px-4 text-sm font-medium text-white shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-slate-900 transition-colors" type="submit">
-                                Update Password
-                            </button>
-</div>
-</form>
-</div>
-</div>
-<!-- Footer Area -->
-<div class="flex justify-between items-center pt-8 border-t border-slate-200 dark:border-slate-800 text-sm text-slate-500">
-<p>© 2023 SaaS Starter Kit Inc.</p>
-<div class="flex space-x-6">
-<a class="hover:text-slate-900 dark:hover:text-white transition-colors" href="#">Privacy</a>
-<a class="hover:text-slate-900 dark:hover:text-white transition-colors" href="#">Terms</a>
-<a class="hover:text-red-600 transition-colors" href="#">Delete Account</a>
-</div>
-</div>
+</section>
 </div>
 </main>
+</div>
 </body></html>

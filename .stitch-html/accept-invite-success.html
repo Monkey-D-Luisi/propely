@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Propely Invitation Success Screen</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4840ed",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111121",
+                        "neutral-50": "#f3f3f8",
+                        "neutral-100": "#e7e7ef",
+                        "neutral-200": "#d0d0df",
+                        "neutral-300": "#b1b1c9",
+                        "neutral-400": "#8e8eb0",
+                        "neutral-500": "#6f6f95",
+                        "neutral-600": "#58587b",
+                        "neutral-700": "#494964",
+                        "neutral-800": "#3e3e53",
+                        "neutral-900": "#353545",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-neutral-900 dark:text-neutral-100 min-h-screen flex flex-col antialiased">
+<header class="flex items-center justify-between px-8 py-5 border-b border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900">
+<div class="flex items-center gap-3">
+<div class="size-8 text-primary flex items-center justify-center">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_6_535)">
+<path clip-rule="evenodd" d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z" fill="currentColor" fill-rule="evenodd"></path>
+</g>
+<defs>
+<clippath id="clip0_6_535">
+<rect fill="white" height="48" width="48"></rect>
+</clippath>
+</defs>
+</svg>
+</div>
+<h1 class="text-xl font-bold tracking-tight text-neutral-900 dark:text-white">Propely</h1>
+</div>
+</header>
+<main class="flex-1 flex flex-col items-center justify-center p-6">
+<div class="bg-white dark:bg-neutral-900 w-full max-w-md rounded-xl shadow-sm border border-neutral-200 dark:border-neutral-800 overflow-hidden flex flex-col">
+<div class="p-8 flex flex-col items-center text-center">
+<div class="size-20 bg-green-50 dark:bg-green-900/20 rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-green-500 dark:text-green-400 text-5xl">check_circle</span>
+</div>
+<h2 class="text-2xl font-bold text-neutral-900 dark:text-white mb-3">Invitation accepted!</h2>
+<p class="text-neutral-600 dark:text-neutral-400 mb-8 leading-relaxed">
+                    You've successfully joined Inmobiliaria Madrid as an Agent.
+                </p>
+<div class="w-full bg-neutral-50 dark:bg-neutral-800 rounded-lg p-4 mb-8 text-left flex items-center gap-4 border border-neutral-100 dark:border-neutral-700">
+<div class="size-12 bg-white dark:bg-neutral-900 rounded-lg flex items-center justify-center text-primary shadow-sm shrink-0 border border-neutral-100 dark:border-neutral-700">
+<span class="material-symbols-outlined">domain</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-1">
+<h3 class="font-semibold text-neutral-900 dark:text-white truncate">Inmobiliaria Madrid</h3>
+</div>
+<div class="flex items-center gap-2 text-sm">
+<span class="bg-primary/10 text-primary px-2 py-0.5 rounded text-xs font-medium">Professional Plan</span>
+<span class="text-neutral-500 dark:text-neutral-400">•</span>
+<span class="text-neutral-500 dark:text-neutral-400">12 Members</span>
+</div>
+</div>
+</div>
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-medium py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2 group">
+                    Go to Organization
+                    <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_right_alt</span>
+</button>
+</div>
+<div class="bg-neutral-50 dark:bg-neutral-800/50 p-4 border-t border-neutral-100 dark:border-neutral-800 text-center">
+<p class="text-neutral-500 dark:text-neutral-400 text-sm italic flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px] animate-spin">autorenew</span>
+                    Redirecting in 5 seconds...
+                </p>
+</div>
+</div>
+</main>
+</body></html>

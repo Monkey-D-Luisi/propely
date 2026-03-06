@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Propely Admin System Health Screen</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#2513ec",
+              "background-light": "#f6f6f8",
+              "background-dark": "#121022",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen antialiased">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<div class="px-4 md:px-10 lg:px-40 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col max-w-[1200px] w-full flex-1">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-slate-200 dark:border-slate-800 px-4 py-4 mb-6">
+<div class="flex items-center gap-4">
+<div class="size-8 text-primary flex items-center justify-center bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-xl">real_estate_agent</span>
+</div>
+<div class="flex items-center gap-2">
+<h2 class="text-xl font-bold leading-tight tracking-tight">Propely</h2>
+<span class="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">Admin</span>
+</div>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="hidden md:flex items-center gap-6">
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">Dashboard</a>
+<a class="text-primary text-sm font-bold border-b-2 border-primary pb-1" href="#">System Health</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">Services</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">Settings</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 border border-slate-200 dark:border-slate-700" data-alt="Admin User Avatar Placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAEeqbaK5MkPloft9PGlMdvE0YyxMjDMlpVLyoG9s-ulgKbc2jmXL9KwGYlOgI0sIxxG3IVH-2dzjI3vNEoHOFRkV5OOPacylLmFhyD6l3R1nXI5mqxekuTPtl3iwVxDkax_MX4B63DYOs8IqbpfQGC-6G9yO0sR0OtZG9DP8cu5uik870_bvxcnghOs9PpEGlLWfR7PaW5OmRamRH8BH2c3h0D_rSRt_w4-FrrNcns8BViqB_Hg2ZUH1060F6f0Jl2V_4UuCykK1zr");'></div>
+</div>
+</div>
+</header>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
+<div class="flex flex-col gap-3 rounded-xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 dark:text-green-400">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Overall Status</p>
+</div>
+<p class="text-2xl font-bold leading-tight">All Systems Operational</p>
+<div class="flex items-center gap-2 mt-auto">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+<p class="text-sm font-medium text-slate-600 dark:text-slate-400">99.97% Uptime</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 rounded-xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm relative overflow-hidden">
+<div class="flex items-center justify-between z-10">
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Response Time</p>
+<span class="material-symbols-outlined text-slate-400 text-sm">timer</span>
+</div>
+<p class="text-2xl font-bold leading-tight z-10">Avg: 145ms</p>
+<div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-primary/10 to-transparent opacity-50 z-0"></div>
+<svg class="absolute bottom-0 left-0 w-full h-12 text-primary opacity-20" preserveaspectratio="none" viewbox="0 0 100 100">
+<path d="M0 100 L0 80 Q 25 70, 50 85 T 100 60 L100 100 Z" fill="currentColor"></path>
+</svg>
+</div>
+<div class="flex flex-col gap-3 rounded-xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center justify-between">
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Active Users</p>
+<span class="material-symbols-outlined text-slate-400 text-sm">group</span>
+</div>
+<p class="text-2xl font-bold leading-tight">1,245</p>
+<p class="text-sm font-medium text-slate-600 dark:text-slate-400 mt-auto">Across 340 Organizations</p>
+</div>
+</div>
+<div class="flex items-center justify-between px-4 pb-3 pt-6">
+<h2 class="text-xl font-bold leading-tight tracking-tight">Services Status</h2>
+<button class="text-sm font-medium text-primary flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm">refresh</span> Refresh
+                        </button>
+</div>
+<div class="px-4 py-3 @container">
+<div class="flex overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+<table class="w-full min-w-[800px] text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
+<th class="px-6 py-4 text-sm font-semibold text-slate-600 dark:text-slate-300">Service</th>
+<th class="px-6 py-4 text-sm font-semibold text-slate-600 dark:text-slate-300">Version</th>
+<th class="px-6 py-4 text-sm font-semibold text-slate-600 dark:text-slate-300">Port</th>
+<th class="px-6 py-4 text-sm font-semibold text-slate-600 dark:text-slate-300">Status</th>
+<th class="px-6 py-4 text-sm font-semibold text-slate-600 dark:text-slate-300">Response Time</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm">api</span>
+</div>
+<span class="font-medium">Core API</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-mono bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">v1.12.3</span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">8080</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="relative flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+</span>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Operational</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">120ms</td>
+</tr>
+<tr class="border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors bg-amber-50/30 dark:bg-amber-900/10">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-amber-600 dark:text-amber-500">
+<span class="material-symbols-outlined text-sm">public</span>
+</div>
+<span class="font-medium">Publishing API</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-mono bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">v1.11.0</span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">8081</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="relative flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
+</span>
+<span class="text-sm font-medium text-amber-700 dark:text-amber-500">Degraded</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-amber-700 dark:text-amber-500 font-medium">450ms</td>
+</tr>
+<tr class="border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+<span class="material-symbols-outlined text-sm">shield_person</span>
+</div>
+<span class="font-medium">Auth Service</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-mono bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">v2.0.1</span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">8082</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="h-2.5 w-2.5 rounded-full bg-green-500"></span>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Operational</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">85ms</td>
+</tr>
+<tr class="border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center text-sky-600 dark:text-sky-400">
+<span class="material-symbols-outlined text-sm">campaign</span>
+</div>
+<span class="font-medium">Notification Service</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-mono bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">v1.5.4</span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">8083</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="h-2.5 w-2.5 rounded-full bg-green-500"></span>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Operational</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">110ms</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+<span class="material-symbols-outlined text-sm">payments</span>
+</div>
+<span class="font-medium">Billing Service</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-mono bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">v1.2.0</span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">8084</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="h-2.5 w-2.5 rounded-full bg-green-500"></span>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Operational</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">150ms</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<h2 class="text-xl font-bold leading-tight tracking-tight px-4 pb-3 pt-6">Infrastructure</h2>
+<div class="px-4 py-3 @container">
+<div class="flex overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+<table class="w-full min-w-[800px] text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
+<th class="px-6 py-4 text-sm font-semibold text-slate-600 dark:text-slate-300">Component</th>
+<th class="px-6 py-4 text-sm font-semibold text-slate-600 dark:text-slate-300">Version</th>
+<th class="px-6 py-4 text-sm font-semibold text-slate-600 dark:text-slate-300">Health Metric</th>
+<th class="px-6 py-4 text-sm font-semibold text-slate-600 dark:text-slate-300">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
+<span class="material-symbols-outlined text-sm">database</span>
+</div>
+<span class="font-medium">PostgreSQL (Primary)</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-mono bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">14.8</span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Connections: 42/100, Replication Lag: 0ms</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="h-2.5 w-2.5 rounded-full bg-green-500"></span>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Healthy</span>
+</div>
+</td>
+</tr>
+<tr class="border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-orange-600 dark:text-orange-400">
+<span class="material-symbols-outlined text-sm">memory</span>
+</div>
+<span class="font-medium">RabbitMQ</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-mono bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">3.12.2</span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Queued Messages: 12, Consumers: 45</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="h-2.5 w-2.5 rounded-full bg-green-500"></span>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Healthy</span>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-red-600 dark:text-red-400">
+<span class="material-symbols-outlined text-sm">storage</span>
+</div>
+<span class="font-medium">Redis Cache</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-mono bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">7.0.12</span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Memory Usage: 45%, Hit Rate: 98.2%</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="h-2.5 w-2.5 rounded-full bg-green-500"></span>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Healthy</span>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="px-4 py-6 mt-4">
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+<h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-4">Build Information</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<div>
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-1">Frontend Commit</p>
+<p class="font-mono text-sm">a7b8c9d0</p>
+</div>
+<div>
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-1">Backend Commit</p>
+<p class="font-mono text-sm">f1e2d3c4</p>
+</div>
+<div>
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-1">Environment</p>
+<p class="text-sm font-medium">Production (AWS us-east-1)</p>
+</div>
+<div>
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-1">Runtime</p>
+<p class="font-mono text-sm">Node.js 18.17.0</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>

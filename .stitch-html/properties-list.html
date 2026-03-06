@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Propely - Properties Grid</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#4840ed",
+              "background-light": "#f6f6f8",
+              "background-dark": "#111121",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased h-screen flex overflow-hidden">
+<!-- Sidebar -->
+<aside class="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col h-full flex-shrink-0">
+<div class="p-4 flex flex-col h-full justify-between">
+<div class="flex flex-col gap-6">
+<!-- Branding -->
+<div class="flex items-center gap-3 px-2">
+<div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 bg-cover bg-center" data-alt="Abstract gradient logo placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDCrEcz3axyyHlXZsZFuFzAhZIXdpCdO90FbWyhSO-4XGazAT79KOK9XDsrSjseCpNDzYKKAEsmAbnGG1vRruV5AI1l1vWfMCes6Fm9lXHhWYcTW9HWYAxjfjVNsruriz-bnL54gHUZ7ZBIxU2KjRX50QJcuEsocoVIjfCUt5fOQTAr2RllytAcxFiFQ-9GpwfK8WvOKg8FqynnXlWdZQPoJ56oIQtlmPkpxAyXHNXGWX2wHNDMwGvtkQupL_i-1CwFrSFBm1O3QRQk");'></div>
+<div class="flex flex-col">
+<h1 class="text-base font-semibold leading-tight">Propely</h1>
+<p class="text-xs text-slate-500 dark:text-slate-400">Inmobiliaria Madrid</p>
+</div>
+</div>
+<!-- Navigation -->
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary dark:bg-primary/20 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px] font-variation-settings-'FILL'_1">apartment</span>
+<span class="text-sm font-medium">Properties</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">group</span>
+<span class="text-sm font-medium">Tenants</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+<span class="text-sm font-medium">Finances</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</nav>
+</div>
+<!-- Bottom Actions -->
+<div class="flex flex-col gap-4">
+<button class="w-full bg-primary hover:bg-primary/90 text-white rounded-lg h-10 px-4 text-sm font-medium transition-colors shadow-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                    New Property
+                </button>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">help</span>
+<span class="text-sm font-medium">Help Center</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+<span class="text-sm font-medium">Logout</span>
+</a>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-full overflow-hidden">
+<!-- Header -->
+<header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-8 py-4 flex-shrink-0">
+<!-- Breadcrumbs -->
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-4">
+<a class="hover:text-primary transition-colors" href="#">Inmobiliaria Madrid</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-slate-900 dark:text-slate-100 font-medium">Properties</span>
+</div>
+<!-- Title & Actions -->
+<div class="flex flex-wrap items-center justify-between gap-4">
+<div class="flex items-center gap-4">
+<h2 class="text-2xl font-bold">Properties</h2>
+<span class="px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">42 total</span>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-white rounded-lg h-10 px-5 text-sm font-medium transition-colors shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                    New Property
+                </button>
+</div>
+</header>
+<!-- Filters & Grid Area -->
+<div class="flex-1 overflow-y-auto p-8">
+<div class="max-w-[1200px] mx-auto flex flex-col gap-6">
+<!-- Filter Bar -->
+<div class="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 p-2 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
+<div class="flex flex-wrap items-center gap-2 flex-1">
+<!-- Search -->
+<div class="relative flex-1 min-w-[200px] max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-800 border-transparent focus:border-primary focus:ring-1 focus:ring-primary rounded-lg text-sm transition-all" placeholder="Search properties..." type="text"/>
+</div>
+<!-- Dropdowns -->
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-3 py-2 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-sm font-medium transition-colors border border-slate-200 dark:border-slate-700">
+                                Type
+                                <span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+<button class="flex items-center gap-2 px-3 py-2 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-sm font-medium transition-colors border border-slate-200 dark:border-slate-700">
+                                Status
+                                <span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+<button class="flex items-center gap-2 px-3 py-2 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-sm font-medium transition-colors border border-slate-200 dark:border-slate-700">
+                                Price
+                                <span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+</div>
+</div>
+<!-- View Toggles & Filter Action -->
+<div class="flex items-center gap-2 pl-4 border-l border-slate-200 dark:border-slate-700">
+<div class="flex bg-slate-50 dark:bg-slate-800 rounded-lg p-1 border border-slate-200 dark:border-slate-700">
+<button class="p-1.5 rounded-md bg-white dark:bg-slate-700 shadow-sm text-slate-900 dark:text-slate-100">
+<span class="material-symbols-outlined text-[20px]">grid_view</span>
+</button>
+<button class="p-1.5 rounded-md text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
+<span class="material-symbols-outlined text-[20px]">view_list</span>
+</button>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 text-primary hover:bg-primary/5 rounded-lg text-sm font-medium transition-colors">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+                            Filters
+                        </button>
+</div>
+</div>
+<!-- Properties Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md transition-shadow group">
+<div class="relative aspect-video bg-slate-200 dark:bg-slate-800 overflow-hidden">
+<img alt="Modern suburban house exterior" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Modern suburban house exterior" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5aHMMz3J89C-L39Br7lecOUD4uVbP7NUMhsHvevIxFqcVGee9D48F6qpSUI8T-F0Fr2aL_gHepYn-GG51SCdwAVWlv4166rCoHe1afXaqPlfnW7xSR8Y3-_asSHS8myNkz5V0jWRQxr6buAfIHXaB4SUDWpt4OUZYnQ_UXI7c909Ay39WB5Fwf-pm3VkVP3mA5zZ25Occ_Xi1WSVyviqf5hHo_1A-3jqaj_sXyTh9QFH3x6jx9iW2nI3Y0BxgmLKTsnQYMpQMGxMB"/>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="px-2 py-1 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm text-[10px] font-bold uppercase tracking-wider rounded-md text-primary shadow-sm">Featured</span>
+</div>
+</div>
+<div class="p-5 flex flex-col gap-4">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-xs font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Active
+                                    </span>
+<span class="text-xl font-bold text-primary">€850,000</span>
+</div>
+<h3 class="text-lg font-semibold truncate">Villa Sol y Mar</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1 mt-1 truncate">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+                                    Calle del Águila 12, Madrid
+                                </p>
+</div>
+<div class="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-300 border-y border-slate-100 dark:border-slate-800 py-3">
+<div class="flex items-center gap-1.5" title="Bedrooms">
+<span class="material-symbols-outlined text-[18px]">bed</span> 4
+                                </div>
+<div class="flex items-center gap-1.5" title="Bathrooms">
+<span class="material-symbols-outlined text-[18px]">shower</span> 3
+                                </div>
+<div class="flex items-center gap-1.5" title="Square Meters">
+<span class="material-symbols-outlined text-[18px]">square_foot</span> 250m²
+                                </div>
+</div>
+<div class="flex items-center justify-between mt-1">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+<img alt="Agent avatar" class="w-full h-full object-cover" data-alt="Portrait of female real estate agent" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3-hhSJMdFynpM257hFqRZXTrDIWh5-BH8ihRcNNhp90VRcV68oWMgZCAEXkAUQlcbnUm8SuVcTbpRortpmdKZbeYYybd4t5zN7JqXf0YhpinlKUjoTmjbAhPIxw1VgS6U1nyW83UAvUlCLZJVobmPevXycHhqGHGfgR8bfzZWTeIqtnjs6rDW6KNr5dkrVWDx9L_o12MoXxzTS3t6Hurb0Q4f1jKctLSqe5XVOfa98eOeb3GPXyd3mw68iBMcLrP8wAVBFX1nv3Uq"/>
+</div>
+<span class="text-xs font-medium text-slate-600 dark:text-slate-400">Maria G.</span>
+</div>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors p-1 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md transition-shadow group">
+<div class="relative aspect-video bg-slate-200 dark:bg-slate-800 overflow-hidden">
+<img alt="Contemporary luxury apartment living room" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Contemporary luxury apartment living room" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCstbKnKq_rADV1PfVSIbQXdoN0ppPqVkLr9zjVnZARwb9PL6cHVmW22gm5BSTkvWWn-q2JlcNUqhbHDOAhJvp9OilJdbNPlML1DRS9KmEMeUDtX50dmYtdLbCCXvlpKv9oFma349dVTlrt0l5ts5mjiaZnU-WeXewLpw81ei2v9roAglzFjRWEiCOHDLfRGQMlqBMKAAqLNJnxNKoUGyuDKxY6yNFyYvKEIDnH42fXqtSEdJx1qXTq6m8OF_tj3maorLup5uKRcozt"/>
+</div>
+<div class="p-5 flex flex-col gap-4">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 text-xs font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Draft
+                                    </span>
+<span class="text-xl font-bold text-primary">€420,000</span>
+</div>
+<h3 class="text-lg font-semibold truncate">Centro Histórico Loft</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1 mt-1 truncate">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+                                    Plaza Mayor 5, Madrid
+                                </p>
+</div>
+<div class="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-300 border-y border-slate-100 dark:border-slate-800 py-3">
+<div class="flex items-center gap-1.5" title="Bedrooms">
+<span class="material-symbols-outlined text-[18px]">bed</span> 1
+                                </div>
+<div class="flex items-center gap-1.5" title="Bathrooms">
+<span class="material-symbols-outlined text-[18px]">shower</span> 1
+                                </div>
+<div class="flex items-center gap-1.5" title="Square Meters">
+<span class="material-symbols-outlined text-[18px]">square_foot</span> 85m²
+                                </div>
+</div>
+<div class="flex items-center justify-between mt-1">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+<img alt="Agent avatar" class="w-full h-full object-cover" data-alt="Portrait of male real estate agent" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATx6g17KC0bTvtOLCVr8iKIvuXTIkRzqXKVSPOp1Jo90XwkQ1e-lU3rIVCe89kv-YDnG7y6n2sxmXGzog6AnlGP3RDYhUztXjC3EEREKj505POrgOCTlIa7OuAQH2GJim-JeASoRmP-Z7JoPtPlE2icHhdLcq_JVKDkW54cs6yYsSNWSFVp9a34Jeo_kv-WZ010uUfmHgGIUpFzc23fXSRHNOBU7nqbhQB89vDhh8WvFOvY7VD0hebbWs9MZVuUZwcNxQPHXjHGxaO"/>
+</div>
+<span class="text-xs font-medium text-slate-600 dark:text-slate-400">Carlos R.</span>
+</div>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors p-1 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md transition-shadow group opacity-75">
+<div class="relative aspect-video bg-slate-200 dark:bg-slate-800 overflow-hidden">
+<img alt="Spacious minimalist living area" class="w-full h-full object-cover grayscale group-hover:scale-105 transition-transform duration-500" data-alt="Spacious minimalist living area" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9Uvfzxa0DOpN-5NB3_N8ml3KAVOnUaQuEeBL0qgB8zIqOFYzrhm4Tsu_uO8ryVx4rTizxqHgk34eo88hA9nqUL0pcQClSgWYSJcJnF43UQow1G_le8BRlAPAzcxAAHqwvMD_Id7werA-E0ueznT1cchZPYdd7Y-y_cfVZj1Gg3Fce8bV02SGZNK64lMZ70cQg_p3basNiIEc_hFws4jZqXQeXUJtvLkvEKZuL1rrkx0ksRdWriSXTdN4OTmAXGoKnpbr0hyWU-dcC"/>
+<div class="absolute inset-0 bg-slate-900/10 dark:bg-slate-900/40"></div>
+</div>
+<div class="p-5 flex flex-col gap-4">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 text-xs font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> Sold
+                                    </span>
+<span class="text-xl font-bold text-slate-500">€1,250,000</span>
+</div>
+<h3 class="text-lg font-semibold truncate text-slate-700 dark:text-slate-300">Retiro Park Penthouse</h3>
+<p class="text-sm text-slate-400 flex items-center gap-1 mt-1 truncate">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+                                    Av. Menéndez Pelayo 33, Madrid
+                                </p>
+</div>
+<div class="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400 border-y border-slate-100 dark:border-slate-800 py-3">
+<div class="flex items-center gap-1.5" title="Bedrooms">
+<span class="material-symbols-outlined text-[18px]">bed</span> 3
+                                </div>
+<div class="flex items-center gap-1.5" title="Bathrooms">
+<span class="material-symbols-outlined text-[18px]">shower</span> 2
+                                </div>
+<div class="flex items-center gap-1.5" title="Square Meters">
+<span class="material-symbols-outlined text-[18px]">square_foot</span> 180m²
+                                </div>
+</div>
+<div class="flex items-center justify-between mt-1">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+<img alt="Agent avatar" class="w-full h-full object-cover" data-alt="Portrait of female real estate agent" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVymo45qTJIbOBrd7FfpiGDU48wTZjVG-pEER_CumcbP6kGPGLUq0oQx1nhFASOcOf7CxBxlJC0yYKghZkbt_DwGfAQYXWjaSenyn_6L1aiyjer915yhwDaS59w_NA2mwoQUHP6pgFVS5PWXeY8CamntGnAbR2FDoiPSEcnOFJV_zLsGq4Qt4hPH_smEh1vm0JYJ8eQ4AgV1XCeKK-G6FTzSXfqEXzwVJ5OKlgo4HjmT4Xd6pE7qlYs2GbxxS1ZeZ9Hhy9TBLR_Kta"/>
+</div>
+<span class="text-xs font-medium text-slate-500">Elena M.</span>
+</div>
+<button class="text-slate-300 hover:text-slate-500 dark:hover:text-slate-400 transition-colors p-1 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Load More -->
+<div class="flex justify-center mt-4 pb-8">
+<button class="px-6 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                        Load More Properties
+                    </button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

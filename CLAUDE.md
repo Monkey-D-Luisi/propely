@@ -155,7 +155,7 @@ Design tokens are defined in `apps/web/src/app/globals.css` via Tailwind v4 `@th
 | JSON Forms (`@jsonforms/react`) | Schema-driven property forms |
 | FullCalendar Standard | Calendar views for appointments |
 | cmdk | Command bar / command palette for NL input |
-| Stitch MCP | Design generation (Project ID: `16786124142182555397`, model: `GEMINI_3_PRO`) |
+| Stitch MCP | Design generation (Project ID: `11823747923864658899`, model: `GEMINI_3_PRO`) |
 
 ### Color usage
 | Purpose | Classes |
@@ -181,9 +181,7 @@ Design tokens are defined in `apps/web/src/app/globals.css` via Tailwind v4 `@th
 - Detail pages (members, settings, billing, profile, admin): `max-w-5xl`
 
 ### Stitch MCP (UI design tool -- pixel-perfect mandate)
-- **Stitch Projects**:
-  - General / P1-P2: `16786124142182555397`
-  - P3 AI Action Engine: `11823747923864658899`
+- **Stitch Project**: `11823747923864658899` (all Propely screens — design system, auth, marketing, org, properties, contacts, leads, appointments, work items, agencies, profile, admin, error pages)
 - **Always use `modelId: GEMINI_3_PRO`** when calling `generate_screen_from_text` or `edit_screens`
 - Every new screen MUST have a corresponding Stitch design in the project
 - **Pixel-perfect implementation is mandatory.** The Stitch design is the single source of truth for all UI work. Implementation must match the Stitch HTML output exactly -- same spacing, colors, typography, layout, and component structure.

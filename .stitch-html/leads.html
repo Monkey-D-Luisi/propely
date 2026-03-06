@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Propely Leads Kanban Pipeline</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2513ec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121022",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100">
+<div class="relative flex h-screen w-full flex-row overflow-hidden">
+<!-- Sidebar -->
+<div class="flex h-full w-64 flex-col justify-between bg-white dark:bg-slate-900 p-4 border-r border-slate-200 dark:border-slate-800 shrink-0">
+<div class="flex flex-col gap-6">
+<!-- Logo area -->
+<div class="flex gap-3 items-center px-2">
+<div class="bg-primary/10 rounded-full size-10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl">real_estate_agent</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-slate-900 dark:text-white text-base font-medium leading-normal">Propely</h1>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal leading-normal">Real Estate SaaS</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-xl bg-primary/10 text-primary dark:text-primary" href="#">
+<span class="material-symbols-outlined text-primary fill-current" style="font-variation-settings: 'FILL' 1;">target</span>
+<p class="text-sm font-medium leading-normal">Leads</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<p class="text-sm font-medium leading-normal">Properties</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<p class="text-sm font-medium leading-normal">Agents</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+</div>
+</div>
+<!-- Bottom User Profile -->
+<div class="flex items-center gap-3 px-3 py-2 mt-auto">
+<img alt="User Profile" class="rounded-full size-8 object-cover border border-slate-200 dark:border-slate-700" data-alt="Small round user avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyjt0UmAMUi5QYn2heNvFe1Gx05MmzIdX4N6tU6s-gMdUO4m6tU3F91K5WVZYkKoW38wMwcTGEPWym5bmOVJNiAbtDn681rsqgpRJH-EMSgpuR1iDHZgPFBEnlR_3KJP2qae34KuXJ1DTfYATUYg39qEK7Cn5D_szcm-P-0nqT3BTfZPx5RjlyL_s3b28zw9qFw3mfgTqLWeI_d2wYmuowz13nO9DAa7IsgVyUwUYthNX7RDpkwXswdpbC4Ka1875kXT573q824ub9"/>
+<div class="flex flex-col">
+<p class="text-slate-900 dark:text-white text-sm font-medium leading-normal">Alex Morgan</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-normal leading-normal">Admin</p>
+</div>
+</div>
+</div>
+<!-- Main Content -->
+<div class="flex-1 flex flex-col h-full overflow-hidden">
+<!-- Header Section -->
+<div class="flex flex-col shrink-0 px-8 py-6 bg-background-light dark:bg-background-dark">
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-4">
+<h2 class="text-slate-900 dark:text-white text-[32px] font-bold leading-tight">Leads</h2>
+<span class="bg-primary/10 text-primary text-sm font-medium px-3 py-1 rounded-full">24 active leads</span>
+</div>
+<button class="flex items-center gap-2 cursor-pointer justify-center overflow-hidden rounded-xl h-10 px-5 bg-primary text-white text-sm font-medium leading-normal hover:bg-primary/90 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>New Lead</span>
+</button>
+</div>
+<!-- Stats Row -->
+<div class="flex gap-4 mb-2">
+<div class="flex-1 flex flex-col gap-1 rounded-xl p-4 bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-blue-500"></div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">New</p>
+</div>
+<p class="text-slate-900 dark:text-white text-2xl font-bold">8</p>
+</div>
+<div class="flex-1 flex flex-col gap-1 rounded-xl p-4 bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-amber-500"></div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">Contacted</p>
+</div>
+<p class="text-slate-900 dark:text-white text-2xl font-bold">5</p>
+</div>
+<div class="flex-1 flex flex-col gap-1 rounded-xl p-4 bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-purple-500"></div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">Qualified</p>
+</div>
+<p class="text-slate-900 dark:text-white text-2xl font-bold">4</p>
+</div>
+<div class="flex-1 flex flex-col gap-1 rounded-xl p-4 bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-indigo-500"></div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">Proposal</p>
+</div>
+<p class="text-slate-900 dark:text-white text-2xl font-bold">3</p>
+</div>
+<div class="flex-1 flex flex-col gap-1 rounded-xl p-4 bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-emerald-500"></div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">Won</p>
+</div>
+<p class="text-slate-900 dark:text-white text-2xl font-bold">4</p>
+</div>
+</div>
+</div>
+<!-- Kanban Board Area -->
+<div class="flex-1 overflow-x-auto overflow-y-hidden px-8 pb-8">
+<div class="flex gap-6 h-full min-w-max items-start">
+<!-- Column: New -->
+<div class="flex flex-col w-72 h-full">
+<div class="flex items-center justify-between py-3 mb-2 px-1 border-b-2 border-blue-500">
+<h3 class="text-slate-900 dark:text-white font-semibold text-sm">NEW (8)</h3>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"><span class="material-symbols-outlined text-[20px]">more_horiz</span></button>
+</div>
+<div class="flex-1 overflow-y-auto pr-2 pb-4 space-y-3 custom-scrollbar">
+<!-- Card 1 -->
+<div class="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow cursor-grab">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-bold text-slate-900 dark:text-white text-base">John Doe</h4>
+<div class="size-2.5 rounded-full bg-red-500" title="High Priority"></div>
+</div>
+<span class="inline-block px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded-md mb-2 font-medium">Buyer</span>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">Looking for a 3B/2B house in the suburbs with a large backyard.</p>
+<div class="flex justify-between items-center mt-auto pt-3 border-t border-slate-100 dark:border-slate-700">
+<span class="text-primary font-semibold text-sm">$450k - $500k</span>
+<img alt="Agent" class="size-6 rounded-full border border-slate-200 dark:border-slate-600" data-alt="Agent tiny avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgiTjX684H_xl5WTd6RoK7ppYdCqi-uMVlJ_mrWB-rgErxGjlwjKLp8-GbpiqwhQMSb45Le8psnOs3pCSQlh0DBwBqyT9NHNefd7t4CBB-N1Fl9FY5jgSDej0k3zF_0HoNbZHYsIri1wdfVSf8WPf-68UUObeqUM1KcnQKzzbsEhQNqTDnru4mZdqAehTYkYuLgrZcHkwaQ7CoWsQFOAqs0g5w6ybE-eyc6iqfsWA95EsXI-W4BiRburmRXGb-5DJsZyfSBbkGhR4o"/>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow cursor-grab">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-bold text-slate-900 dark:text-white text-base">Sarah Jenkins</h4>
+<div class="size-2.5 rounded-full bg-amber-500" title="Medium Priority"></div>
+</div>
+<span class="inline-block px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded-md mb-2 font-medium">Seller</span>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">Wants to sell downtown condo quickly due to relocation.</p>
+<div class="flex justify-between items-center mt-auto pt-3 border-t border-slate-100 dark:border-slate-700">
+<span class="text-primary font-semibold text-sm">$320k Est.</span>
+<img alt="Agent" class="size-6 rounded-full border border-slate-200 dark:border-slate-600" data-alt="Agent tiny avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqTrG0mWLXSBH7M-jpiDB7Az3Tcw98qSRXaz4fL-ZpFRcbgrOLJnNJdbGhZGnaqrFYckChh_bJw_-Kj91jw7K2WX5itjXlYh4Hn4k7E5SQbQdCI17xcsvKujFjFpTr0UdWIb-KHn-hl1Pr-9Ml4y6AkgKPWIeVW30NXkmMntciWbwCMT2QXBSvgT3zZfDf3VUxi2mCUYopBxFfTve01Jcj12WgLaK0CCvwTOrge8LmFe6sYU4XkANAjEBw9pLNcgxSS90unn53yMuN"/>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow cursor-grab">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-bold text-slate-900 dark:text-white text-base">Michael Chang</h4>
+<div class="size-2.5 rounded-full bg-green-500" title="Low Priority"></div>
+</div>
+<span class="inline-block px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded-md mb-2 font-medium">Buyer</span>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">First time homebuyer seeking modern apartment near transit.</p>
+<div class="flex justify-between items-center mt-auto pt-3 border-t border-slate-100 dark:border-slate-700">
+<span class="text-primary font-semibold text-sm">$280k</span>
+<img alt="Agent" class="size-6 rounded-full border border-slate-200 dark:border-slate-600" data-alt="Agent tiny avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpf7TQSAArIBqHPnaUX4w25uxTXHx4JkyXKYFv1V7YUOnTTDXduBPRhdt5JiTg61ci3qOGZxgDdHE7nUKrk1OU9RL8YscJzn_LURTldrFeioHdxHc0oOwd8p9b_BdXCnl4lQEle-WHduVsCPU7-x5tAqkEomo3xP0B9ZCLobe8Hkmxba9c6_AY_-mRU1rebWsPJMZasx2hK-lYPe6jeGA-bJmy-iDnmVWJrWIB1RxmKIC5xK-VOoL9BuAX4FwiafijDbuZ_1CKGdIE"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Column: Contacted -->
+<div class="flex flex-col w-72 h-full">
+<div class="flex items-center justify-between py-3 mb-2 px-1 border-b-2 border-amber-500">
+<h3 class="text-slate-900 dark:text-white font-semibold text-sm">CONTACTED (5)</h3>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"><span class="material-symbols-outlined text-[20px]">more_horiz</span></button>
+</div>
+<div class="flex-1 overflow-y-auto pr-2 pb-4 space-y-3 custom-scrollbar">
+<!-- Card 4 -->
+<div class="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow cursor-grab">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-bold text-slate-900 dark:text-white text-base">Emily Thorne</h4>
+<div class="size-2.5 rounded-full bg-amber-500" title="Medium Priority"></div>
+</div>
+<span class="inline-block px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded-md mb-2 font-medium">Buyer/Seller</span>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">Upgrading to a larger home. Needs to sell current townhouse.</p>
+<div class="flex justify-between items-center mt-auto pt-3 border-t border-slate-100 dark:border-slate-700">
+<span class="text-primary font-semibold text-sm">$850k</span>
+<img alt="Agent" class="size-6 rounded-full border border-slate-200 dark:border-slate-600" data-alt="Agent tiny avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkiL24kH2oUKcA1478dLnz6Au6YzpcpAuWDEJsZii8UOU4c_aVkdJubMM0n6_u1NeFnaJKtwhAth3e04TCJwnLAW6wH0OIMpGPaxx5SyX9jqBXK5iYn44lRPE1gJtb92Dpq-XRMaSw27NFJTlDWdKO9ML0mCwP9t4iElKjFs6oXU2m0V5PUmx_LOwWpEJ_7YJePn1HpfHCVWre5TeHksjepa78J2S2qnBEEOEM00lLygB1tyW2fpd7e1nVJDFCwS1UIzEeoXMc3WuQ"/>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow cursor-grab">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-bold text-slate-900 dark:text-white text-base">Robert Davis</h4>
+<div class="size-2.5 rounded-full bg-red-500" title="High Priority"></div>
+</div>
+<span class="inline-block px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded-md mb-2 font-medium">Buyer</span>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">Investment property. Multi-family unit preferred.</p>
+<div class="flex justify-between items-center mt-auto pt-3 border-t border-slate-100 dark:border-slate-700">
+<span class="text-primary font-semibold text-sm">$1.2M</span>
+<img alt="Agent" class="size-6 rounded-full border border-slate-200 dark:border-slate-600" data-alt="Agent tiny avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_6NeM3yG9ET6DPTJwvEwnyTFx8-3Ztnwh11RENakiMloepnp8Sheefq-s1w_aNpQnU19m8ITJu73UYL9U1a1ovc22AZ7Q5h8vLgUgIiAfGc_sAGrh0L18S9-Wsz9viCyH01lfdeOL8zhPFk6XgjFMH43efFnOYmmIOV9oGqe-cj8rb4WT0893wVL0wsmqSufYJmYDqv0uSArPNuNzOSvRF0wSMyUqtKi35RMdV_4uiOJc4eKDA985HBgPWYf1XDSemBbPZ7xCdl24"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Column: Qualified -->
+<div class="flex flex-col w-72 h-full">
+<div class="flex items-center justify-between py-3 mb-2 px-1 border-b-2 border-purple-500">
+<h3 class="text-slate-900 dark:text-white font-semibold text-sm">QUALIFIED (4)</h3>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"><span class="material-symbols-outlined text-[20px]">more_horiz</span></button>
+</div>
+<div class="flex-1 overflow-y-auto pr-2 pb-4 space-y-3 custom-scrollbar">
+<!-- Card 6 -->
+<div class="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow cursor-grab">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-bold text-slate-900 dark:text-white text-base">Amanda Lee</h4>
+<div class="size-2.5 rounded-full bg-green-500" title="Low Priority"></div>
+</div>
+<span class="inline-block px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded-md mb-2 font-medium">Seller</span>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">Pre-approved. Ready to list suburban home next month.</p>
+<div class="flex justify-between items-center mt-auto pt-3 border-t border-slate-100 dark:border-slate-700">
+<span class="text-primary font-semibold text-sm">$600k Est.</span>
+<img alt="Agent" class="size-6 rounded-full border border-slate-200 dark:border-slate-600" data-alt="Agent tiny avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYZPDAGrF4NYZx_S-2gaozoqn_iG3Q5_pCeZWeVvDek3bgl2yvC-rRq42dVogYjTVELUChO_cPSN7F5vpaJNhKfXKlWN8foDf-u3n-NswblDzPJouGNND2YMSE6wo4l4JOjsrrkReuqo-nxLv8LKUkvjhDjXRv0W59u0vMX2V8_-fsfj2ra4IVgAQ51AzkL0l3XeuM1TCQiHuJzAlM4MkQD2GV092aY-zqT1C-_nFIeTPbJwLBj66gc5tuZwE7vJ5fr9-CyaF9Y6QA"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Column: Proposal -->
+<div class="flex flex-col w-72 h-full">
+<div class="flex items-center justify-between py-3 mb-2 px-1 border-b-2 border-indigo-500">
+<h3 class="text-slate-900 dark:text-white font-semibold text-sm">PROPOSAL (3)</h3>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"><span class="material-symbols-outlined text-[20px]">more_horiz</span></button>
+</div>
+<div class="flex-1 overflow-y-auto pr-2 pb-4 space-y-3 custom-scrollbar">
+<!-- Card 7 -->
+<div class="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow cursor-grab">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-bold text-slate-900 dark:text-white text-base">The Miller Family</h4>
+<div class="size-2.5 rounded-full bg-red-500" title="High Priority"></div>
+</div>
+<span class="inline-block px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded-md mb-2 font-medium">Buyer</span>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">Offer submitted for 124 Maple Street. Awaiting response.</p>
+<div class="flex justify-between items-center mt-auto pt-3 border-t border-slate-100 dark:border-slate-700">
+<span class="text-primary font-semibold text-sm">$725k</span>
+<img alt="Agent" class="size-6 rounded-full border border-slate-200 dark:border-slate-600" data-alt="Agent tiny avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVjaHlX9zRHwxAdKv6C3jGqrWZbNHgrGALkPm-fQpU73z8-DUAXzgiEnSODKOtffCVnuzju_Mrr5upAt2vqdLpK4kFVS6cPcJEwZTsITTUEQ_qrQ23bcEgDC6pR9_d0JN5YCdpzO6cqzuWczGdrNPcCKQXmpC-nNV1KKM4dYqNSbR3eZ7j_YzcxUxm24lr_b5yMMIZ8-E1zjpqmcJxWfgYXjcjgqiWErgNLgQXObIFWIAVh3a7uXSEybsl7UBZtS-n0i282aoJm_zr"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Column: Won -->
+<div class="flex flex-col w-72 h-full">
+<div class="flex items-center justify-between py-3 mb-2 px-1 border-b-2 border-emerald-500">
+<h3 class="text-slate-900 dark:text-white font-semibold text-sm">WON (4)</h3>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"><span class="material-symbols-outlined text-[20px]">more_horiz</span></button>
+</div>
+<div class="flex-1 overflow-y-auto pr-2 pb-4 space-y-3 custom-scrollbar">
+<!-- Card 8 -->
+<div class="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow cursor-grab opacity-80">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-bold text-slate-900 dark:text-white text-base">James Wilson</h4>
+<div class="size-2.5 rounded-full bg-slate-300 dark:bg-slate-600"></div>
+</div>
+<span class="inline-block px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded-md mb-2 font-medium">Seller</span>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">Closed on 555 Oak Lane. Closing documents finalized.</p>
+<div class="flex justify-between items-center mt-auto pt-3 border-t border-slate-100 dark:border-slate-700">
+<span class="text-emerald-600 font-semibold text-sm">$410k</span>
+<img alt="Agent" class="size-6 rounded-full border border-slate-200 dark:border-slate-600 grayscale" data-alt="Agent tiny avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrQawEwmNMwz-AgCNOnR2brMyANdpEdZoIKKjziltN3ITkPZTPqe_Qzjm9mcWuojziShO0hgWmyLXj-LBRPW26b_jqD8TFDXYYQ4aw_Kw8NzICS6RfL36EmyytrAnehhycdm8tOD-isL9Uh4Ocdh2Ym04N33KMF0mBX53-k-eIf57xDBV0fKMfdjMGneC1OeRjepH6_wWepsBx59PVyK952DrwMJzfehyFLn-o3qhjEd3AjisgNjjttw-MqJaYrjy8I_hNNl6C1MZX"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<style>
+        /* Custom Scrollbar for columns */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #334155;
+        }
+    </style>
+</body></html>
