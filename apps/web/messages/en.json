@@ -693,14 +693,15 @@
     },
     "notFound": {
       "title": "Page not found",
-      "description": "The page you're looking for doesn't exist or has been moved.",
-      "goHome": "Go to home page"
+      "description": "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
+      "goHome": "Go to Dashboard",
+      "goBack": "Go Back"
     },
     "runtime": {
       "title": "Something went wrong",
-      "description": "An unexpected error occurred. You can try again or go back to the home page.",
-      "tryAgain": "Try again",
-      "goHome": "Go to home page"
+      "description": "We've encountered an unexpected error while processing your request. Please try again or return to your dashboard.",
+      "tryAgain": "Try Again",
+      "goHome": "Go to Dashboard"
     },
     "global": {
       "title": "Something went wrong",
