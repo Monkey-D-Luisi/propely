@@ -9,7 +9,6 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from '@/i18n/navigation';
 import { AuthLayout, AuthBrand, AuthCard, AuthFooterLinks } from '@/components/auth/auth-layout';
-import { ArrowLeftIcon, LockIcon, MailIcon } from '@/components/ui/icons';
 import { FormField, FormSubmitButton, FormError } from '@/components/ui/form';
 import { apiFetch, isApiError } from '@/lib/api';
 import { ensureCsrfToken } from '@/lib/csrf';
@@ -88,25 +87,26 @@ export function ForgotPasswordForm() {
       <AuthBrand />
 
       <AuthCard>
-        {/* Icon & heading */}
-        <div className="mb-8 text-center">
-          <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-lg border border-slate-100 bg-white shadow-sm">
-            <LockIcon className="h-6 w-6 text-slate-400" />
+        {/* Status icon & heading — Stitch forgot-password.html */}
+        <div className="flex flex-col items-center text-center">
+          <div className="w-16 h-16 bg-primary-600/10 rounded-full flex items-center justify-center mb-6">
+            <span className="material-symbols-outlined text-3xl text-primary-600">key</span>
           </div>
-          <h1 className="mb-2 text-2xl font-semibold tracking-tight text-slate-900">{t('forgotPassword.title')}</h1>
-          <p className="mx-auto max-w-[280px] text-sm leading-relaxed text-slate-500">{t('forgotPassword.description')}</p>
+          <h1 className="text-2xl font-bold text-slate-900 mb-2">{t('forgotPassword.title')}</h1>
+          <p className="text-slate-500 text-sm mb-8">{t('forgotPassword.description')}</p>
         </div>
 
         {success ? (
-          <div className="text-center">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary-50">
-              <MailIcon className="h-8 w-8 text-primary-600" />
+          <div className="flex flex-col items-center text-center">
+            <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mb-6">
+              <span className="material-symbols-outlined text-green-500 text-3xl">check_circle</span>
             </div>
-            <p className="mt-4 text-sm font-medium text-slate-900">{t('forgotPassword.successTitle')}</p>
-            <p className="mt-1 text-sm text-slate-500">{t('forgotPassword.successDescription')}</p>
-            <div className="mt-6">
-              <Link href="/login" className="inline-flex items-center gap-1.5 font-medium text-primary-600 hover:underline">
-                <ArrowLeftIcon className="h-4 w-4" />
+            <h2 className="text-2xl font-bold tracking-tight mb-3">{t('forgotPassword.successTitle')}</h2>
+            <p className="text-slate-500 mb-8">{t('forgotPassword.successDescription')}</p>
+
+            <div className="w-full border-t border-slate-100 pt-6 mt-2">
+              <Link href="/login" className="flex items-center justify-center gap-2 text-slate-600 font-medium hover:text-slate-900 transition-colors">
+                <span className="material-symbols-outlined text-[20px]">arrow_back</span>
                 {t('forgotPassword.backToLogin')}
               </Link>
             </div>
@@ -114,14 +114,13 @@ export function ForgotPasswordForm() {
         ) : (
           <>
             <FormProvider {...methods}>
-              <form className="space-y-5" noValidate onSubmit={methods.handleSubmit(onSubmit)}>
+              <form className="flex flex-col gap-4" noValidate onSubmit={methods.handleSubmit(onSubmit)}>
                 <FormField<ForgotPasswordFormData>
                   name="email"
                   label={t('forgotPassword.emailLabel')}
                   type="email"
                   autoComplete="email"
                   placeholder="name@company.com"
-                  className="shadow-sm"
                 />
 
                 <FormError message={error} />
@@ -129,16 +128,21 @@ export function ForgotPasswordForm() {
                 <FormSubmitButton
                   disabled={!csrfToken}
                   loadingText={t('forgotPassword.submitting')}
-                  className="w-full py-3 shadow-lg shadow-primary-600/25"
+                  className="w-full bg-primary-600 hover:bg-primary-600/90 text-white font-medium py-3 rounded-lg transition-colors mt-2"
                 >
                   {t('forgotPassword.submit')}
                 </FormSubmitButton>
               </form>
             </FormProvider>
 
-            <div className="mt-6 text-center">
-              <Link href="/login" className="inline-flex items-center gap-1.5 font-medium text-primary-600 hover:underline">
-                <ArrowLeftIcon className="h-4 w-4" />
+            {/* Divider */}
+            <div className="flex items-center gap-4 my-2">
+              <div className="h-px bg-slate-200 flex-1" />
+            </div>
+
+            <div className="flex items-center justify-center">
+              <Link href="/login" className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-primary-600 transition-colors">
+                <span className="material-symbols-outlined text-[18px]">arrow_back</span>
                 {t('forgotPassword.backToLogin')}
               </Link>
             </div>

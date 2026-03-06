@@ -70,11 +70,11 @@ describe('RegisterForm', () => {
     expect(screen.getByRole('button', { name: 'GitHub' })).toBeInTheDocument();
   });
 
-  it('renders the heading and link to login', async () => {
+  it('renders the brand heading and link to login', async () => {
     renderWithProviders(<RegisterForm />);
 
     await waitFor(() => {
-      expect(screen.getByRole('heading', { name: 'Create account' })).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: 'Propely' })).toBeInTheDocument();
     });
     expect(screen.getByText('Sign in')).toBeInTheDocument();
   });

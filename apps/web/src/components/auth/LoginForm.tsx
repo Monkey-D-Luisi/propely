@@ -163,8 +163,7 @@ export function LoginForm() {
   return (
     <AuthLayout>
       <AuthBrand>
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900">{t('login.title')}</h1>
-        <p className="mt-1 text-sm text-slate-500">{t('login.description')}</p>
+        <p className="text-slate-500 font-medium">{t('login.description')}</p>
         {nextParam !== '/' ? (
           <p className="mt-1 text-xs text-slate-500">
             {t('login.redirectNotice', { destination: nextParam })}
@@ -174,7 +173,7 @@ export function LoginForm() {
 
       <AuthCard>
         <FormProvider {...methods}>
-          <form className="space-y-6" noValidate onSubmit={methods.handleSubmit(onSubmit)}>
+          <form className="flex flex-col gap-5" noValidate onSubmit={methods.handleSubmit(onSubmit)}>
             <FormField<LoginFormData>
               name="email"
               label={t('login.emailLabel')}
@@ -190,7 +189,7 @@ export function LoginForm() {
               autoComplete="current-password"
               placeholder="••••••••"
               labelRight={
-                <Link href="/forgot-password" className="text-xs font-semibold text-primary-600 hover:underline">
+                <Link href="/forgot-password" className="text-sm font-medium text-primary-600 hover:text-primary-600/80 transition-colors">
                   {t('login.forgotPassword')}
                 </Link>
               }
@@ -201,32 +200,32 @@ export function LoginForm() {
             <FormSubmitButton
               disabled={!csrfToken}
               loadingText={t('login.submitting')}
-              className="w-full py-3 shadow-lg shadow-primary-600/25"
+              className="mt-2 w-full bg-primary-600 hover:bg-primary-600/90 text-white font-medium text-sm py-3 rounded-lg transition-colors"
             >
               {t('login.submit')}
             </FormSubmitButton>
           </form>
         </FormProvider>
 
-        {/* Divider */}
-        <div className="relative py-4">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-slate-200" />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-white px-4 text-slate-500">{t('oauth.orDivider')}</span>
-          </div>
+        {/* Divider — Stitch style */}
+        <div className="relative flex items-center py-2">
+          <div className="flex-grow border-t border-slate-200" />
+          <span className="flex-shrink-0 mx-4 text-xs font-semibold text-slate-400 tracking-wider">{t('oauth.orDivider')}</span>
+          <div className="flex-grow border-t border-slate-200" />
         </div>
 
         <OAuthButtons nextPath={nextParam} />
       </AuthCard>
 
-      <p className="mt-8 text-center text-sm text-slate-500">
-        {t('login.noAccount')}{' '}
-        <Link href="/register" className="ml-1 font-semibold text-primary-600 hover:underline">
-          {t('login.createAccount')}
-        </Link>
-      </p>
+      {/* Create account link */}
+      <div className="mt-8 text-center">
+        <p className="text-sm text-slate-600">
+          {t('login.noAccount')}{' '}
+          <Link href="/register" className="font-medium text-primary-600 hover:underline">
+            {t('login.createAccount')}
+          </Link>
+        </p>
+      </div>
 
       <AuthFooterLinks />
     </AuthLayout>

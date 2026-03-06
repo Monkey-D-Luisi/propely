@@ -69,11 +69,11 @@ describe('LoginForm', () => {
     expect(screen.getByRole('button', { name: 'GitHub' })).toBeInTheDocument();
   });
 
-  it('renders the sign-in heading', async () => {
+  it('renders the brand heading', async () => {
     renderWithProviders(<LoginForm />);
 
     await waitFor(() => {
-      expect(screen.getByRole('heading', { name: 'Sign in' })).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: 'Propely' })).toBeInTheDocument();
     });
   });
 
