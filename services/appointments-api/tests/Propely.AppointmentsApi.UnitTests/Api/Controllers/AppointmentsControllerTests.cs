@@ -213,7 +213,6 @@ public class AppointmentsControllerTests
         var request = new UpdateAppointmentApiRequest
         {
             Title = "Updated Title",
-            Type = AppointmentType.Generic,
             StartTimeUtc = DateTime.UtcNow.AddDays(2),
             EndTimeUtc = DateTime.UtcNow.AddDays(2).AddHours(1)
         };
@@ -233,7 +232,6 @@ public class AppointmentsControllerTests
             new UpdateAppointmentApiRequest
             {
                 Title = "Test",
-                Type = AppointmentType.Generic,
                 StartTimeUtc = DateTime.UtcNow.AddDays(1),
                 EndTimeUtc = DateTime.UtcNow.AddDays(1).AddHours(1)
             },

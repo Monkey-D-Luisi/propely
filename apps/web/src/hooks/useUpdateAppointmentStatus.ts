@@ -7,11 +7,28 @@ import { useCallback } from 'react';
 import { appointmentsApiFetch } from '@/lib/api';
 import type { Appointment, AppointmentStatus } from '@/hooks/useAppointments';
 
+const statusEndpointMap: Record<string, string> = {
+  Confirmed: 'confirm',
+  Completed: 'complete',
+  Cancelled: 'cancel',
+  NoShow: 'no-show',
+};
+
 export function useUpdateAppointmentStatus() {
   return useCallback(async (id: string, status: AppointmentStatus, cancellationReason?: string) => {
-    return appointmentsApiFetch<Appointment>(`/api/appointments/${id}/status`, {
+    const endpoint = statusEndpointMap[status];
+    if (!endpoint) {
+      throw new Error(`No status transition endpoint for status '${status}'`);
+    }
+
+    const body: Record<string, string> | undefined =
+      status === 'Cancelled' && cancellationReason ? { reason: cancellationReason } :
+      status === 'Completed' ? {} :
+      undefined;
+
+    return appointmentsApiFetch<Appointment>(`/api/appointments/${id}/${endpoint}`, {
       method: 'PUT',
-      body: JSON.stringify({ status, cancellationReason }),
+      ...(body !== undefined && { body: JSON.stringify(body) }),
     });
   }, []);
 }

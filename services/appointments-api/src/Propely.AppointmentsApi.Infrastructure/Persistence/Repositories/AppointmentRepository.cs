@@ -32,9 +32,4 @@ public sealed class AppointmentRepository : IAppointmentRepository
     {
         _context.Appointments.Update(appointment);
     }
-
-    public void Delete(Appointment appointment)
-    {
-        _context.Appointments.Update(appointment);
-    }
 }
