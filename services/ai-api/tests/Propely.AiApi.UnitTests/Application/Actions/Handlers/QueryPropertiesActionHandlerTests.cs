@@ -47,7 +47,13 @@ public sealed class QueryPropertiesActionHandlerTests
         _propertiesClient.ListAsync(
             type: "apartment", operation: null, status: null,
             minPrice: null, maxPrice: null, city: "Malaga",
-            agentId: null, sortBy: null, sortDesc: false,
+            agentId: null,
+            search: Arg.Any<string?>(), minBedrooms: Arg.Any<int?>(),
+            minBathrooms: Arg.Any<int?>(), minArea: Arg.Any<decimal?>(),
+            maxArea: Arg.Any<decimal?>(), hasPool: Arg.Any<bool?>(),
+            hasGarden: Arg.Any<bool?>(), hasGarage: Arg.Any<bool?>(),
+            hasElevator: Arg.Any<bool?>(), hasTerrace: Arg.Any<bool?>(),
+            sortBy: null, sortDesc: false,
             page: 1, pageSize: 20,
             ct: Arg.Any<CancellationToken>())
             .Returns(new PagedResult<PropertyListItemResponse>
@@ -84,7 +90,13 @@ public sealed class QueryPropertiesActionHandlerTests
         _propertiesClient.ListAsync(
             type: Arg.Any<string?>(), operation: Arg.Any<string?>(), status: Arg.Any<string?>(),
             minPrice: Arg.Any<decimal?>(), maxPrice: Arg.Any<decimal?>(), city: Arg.Any<string?>(),
-            agentId: Arg.Any<Guid?>(), sortBy: Arg.Any<string?>(), sortDesc: Arg.Any<bool>(),
+            agentId: Arg.Any<Guid?>(),
+            search: Arg.Any<string?>(), minBedrooms: Arg.Any<int?>(),
+            minBathrooms: Arg.Any<int?>(), minArea: Arg.Any<decimal?>(),
+            maxArea: Arg.Any<decimal?>(), hasPool: Arg.Any<bool?>(),
+            hasGarden: Arg.Any<bool?>(), hasGarage: Arg.Any<bool?>(),
+            hasElevator: Arg.Any<bool?>(), hasTerrace: Arg.Any<bool?>(),
+            sortBy: Arg.Any<string?>(), sortDesc: Arg.Any<bool>(),
             page: Arg.Any<int>(), pageSize: Arg.Any<int>(),
             ct: Arg.Any<CancellationToken>())
             .Returns(new PagedResult<PropertyListItemResponse>
@@ -125,7 +137,13 @@ public sealed class QueryPropertiesActionHandlerTests
         _propertiesClient.ListAsync(
             type: Arg.Any<string?>(), operation: Arg.Any<string?>(), status: Arg.Any<string?>(),
             minPrice: Arg.Any<decimal?>(), maxPrice: Arg.Any<decimal?>(), city: Arg.Any<string?>(),
-            agentId: Arg.Any<Guid?>(), sortBy: Arg.Any<string?>(), sortDesc: Arg.Any<bool>(),
+            agentId: Arg.Any<Guid?>(),
+            search: Arg.Any<string?>(), minBedrooms: Arg.Any<int?>(),
+            minBathrooms: Arg.Any<int?>(), minArea: Arg.Any<decimal?>(),
+            maxArea: Arg.Any<decimal?>(), hasPool: Arg.Any<bool?>(),
+            hasGarden: Arg.Any<bool?>(), hasGarage: Arg.Any<bool?>(),
+            hasElevator: Arg.Any<bool?>(), hasTerrace: Arg.Any<bool?>(),
+            sortBy: Arg.Any<string?>(), sortDesc: Arg.Any<bool>(),
             page: Arg.Any<int>(), pageSize: Arg.Any<int>(),
             ct: Arg.Any<CancellationToken>())
             .Returns(new PagedResult<PropertyListItemResponse>
@@ -148,6 +166,11 @@ public sealed class QueryPropertiesActionHandlerTests
             maxPrice: 1000000m,
             city: "Marbella",
             agentId: Arg.Any<Guid?>(),
+            search: Arg.Any<string?>(), minBedrooms: Arg.Any<int?>(),
+            minBathrooms: Arg.Any<int?>(), minArea: Arg.Any<decimal?>(),
+            maxArea: Arg.Any<decimal?>(), hasPool: Arg.Any<bool?>(),
+            hasGarden: Arg.Any<bool?>(), hasGarage: Arg.Any<bool?>(),
+            hasElevator: Arg.Any<bool?>(), hasTerrace: Arg.Any<bool?>(),
             sortBy: Arg.Any<string?>(),
             sortDesc: false,
             page: 1,
@@ -165,7 +188,13 @@ public sealed class QueryPropertiesActionHandlerTests
         _propertiesClient.ListAsync(
             type: Arg.Any<string?>(), operation: Arg.Any<string?>(), status: Arg.Any<string?>(),
             minPrice: Arg.Any<decimal?>(), maxPrice: Arg.Any<decimal?>(), city: Arg.Any<string?>(),
-            agentId: Arg.Any<Guid?>(), sortBy: Arg.Any<string?>(), sortDesc: Arg.Any<bool>(),
+            agentId: Arg.Any<Guid?>(),
+            search: Arg.Any<string?>(), minBedrooms: Arg.Any<int?>(),
+            minBathrooms: Arg.Any<int?>(), minArea: Arg.Any<decimal?>(),
+            maxArea: Arg.Any<decimal?>(), hasPool: Arg.Any<bool?>(),
+            hasGarden: Arg.Any<bool?>(), hasGarage: Arg.Any<bool?>(),
+            hasElevator: Arg.Any<bool?>(), hasTerrace: Arg.Any<bool?>(),
+            sortBy: Arg.Any<string?>(), sortDesc: Arg.Any<bool>(),
             page: Arg.Any<int>(), pageSize: Arg.Any<int>(),
             ct: Arg.Any<CancellationToken>())
             .ThrowsAsync(new HttpRequestException("Connection refused"));
@@ -200,7 +229,13 @@ public sealed class QueryPropertiesActionHandlerTests
         _propertiesClient.ListAsync(
             type: Arg.Any<string?>(), operation: Arg.Any<string?>(), status: Arg.Any<string?>(),
             minPrice: Arg.Any<decimal?>(), maxPrice: Arg.Any<decimal?>(), city: Arg.Any<string?>(),
-            agentId: Arg.Any<Guid?>(), sortBy: Arg.Any<string?>(), sortDesc: Arg.Any<bool>(),
+            agentId: Arg.Any<Guid?>(),
+            search: Arg.Any<string?>(), minBedrooms: Arg.Any<int?>(),
+            minBathrooms: Arg.Any<int?>(), minArea: Arg.Any<decimal?>(),
+            maxArea: Arg.Any<decimal?>(), hasPool: Arg.Any<bool?>(),
+            hasGarden: Arg.Any<bool?>(), hasGarage: Arg.Any<bool?>(),
+            hasElevator: Arg.Any<bool?>(), hasTerrace: Arg.Any<bool?>(),
+            sortBy: Arg.Any<string?>(), sortDesc: Arg.Any<bool>(),
             page: Arg.Any<int>(), pageSize: Arg.Any<int>(),
             ct: Arg.Any<CancellationToken>())
             .Returns(new PagedResult<PropertyListItemResponse>
