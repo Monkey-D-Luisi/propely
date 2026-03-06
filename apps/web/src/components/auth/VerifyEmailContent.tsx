@@ -10,8 +10,7 @@ import { Link, useRouter } from '@/i18n/navigation';
 import { apiFetch, isApiError } from '@/lib/api';
 import { dispatchAuthUserUpdatedEvent } from '@/lib/auth-events';
 import { ensureCsrfToken } from '@/lib/csrf';
-import { AuthLayout, AuthFooterLinks } from '@/components/auth/auth-layout';
-import { SpinnerIcon, CheckIcon, XMarkIcon, ArrowLeftIcon } from '@/components/ui/icons';
+import { AuthLayout, AuthBrand, AuthFooterLinks } from '@/components/auth/auth-layout';
 
 type VerificationState = 'loading' | 'success' | 'error';
 type VerificationError = 'missing_token' | 'expired_or_invalid' | 'generic';
@@ -140,65 +139,75 @@ export function VerifyEmailContent() {
 
   return (
     <AuthLayout>
+      <AuthBrand />
+
+      {/* Loading state — Stitch verify-email-loading.html */}
       {state === 'loading' ? (
-        <div className="rounded-2xl bg-white shadow-xl">
-          <div className="h-1 w-full rounded-t-2xl bg-gradient-to-r from-transparent via-primary-500 to-transparent opacity-80" />
-          <div className="p-8 text-center">
-            <div className="relative mb-8 flex items-center justify-center">
-              <div className="absolute h-24 w-24 animate-pulse rounded-full bg-primary-500/10" />
-              <div className="relative flex h-16 w-16 items-center justify-center rounded-full bg-primary-50">
-                <SpinnerIcon className="h-8 w-8 text-primary-600" />
+        <div className="w-full bg-white rounded-xl border border-slate-200 shadow-sm p-8 flex flex-col items-center">
+          <div className="mb-6">
+            <div className="w-12 h-12 border-4 border-primary-600/20 border-t-primary-600 rounded-full animate-spin" />
+          </div>
+          <h1 className="text-xl font-bold text-slate-900 mb-2 text-center">{t('verifyEmail.loadingTitle')}</h1>
+          <p className="text-slate-500 text-center text-sm leading-relaxed mb-8 max-w-[320px]">{t('verifyEmail.loadingDescription')}</p>
+          {/* Skeleton loading card */}
+          <div className="w-full border border-slate-100 rounded-lg p-5 bg-slate-50/50">
+            <div className="flex items-center gap-4 mb-5">
+              <div className="w-12 h-12 rounded-full bg-slate-200 animate-pulse" />
+              <div className="flex-1 space-y-2">
+                <div className="h-3 w-1/2 bg-slate-200 rounded animate-pulse" />
+                <div className="h-2 w-1/3 bg-slate-200 rounded animate-pulse" />
               </div>
             </div>
-            <h1 className="mb-3 text-2xl font-semibold tracking-tight text-slate-900">{t('verifyEmail.loadingTitle')}</h1>
-            <p className="mb-8 text-sm leading-relaxed text-slate-500">{t('verifyEmail.loadingDescription')}</p>
-            <div className="sr-only" role="status" aria-live="polite">{t('verifyEmail.loadingTitle')}</div>
+            <div className="space-y-3">
+              <div className="h-2 w-full bg-slate-200 rounded animate-pulse" />
+              <div className="h-2 w-5/6 bg-slate-200 rounded animate-pulse" />
+              <div className="h-2 w-4/6 bg-slate-200 rounded animate-pulse" />
+            </div>
           </div>
+          <div className="sr-only" role="status" aria-live="polite">{t('verifyEmail.loadingTitle')}</div>
         </div>
       ) : null}
 
+      {/* Success state — Stitch verify-email-success.html */}
       {state === 'success' ? (
-        <div className="rounded-2xl bg-white shadow-xl">
-          <div className="h-1 w-full rounded-t-2xl bg-gradient-to-r from-emerald-400 to-primary-500" />
-          <div className="p-8 text-center">
-            <div className="relative mb-6">
-              <div className="absolute inset-0 mx-auto h-16 w-16 animate-ping rounded-full bg-emerald-100 opacity-75" />
-              <div className="relative mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-emerald-100 bg-emerald-50">
-                <CheckIcon className="h-8 w-8 text-emerald-600" />
-              </div>
-            </div>
-            <h1 className="mb-3 text-2xl font-bold tracking-tight text-slate-900">{t('verifyEmail.successTitle')}</h1>
-            <p className="mb-8 text-sm leading-relaxed text-slate-500">{t('verifyEmail.successDescription')}</p>
+        <div className="w-full bg-white rounded-xl border border-slate-200 shadow-sm p-8 flex flex-col items-center text-center">
+          <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mb-6">
+            <span className="material-symbols-outlined text-4xl text-green-500">check_circle</span>
           </div>
-          <div className="h-2 w-full bg-slate-50" />
+          <h1 className="text-2xl font-bold text-slate-900 mb-2">{t('verifyEmail.successTitle')}</h1>
+          <p className="text-slate-500 mb-8">{t('verifyEmail.successDescription')}</p>
+          <Link
+            href="/"
+            className="w-full h-12 bg-primary-600 hover:bg-primary-600/90 text-white rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors"
+          >
+            {t('verifyEmail.goToDashboard')}
+            <span className="material-symbols-outlined text-xl">arrow_right_alt</span>
+          </Link>
+          <p className="mt-6 text-xs italic text-slate-400">{t('verifyEmail.autoRedirect')}</p>
         </div>
       ) : null}
 
+      {/* Error state — Stitch verify-email-error.html */}
       {state === 'error' ? (
-        <div className="rounded-2xl bg-white shadow-xl">
-          <div className="h-1.5 w-full rounded-t-2xl bg-red-500/80" />
-          <div className="p-8 text-center">
-            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
-              <XMarkIcon className="h-8 w-8 text-red-600" />
+        <div className="w-full bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+          <div className="px-6 py-8 sm:p-10 flex flex-col items-center text-center">
+            <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mb-6">
+              <span className="material-symbols-outlined text-red-500 text-3xl">cancel</span>
             </div>
-            <h1 className="mb-3 text-2xl font-bold tracking-tight text-slate-900">{t('verifyEmail.errorTitle')}</h1>
-            <p className="mb-8 text-sm leading-relaxed text-slate-500">{renderVerificationError(error, t)}</p>
-            <div className="space-y-4">
+            <h1 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">{t('verifyEmail.errorTitle')}</h1>
+            <p className="text-slate-500 text-sm mb-6 max-w-sm">{renderVerificationError(error, t)}</p>
+
+            {/* Action buttons */}
+            <div className="w-full flex flex-col gap-3">
               <button
                 type="button"
                 onClick={() => void onResend()}
                 disabled={resendState === 'sending'}
-                className="w-full rounded-lg bg-primary-600 px-4 py-3 text-sm font-medium text-white shadow-sm transition hover:bg-primary-600/90 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+                className="flex items-center justify-center gap-2 w-full h-11 px-4 bg-primary-600 hover:bg-primary-600/90 text-white rounded-lg text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-60"
               >
+                <span className="material-symbols-outlined text-[20px]" aria-hidden="true">mail</span>
                 {resendState === 'sending' ? t('verifyEmail.resendSending') : t('verifyEmail.resendAction')}
               </button>
-              <Link
-                href="/login"
-                className="group flex items-center justify-center gap-1 text-sm font-medium text-slate-500 transition hover:text-slate-900"
-              >
-                <ArrowLeftIcon className="h-4 w-4 transition group-hover:-translate-x-0.5" />
-                {t('verifyEmail.goToLogin')}
-              </Link>
             </div>
             {(() => {
               const feedback = renderResendFeedback(resendState, t);
@@ -206,6 +215,15 @@ export function VerifyEmailContent() {
                 <p className="mt-4 text-xs text-slate-500">{feedback}</p>
               ) : null;
             })()}
+          </div>
+          <div className="bg-slate-50 border-t border-slate-200 px-6 py-4 flex justify-center">
+            <Link
+              href="/login"
+              className="flex items-center gap-2 text-sm text-slate-500 hover:text-slate-800 transition-colors font-medium"
+            >
+              <span className="material-symbols-outlined text-[18px]">arrow_back</span>
+              {t('verifyEmail.goToLogin')}
+            </Link>
           </div>
         </div>
       ) : null}

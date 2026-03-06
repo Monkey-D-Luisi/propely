@@ -131,13 +131,12 @@ export function RegisterForm() {
   return (
     <AuthLayout>
       <AuthBrand>
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900">{t('register.title')}</h1>
-        <p className="mt-1 text-sm text-slate-500">{t('register.description')}</p>
+        <p className="text-slate-500 font-medium">{t('register.description')}</p>
       </AuthBrand>
 
       <AuthCard>
         <FormProvider {...methods}>
-          <form className="space-y-6" noValidate onSubmit={methods.handleSubmit(onSubmit)}>
+          <form className="flex flex-col gap-4" noValidate onSubmit={methods.handleSubmit(onSubmit)}>
             <FormField<RegisterFormData>
               name="name"
               label={t('register.nameLabel')}
@@ -176,32 +175,31 @@ export function RegisterForm() {
             <FormSubmitButton
               disabled={!csrfToken}
               loadingText={t('register.submitting')}
-              className="w-full py-3 shadow-lg shadow-primary-600/25"
+              className="mt-2 w-full bg-primary-600 hover:bg-primary-600/90 text-white font-semibold text-sm py-2.5 rounded-lg transition-colors shadow-sm"
             >
               {t('register.submit')}
             </FormSubmitButton>
           </form>
         </FormProvider>
 
-        {/* Divider */}
-        <div className="relative py-4">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-slate-200" />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-white px-4 text-slate-500">{t('oauth.orDivider')}</span>
-          </div>
+        {/* Divider — Stitch style */}
+        <div className="relative flex items-center">
+          <div className="flex-grow border-t border-slate-200" />
+          <span className="flex-shrink-0 mx-4 text-sm text-slate-500">{t('oauth.orContinueWith')}</span>
+          <div className="flex-grow border-t border-slate-200" />
         </div>
 
         <OAuthButtons nextPath={nextParam} />
       </AuthCard>
 
-      <p className="mt-8 text-center text-sm text-slate-500">
-        {t('register.hasAccount')}{' '}
-        <Link href="/login" className="ml-1 font-semibold text-primary-600 hover:underline">
-          {t('register.signIn')}
-        </Link>
-      </p>
+      <div className="mt-8 text-center">
+        <p className="text-sm text-slate-600">
+          {t('register.hasAccount')}{' '}
+          <Link href="/login" className="font-medium text-primary-600 hover:text-primary-600/80 transition-colors">
+            {t('register.signIn')}
+          </Link>
+        </p>
+      </div>
 
       <AuthFooterLinks />
     </AuthLayout>

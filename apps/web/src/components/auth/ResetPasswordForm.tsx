@@ -10,7 +10,6 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from '@/i18n/navigation';
 import { AuthLayout, AuthBrand, AuthFooterLinks } from '@/components/auth/auth-layout';
-import { CheckIcon, ArrowLeftIcon, AlertTriangleIcon, LockIcon } from '@/components/ui/icons';
 import { FormField, FormSubmitButton, FormError } from '@/components/ui/form';
 import { apiFetch, isApiError } from '@/lib/api';
 import { ensureCsrfToken } from '@/lib/csrf';
@@ -114,19 +113,18 @@ export function ResetPasswordForm() {
   if (!token) {
     return (
       <AuthLayout>
-        <AuthBrand icon={<LockIcon className="h-7 w-7 text-white" />} />
-        <div className="overflow-hidden rounded-2xl bg-white shadow-xl">
-          <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary-500 to-transparent opacity-50" />
-          <div className="p-8 text-center">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
-              <AlertTriangleIcon className="h-6 w-6 text-red-600" />
+        <AuthBrand />
+        <div className="w-full bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+          <div className="px-6 py-8 sm:p-10 flex flex-col items-center text-center">
+            <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mb-6">
+              <span className="material-symbols-outlined text-red-500 text-3xl">cancel</span>
             </div>
-            <h1 className="mt-4 text-2xl font-semibold tracking-tight text-slate-900">{t('resetPassword.title')}</h1>
-            <p className="mt-2 text-sm text-red-600">{t('resetPassword.errors.missingToken')}</p>
+            <h1 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">{t('resetPassword.title')}</h1>
+            <p className="text-slate-500 text-sm mb-6">{t('resetPassword.errors.missingToken')}</p>
           </div>
-          <div className="flex justify-center border-t border-slate-100 bg-slate-50 px-8 py-4">
-            <Link href="/forgot-password" className="group inline-flex items-center gap-1.5 text-sm font-medium text-primary-600 transition hover:text-primary-700">
-              <ArrowLeftIcon className="h-4 w-4 transition group-hover:-translate-x-0.5" />
+          <div className="bg-slate-50 border-t border-slate-200 px-6 py-4 flex justify-center">
+            <Link href="/forgot-password" className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-primary-600 transition-colors">
+              <span className="material-symbols-outlined text-[18px]">arrow_back</span>
               {t('resetPassword.requestNewLink')}
             </Link>
           </div>
@@ -138,21 +136,24 @@ export function ResetPasswordForm() {
 
   return (
     <AuthLayout>
-      <AuthBrand icon={<LockIcon className="h-7 w-7 text-white" />} />
-      <div className="overflow-hidden rounded-2xl bg-white shadow-xl">
-        <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary-500 to-transparent opacity-50" />
+      <AuthBrand />
+      <div className="w-full bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
         <div className="p-8">
-          <div className="mb-8 text-center">
-            <h1 className="mb-2 text-2xl font-semibold tracking-tight text-slate-900">{t('resetPassword.title')}</h1>
-            <p className="text-sm text-slate-500">{t('resetPassword.description')}</p>
+          {/* Status icon & heading — Stitch reset-password.html */}
+          <div className="flex flex-col items-center text-center mb-8">
+            <div className="w-16 h-16 bg-primary-600/10 rounded-full flex items-center justify-center text-primary-600 mb-4">
+              <span className="material-symbols-outlined text-3xl">lock_open</span>
+            </div>
+            <h1 className="text-2xl font-bold text-slate-900 mb-2">{t('resetPassword.title')}</h1>
+            <p className="text-slate-500 text-sm">{t('resetPassword.description')}</p>
           </div>
 
           {success ? (
-            <div className="text-center">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100">
-                <CheckIcon className="h-6 w-6 text-emerald-600" />
+            <div className="flex flex-col items-center text-center">
+              <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mb-6">
+                <span className="material-symbols-outlined text-green-500 text-3xl">check_circle</span>
               </div>
-              <p className="mt-4 text-sm font-medium text-slate-900">{t('resetPassword.successTitle')}</p>
+              <p className="text-sm font-medium text-slate-900">{t('resetPassword.successTitle')}</p>
               <p className="mt-1 text-sm text-slate-500">{t('resetPassword.successDescription')}</p>
             </div>
           ) : (
@@ -176,22 +177,20 @@ export function ResetPasswordForm() {
 
                 <FormError message={error} />
 
-                <div className="pt-2">
-                  <FormSubmitButton
-                    disabled={!csrfToken}
-                    loadingText={t('resetPassword.submitting')}
-                    className="w-full py-3 shadow-lg shadow-primary-600/25"
-                  >
-                    {t('resetPassword.submit')}
-                  </FormSubmitButton>
-                </div>
+                <FormSubmitButton
+                  disabled={!csrfToken}
+                  loadingText={t('resetPassword.submitting')}
+                  className="w-full bg-primary-600 hover:bg-primary-600/90 text-white font-medium text-sm py-3 rounded-lg transition-colors shadow-sm"
+                >
+                  {t('resetPassword.submit')}
+                </FormSubmitButton>
               </form>
             </FormProvider>
           )}
         </div>
-        <div className="flex justify-center border-t border-slate-100 bg-slate-50 px-8 py-4">
-          <Link href="/login" className="group inline-flex items-center gap-1.5 text-sm font-medium text-primary-600 transition hover:text-primary-700">
-            <ArrowLeftIcon className="h-4 w-4 transition group-hover:-translate-x-0.5" />
+        <div className="bg-slate-50 border-t border-slate-200 px-8 py-4 flex justify-center">
+          <Link href="/login" className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-primary-600 transition-colors">
+            <span className="material-symbols-outlined text-[18px]">arrow_back</span>
             {t('resetPassword.backToLogin')}
           </Link>
         </div>

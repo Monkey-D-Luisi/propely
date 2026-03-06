@@ -146,7 +146,8 @@
     "oauth": {
       "continueWithGoogle": "Continuar con Google",
       "continueWithGitHub": "Continuar con GitHub",
-      "orDivider": "o"
+      "orDivider": "o",
+      "orContinueWith": "o continuar con"
     },
     "errors": {
       "invalidCredentials": "No encontramos un usuario con ese correo y contraseña.",
@@ -171,7 +172,9 @@
       "resendSent": "Correo de verificación enviado. Revisa tu bandeja.",
       "resendRateLimited": "Puedes solicitar otro correo en 5 minutos.",
       "resendError": "No pudimos reenviar el correo de verificación ahora.",
-      "goToLogin": "Ir a iniciar sesión"
+      "goToLogin": "Ir a iniciar sesión",
+      "goToDashboard": "Ir al Dashboard",
+      "autoRedirect": "Serás redirigido automáticamente..."
     },
     "verificationBanner": {
       "message": "Verifica tu correo electrónico para proteger tu cuenta.",

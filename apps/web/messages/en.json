@@ -146,7 +146,8 @@
     "oauth": {
       "continueWithGoogle": "Continue with Google",
       "continueWithGitHub": "Continue with GitHub",
-      "orDivider": "or"
+      "orDivider": "or",
+      "orContinueWith": "or continue with"
     },
     "errors": {
       "invalidCredentials": "We could not find a user with that email and password.",
@@ -171,7 +172,9 @@
       "resendSent": "Verification email sent. Check your inbox.",
       "resendRateLimited": "You can request another email in 5 minutes.",
       "resendError": "We could not resend the verification email right now.",
-      "goToLogin": "Go to sign in"
+      "goToLogin": "Go to sign in",
+      "goToDashboard": "Go to Dashboard",
+      "autoRedirect": "You will be redirected automatically..."
     },
     "verificationBanner": {
       "message": "Please verify your email address to secure your account.",

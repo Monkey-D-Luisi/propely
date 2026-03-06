@@ -5,39 +5,36 @@
 
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { LayersIcon } from '@/components/ui/icons';
 
 interface AuthLayoutProps {
   children: React.ReactNode;
 }
 
-/** Shared wrapper for all auth pages: centering + background gradient decorations. */
+/**
+ * Shared wrapper for all auth pages.
+ * NOTE: The (auth) route group layout handles centering + gradient mesh.
+ * This component is now a pass-through for backward compatibility.
+ */
 export function AuthLayout({ children }: AuthLayoutProps) {
-  return (
-    <div className="flex min-h-dvh flex-col items-center justify-center bg-surface p-6">
-      <div className="w-full max-w-md">
-        {children}
-      </div>
-      {/* Stitch-style blurred gradient decorations */}
-      <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
-        <div className="absolute -left-[10%] -top-[10%] h-[40%] w-[40%] rounded-full bg-primary-600/5 blur-[100px]" />
-        <div className="absolute -bottom-[10%] -right-[10%] h-[40%] w-[40%] rounded-full bg-primary-600/10 blur-[100px]" />
-      </div>
-    </div>
-  );
+  return <>{children}</>;
 }
 
 interface AuthBrandProps {
-  icon?: React.ReactNode;
   children?: React.ReactNode;
 }
 
-/** Brand header with logo icon and optional heading/subtitle below. */
-export function AuthBrand({ icon, children }: AuthBrandProps) {
+/** Brand header with diamond icon and "Propely" text, matching Stitch login.html. */
+export function AuthBrand({ children }: AuthBrandProps) {
   return (
-    <div className="mb-8 flex flex-col items-center text-center">
-      <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary-600 shadow-lg shadow-primary-600/30">
-        {icon ?? <LayersIcon className="h-7 w-7 text-white" />}
+    <div className="flex flex-col items-center mb-8">
+      <div className="flex items-center gap-2 mb-3">
+        <span
+          className="material-symbols-outlined text-primary-600 text-4xl"
+          style={{ fontVariationSettings: "'FILL' 1" }}
+        >
+          diamond
+        </span>
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900">Propely</h1>
       </div>
       {children}
     </div>
@@ -49,24 +46,24 @@ interface AuthCardProps {
   className?: string;
 }
 
-/** White card shell with shadow and standard padding (no border in light mode per Stitch). */
+/** White card shell matching Stitch login.html: rounded-xl, border, shadow-sm. */
 export function AuthCard({ children, className }: AuthCardProps) {
   return (
-    <div className={`rounded-2xl bg-white p-8 shadow-xl ${className ?? ''}`}>
+    <div className={`w-full bg-white rounded-xl border border-slate-200 shadow-sm p-8 sm:p-10 flex flex-col gap-6 ${className ?? ''}`}>
       {children}
     </div>
   );
 }
 
-/** Terms / Privacy / Support links below auth cards. */
+/** Terms / Privacy / Support links below auth cards, matching Stitch login.html. */
 export function AuthFooterLinks() {
   const t = useTranslations('auth.footer');
 
   return (
-    <div className="mt-8 flex justify-center gap-6 text-xs text-slate-400">
-      <Link href="/privacy" className="transition-colors hover:text-slate-600">{t('privacy')}</Link>
-      <Link href="/terms" className="transition-colors hover:text-slate-600">{t('terms')}</Link>
-      <Link href="/support" className="transition-colors hover:text-slate-600">{t('support')}</Link>
+    <div className="mt-12 flex items-center justify-center gap-6 text-xs text-slate-500">
+      <Link href="/privacy" className="hover:text-slate-800 transition-colors">{t('privacy')}</Link>
+      <Link href="/terms" className="hover:text-slate-800 transition-colors">{t('terms')}</Link>
+      <Link href="/support" className="hover:text-slate-800 transition-colors">{t('support')}</Link>
     </div>
   );
 }
