@@ -1,6 +1,7 @@
 // Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 
+using Propely.AppointmentsApi.Application.Appointments.Interfaces;
 using Propely.AppointmentsApi.Application.Common.Interfaces;
 using Propely.AppointmentsApi.Infrastructure.Caching;
 using Propely.AppointmentsApi.Infrastructure.Caching.Configuration;
@@ -35,6 +36,8 @@ public static class DependencyInjection
 
         // Repositories
         services.AddScoped<IOutboxRepository, OutboxRepository>();
+        services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+        services.AddScoped<IAppointmentReadRepository, AppointmentReadRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         // RabbitMQ
