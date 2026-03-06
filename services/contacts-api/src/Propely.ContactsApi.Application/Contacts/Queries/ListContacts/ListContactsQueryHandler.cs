@@ -34,8 +34,8 @@ public sealed class ListContactsQueryHandler : IRequestHandler<ListContactsQuery
 
         return new PagedResult<ContactListItemDto>(
             result.Items.Select(ContactMapper.ToListItemDto).ToList(),
+            result.TotalCount,
             result.PageNumber,
-            result.TotalPages,
-            result.TotalCount);
+            request.PageSize);
     }
 }

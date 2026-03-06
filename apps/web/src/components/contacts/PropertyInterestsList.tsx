@@ -1,9 +1,9 @@
 // Copyright (c) 2026 Propely. All rights reserved.
-// Licensed under the Proprietary Software License. See LICENSE.
+// Licensed under the Proprietary Software License.
 
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import type { PropertyInterest } from '@/hooks/useContacts';
 
@@ -11,13 +11,14 @@ interface PropertyInterestsListProps {
   interests: PropertyInterest[];
 }
 
-function formatDate(dateStr: string | null | undefined): string {
+function formatDate(dateStr: string | null | undefined, locale: string): string {
   if (!dateStr) return '\u2014';
-  return new Intl.DateTimeFormat('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(dateStr));
+  return new Intl.DateTimeFormat(locale, { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(dateStr));
 }
 
 export function PropertyInterestsList({ interests }: PropertyInterestsListProps) {
   const t = useTranslations('contacts.detail');
+  const locale = useLocale();
 
   if (interests.length === 0) {
     return (
@@ -47,7 +48,7 @@ export function PropertyInterestsList({ interests }: PropertyInterestsListProps)
               </p>
             </div>
           </div>
-          <span className="text-xs text-slate-400">{formatDate(interest.createdAtUtc)}</span>
+          <span className="text-xs text-slate-400">{formatDate(interest.createdAtUtc, locale)}</span>
         </div>
       ))}
     </div>

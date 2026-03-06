@@ -1,9 +1,9 @@
 // Copyright (c) 2026 Propely. All rights reserved.
-// Licensed under the Proprietary Software License. See LICENSE.
+// Licensed under the Proprietary Software License.
 
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import type { ContactListItem } from '@/hooks/useContacts';
 import { ContactRoleBadge } from './ContactRoleBadge';
@@ -15,13 +15,14 @@ interface ContactsTableProps {
   onDelete: (id: string) => void;
 }
 
-function formatDate(dateStr: string | null | undefined): string {
+function formatDate(dateStr: string | null | undefined, locale: string): string {
   if (!dateStr) return '\u2014';
-  return new Intl.DateTimeFormat('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(dateStr));
+  return new Intl.DateTimeFormat(locale, { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(dateStr));
 }
 
 export function ContactsTable({ items, isLoading, onDelete }: ContactsTableProps) {
   const t = useTranslations('contacts');
+  const locale = useLocale();
 
   if (isLoading) {
     return <SkeletonTable rows={5} columns={6} />;
@@ -61,7 +62,7 @@ export function ContactsTable({ items, isLoading, onDelete }: ContactsTableProps
                   ))}
                 </div>
               </td>
-              <td className="px-4 py-3 text-slate-500">{formatDate(item.createdAtUtc)}</td>
+              <td className="px-4 py-3 text-slate-500">{formatDate(item.createdAtUtc, locale)}</td>
               <td className="px-4 py-3">
                 <button
                   type="button"

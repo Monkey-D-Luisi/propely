@@ -31,14 +31,14 @@ Implemented the `Propely.ContactsApi.Client` NuGet SDK package providing typed R
 ## Implementation Notes
 - Key changes:
   - `IContactsApiClient` with CRUD methods: GetContactsAsync, GetContactByIdAsync, CreateContactAsync, UpdateContactAsync, DeleteContactAsync
-  - `ILeadsApiClient` with CRUD + workflow methods: GetLeadsAsync, GetLeadByIdAsync, CreateLeadAsync, UpdateLeadAsync, DeleteLeadAsync, AssignLeadAsync, ChangeLeadStatusAsync, ConvertLeadAsync
+  - `ILeadsApiClient` with CRUD + workflow methods: GetLeadsAsync, GetLeadByIdAsync, CreateLeadAsync, DeleteLeadAsync, AssignLeadAsync, ChangeLeadStatusAsync, ConvertLeadAsync
   - 14 model files in `Models/` directory with XML doc comments
-  - `TenantDelegatingHandler` reads ITenantContext and adds X-Tenant-Id header
+  - `TenantDelegatingHandler` reads the `X-Tenant-Id` header from `IHttpContextAccessor` and propagates it to outgoing requests
   - `ServiceCollectionExtensions.AddContactsApiClient()` registers both interfaces with Polly pipeline
-  - Polly pipeline: retry (3x exponential backoff for 5xx/408) -> circuit breaker (5 failures, 30s) -> timeout (30s)
+  - Polly pipeline: retry (3x exponential backoff for 5xx/408) -> circuit breaker (5 failures min throughput, 30s) -> timeout (30s)
 - Edge cases handled:
   - Null base URL throws ArgumentNullException at registration time
-  - TenantDelegatingHandler skips header if ITenantContext returns null tenant
+  - TenantDelegatingHandler skips header if incoming request has no X-Tenant-Id header
 - Known limitations:
   - No package versioning strategy yet (manual version bumps)
   - No automated integration tests against running service
@@ -68,7 +68,6 @@ dotnet test services/contacts-api/tests/Propely.ContactsApi.UnitTests/ --filter 
 - `services/contacts-api/src/Propely.ContactsApi.Client/Models/ContactListResponse.cs`
 - `services/contacts-api/src/Propely.ContactsApi.Client/Models/LeadResponse.cs`
 - `services/contacts-api/src/Propely.ContactsApi.Client/Models/CreateLeadRequest.cs`
-- `services/contacts-api/src/Propely.ContactsApi.Client/Models/UpdateLeadRequest.cs`
 - `services/contacts-api/src/Propely.ContactsApi.Client/Models/AssignLeadRequest.cs`
 - `services/contacts-api/src/Propely.ContactsApi.Client/Models/ChangeStatusRequest.cs`
 - `services/contacts-api/src/Propely.ContactsApi.Client/Models/ConvertLeadRequest.cs`

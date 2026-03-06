@@ -81,7 +81,7 @@ export default function LeadsPage() {
       setSelectedLeadId(null);
       void refetch();
     } catch {
-      toast({ title: t('loadError'), variant: 'destructive' });
+      toast({ title: t('conversion.error'), variant: 'destructive' });
     }
   }, [convertLead, refetch, toast, t]);
 

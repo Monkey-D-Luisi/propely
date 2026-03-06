@@ -26,7 +26,7 @@ public sealed class ContactsApiClientOptions
     /// <summary>
     /// Minimum number of requests in the sampling window before the circuit breaker evaluates the failure ratio.
     /// </summary>
-    public int CircuitBreakerFailureThreshold { get; set; } = 5;
+    public int CircuitBreakerMinimumThroughput { get; set; } = 5;
 
     /// <summary>
     /// Duration the circuit breaker stays open before transitioning to half-open.

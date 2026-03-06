@@ -62,7 +62,7 @@ export default function ContactsPage() {
       setShowForm(false);
       void refetch();
     } catch {
-      toast({ title: t('loadError'), variant: 'destructive' });
+      toast({ title: t('form.createError'), variant: 'destructive' });
     } finally {
       setSubmitting(false);
     }
@@ -77,7 +77,7 @@ export default function ContactsPage() {
       setDeleteId(null);
       void refetch();
     } catch {
-      toast({ title: t('loadError'), variant: 'destructive' });
+      toast({ title: t('delete.error'), variant: 'destructive' });
     } finally {
       setDeleting(false);
     }

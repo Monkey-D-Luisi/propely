@@ -80,7 +80,7 @@ public static class ServiceCollectionExtensions
         {
             FailureRatio = 0.5,
             SamplingDuration = TimeSpan.FromSeconds(30),
-            MinimumThroughput = options.CircuitBreakerFailureThreshold,
+            MinimumThroughput = options.CircuitBreakerMinimumThroughput,
             BreakDuration = options.CircuitBreakerDuration,
             ShouldHandle = args => ValueTask.FromResult(ShouldRetry(args.Outcome))
         });

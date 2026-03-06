@@ -1147,6 +1147,7 @@
       "save": "Guardar Contacto",
       "saving": "Guardando…",
       "createSuccess": "Contacto creado correctamente",
+      "createError": "Error al crear el contacto. Inténtalo de nuevo.",
       "updateSuccess": "Contacto actualizado correctamente",
       "required": "Este campo es obligatorio",
       "invalidEmail": "Introduce un email válido"
@@ -1178,7 +1179,8 @@
       "dialogMessage": "¿Estás seguro de que quieres eliminar este contacto? Esta acción no se puede deshacer.",
       "cancel": "Cancelar",
       "confirm": "Eliminar",
-      "success": "Contacto eliminado correctamente"
+      "success": "Contacto eliminado correctamente",
+      "error": "Error al eliminar el contacto. Inténtalo de nuevo."
     },
     "search": {
       "placeholder": "Buscar contactos por nombre, email o empresa..."
@@ -1246,7 +1248,8 @@
       "cancel": "Cancelar",
       "convert": "Convertir",
       "converting": "Convirtiendo…",
-      "success": "Oportunidad convertida a contacto correctamente"
+      "success": "Oportunidad convertida a contacto correctamente",
+      "error": "Error al convertir la oportunidad. Inténtalo de nuevo."
     },
     "filters": {
       "allStatuses": "Todos los Estados",

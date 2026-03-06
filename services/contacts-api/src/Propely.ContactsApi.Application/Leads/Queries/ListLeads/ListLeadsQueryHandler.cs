@@ -36,8 +36,8 @@ public sealed class ListLeadsQueryHandler : IRequestHandler<ListLeadsQuery, Page
 
         return new PagedResult<LeadListItemDto>(
             result.Items.Select(LeadMapper.ToListItemDto).ToList(),
+            result.TotalCount,
             result.PageNumber,
-            result.TotalPages,
-            result.TotalCount);
+            request.PageSize);
     }
 }

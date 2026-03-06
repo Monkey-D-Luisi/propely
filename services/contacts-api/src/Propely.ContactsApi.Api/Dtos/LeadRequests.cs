@@ -16,15 +16,6 @@ public sealed record CreateLeadRequest
     public Guid? AssignedAgentId { get; init; }
 }
 
-public sealed record UpdateLeadRequest
-{
-    public string? Name { get; init; }
-    public string? Email { get; init; }
-    public string? Phone { get; init; }
-    public string? Message { get; init; }
-    public string? Source { get; init; }
-}
-
 public sealed record AssignLeadRequest
 {
     public Guid AgentId { get; init; }
