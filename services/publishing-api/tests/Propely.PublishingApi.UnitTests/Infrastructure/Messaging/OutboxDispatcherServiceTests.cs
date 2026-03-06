@@ -114,7 +114,7 @@ public sealed class OutboxDispatcherServiceTests
         var config = Options.Create(new OutboxDispatcherConfiguration
         {
             Enabled = true,
-            PollingIntervalSeconds = 300
+            PollingIntervalSeconds = 1
         });
         var rabbitConfig = Options.Create(new RabbitMqConfiguration());
 
@@ -140,7 +140,7 @@ public sealed class OutboxDispatcherServiceTests
 
         using var cts = new CancellationTokenSource();
         await service.StartAsync(cts.Token);
-        await Task.Delay(1000);
+        await Task.Delay(2000);
         cts.Cancel();
         try { await service.StopAsync(CancellationToken.None); } catch (OperationCanceledException) { }
 
