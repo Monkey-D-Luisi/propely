@@ -16,19 +16,19 @@ Build the Contacts and Leads domain for Propely, enabling real estate agents to 
 
 | # | Title | Status | Dependencies |
 |---|---|---|---|
-| 4.1 | Contact Domain Model | PENDING | -- |
-| 4.2 | Lead Domain Model | PENDING | 4.1 |
-| 4.3 | Contacts & Leads Persistence & API | PENDING | 4.1, 4.2 |
-| 4.4 | Lead Conversion Flow | PENDING | 4.3 |
-| 4.5 | Contacts-API NuGet SDK Client | PENDING | 4.3 |
-| 4.6 | Frontend Contacts List & Detail | PENDING | 4.3 |
-| 4.7 | Frontend Lead Pipeline | PENDING | 4.3, 4.4 |
+| 4.1 | Contact Domain Model | DONE | -- |
+| 4.2 | Lead Domain Model | DONE | 4.1 |
+| 4.3 | Contacts & Leads Persistence & API | DONE | 4.1, 4.2 |
+| 4.4 | Lead Conversion Flow | DONE | 4.3 |
+| 4.5 | Contacts-API NuGet SDK Client | DONE | 4.3 |
+| 4.6 | Frontend Contacts List & Detail | DONE | 4.3 |
+| 4.7 | Frontend Lead Pipeline | DONE | 4.3, 4.4 |
 
 ---
 
 ## Task 4.1 -- Contact Domain Model
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** None
 
 ### Scope
@@ -118,7 +118,7 @@ Write all domain unit tests first, defining expected behavior for each factory m
 
 ## Task 4.2 -- Lead Domain Model
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 4.1 (uses `Contact` for conversion target)
 
 ### Scope
@@ -204,7 +204,7 @@ Write parameterized tests for ALL status transition combinations (5x5 matrix) fi
 
 ## Task 4.3 -- Contacts & Leads Persistence & API
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 4.1, 4.2 (domain models must exist)
 
 ### Scope
@@ -359,7 +359,7 @@ Write integration tests for each endpoint first (expected request/response pairs
 
 ## Task 4.4 -- Lead Conversion Flow
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 4.3 (persistence and API must exist)
 
 ### Scope
@@ -450,7 +450,7 @@ Write tests for both conversion paths (new contact vs. merge) first. Define expe
 
 ## Task 4.5 -- Contacts-API NuGet SDK Client
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 4.3 (API endpoints must be defined)
 
 ### Scope
@@ -534,7 +534,7 @@ Write DI resolution tests first. Then implement registration extension. Write Po
 
 ## Task 4.6 -- Frontend Contacts List & Detail
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 4.3 (API endpoints must be available)
 
 ### Scope
@@ -648,7 +648,7 @@ Write schema validation tests and component render tests first. Then implement t
 
 ## Task 4.7 -- Frontend Lead Pipeline
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 4.3 (API endpoints), 4.4 (conversion endpoint)
 
 ### Scope
