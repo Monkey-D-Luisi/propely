@@ -33,7 +33,9 @@ const PROPERTIES_API_BASE = process.env.NEXT_PUBLIC_PROPERTIES_API_URL ?? "http:
 
 const CONTACTS_API_BASE = process.env.NEXT_PUBLIC_CONTACTS_API_URL ?? "http://localhost:5050";
 
-const CROSS_ORIGIN_BASES = new Set([AI_API_BASE, PROPERTIES_API_BASE, CONTACTS_API_BASE]);
+const APPOINTMENTS_API_BASE = process.env.NEXT_PUBLIC_APPOINTMENTS_API_URL ?? "http://localhost:5060";
+
+const CROSS_ORIGIN_BASES = new Set([AI_API_BASE, PROPERTIES_API_BASE, CONTACTS_API_BASE, APPOINTMENTS_API_BASE]);
 
 async function baseFetch<T>(
   baseUrl: string,
@@ -148,6 +150,27 @@ export async function contactsApiFetch<T>(
       const refreshed = await tryRefreshToken();
       if (refreshed) {
         return await baseFetch(CONTACTS_API_BASE, path, init, schema);
+      }
+    }
+    throw err;
+  }
+}
+
+/**
+ * Fetch from the Appointments API with automatic token refresh on 401.
+ */
+export async function appointmentsApiFetch<T>(
+  path: string,
+  init: RequestInit = {},
+  schema?: { parse: (data: unknown) => T },
+): Promise<T> {
+  try {
+    return await baseFetch(APPOINTMENTS_API_BASE, path, init, schema);
+  } catch (err) {
+    if (isApiError(err) && err.status === 401) {
+      const refreshed = await tryRefreshToken();
+      if (refreshed) {
+        return await baseFetch(APPOINTMENTS_API_BASE, path, init, schema);
       }
     }
     throw err;

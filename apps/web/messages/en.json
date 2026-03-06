@@ -58,7 +58,8 @@
     "agencies": "Agencies",
     "properties": "Properties",
     "contacts": "Contacts",
-    "leads": "Leads"
+    "leads": "Leads",
+    "appointments": "Appointments"
   },
   "auth": {
     "login": {
@@ -1282,6 +1283,92 @@
     "statusChange": {
       "success": "Lead status updated successfully",
       "error": "Failed to update lead status"
+    }
+  },
+  "appointments": {
+    "title": "Appointments",
+    "subtitle": "Manage your schedule and upcoming appointments",
+    "noOrg": "You need to create or join an organization before managing appointments.",
+    "loadError": "Failed to load appointments. Please try again.",
+    "newAppointment": "New Appointment",
+    "createSuccess": "Appointment created successfully",
+    "createError": "Failed to create appointment. Please try again.",
+    "deleteSuccess": "Appointment deleted successfully",
+    "deleteError": "Failed to delete appointment. Please try again.",
+    "statusChangeSuccess": "Appointment status updated successfully",
+    "statusChangeError": "Failed to update appointment status",
+    "empty": {
+      "title": "No appointments yet",
+      "subtitle": "Click a date on the calendar or use the button above to create your first appointment."
+    },
+    "status": {
+      "Scheduled": "Scheduled",
+      "Confirmed": "Confirmed",
+      "Completed": "Completed",
+      "Cancelled": "Cancelled",
+      "NoShow": "No Show"
+    },
+    "type": {
+      "PropertyViewing": "Property Viewing",
+      "OwnerMeeting": "Owner Meeting",
+      "Generic": "General"
+    },
+    "filters": {
+      "allStatuses": "All Statuses",
+      "allTypes": "All Types",
+      "statusLabel": "Filter by status",
+      "typeLabel": "Filter by type"
+    },
+    "detail": {
+      "title": "Appointment Details",
+      "dateTime": "Date & Time",
+      "location": "Location",
+      "property": "Property",
+      "contact": "Contact",
+      "agent": "Agent",
+      "created": "Created",
+      "updated": "Last Updated",
+      "description": "Description",
+      "notes": "Notes",
+      "cancellationReason": "Cancellation Reason",
+      "close": "Close"
+    },
+    "actions": {
+      "confirm": "Confirm",
+      "complete": "Mark Complete",
+      "cancel": "Cancel Appointment",
+      "noShow": "Mark No-Show",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "form": {
+      "titleLabel": "Title",
+      "titlePlaceholder": "e.g. Property viewing at 123 Main St",
+      "typeLabel": "Type",
+      "allDayLabel": "All day event",
+      "startDateLabel": "Start Date",
+      "startTimeLabel": "Start Time",
+      "endDateLabel": "End Date",
+      "endTimeLabel": "End Time",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Add a description...",
+      "locationLabel": "Location",
+      "locationPlaceholder": "e.g. 123 Main St, Apt 4B",
+      "propertyLabel": "Property ID (optional)",
+      "propertyPlaceholder": "Link to a property...",
+      "contactLabel": "Contact ID (optional)",
+      "contactPlaceholder": "Link to a contact...",
+      "notesLabel": "Notes",
+      "notesPlaceholder": "Internal notes...",
+      "create": "Create Appointment",
+      "save": "Save Changes",
+      "cancel": "Cancel",
+      "validation": {
+        "titleRequired": "Title is required",
+        "titleMaxLength": "Title must be 200 characters or less",
+        "startDateRequired": "Start date is required",
+        "endDateRequired": "End date is required"
+      }
     }
   }
 }

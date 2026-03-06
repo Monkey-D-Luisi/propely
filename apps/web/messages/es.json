@@ -58,7 +58,8 @@
     "agencies": "Agencias",
     "properties": "Propiedades",
     "contacts": "Contactos",
-    "leads": "Oportunidades"
+    "leads": "Oportunidades",
+    "appointments": "Citas"
   },
   "auth": {
     "login": {
@@ -1263,6 +1264,92 @@
     "statusChange": {
       "success": "Estado de la oportunidad actualizado correctamente",
       "error": "Error al actualizar el estado de la oportunidad"
+    }
+  },
+  "appointments": {
+    "title": "Citas",
+    "subtitle": "Gestiona tu agenda y citas programadas",
+    "noOrg": "Necesitas crear o unirte a una organizaci\u00f3n antes de gestionar citas.",
+    "loadError": "Error al cargar las citas. Int\u00e9ntalo de nuevo.",
+    "newAppointment": "Nueva Cita",
+    "createSuccess": "Cita creada correctamente",
+    "createError": "Error al crear la cita. Int\u00e9ntalo de nuevo.",
+    "deleteSuccess": "Cita eliminada correctamente",
+    "deleteError": "Error al eliminar la cita. Int\u00e9ntalo de nuevo.",
+    "statusChangeSuccess": "Estado de la cita actualizado correctamente",
+    "statusChangeError": "Error al actualizar el estado de la cita",
+    "empty": {
+      "title": "No hay citas a\u00fan",
+      "subtitle": "Haz clic en una fecha del calendario o usa el bot\u00f3n de arriba para crear tu primera cita."
+    },
+    "status": {
+      "Scheduled": "Programada",
+      "Confirmed": "Confirmada",
+      "Completed": "Completada",
+      "Cancelled": "Cancelada",
+      "NoShow": "No asisti\u00f3"
+    },
+    "type": {
+      "PropertyViewing": "Visita a propiedad",
+      "OwnerMeeting": "Reuni\u00f3n con propietario",
+      "Generic": "General"
+    },
+    "filters": {
+      "allStatuses": "Todos los Estados",
+      "allTypes": "Todos los Tipos",
+      "statusLabel": "Filtrar por estado",
+      "typeLabel": "Filtrar por tipo"
+    },
+    "detail": {
+      "title": "Detalles de la Cita",
+      "dateTime": "Fecha y Hora",
+      "location": "Ubicaci\u00f3n",
+      "property": "Propiedad",
+      "contact": "Contacto",
+      "agent": "Agente",
+      "created": "Creada",
+      "updated": "\u00daltima actualizaci\u00f3n",
+      "description": "Descripci\u00f3n",
+      "notes": "Notas",
+      "cancellationReason": "Motivo de cancelaci\u00f3n",
+      "close": "Cerrar"
+    },
+    "actions": {
+      "confirm": "Confirmar",
+      "complete": "Marcar completada",
+      "cancel": "Cancelar cita",
+      "noShow": "Marcar no asisti\u00f3",
+      "edit": "Editar",
+      "delete": "Eliminar"
+    },
+    "form": {
+      "titleLabel": "T\u00edtulo",
+      "titlePlaceholder": "ej. Visita a propiedad en Calle Principal 123",
+      "typeLabel": "Tipo",
+      "allDayLabel": "Evento de todo el d\u00eda",
+      "startDateLabel": "Fecha de inicio",
+      "startTimeLabel": "Hora de inicio",
+      "endDateLabel": "Fecha de fin",
+      "endTimeLabel": "Hora de fin",
+      "descriptionLabel": "Descripci\u00f3n",
+      "descriptionPlaceholder": "A\u00f1ade una descripci\u00f3n...",
+      "locationLabel": "Ubicaci\u00f3n",
+      "locationPlaceholder": "ej. Calle Principal 123, Piso 4B",
+      "propertyLabel": "ID de propiedad (opcional)",
+      "propertyPlaceholder": "Vincular a una propiedad...",
+      "contactLabel": "ID de contacto (opcional)",
+      "contactPlaceholder": "Vincular a un contacto...",
+      "notesLabel": "Notas",
+      "notesPlaceholder": "Notas internas...",
+      "create": "Crear Cita",
+      "save": "Guardar cambios",
+      "cancel": "Cancelar",
+      "validation": {
+        "titleRequired": "El t\u00edtulo es obligatorio",
+        "titleMaxLength": "El t\u00edtulo debe tener 200 caracteres o menos",
+        "startDateRequired": "La fecha de inicio es obligatoria",
+        "endDateRequired": "La fecha de fin es obligatoria"
+      }
     }
   }
 }
