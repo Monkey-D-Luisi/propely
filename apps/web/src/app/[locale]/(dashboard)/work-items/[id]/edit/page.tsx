@@ -23,8 +23,10 @@ export default async function WorkItemEditPage({ params }: EditPageProps) {
   }
 
   return (
-    <div className="mx-auto flex min-h-dvh w-full max-w-5xl flex-col gap-8 p-6 md:p-10">
+    <div className="flex-1 overflow-y-auto p-8">
+      <div className="mx-auto flex max-w-[1200px] flex-col gap-6">
       <WorkItemEdit id={parsed.data.id} />
+      </div>
     </div>
   );
 }

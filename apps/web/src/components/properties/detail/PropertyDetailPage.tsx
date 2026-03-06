@@ -55,8 +55,8 @@ export function PropertyDetailPage({ id }: PropertyDetailPageProps) {
   // Loading skeleton
   if (propertyLoading) {
     return (
-      <div className="mx-auto w-full max-w-5xl p-6 md:p-10" data-testid="detail-loading">
-        <div className="animate-pulse space-y-6">
+      <div className="flex-1 overflow-y-auto p-8" data-testid="detail-loading">
+        <div className="mx-auto max-w-[1200px] animate-pulse space-y-6">
           <div className="h-4 w-32 rounded-lg bg-slate-200" />
           <div className="h-8 w-64 rounded-lg bg-slate-200" />
           <div className="aspect-video w-full rounded-xl bg-slate-100" />
@@ -72,15 +72,17 @@ export function PropertyDetailPage({ id }: PropertyDetailPageProps) {
   // Error state
   if (error || !property) {
     return (
-      <div className="mx-auto w-full max-w-5xl p-6 md:p-10" data-testid="detail-error">
-        <ErrorMessage message={t('loadError')} />
-        <Link
-          href="/properties"
-          className="mt-4 inline-flex items-center gap-1 text-sm text-primary-600 hover:text-primary-700"
-        >
-          <span className="material-symbols-outlined text-sm" aria-hidden="true">arrow_back</span>
-          {t('backToList')}
-        </Link>
+      <div className="flex-1 overflow-y-auto p-8" data-testid="detail-error">
+        <div className="mx-auto max-w-[1200px]">
+          <ErrorMessage message={t('loadError')} />
+          <Link
+            href="/properties"
+            className="mt-4 inline-flex items-center gap-1 text-sm text-primary-600 hover:text-primary-700"
+          >
+            <span className="material-symbols-outlined text-sm" aria-hidden="true">arrow_back</span>
+            {t('backToList')}
+          </Link>
+        </div>
       </div>
     );
   }
@@ -88,7 +90,8 @@ export function PropertyDetailPage({ id }: PropertyDetailPageProps) {
   const floorPlanMedia = media.filter((m) => m.mediaType === 'FloorPlan');
 
   return (
-    <div className="mx-auto w-full max-w-5xl p-6 md:p-10" data-testid="property-detail">
+    <div className="flex-1 overflow-y-auto p-8" data-testid="property-detail">
+      <div className="mx-auto max-w-[1200px]">
       {/* Breadcrumb */}
       <nav className="mb-4 flex items-center gap-2 text-sm text-slate-500" aria-label="Breadcrumb">
         <Link href="/properties" className="hover:text-primary-600">
@@ -175,6 +178,7 @@ export function PropertyDetailPage({ id }: PropertyDetailPageProps) {
         toStatus={statusTarget ?? ''}
         isLoading={isChangingStatus}
       />
+      </div>
     </div>
   );
 }
