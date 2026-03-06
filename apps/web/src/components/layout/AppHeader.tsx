@@ -150,6 +150,12 @@ export function AppHeader() {
               >
                 {t('leads')}
               </Link>
+              <Link
+                href="/appointments"
+                className="hidden text-sm text-slate-600 transition hover:text-slate-900 sm:inline"
+              >
+                {t('appointments')}
+              </Link>
               <BranchSwitcher />
               <NotificationBell />
               <Link
@@ -259,6 +265,13 @@ export function AppHeader() {
               className="block rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-900"
             >
               {t('leads')}
+            </Link>
+            <Link
+              href="/appointments"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-900"
+            >
+              {t('appointments')}
             </Link>
             <Link
               href={agencies.length > 0 ? `/agencies/${agencies[0].id}` : '/agencies/new'}
