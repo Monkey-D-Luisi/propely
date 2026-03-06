@@ -5,10 +5,12 @@ using Propely.AppointmentsApi.Application.Appointments.Interfaces;
 using Propely.AppointmentsApi.Application.Common.Interfaces;
 using Propely.AppointmentsApi.Infrastructure.Caching;
 using Propely.AppointmentsApi.Infrastructure.Caching.Configuration;
+using Propely.AppointmentsApi.Infrastructure.Calendar;
 using Propely.AppointmentsApi.Infrastructure.Messaging;
 using Propely.AppointmentsApi.Infrastructure.Messaging.Configuration;
 using Propely.AppointmentsApi.Infrastructure.Persistence;
 using Propely.AppointmentsApi.Infrastructure.Persistence.Repositories;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,6 +40,8 @@ public static class DependencyInjection
         services.AddScoped<IOutboxRepository, OutboxRepository>();
         services.AddScoped<IAppointmentRepository, AppointmentRepository>();
         services.AddScoped<IAppointmentReadRepository, AppointmentReadRepository>();
+        services.AddScoped<ICalendarConnectionRepository, CalendarConnectionRepository>();
+        services.AddScoped<ISyncOperationRepository, SyncOperationRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         // RabbitMQ
@@ -53,6 +57,29 @@ public static class DependencyInjection
         services.AddSingleton<RedisCacheService>();
         services.AddSingleton<ICacheService>(sp => sp.GetRequiredService<RedisCacheService>());
         services.AddSingleton<ICacheSettings>(sp => sp.GetRequiredService<IOptions<RedisConfiguration>>().Value);
+
+        // Calendar Integration
+        services.Configure<CalendarConfiguration>(configuration.GetSection(CalendarConfiguration.SectionName));
+
+        // Data Protection for token encryption
+        services.AddDataProtection()
+            .SetApplicationName("Propely.AppointmentsApi");
+
+        services.AddScoped<ITokenEncryptionService, TokenEncryptionService>();
+        services.AddScoped<ICalendarTokenExchangeService, CalendarTokenExchangeService>();
+
+        // Calendar sync services (registered as ICalendarSyncService collection)
+        services.AddScoped<ICalendarSyncService, GoogleCalendarSyncService>();
+        services.AddScoped<ICalendarSyncService, MicrosoftCalendarSyncService>();
+
+        // Calendar sync orchestrator
+        services.AddScoped<CalendarSyncOrchestrator>();
+
+        // Background worker (only in non-testing environments)
+        if (!isTestEnvironment)
+        {
+            services.AddHostedService<CalendarSyncWorker>();
+        }
 
         return services;
     }
