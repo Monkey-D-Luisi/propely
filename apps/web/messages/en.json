@@ -987,7 +987,8 @@
       "markSold": "Mark as Sold",
       "markRented": "Mark as Rented",
       "archive": "Archive",
-      "release": "Release reservation"
+      "release": "Release reservation",
+      "moveToDraft": "Move to Draft"
     },
     "empty": {
       "title": "No properties yet",

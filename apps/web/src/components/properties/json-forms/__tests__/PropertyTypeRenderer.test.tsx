@@ -5,6 +5,8 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { JsonForms } from '@jsonforms/react';
 import { vanillaRenderers, vanillaCells } from '@jsonforms/vanilla-renderers';
+import { NextIntlClientProvider } from 'next-intl';
+import messages from '../../../../../messages/en.json';
 import { PropertyTypeRenderer, propertyTypeTester } from '../PropertyTypeRenderer';
 
 const schema = {
@@ -27,9 +29,17 @@ const renderers = [
   { tester: propertyTypeTester, renderer: PropertyTypeRenderer },
 ];
 
+function renderWithIntl(ui: React.ReactElement) {
+  return render(
+    <NextIntlClientProvider locale="en" messages={messages}>
+      {ui}
+    </NextIntlClientProvider>
+  );
+}
+
 describe('PropertyTypeRenderer', () => {
   it('renders all property type options', () => {
-    render(
+    renderWithIntl(
       <JsonForms
         schema={schema}
         uischema={uiSchema}
@@ -47,7 +57,7 @@ describe('PropertyTypeRenderer', () => {
   });
 
   it('highlights selected type', () => {
-    render(
+    renderWithIntl(
       <JsonForms
         schema={schema}
         uischema={uiSchema}
@@ -65,7 +75,7 @@ describe('PropertyTypeRenderer', () => {
   it('calls onChange when a type is clicked', async () => {
     const onChange = vi.fn();
 
-    render(
+    renderWithIntl(
       <JsonForms
         schema={schema}
         uischema={uiSchema}

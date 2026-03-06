@@ -44,7 +44,7 @@ const TRANSITION_CONFIG: Record<PropertyStatusType, { labelKey: string; classNam
       'rounded-lg bg-red-600 px-3 py-1.5 text-sm font-medium text-white shadow-sm transition hover:bg-red-700 active:scale-[0.98] disabled:opacity-50',
   },
   Draft: {
-    labelKey: 'activate',
+    labelKey: 'moveToDraft',
     className:
       'rounded-lg bg-slate-600 px-3 py-1.5 text-sm font-medium text-white shadow-sm transition hover:bg-slate-700 active:scale-[0.98] disabled:opacity-50',
   },

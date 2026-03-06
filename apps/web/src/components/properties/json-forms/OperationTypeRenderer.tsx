@@ -6,20 +6,24 @@
 import { rankWith, scopeEndsWith } from '@jsonforms/core';
 import type { ControlProps } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
+import { useTranslations } from 'next-intl';
 
 const OPERATION_TYPES = [
-  { value: 'Sale', label: 'Sale', icon: '\ud83d\udcb0' },
-  { value: 'Rent', label: 'Rent', icon: '\ud83d\udd11' },
-  { value: 'RentToBuy', label: 'Rent to Buy', icon: '\ud83d\udd04' },
-  { value: 'Transfer', label: 'Transfer', icon: '\ud83d\udce4' },
+  { value: 'Sale', icon: '\ud83d\udcb0' },
+  { value: 'Rent', icon: '\ud83d\udd11' },
+  { value: 'SaleOrRent', icon: '\ud83d\udd04' },
+  { value: 'Transfer', icon: '\ud83d\udce4' },
+  { value: 'Vacation', icon: '\ud83c\udfd6\ufe0f' },
 ] as const;
 
 function OperationTypeRendererComponent({ data, handleChange, path, label }: ControlProps) {
+  const t = useTranslations('properties');
+
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-sm font-medium text-slate-700">{label || 'Operation Type'}</label>
-      <div className="flex gap-2" role="radiogroup" aria-label="Operation Type">
-        {OPERATION_TYPES.map(({ value, label: typeLabel, icon }) => (
+      <label className="text-sm font-medium text-slate-700">{label || t('form.operationType')}</label>
+      <div className="flex gap-2" role="radiogroup" aria-label={label || t('form.operationType')}>
+        {OPERATION_TYPES.map(({ value, icon }) => (
           <button
             key={value}
             type="button"
@@ -33,7 +37,7 @@ function OperationTypeRendererComponent({ data, handleChange, path, label }: Con
             }`}
           >
             <span>{icon}</span>
-            <span>{typeLabel}</span>
+            <span>{t(`operation.${value}`)}</span>
           </button>
         ))}
       </div>
