@@ -11,7 +11,10 @@ const AUTOSAVE_INTERVAL = 30000;
 export function useAutoSave(data: Record<string, unknown>, enabled = true) {
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const dataRef = useRef(data);
-  dataRef.current = data;
+
+  useEffect(() => {
+    dataRef.current = data;
+  });
 
   const save = useCallback(() => {
     try {
