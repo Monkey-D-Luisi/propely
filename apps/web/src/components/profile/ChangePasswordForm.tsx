@@ -73,7 +73,7 @@ export function ChangePasswordForm() {
     <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
       <div className="p-6 md:p-8">
         <div className="mb-8 border-b border-slate-100 pb-6">
-          <h2 className="text-lg font-semibold text-slate-900">{t('passwordTitle')}</h2>
+          <h2 className="text-xl font-bold text-slate-900">{t('passwordTitle')}</h2>
           <p className="mt-1 text-sm text-slate-500">{t('passwordDescription')}</p>
         </div>
 
