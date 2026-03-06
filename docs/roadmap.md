@@ -588,7 +588,7 @@ Coverage targets:
 **Goal:** Enable scheduling of property viewings, meetings, and generic appointments with bidirectional calendar sync. NL scheduling is handled in P3.6.
 
 ### Task 5.1 — Appointment Domain Model
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 0.3
 - **Scope:** Define `Appointment` aggregate root:
   - Types: `AppointmentType` (PropertyViewing, OwnerMeeting, Generic)
@@ -599,31 +599,31 @@ Coverage targets:
 - **TDD:** Unit tests for appointment lifecycle, validation (end > start, viewing requires property).
 
 ### Task 5.2 — Appointments Persistence & API
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 5.1
 - **Scope:** EF Core setup for appointments-api. CRUD endpoints. List appointments by agent/date range/property/contact. Authorization: agent sees own, admin sees all.
 - **TDD:** Integration tests for all endpoints + authorization.
 
 ### Task 5.3 — Google Calendar Integration
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 5.2
 - **Scope:** OAuth2 flow for Google Calendar. Bidirectional sync: create/update/delete Propely appointment → push to Google Calendar. Google Calendar webhook for external changes → update Propely. Store sync state (externalCalendarEventId, lastSyncedAt). Handle conflicts.
 - **TDD:** Unit tests with mocked Google API. Integration tests for sync scenarios.
 
 ### Task 5.4 — Outlook/Microsoft Graph Integration
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 5.2
 - **Scope:** OAuth2 flow for Microsoft Graph. Same bidirectional sync pattern as Google Calendar. `ICalendarSyncService` interface with Google and Microsoft implementations.
 - **TDD:** Unit tests with mocked Graph API.
 
 ### Task 5.5 — Calendar Sync Engine
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 5.3, 5.4
 - **Scope:** Background service that processes sync queue. Handles rate limiting, retry with backoff, conflict resolution (last-write-wins with user notification). Publishes `AppointmentSyncedV1` events.
 - **TDD:** Unit tests for conflict resolution. Integration tests for sync queue processing.
 
 ### Task 5.6 — Frontend: Calendar View
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 5.2, 1.6
 - **Scope:**
   1. Use case definition: view calendar (month/week/day), create appointment from calendar, drag to reschedule, click for details
@@ -632,7 +632,7 @@ Coverage targets:
 - **TDD:** Component tests for calendar wrapper. E2E test for create/view/reschedule flow.
 
 ### Task 5.7 — Frontend: Appointment Booking
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 5.6
 - **Scope:**
   1. Use case definition: book viewing from property detail page, book meeting from contact detail, agent availability check
@@ -641,7 +641,7 @@ Coverage targets:
 - **TDD:** Component tests. Integration test for booking flow.
 
 ### Task 5.8 — Appointments-API NuGet SDK Client
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 5.2
 - **Scope:** `Propely.AppointmentsApi.Client` with Refit interfaces: create appointment, list by agent/date, get by ID. Used by ai-api for NL appointment actions.
 - **TDD:** Contract tests.
