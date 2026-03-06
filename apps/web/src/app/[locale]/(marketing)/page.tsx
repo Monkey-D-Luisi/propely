@@ -12,91 +12,102 @@ export default function Page() {
 
   return (
     <div className="overflow-hidden pb-0">
-      {/* Hero Section */}
-      <section className="relative flex flex-col items-center px-4 pb-16 pt-24 text-center sm:px-6 sm:pb-24 lg:px-8 lg:pb-32">
+      {/* Hero Section — Stitch landing.html */}
+      <section className="w-full max-w-6xl mx-auto px-6 py-24 flex flex-col items-center text-center gap-8">
         {/* Abstract Background Decorations */}
         <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-full w-full -translate-x-1/2">
           <div className="absolute left-[20%] top-[-10%] h-[500px] w-[500px] rounded-full bg-primary-600/5 opacity-50 blur-3xl" />
           <div className="absolute right-[20%] top-[10%] h-[400px] w-[400px] rounded-full bg-purple-500/5 opacity-50 blur-3xl" />
         </div>
 
-        {/* Pill Badge */}
-        <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-primary-600/20 bg-primary-600/10 px-3 py-1 text-sm font-medium text-primary-600">
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary-600 opacity-75" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-primary-600" />
-          </span>
+        {/* Pill Badge — Stitch landing.html */}
+        <div className="mb-8 inline-flex items-center rounded-full border border-primary-600/30 bg-primary-600/10 px-3 py-1 text-sm font-medium text-primary-600">
           {t('landing.badge')}
         </div>
 
-        {/* Main Heading */}
-        <h1 className="mx-auto mb-6 max-w-4xl text-5xl font-extrabold leading-[1.1] tracking-tight sm:text-6xl lg:text-7xl">
+        {/* Main Heading — Stitch: text-5xl md:text-6xl font-black */}
+        <h1 className="mx-auto mb-6 max-w-4xl text-5xl md:text-6xl font-black leading-tight tracking-tight text-slate-900">
           {t('landing.heroPrefix')}{' '}
-          <span className="bg-gradient-to-r from-primary-600 to-purple-600 bg-clip-text text-transparent">
+          <span className="text-primary-600">
             {t('landing.heroHighlight')}
           </span>
         </h1>
 
-        {/* Subtitle */}
-        <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-slate-600 sm:text-xl">
+        {/* Subtitle — Stitch: text-lg md:text-xl */}
+        <p className="mx-auto mb-10 max-w-2xl text-lg md:text-xl text-slate-600">
           {t('appDescription')}
         </p>
 
-        {/* CTA Buttons */}
-        <div className="flex w-full flex-col items-center gap-4 sm:w-auto sm:flex-row">
+        {/* CTA Buttons — Stitch: h-12 px-6 */}
+        <div className="flex flex-wrap gap-4 justify-center mt-4">
           <Link
-            href="/orgs/mine"
-            className="inline-flex w-full items-center justify-center rounded-lg bg-primary-600 px-8 py-3.5 text-base font-semibold text-white shadow-sm shadow-primary-600/30 transition-all hover:-translate-y-0.5 hover:bg-primary-600/90 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 sm:w-auto"
+            href="/register"
+            className="rounded-lg h-12 px-6 bg-primary-600 hover:bg-primary-600/90 text-white text-base font-bold shadow-lg shadow-primary-600/20 inline-flex items-center justify-center transition-colors"
           >
             {t('landing.getStarted')}
-            <span className="material-symbols-outlined ml-2 text-[20px]" aria-hidden="true">arrow_forward</span>
           </Link>
-          <a
-            href="https://github.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex w-full items-center justify-center rounded-lg border border-slate-200 bg-white px-8 py-3.5 text-base font-medium text-slate-700 shadow-sm transition-all hover:-translate-y-0.5 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-200 focus:ring-offset-2 sm:w-auto"
+          <Link
+            href="/pricing"
+            className="rounded-lg h-12 px-6 bg-white border-2 border-slate-200 hover:border-primary-600 text-slate-900 text-base font-bold inline-flex items-center justify-center transition-colors"
           >
-            <svg className="mr-2 h-5 w-5 text-slate-500" fill="currentColor" viewBox="0 0 24 24">
-              <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
-            </svg>
-            {t('landing.viewOnGithub')}
-          </a>
+            {t('landing.viewDemo')}
+          </Link>
         </div>
 
-        {/* Features Grid */}
-        <div className="mt-20 grid w-full max-w-5xl grid-cols-1 gap-8 text-left md:grid-cols-3">
-          {/* Feature 1 — Authentication */}
-          <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md">
-            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
-              <span className="material-symbols-outlined" aria-hidden="true">fingerprint</span>
+        {/* Features Grid — Stitch: 6 feature cards in 3-col grid */}
+        <div className="mt-12 grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
+          {/* Feature 1 — AI Action Engine */}
+          <div className="flex flex-col gap-4 p-6 rounded-xl bg-white border border-slate-200 hover:shadow-lg transition-shadow">
+            <div className="size-12 rounded-lg bg-primary-600/10 flex items-center justify-center text-primary-600">
+              <span className="material-symbols-outlined" aria-hidden="true">smart_toy</span>
             </div>
-            <h3 className="mb-2 text-lg font-semibold text-slate-900">{t('landing.feature1Title')}</h3>
-            <p className="text-sm leading-relaxed text-slate-600">
-              {t('landing.feature1Description')}
-            </p>
+            <h3 className="text-xl font-bold text-slate-900">{t('landing.feature1Title')}</h3>
+            <p className="text-slate-600">{t('landing.feature1Description')}</p>
           </div>
 
-          {/* Feature 2 — Billing & Subscriptions */}
-          <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md">
-            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-green-50 text-green-600">
-              <span className="material-symbols-outlined" aria-hidden="true">credit_card</span>
+          {/* Feature 2 — Property Management */}
+          <div className="flex flex-col gap-4 p-6 rounded-xl bg-white border border-slate-200 hover:shadow-lg transition-shadow">
+            <div className="size-12 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+              <span className="material-symbols-outlined" aria-hidden="true">domain</span>
             </div>
-            <h3 className="mb-2 text-lg font-semibold text-slate-900">{t('landing.feature2Title')}</h3>
-            <p className="text-sm leading-relaxed text-slate-600">
-              {t('landing.feature2Description')}
-            </p>
+            <h3 className="text-xl font-bold text-slate-900">{t('landing.feature2Title')}</h3>
+            <p className="text-slate-600">{t('landing.feature2Description')}</p>
           </div>
 
-          {/* Feature 3 — Multi-tenancy */}
-          <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md">
-            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-purple-50 text-purple-600">
-              <span className="material-symbols-outlined" aria-hidden="true">apartment</span>
+          {/* Feature 3 — Lead Tracking */}
+          <div className="flex flex-col gap-4 p-6 rounded-xl bg-white border border-slate-200 hover:shadow-lg transition-shadow">
+            <div className="size-12 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500">
+              <span className="material-symbols-outlined" aria-hidden="true">track_changes</span>
             </div>
-            <h3 className="mb-2 text-lg font-semibold text-slate-900">{t('landing.feature3Title')}</h3>
-            <p className="text-sm leading-relaxed text-slate-600">
-              {t('landing.feature3Description')}
-            </p>
+            <h3 className="text-xl font-bold text-slate-900">{t('landing.feature3Title')}</h3>
+            <p className="text-slate-600">{t('landing.feature3Description')}</p>
+          </div>
+
+          {/* Feature 4 — Appointments */}
+          <div className="flex flex-col gap-4 p-6 rounded-xl bg-white border border-slate-200 hover:shadow-lg transition-shadow">
+            <div className="size-12 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-500">
+              <span className="material-symbols-outlined" aria-hidden="true">calendar_month</span>
+            </div>
+            <h3 className="text-xl font-bold text-slate-900">{t('landing.feature4Title')}</h3>
+            <p className="text-slate-600">{t('landing.feature4Description')}</p>
+          </div>
+
+          {/* Feature 5 — Team Collaboration */}
+          <div className="flex flex-col gap-4 p-6 rounded-xl bg-white border border-slate-200 hover:shadow-lg transition-shadow">
+            <div className="size-12 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-500">
+              <span className="material-symbols-outlined" aria-hidden="true">groups</span>
+            </div>
+            <h3 className="text-xl font-bold text-slate-900">{t('landing.feature5Title')}</h3>
+            <p className="text-slate-600">{t('landing.feature5Description')}</p>
+          </div>
+
+          {/* Feature 6 — Work Items */}
+          <div className="flex flex-col gap-4 p-6 rounded-xl bg-white border border-slate-200 hover:shadow-lg transition-shadow">
+            <div className="size-12 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-500">
+              <span className="material-symbols-outlined" aria-hidden="true">work</span>
+            </div>
+            <h3 className="text-xl font-bold text-slate-900">{t('landing.feature6Title')}</h3>
+            <p className="text-slate-600">{t('landing.feature6Description')}</p>
           </div>
         </div>
 
@@ -163,24 +174,6 @@ export default function Page() {
           <TrustedBySection heading={t('landing.trustedBy')} />
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="border-t border-slate-200 bg-white py-12">
-        <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 px-4 sm:px-6 md:flex-row md:justify-between lg:px-8">
-          <div className="flex items-center gap-2">
-            <div className="flex h-6 w-6 items-center justify-center rounded bg-primary-600 text-white">
-              <span className="material-symbols-outlined text-sm" aria-hidden="true">layers</span>
-            </div>
-            <span className="text-sm text-slate-500">{t('landing.copyright')}</span>
-          </div>
-          <div className="flex space-x-6 text-sm text-slate-500">
-            <Link href="/privacy" className="transition-colors hover:text-primary-600">{t('landing.privacy')}</Link>
-            <Link href="/terms" className="transition-colors hover:text-primary-600">{t('landing.terms')}</Link>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-primary-600">{t('landing.github')}</a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-primary-600">{t('landing.twitter')}</a>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
