@@ -138,6 +138,18 @@ export function AppHeader() {
               >
                 {t('properties')}
               </Link>
+              <Link
+                href="/contacts"
+                className="hidden text-sm text-slate-600 transition hover:text-slate-900 sm:inline"
+              >
+                {t('contacts')}
+              </Link>
+              <Link
+                href="/leads"
+                className="hidden text-sm text-slate-600 transition hover:text-slate-900 sm:inline"
+              >
+                {t('leads')}
+              </Link>
               <BranchSwitcher />
               <NotificationBell />
               <Link
@@ -233,6 +245,20 @@ export function AppHeader() {
               className="block rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-900"
             >
               {t('properties')}
+            </Link>
+            <Link
+              href="/contacts"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-900"
+            >
+              {t('contacts')}
+            </Link>
+            <Link
+              href="/leads"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-900"
+            >
+              {t('leads')}
             </Link>
             <Link
               href={agencies.length > 0 ? `/agencies/${agencies[0].id}` : '/agencies/new'}
