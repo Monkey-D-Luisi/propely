@@ -8,8 +8,10 @@ using Propely.ContactsApi.Api.Dtos;
 using Propely.ContactsApi.Api.Extensions;
 using Propely.ContactsApi.Application.Leads.Commands.AssignLead;
 using Propely.ContactsApi.Application.Leads.Commands.ChangeLeadStatus;
+using Propely.ContactsApi.Application.Leads.Commands.ConvertLead;
 using Propely.ContactsApi.Application.Leads.Commands.CreateLead;
 using Propely.ContactsApi.Application.Leads.Commands.DeleteLead;
+using Propely.ContactsApi.Application.Leads.Dtos;
 using Propely.ContactsApi.Application.Leads.Queries.GetLeadById;
 using Propely.ContactsApi.Application.Leads.Queries.ListLeads;
 using Propely.ContactsApi.Domain.Leads;
@@ -128,6 +130,24 @@ public sealed class LeadsController : ControllerBase
         if (tenantId is null) return Unauthorized();
 
         var command = new ChangeLeadStatusCommand(id, tenantId.Value, request.Status);
+        var result = await _mediator.Send(command, cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpPost("{id:guid}/convert")]
+    public async Task<IActionResult> Convert(Guid id, [FromBody] ConvertLeadRequest request, CancellationToken cancellationToken)
+    {
+        var tenantId = this.GetTenantId();
+        if (tenantId is null) return Unauthorized();
+
+        var command = new ConvertLeadCommand
+        {
+            LeadId = id,
+            TenantId = tenantId.Value,
+            Role = request.Role,
+            Notes = request.Notes
+        };
+
         var result = await _mediator.Send(command, cancellationToken);
         return Ok(result);
     }
