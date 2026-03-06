@@ -20,8 +20,6 @@ import { useCurrentUser, useMembers, useUpdateRole, useRemoveMember } from '@/ho
 import type { Member, Role } from '@/lib/schemas';
 import { isApiError, getDomainErrorCode } from '@/lib/api';
 import { isManager } from '@/lib/roles';
-import { Link } from '@/i18n/navigation';
-import { SearchIcon, SettingsIcon, ShieldCheckIcon } from '@/components/ui/icons';
 
 export function MembersManager({ orgId }: { orgId: string }) {
   const t = useTranslations('orgs');
@@ -208,28 +206,8 @@ export function MembersManager({ orgId }: { orgId: string }) {
 
   return (
     <div className="space-y-6">
-      <header className="flex flex-col gap-1">
-        <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900">{t('members.title')}</h1>
-          {canManageMembers ? (
-            <div className="flex items-center gap-2">
-              <Link
-                href={`/orgs/${orgId}/permissions`}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
-              >
-                <ShieldCheckIcon className="h-4 w-4" />
-                {t('permissions.title')}
-              </Link>
-              <Link
-                href={`/orgs/${orgId}/settings`}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
-              >
-                <SettingsIcon className="h-4 w-4" />
-                {t('settings.title')}
-              </Link>
-            </div>
-          ) : null}
-        </div>
+      <header>
+        <h1 className="tracking-tight text-3xl font-bold leading-tight text-slate-900">{t('members.title')}</h1>
         {currentMember ? (
           <span className="text-sm text-slate-500">
             {t.rich('members.yourRole', { roleBadge: () => <RoleBadge role={currentMember.role} /> })}
@@ -239,42 +217,59 @@ export function MembersManager({ orgId }: { orgId: string }) {
         )}
       </header>
 
-      <div className="flex items-center gap-3">
-        <div className="relative w-full max-w-xs">
-          <SearchIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-          <input
-            type="search"
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            placeholder={tCommon('pagination.search')}
-            className="w-full rounded-lg border border-slate-200 py-2 pl-9 pr-3 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary-600"
-          />
+      {canManageMembers ? (
+        <section className="rounded-xl bg-white border border-slate-200 shadow-sm overflow-hidden">
+          <div className="p-6 border-b border-slate-200 bg-slate-50/50">
+            <h2 className="text-lg font-semibold leading-tight flex items-center gap-2 text-slate-900">
+              <span className="material-symbols-outlined text-primary-600 text-[20px]" aria-hidden="true">person_add</span>
+              {t('invite.sectionTitle')}
+            </h2>
+          </div>
+          <div className="p-6">
+            <InviteForm orgId={orgId} canInvite={canManageMembers} onInvited={handleRefetch} />
+          </div>
+        </section>
+      ) : null}
+
+      <section className="rounded-xl bg-white border border-slate-200 shadow-sm overflow-hidden">
+        <div className="p-5 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-50/50">
+          <h2 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
+            <span className="material-symbols-outlined text-slate-500 text-[20px]" aria-hidden="true">group</span>
+            {t('members.title')}
+          </h2>
+          <div className="relative w-full sm:w-72">
+            <span className="material-symbols-outlined text-slate-400 text-[20px] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" aria-hidden="true">search</span>
+            <input
+              type="search"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              placeholder={tCommon('pagination.search')}
+              className="form-input w-full rounded-lg border border-slate-300 bg-white h-10 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary-600/50 focus:border-primary-600"
+            />
+          </div>
         </div>
+
+        <MembersTable
+          members={members}
+          currentUserId={currentMember?.userId ?? null}
+          currentUserRole={currentMember?.role ?? null}
+          pendingIds={pendingRoleChanges}
+          onRoleChange={canManageMembers ? handleRoleChange : undefined}
+          onRemove={canManageMembers ? handleRemoveRequest : undefined}
+        />
+
         {pagination.totalCount > 0 && (
-          <span className="text-sm text-slate-500">
-            {tCommon('pagination.showing', { count: members.length, total: pagination.totalCount })}
-          </span>
+          <div className="p-4 border-t border-slate-200 flex items-center justify-between text-sm text-slate-500 bg-slate-50/30">
+            <span>{tCommon('pagination.showing', { count: members.length, total: pagination.totalCount })}</span>
+            <Pagination pagination={pagination} onPageChange={setPage} />
+          </div>
         )}
-      </div>
+      </section>
 
-      <MembersTable
-        members={members}
-        currentUserId={currentMember?.userId ?? null}
-        currentUserRole={currentMember?.role ?? null}
-        pendingIds={pendingRoleChanges}
-        onRoleChange={canManageMembers ? handleRoleChange : undefined}
-        onRemove={canManageMembers ? handleRemoveRequest : undefined}
-      />
-
-      <Pagination pagination={pagination} onPageChange={setPage} />
-
-      <div className="grid gap-6 md:grid-cols-[2fr,1fr]">
-        <InviteForm orgId={orgId} canInvite={canManageMembers} onInvited={handleRefetch} />
+      {canManageMembers ? (
         <div className="flex flex-col gap-4 overflow-hidden rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
           <h2 className="text-lg font-semibold text-slate-900">{t('quickActions.title')}</h2>
-          <p className="text-sm text-slate-500">
-            {t('quickActions.description')}
-          </p>
+          <p className="text-sm text-slate-500">{t('quickActions.description')}</p>
           <LeaveOrgButton
             orgId={orgId}
             members={members}
@@ -284,17 +279,7 @@ export function MembersManager({ orgId }: { orgId: string }) {
             }}
           />
         </div>
-      </div>
-
-      <div className="flex justify-end">
-        <button
-          type="button"
-          onClick={() => void refetch()}
-          className="text-sm font-medium text-slate-500 transition hover:text-slate-700"
-        >
-          {tCommon('refreshList')}
-        </button>
-      </div>
+      ) : null}
 
       {memberToRemove ? (
         <RemoveConfirmDialog

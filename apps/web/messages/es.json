@@ -216,7 +216,10 @@
       "loadError": "No pudimos cargar tus organizaciones. Intenta de nuevo.",
       "emptyState": "Aún no perteneces a ninguna organización.",
       "yourRole": "Tu rol:",
-      "view": "Ver"
+      "view": "Ver",
+      "properties": "Propiedades",
+      "members": "Miembros",
+      "contacts": "Contactos"
     },
     "members": {
       "title": "Miembros",
@@ -236,6 +239,12 @@
       "noActionsAvailable": "Sin acciones disponibles",
       "noPermission": "Sin permiso"
     },
+    "subNav": {
+      "members": "Miembros",
+      "settings": "Configuración",
+      "billing": "Facturación",
+      "permissions": "Permisos"
+    },
     "roles": {
       "owner": "Propietario",
       "admin": "Administrador",
@@ -248,6 +257,7 @@
       "orgNameRequired": "El nombre de la organización es obligatorio."
     },
     "invite": {
+      "sectionTitle": "Invitar Nuevo Miembro",
       "title": "Invitar a un miembro",
       "emailLabel": "Correo electrónico",
       "emailPlaceholder": "persona@empresa.com",
@@ -290,7 +300,9 @@
       "errorDescription": "Intenta de nuevo en unos minutos."
     },
     "settings": {
-      "title": "Configuración de la organización",
+      "pageTitle": "Configuración de la organización",
+      "pageDescription": "Administra la información general y las preferencias de tu organización.",
+      "title": "Información general",
       "description": "Administra el nombre y la descripción de tu organización.",
       "nameLabel": "Nombre de la organización",
       "descriptionLabel": "Descripción (opcional)",
@@ -347,7 +359,8 @@
       },
       "success": {
         "title": "Invitación aceptada",
-        "description": "Ahora tienes acceso a la organización."
+        "description": "Ahora tienes acceso a la organización.",
+        "autoRedirect": "Redirigiéndote automáticamente..."
       },
       "error": {
         "title": "Algo salió mal",

@@ -7,17 +7,17 @@ import { useTranslations } from 'next-intl';
 import type { Role } from '@/lib/schemas';
 
 const styles: Record<Role, string> = {
-  owner: 'bg-primary-600/10 text-primary-600',
-  admin: 'bg-slate-100 text-slate-600',
-  agent: 'bg-slate-100 text-slate-600',
-  viewer: 'bg-emerald-100 text-emerald-600'
+  owner: 'bg-primary-600/10 text-primary-600 border border-primary-600/20',
+  admin: 'bg-purple-100 text-purple-700 border border-purple-200',
+  agent: 'bg-blue-100 text-blue-700 border border-blue-200',
+  viewer: 'bg-slate-100 text-slate-700 border border-slate-200',
 };
 
 export function RoleBadge({ role }: { role: Role }) {
   const t = useTranslations('orgs');
 
   return (
-    <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold uppercase tracking-wider ${styles[role]}`}>
+    <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${styles[role]}`}>
       {t(`roles.${role}`)}
     </span>
   );
