@@ -17,13 +17,14 @@ Enable real estate agents to schedule and manage appointments (property viewings
 
 | # | Title | Status | Dependencies |
 |---|---|---|---|
-| 5.1 | Appointment Domain Model | PENDING | -- |
-| 5.2 | Appointments Persistence & API | PENDING | 5.1 |
-| 5.3 | Google Calendar Integration | PENDING | 5.2 |
-| 5.4 | Outlook/Microsoft Graph Integration | PENDING | 5.2 |
-| 5.5 | Calendar Sync Engine | PENDING | 5.3, 5.4 |
-| 5.6 | Frontend Calendar View | PENDING | 5.2 |
-| 5.7 | Frontend Appointment Booking | PENDING | 5.2, 5.6 |
+| 5.1 | Appointment Domain Model | DONE | -- |
+| 5.2 | Appointments Persistence & API | DONE | 5.1 |
+| 5.3 | Google Calendar Integration | DONE | 5.2 |
+| 5.4 | Outlook/Microsoft Graph Integration | DONE | 5.2 |
+| 5.5 | Calendar Sync Engine | DONE | 5.3, 5.4 |
+| 5.6 | Frontend Calendar View | DONE | 5.2 |
+| 5.7 | Frontend Appointment Booking | DONE | 5.2, 5.6 |
+| 5.8 | Appointments-API NuGet SDK Client | DONE | 5.2 |
 
 ---
 
