@@ -56,7 +56,9 @@
       "search": "Search…"
     },
     "agencies": "Agencies",
-    "properties": "Properties"
+    "properties": "Properties",
+    "contacts": "Contacts",
+    "leads": "Leads"
   },
   "auth": {
     "login": {
@@ -1112,6 +1114,171 @@
       "savePreset": "Save current filters",
       "presetName": "Filter name",
       "noResults": "No properties match your filters"
+    }
+  },
+  "contacts": {
+    "title": "Contacts",
+    "subtitle": "Manage your contacts and their property interests",
+    "newContact": "New Contact",
+    "noOrg": "You need to create or join an organization before managing contacts.",
+    "loadError": "Failed to load contacts. Please try again.",
+    "empty": {
+      "title": "No contacts yet",
+      "subtitle": "Create your first contact to start managing your relationships.",
+      "cta": "Add Contact"
+    },
+    "table": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "roles": "Roles",
+      "created": "Created",
+      "actions": "Actions"
+    },
+    "role": {
+      "Buyer": "Buyer",
+      "Seller": "Seller",
+      "Tenant": "Tenant",
+      "Landlord": "Landlord",
+      "Professional": "Professional"
+    },
+    "source": {
+      "Portal": "Portal",
+      "WalkIn": "Walk-in",
+      "Referral": "Referral",
+      "Website": "Website",
+      "Phone": "Phone",
+      "Other": "Other"
+    },
+    "form": {
+      "title": "Contact Details",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phone": "Phone",
+      "secondaryPhone": "Secondary Phone",
+      "company": "Company",
+      "notes": "Notes",
+      "roles": "Roles",
+      "preferredLanguage": "Preferred Language",
+      "source": "Source",
+      "selectSource": "Select source",
+      "save": "Save Contact",
+      "saving": "Saving…",
+      "createSuccess": "Contact created successfully",
+      "updateSuccess": "Contact updated successfully",
+      "required": "This field is required",
+      "invalidEmail": "Please enter a valid email address"
+    },
+    "detail": {
+      "backToList": "Back to Contacts",
+      "edit": "Edit",
+      "information": "Contact Information",
+      "company": "Company",
+      "phone": "Phone",
+      "secondaryPhone": "Secondary Phone",
+      "preferredLanguage": "Preferred Language",
+      "source": "Source",
+      "notes": "Notes",
+      "roles": "Roles",
+      "propertyInterests": "Property Interests",
+      "noInterests": "No property interests yet",
+      "interestType": {
+        "Buying": "Buying",
+        "Renting": "Renting",
+        "Selling": "Selling"
+      },
+      "loadError": "Failed to load contact details.",
+      "created": "Created",
+      "updated": "Last Updated"
+    },
+    "delete": {
+      "dialogTitle": "Delete Contact",
+      "dialogMessage": "Are you sure you want to delete this contact? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "success": "Contact deleted successfully"
+    },
+    "search": {
+      "placeholder": "Search contacts by name, email, or company..."
+    },
+    "filter": {
+      "allRoles": "All Roles"
+    }
+  },
+  "leads": {
+    "title": "Lead Pipeline",
+    "subtitle": "Track and manage your leads through the sales pipeline",
+    "noOrg": "You need to create or join an organization before managing leads.",
+    "loadError": "Failed to load leads. Please try again.",
+    "empty": {
+      "title": "No leads yet",
+      "subtitle": "Leads will appear here as they come in from your properties."
+    },
+    "view": {
+      "kanban": "Board",
+      "list": "List"
+    },
+    "status": {
+      "New": "New",
+      "Contacted": "Contacted",
+      "Qualified": "Qualified",
+      "Converted": "Converted",
+      "Lost": "Lost"
+    },
+    "table": {
+      "name": "Name",
+      "email": "Email",
+      "property": "Property",
+      "status": "Status",
+      "source": "Source",
+      "agent": "Agent",
+      "created": "Created",
+      "actions": "Actions"
+    },
+    "card": {
+      "daysAgo": "{count} days ago",
+      "today": "Today",
+      "changeStatus": "Change Status",
+      "viewDetails": "View Details"
+    },
+    "detail": {
+      "title": "Lead Details",
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "message": "Message",
+      "source": "Source",
+      "property": "Property",
+      "agent": "Assigned Agent",
+      "status": "Status",
+      "created": "Created",
+      "updated": "Last Updated",
+      "close": "Close"
+    },
+    "conversion": {
+      "title": "Convert Lead to Contact",
+      "description": "This will create a contact from this lead and mark the lead as Converted.",
+      "role": "Contact Role",
+      "notes": "Notes",
+      "notesPlaceholder": "Any notes about this conversion...",
+      "cancel": "Cancel",
+      "convert": "Convert",
+      "converting": "Converting…",
+      "success": "Lead converted to contact successfully"
+    },
+    "filters": {
+      "allStatuses": "All Statuses",
+      "allSources": "All Sources",
+      "searchPlaceholder": "Search leads..."
+    },
+    "actions": {
+      "convert": "Convert to Contact",
+      "changeStatus": "Change Status"
+    },
+    "statusChange": {
+      "success": "Lead status updated successfully",
+      "error": "Failed to update lead status"
     }
   }
 }

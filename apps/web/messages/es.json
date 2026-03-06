@@ -56,7 +56,9 @@
       "search": "Buscar…"
     },
     "agencies": "Agencias",
-    "properties": "Propiedades"
+    "properties": "Propiedades",
+    "contacts": "Contactos",
+    "leads": "Oportunidades"
   },
   "auth": {
     "login": {
@@ -1093,6 +1095,171 @@
       "savePreset": "Guardar filtros actuales",
       "presetName": "Nombre del filtro",
       "noResults": "Ninguna propiedad coincide con los filtros"
+    }
+  },
+  "contacts": {
+    "title": "Contactos",
+    "subtitle": "Gestiona tus contactos y sus intereses inmobiliarios",
+    "newContact": "Nuevo Contacto",
+    "noOrg": "Necesitas crear o unirte a una organización antes de gestionar contactos.",
+    "loadError": "Error al cargar contactos. Inténtalo de nuevo.",
+    "empty": {
+      "title": "No hay contactos aún",
+      "subtitle": "Crea tu primer contacto para empezar a gestionar tus relaciones.",
+      "cta": "Añadir Contacto"
+    },
+    "table": {
+      "name": "Nombre",
+      "email": "Email",
+      "phone": "Teléfono",
+      "roles": "Roles",
+      "created": "Creado",
+      "actions": "Acciones"
+    },
+    "role": {
+      "Buyer": "Comprador",
+      "Seller": "Vendedor",
+      "Tenant": "Inquilino",
+      "Landlord": "Propietario",
+      "Professional": "Profesional"
+    },
+    "source": {
+      "Portal": "Portal",
+      "WalkIn": "Visita directa",
+      "Referral": "Referencia",
+      "Website": "Sitio web",
+      "Phone": "Teléfono",
+      "Other": "Otro"
+    },
+    "form": {
+      "title": "Datos del Contacto",
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "email": "Email",
+      "phone": "Teléfono",
+      "secondaryPhone": "Teléfono secundario",
+      "company": "Empresa",
+      "notes": "Notas",
+      "roles": "Roles",
+      "preferredLanguage": "Idioma preferido",
+      "source": "Origen",
+      "selectSource": "Seleccionar origen",
+      "save": "Guardar Contacto",
+      "saving": "Guardando…",
+      "createSuccess": "Contacto creado correctamente",
+      "updateSuccess": "Contacto actualizado correctamente",
+      "required": "Este campo es obligatorio",
+      "invalidEmail": "Introduce un email válido"
+    },
+    "detail": {
+      "backToList": "Volver a Contactos",
+      "edit": "Editar",
+      "information": "Información del Contacto",
+      "company": "Empresa",
+      "phone": "Teléfono",
+      "secondaryPhone": "Teléfono secundario",
+      "preferredLanguage": "Idioma preferido",
+      "source": "Origen",
+      "notes": "Notas",
+      "roles": "Roles",
+      "propertyInterests": "Intereses Inmobiliarios",
+      "noInterests": "No hay intereses inmobiliarios aún",
+      "interestType": {
+        "Buying": "Comprando",
+        "Renting": "Alquilando",
+        "Selling": "Vendiendo"
+      },
+      "loadError": "Error al cargar los detalles del contacto.",
+      "created": "Creado",
+      "updated": "Última actualización"
+    },
+    "delete": {
+      "dialogTitle": "Eliminar Contacto",
+      "dialogMessage": "¿Estás seguro de que quieres eliminar este contacto? Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "confirm": "Eliminar",
+      "success": "Contacto eliminado correctamente"
+    },
+    "search": {
+      "placeholder": "Buscar contactos por nombre, email o empresa..."
+    },
+    "filter": {
+      "allRoles": "Todos los Roles"
+    }
+  },
+  "leads": {
+    "title": "Pipeline de Oportunidades",
+    "subtitle": "Rastrea y gestiona tus oportunidades a través del pipeline de ventas",
+    "noOrg": "Necesitas crear o unirte a una organización antes de gestionar oportunidades.",
+    "loadError": "Error al cargar oportunidades. Inténtalo de nuevo.",
+    "empty": {
+      "title": "No hay oportunidades aún",
+      "subtitle": "Las oportunidades aparecerán aquí a medida que lleguen de tus propiedades."
+    },
+    "view": {
+      "kanban": "Tablero",
+      "list": "Lista"
+    },
+    "status": {
+      "New": "Nuevo",
+      "Contacted": "Contactado",
+      "Qualified": "Cualificado",
+      "Converted": "Convertido",
+      "Lost": "Perdido"
+    },
+    "table": {
+      "name": "Nombre",
+      "email": "Email",
+      "property": "Propiedad",
+      "status": "Estado",
+      "source": "Origen",
+      "agent": "Agente",
+      "created": "Creado",
+      "actions": "Acciones"
+    },
+    "card": {
+      "daysAgo": "hace {count} días",
+      "today": "Hoy",
+      "changeStatus": "Cambiar Estado",
+      "viewDetails": "Ver Detalles"
+    },
+    "detail": {
+      "title": "Detalles de la Oportunidad",
+      "name": "Nombre",
+      "email": "Email",
+      "phone": "Teléfono",
+      "message": "Mensaje",
+      "source": "Origen",
+      "property": "Propiedad",
+      "agent": "Agente Asignado",
+      "status": "Estado",
+      "created": "Creado",
+      "updated": "Última actualización",
+      "close": "Cerrar"
+    },
+    "conversion": {
+      "title": "Convertir Oportunidad a Contacto",
+      "description": "Esto creará un contacto a partir de esta oportunidad y marcará la oportunidad como Convertida.",
+      "role": "Rol del Contacto",
+      "notes": "Notas",
+      "notesPlaceholder": "Notas sobre esta conversión...",
+      "cancel": "Cancelar",
+      "convert": "Convertir",
+      "converting": "Convirtiendo…",
+      "success": "Oportunidad convertida a contacto correctamente"
+    },
+    "filters": {
+      "allStatuses": "Todos los Estados",
+      "allSources": "Todos los Orígenes",
+      "searchPlaceholder": "Buscar oportunidades..."
+    },
+    "actions": {
+      "convert": "Convertir a Contacto",
+      "changeStatus": "Cambiar Estado"
+    },
+    "statusChange": {
+      "success": "Estado de la oportunidad actualizado correctamente",
+      "error": "Error al actualizar el estado de la oportunidad"
     }
   }
 }
