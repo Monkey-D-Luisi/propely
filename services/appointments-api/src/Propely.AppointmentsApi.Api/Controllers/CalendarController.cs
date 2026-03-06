@@ -57,8 +57,15 @@ public sealed class CalendarController : ControllerBase
             RedirectUri = request.RedirectUri
         };
 
-        var result = await _mediator.Send(command, cancellationToken);
-        return StatusCode(201, result);
+        try
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+            return StatusCode(201, result);
+        }
+        catch (NotSupportedException ex)
+        {
+            return StatusCode(501, new { error = ex.Message });
+        }
     }
 
     [HttpDelete("{provider}/disconnect")]

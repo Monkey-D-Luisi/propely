@@ -22,7 +22,6 @@ public sealed record CreateAppointmentApiRequest
 public sealed record UpdateAppointmentApiRequest
 {
     public string Title { get; init; } = null!;
-    public AppointmentType Type { get; init; }
     public DateTime StartTimeUtc { get; init; }
     public DateTime EndTimeUtc { get; init; }
     public string? Description { get; init; }

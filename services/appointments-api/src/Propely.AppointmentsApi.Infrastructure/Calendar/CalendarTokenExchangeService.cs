@@ -27,7 +27,7 @@ public sealed class CalendarTokenExchangeService : ICalendarTokenExchangeService
             "this is a stub implementation. Real OAuth integration requires API keys.",
             provider);
 
-        throw new NotImplementedException(
+        throw new NotSupportedException(
             $"OAuth token exchange for {provider} is not yet implemented. " +
             "Configure Calendar:GoogleClientId/GoogleClientSecret or Calendar:MicrosoftClientId/MicrosoftClientSecret " +
             "and implement the real OAuth flow.");

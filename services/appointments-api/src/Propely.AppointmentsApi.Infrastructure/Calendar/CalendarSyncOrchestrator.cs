@@ -114,6 +114,13 @@ public sealed class CalendarSyncOrchestrator
 
                 await ProcessOperationAsync(operation, connection, syncService, ct);
 
+                if (operation.Status == SyncOperationStatus.Failed)
+                {
+                    _syncOperationRepository.Update(operation);
+                    await _unitOfWork.SaveChangesAsync(ct);
+                    continue;
+                }
+
                 operation.Complete();
                 connection.MarkSynced();
                 _syncOperationRepository.Update(operation);
@@ -156,6 +163,7 @@ public sealed class CalendarSyncOrchestrator
                 _logger.LogWarning(
                     "Appointment {AppointmentId} not found for sync operation {OperationId}",
                     operation.AppointmentId, operation.Id);
+                operation.Fail("Appointment not found.");
                 return;
             }
 
