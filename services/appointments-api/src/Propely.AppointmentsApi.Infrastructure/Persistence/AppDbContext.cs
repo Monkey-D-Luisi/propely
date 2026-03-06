@@ -39,6 +39,8 @@ public sealed class AppDbContext : DbContext
     public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
     public DbSet<ProcessedEvent> ProcessedEvents => Set<ProcessedEvent>();
     public DbSet<Appointment> Appointments => Set<Appointment>();
+    public DbSet<CalendarConnection> CalendarConnections => Set<CalendarConnection>();
+    public DbSet<SyncOperation> SyncOperations => Set<SyncOperation>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -47,6 +49,8 @@ public sealed class AppDbContext : DbContext
         modelBuilder.ApplyConfiguration(new OutboxMessageConfiguration());
         modelBuilder.ApplyConfiguration(new ProcessedEventConfiguration());
         modelBuilder.ApplyConfiguration(new AppointmentConfiguration());
+        modelBuilder.ApplyConfiguration(new CalendarConnectionConfiguration());
+        modelBuilder.ApplyConfiguration(new SyncOperationConfiguration());
     }
 
     /// <summary>
