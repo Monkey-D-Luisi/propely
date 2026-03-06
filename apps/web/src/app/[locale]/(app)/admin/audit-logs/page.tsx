@@ -49,37 +49,41 @@ export default function AuditLogsPage() {
 
   if (userLoading) {
     return (
-      <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 p-6 md:p-10">
+      <main className="flex-1 w-full max-w-[1200px] mx-auto px-4 lg:px-8 py-8 flex flex-col gap-6">
         <div className="animate-pulse space-y-4">
           <div className="h-8 w-48 rounded-lg bg-slate-200" />
           <div className="h-4 w-72 rounded-lg bg-slate-100" />
         </div>
-      </div>
+      </main>
     );
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 p-6 md:p-10">
-      <div className="flex flex-col gap-4 border-b border-slate-100 pb-6 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900">{t('title')}</h1>
-          <p className="mt-1 text-sm text-slate-500">{t('subtitle')}</p>
+    <main className="flex-1 w-full max-w-[1200px] mx-auto px-4 lg:px-8 py-8 flex flex-col gap-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-2">
+        <div className="flex items-center gap-3">
+          <h1 className="text-slate-900 tracking-tight text-2xl lg:text-3xl font-bold leading-tight">{t('title')}</h1>
+          <span className="flex items-center justify-center rounded-full h-6 px-2.5 bg-red-50 text-red-600 text-xs font-semibold border border-red-100">
+            Admin Only
+          </span>
         </div>
         <div className="flex gap-2">
           <button
             type="button"
             onClick={() => void handleExport('csv')}
             disabled={isExporting}
-            className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-white text-slate-700 text-sm font-semibold border border-slate-200 shadow-sm hover:bg-slate-50 transition-colors disabled:opacity-50"
           >
+            <span className="material-symbols-outlined text-[18px]" aria-hidden="true">download</span>
             {t('exportCsv')}
           </button>
           <button
             type="button"
             onClick={() => void handleExport('json')}
             disabled={isExporting}
-            className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-white text-slate-700 text-sm font-semibold border border-slate-200 shadow-sm hover:bg-slate-50 transition-colors disabled:opacity-50"
           >
+            <span className="material-symbols-outlined text-[18px]" aria-hidden="true">download</span>
             {t('exportJson')}
           </button>
         </div>
@@ -95,6 +99,6 @@ export default function AuditLogsPage() {
           <Pagination pagination={pagination} onPageChange={setPage} />
         </>
       )}
-    </div>
+    </main>
   );
 }

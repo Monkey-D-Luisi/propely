@@ -13,10 +13,10 @@ export default function VersionPage() {
 
   if (isLoading) {
     return (
-      <div className="mx-auto flex min-h-dvh w-full max-w-5xl flex-col gap-6 p-6 md:p-10">
+      <main className="flex-1 w-full max-w-[1200px] mx-auto px-4 lg:px-8 py-8">
         <div className="h-8 w-48 animate-pulse rounded bg-slate-100" />
-        <div className="h-40 animate-pulse rounded-xl bg-slate-100" />
-      </div>
+        <div className="mt-6 h-40 animate-pulse rounded-xl bg-slate-100" />
+      </main>
     );
   }
 
@@ -25,12 +25,15 @@ export default function VersionPage() {
   }
 
   return (
-    <div className="mx-auto flex min-h-dvh w-full max-w-5xl flex-col gap-6 p-6 md:p-10">
-      <div className="border-b border-slate-100 pb-6">
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900">{t('title')}</h1>
-        <p className="mt-1 text-sm text-slate-500">{t('subtitle')}</p>
+    <main className="flex-1 w-full max-w-[1200px] mx-auto px-4 lg:px-8 py-8 space-y-6">
+      <div className="flex items-center gap-3">
+        <h1 className="text-3xl font-bold leading-tight tracking-tight text-slate-900">{t('title')}</h1>
+        <span className="bg-red-100 text-red-700 text-xs font-semibold px-2.5 py-0.5 rounded-full border border-red-200">
+          Admin Only
+        </span>
       </div>
+      <p className="text-slate-500 text-sm font-medium">{t('subtitle')}</p>
       <VersionInfo />
-    </div>
+    </main>
   );
 }
