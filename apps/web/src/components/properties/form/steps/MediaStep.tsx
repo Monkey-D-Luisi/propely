@@ -3,7 +3,7 @@
 
 'use client';
 
-import { useRef, useState, useCallback } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 interface SelectedFile {
@@ -33,57 +33,48 @@ export function MediaStep({ data, onChange }: MediaStepProps) {
   const photos = selectedFiles.filter((f) => f.type === 'photo');
   const floorPlans = selectedFiles.filter((f) => f.type === 'floorPlan');
 
-  const addFiles = useCallback(
-    (files: FileList | File[], type: 'photo' | 'floorPlan') => {
-      const newFiles: SelectedFile[] = [];
-      const validFiles = Array.from(files).filter(
-        (f) => f.size <= MAX_FILE_SIZE_MB * 1024 * 1024 && f.type.startsWith('image/'),
-      );
+  const addFiles = (files: FileList | File[], type: 'photo' | 'floorPlan') => {
+    const newFiles: SelectedFile[] = [];
+    const validFiles = Array.from(files).filter(
+      (f) => f.size <= MAX_FILE_SIZE_MB * 1024 * 1024 && f.type.startsWith('image/'),
+    );
 
-      for (const file of validFiles) {
-        if (type === 'photo' && photos.length + newFiles.length >= MAX_PHOTOS) break;
-        newFiles.push({
-          id: crypto.randomUUID(),
-          file,
-          previewUrl: URL.createObjectURL(file),
-          type,
-        });
-      }
+    for (const file of validFiles) {
+      if (type === 'photo' && photos.length + newFiles.length >= MAX_PHOTOS) break;
+      newFiles.push({
+        id: crypto.randomUUID(),
+        file,
+        previewUrl: URL.createObjectURL(file),
+        type,
+      });
+    }
 
-      if (newFiles.length > 0) {
-        onChange({
-          ...data,
-          _selectedFiles: [...selectedFiles, ...newFiles],
-        });
-      }
-    },
-    [data, onChange, photos.length, selectedFiles],
-  );
-
-  const removeFile = useCallback(
-    (id: string) => {
-      const file = selectedFiles.find((f) => f.id === id);
-      if (file) {
-        URL.revokeObjectURL(file.previewUrl);
-      }
+    if (newFiles.length > 0) {
       onChange({
         ...data,
-        _selectedFiles: selectedFiles.filter((f) => f.id !== id),
+        _selectedFiles: [...selectedFiles, ...newFiles],
       });
-    },
-    [data, onChange, selectedFiles],
-  );
+    }
+  };
 
-  const handleDrop = useCallback(
-    (e: React.DragEvent) => {
-      e.preventDefault();
-      setDragActive(false);
-      if (e.dataTransfer.files.length > 0) {
-        addFiles(e.dataTransfer.files, 'photo');
-      }
-    },
-    [addFiles],
-  );
+  const removeFile = (id: string) => {
+    const file = selectedFiles.find((f) => f.id === id);
+    if (file) {
+      URL.revokeObjectURL(file.previewUrl);
+    }
+    onChange({
+      ...data,
+      _selectedFiles: selectedFiles.filter((f) => f.id !== id),
+    });
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setDragActive(false);
+    if (e.dataTransfer.files.length > 0) {
+      addFiles(e.dataTransfer.files, 'photo');
+    }
+  };
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();

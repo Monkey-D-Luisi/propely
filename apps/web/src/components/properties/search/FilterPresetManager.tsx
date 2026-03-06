@@ -3,7 +3,7 @@
 
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
 import type { PropertyFilters } from '@/hooks/properties';
 
@@ -35,13 +35,9 @@ function savePresets(presets: FilterPreset[]): void {
 
 export function FilterPresetManager({ currentFilters, onApplyPreset }: FilterPresetManagerProps) {
   const tSearch = useTranslations('properties.search');
-  const [presets, setPresets] = useState<FilterPreset[]>([]);
+  const [presets, setPresets] = useState<FilterPreset[]>(() => loadPresets());
   const [showSave, setShowSave] = useState(false);
   const [presetName, setPresetName] = useState('');
-
-  useEffect(() => {
-    setPresets(loadPresets());
-  }, []);
 
   const handleSave = useCallback(() => {
     if (!presetName.trim()) return;
