@@ -29,8 +29,8 @@ export function AppSidebar() {
           {/* Branding */}
           <div className="flex items-center gap-3 px-2">
             <Link href="/" className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-primary-600 flex items-center justify-center text-white">
-                <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>diamond</span>
+              <div className="w-10 h-10 rounded-full bg-primary-600/20 flex items-center justify-center text-primary-600 font-bold">
+                P
               </div>
               <div className="flex flex-col">
                 <h1 className="text-base font-semibold leading-tight">{t('appName')}</h1>
@@ -61,7 +61,7 @@ export function AppSidebar() {
                   >
                     {item.icon}
                   </span>
-                  <span className="text-sm font-medium">{t(item.labelKey)}</span>
+                  <span className={`text-sm ${isActive ? 'font-semibold' : 'font-medium'}`}>{t(item.labelKey)}</span>
                 </Link>
               );
             })}

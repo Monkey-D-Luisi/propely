@@ -135,8 +135,8 @@ export default function AppointmentsPage() {
 
   if (userLoading || orgsLoading) {
     return (
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 p-6 md:p-10">
-        <div className="animate-pulse space-y-4">
+      <div className="flex-1 overflow-y-auto p-8">
+        <div className="mx-auto max-w-[1200px] animate-pulse space-y-4">
           <div className="h-8 w-48 rounded-lg bg-slate-200" />
           <div className="h-4 w-72 rounded-lg bg-slate-100" />
         </div>
@@ -146,116 +146,120 @@ export default function AppointmentsPage() {
 
   if (!hasOrgs) {
     return (
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 p-6 md:p-10">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900">{t('title')}</h1>
-          <p className="mt-1 text-sm text-slate-500">{t('subtitle')}</p>
-        </div>
-        <div className="rounded-xl border border-slate-200 bg-white p-8 text-center shadow-sm">
-          <span className="material-symbols-outlined text-4xl text-slate-300" aria-hidden="true">calendar_month</span>
-          <p className="mt-3 text-sm text-slate-600">{t('noOrg')}</p>
+      <div className="flex-1 overflow-y-auto p-8">
+        <div className="mx-auto flex max-w-[1200px] flex-col gap-6">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight text-slate-900">{t('title')}</h1>
+            <p className="mt-1 text-sm text-slate-500">{t('subtitle')}</p>
+          </div>
+          <div className="rounded-xl border border-slate-200 bg-white p-8 text-center shadow-sm">
+            <span className="material-symbols-outlined text-4xl text-slate-300" aria-hidden="true">calendar_month</span>
+            <p className="mt-3 text-sm text-slate-600">{t('noOrg')}</p>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 p-6 md:p-10">
-      {/* Header */}
-      <div className="flex flex-col gap-4 border-b border-slate-100 pb-6 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900">{t('title')}</h1>
-          <p className="mt-1 text-sm text-slate-500">{t('subtitle')}</p>
-        </div>
-        <button
-          type="button"
-          onClick={() => {
-            setCreateFormDefaults({});
-            setShowCreateForm(true);
-            setSelectedAppointmentId(null);
-          }}
-          className="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-primary-600/90 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 active:scale-[0.98]"
-        >
-          <span className="material-symbols-outlined text-lg" aria-hidden="true">add</span>
-          {t('newAppointment')}
-        </button>
-      </div>
-
-      {/* Filters */}
-      <div className="flex flex-wrap items-center gap-3">
-        <select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value as AppointmentStatus | '')}
-          className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary-600"
-          aria-label={t('filters.statusLabel')}
-        >
-          <option value="">{t('filters.allStatuses')}</option>
-          {statusOptions.map((s) => (
-            <option key={s} value={s}>{t(`status.${s}`)}</option>
-          ))}
-        </select>
-        <select
-          value={typeFilter}
-          onChange={(e) => setTypeFilter(e.target.value as AppointmentType | '')}
-          className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary-600"
-          aria-label={t('filters.typeLabel')}
-        >
-          <option value="">{t('filters.allTypes')}</option>
-          {typeOptions.map((tp) => (
-            <option key={tp} value={tp}>{t(`type.${tp}`)}</option>
-          ))}
-        </select>
-      </div>
-
-      {/* Content */}
-      {error ? (
-        <ErrorMessage message={t('loadError')} />
-      ) : (
-        <CalendarView
-          appointments={items}
-          isLoading={isLoading}
-          onEventClick={handleEventClick}
-          onDateClick={handleDateClick}
-          onDatesChange={handleDatesChange}
-        />
-      )}
-
-      {/* Detail Panel */}
-      {selectedAppointmentId && (
-        <AppointmentDetailPanel
-          appointmentId={selectedAppointmentId}
-          onClose={() => setSelectedAppointmentId(null)}
-          onEdit={handleEdit}
-          onDelete={(id) => void handleDelete(id)}
-          onStatusChange={(id, status) => void handleStatusChange(id, status)}
-        />
-      )}
-
-      {/* Create Form Modal */}
-      {showCreateForm && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/40 pt-20">
-          <div className="relative mx-4 w-full max-w-lg rounded-xl border border-slate-200 bg-white p-6 shadow-xl">
-            <div className="mb-6 flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-slate-900">{t('newAppointment')}</h2>
-              <button
-                type="button"
-                onClick={() => setShowCreateForm(false)}
-                className="rounded-lg p-1.5 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
-                aria-label={tCommon('close')}
-              >
-                <span className="material-symbols-outlined text-lg" aria-hidden="true">close</span>
-              </button>
-            </div>
-            <AppointmentForm
-              defaultValues={createFormDefaults}
-              onSubmit={handleCreate}
-              submitLabel={t('form.create')}
-              onCancel={() => setShowCreateForm(false)}
-              isSubmitting={isSubmitting}
-            />
+    <div className="flex-1 overflow-y-auto p-8">
+      <div className="mx-auto flex max-w-[1200px] flex-col gap-6">
+        {/* Header */}
+        <div className="flex flex-col gap-4 border-b border-slate-100 pb-6 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight text-slate-900">{t('title')}</h1>
+            <p className="mt-1 text-sm text-slate-500">{t('subtitle')}</p>
           </div>
+          <button
+            type="button"
+            onClick={() => {
+              setCreateFormDefaults({});
+              setShowCreateForm(true);
+              setSelectedAppointmentId(null);
+            }}
+            className="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-primary-600/90 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 active:scale-[0.98]"
+          >
+            <span className="material-symbols-outlined text-lg" aria-hidden="true">add</span>
+            {t('newAppointment')}
+          </button>
         </div>
-      )}
+
+        {/* Filters */}
+        <div className="flex flex-wrap items-center gap-3">
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value as AppointmentStatus | '')}
+            className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary-600"
+            aria-label={t('filters.statusLabel')}
+          >
+            <option value="">{t('filters.allStatuses')}</option>
+            {statusOptions.map((s) => (
+              <option key={s} value={s}>{t(`status.${s}`)}</option>
+            ))}
+          </select>
+          <select
+            value={typeFilter}
+            onChange={(e) => setTypeFilter(e.target.value as AppointmentType | '')}
+            className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary-600"
+            aria-label={t('filters.typeLabel')}
+          >
+            <option value="">{t('filters.allTypes')}</option>
+            {typeOptions.map((tp) => (
+              <option key={tp} value={tp}>{t(`type.${tp}`)}</option>
+            ))}
+          </select>
+        </div>
+
+        {/* Content */}
+        {error ? (
+          <ErrorMessage message={t('loadError')} />
+        ) : (
+          <CalendarView
+            appointments={items}
+            isLoading={isLoading}
+            onEventClick={handleEventClick}
+            onDateClick={handleDateClick}
+            onDatesChange={handleDatesChange}
+          />
+        )}
+
+        {/* Detail Panel */}
+        {selectedAppointmentId && (
+          <AppointmentDetailPanel
+            appointmentId={selectedAppointmentId}
+            onClose={() => setSelectedAppointmentId(null)}
+            onEdit={handleEdit}
+            onDelete={(id) => void handleDelete(id)}
+            onStatusChange={(id, status) => void handleStatusChange(id, status)}
+          />
+        )}
+
+        {/* Create Form Modal */}
+        {showCreateForm && (
+          <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/40 pt-20">
+            <div className="relative mx-4 w-full max-w-lg rounded-xl border border-slate-200 bg-white p-6 shadow-xl">
+              <div className="mb-6 flex items-center justify-between">
+                <h2 className="text-lg font-semibold text-slate-900">{t('newAppointment')}</h2>
+                <button
+                  type="button"
+                  onClick={() => setShowCreateForm(false)}
+                  className="rounded-lg p-1.5 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+                  aria-label={tCommon('close')}
+                >
+                  <span className="material-symbols-outlined text-lg" aria-hidden="true">close</span>
+                </button>
+              </div>
+              <AppointmentForm
+                defaultValues={createFormDefaults}
+                onSubmit={handleCreate}
+                submitLabel={t('form.create')}
+                onCancel={() => setShowCreateForm(false)}
+                isSubmitting={isSubmitting}
+              />
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
