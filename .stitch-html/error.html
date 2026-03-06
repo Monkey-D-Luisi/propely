@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Propely Unexpected Error</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2513ec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121022",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<!-- Header -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-10 py-4 bg-white dark:bg-slate-900">
+<div class="flex items-center gap-4 text-slate-900 dark:text-slate-100">
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_6_535)">
+<path clip-rule="evenodd" d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z" fill="currentColor" fill-rule="evenodd"></path>
+</g>
+<defs>
+<clippath id="clip0_6_535"><rect fill="white" height="48" width="48"></rect></clippath>
+</defs>
+</svg>
+</div>
+<h2 class="text-xl font-bold leading-tight tracking-[-0.015em]">Propely</h2>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col items-center justify-center p-6">
+<div class="max-w-[600px] w-full flex flex-col items-center bg-white dark:bg-slate-900 p-10 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
+<!-- Icon -->
+<div class="w-20 h-20 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-4xl text-red-500 dark:text-red-400">warning</span>
+</div>
+<!-- Text Content -->
+<div class="flex flex-col items-center gap-3 mb-8 text-center">
+<h1 class="text-3xl font-bold leading-tight tracking-[-0.015em]">Something went wrong</h1>
+<p class="text-slate-600 dark:text-slate-400 text-base font-normal leading-relaxed max-w-[480px]">
+                    We've encountered an unexpected error while processing your request. Please try again or return to your dashboard. Our team has been notified.
+                </p>
+<div class="mt-2 inline-flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded text-sm font-mono text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
+<span>Error ID:</span>
+<span class="font-bold text-slate-700 dark:text-slate-300">ERR-5X928B</span>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex flex-col sm:flex-row w-full gap-4 justify-center mb-8">
+<button class="flex min-w-[140px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-primary hover:bg-primary/90 text-white text-base font-medium leading-normal transition-colors">
+<span class="truncate">Try Again</span>
+</button>
+<button class="flex min-w-[140px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-base font-medium leading-normal transition-colors">
+<span class="truncate">Go to Dashboard</span>
+</button>
+</div>
+<!-- Technical Details Accordion -->
+<div class="w-full flex flex-col gap-3">
+<details class="flex flex-col rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 group w-full">
+<summary class="flex cursor-pointer items-center justify-between gap-6 px-4 py-3 list-none">
+<p class="text-sm font-medium leading-normal text-slate-700 dark:text-slate-300">Show technical details</p>
+<div class="text-slate-500 transition-transform duration-200 group-open:rotate-180">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</summary>
+<div class="p-4 border-t border-slate-200 dark:border-slate-700 relative">
+<div class="bg-slate-900 rounded p-4 overflow-x-auto">
+<pre class="text-green-400 text-xs font-mono leading-relaxed whitespace-pre-wrap">Exception in thread "main" java.lang.NullPointerException
+    at com.propely.dashboard.Main.fetchData(Main.java:42)
+    at com.propely.dashboard.Main.init(Main.java:18)
+    at com.propely.core.Bootstrap.start(Bootstrap.java:89)
+    at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+                            </pre>
+</div>
+<button class="absolute top-6 right-6 text-slate-400 hover:text-white transition-colors flex items-center gap-1 text-xs font-mono bg-slate-800 px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+                            Copy
+                        </button>
+</div>
+</details>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="py-6 text-center">
+<p class="text-sm text-slate-500 dark:text-slate-400">
+            Need immediate assistance? <a class="text-primary hover:underline font-medium" href="#">Contact Support</a>
+</p>
+</footer>
+</body></html>

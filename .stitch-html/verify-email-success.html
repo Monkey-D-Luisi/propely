@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 
-<html class="light" lang="en"><head>
+<html lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Email Verification Success</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<title>Propely Email Verification Success Screen</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -27,59 +27,36 @@
         }
     </script>
 </head>
-<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white min-h-screen flex flex-col antialiased">
-<!-- Navbar Placeholder for Context (Optional, keeps it feeling like a full app) -->
-<nav class="w-full px-6 py-4 flex items-center justify-between">
-<div class="flex items-center gap-2">
-<div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-bold text-lg">V</div>
-<span class="font-semibold text-lg tracking-tight text-slate-900 dark:text-white">Veriflow</span>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col relative overflow-x-hidden">
+<div class="absolute top-0 left-0 w-full h-[400px] bg-gradient-to-b from-primary/10 to-transparent pointer-events-none -z-10"></div>
+<div class="flex-1 flex flex-col justify-center items-center p-6 sm:p-12 relative z-10">
+<div class="flex items-center gap-3 mb-8">
+<div class="w-8 h-8 text-primary">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z" fill-rule="evenodd"></path>
+</svg>
 </div>
-<div class="hidden sm:flex text-sm text-slate-500 dark:text-slate-400 gap-6">
-<a class="hover:text-primary transition-colors" href="#">Help</a>
-<a class="hover:text-primary transition-colors" href="#">Contact</a>
+<h1 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Propely</h1>
 </div>
-</nav>
-<!-- Main Content Area -->
-<main class="flex-grow flex items-center justify-center p-4 sm:p-6">
-<!-- Centered Card -->
-<div class="w-full max-w-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm overflow-hidden relative">
-<!-- Decorative Top Gradient Line -->
-<div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-400 to-primary"></div>
-<div class="p-8 sm:p-10 flex flex-col items-center text-center">
-<!-- Success Icon Wrapper -->
-<div class="mb-6 relative">
-<!-- Outer glow/ring -->
-<div class="absolute inset-0 bg-emerald-100 dark:bg-emerald-900/30 rounded-full animate-ping opacity-75"></div>
-<!-- Icon Circle -->
-<div class="relative w-20 h-20 bg-emerald-50 dark:bg-emerald-900/20 rounded-full flex items-center justify-center border border-emerald-100 dark:border-emerald-800">
-<span class="material-icons-outlined text-4xl text-emerald-600 dark:text-emerald-400">check_circle</span>
+<div class="w-full max-w-md bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-8 flex flex-col items-center text-center relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-full pointer-events-none opacity-50 dark:opacity-20" style="background-image: radial-gradient(circle at center, rgba(80, 72, 229, 0.05) 0%, transparent 70%);"></div>
+<div class="w-16 h-16 bg-green-50 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-6 relative z-10">
+<span class="material-symbols-outlined text-4xl text-green-500 dark:text-green-400">check_circle</span>
 </div>
-</div>
-<!-- Text Content -->
-<h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-3 tracking-tight">Email verified!</h1>
-<p class="text-slate-500 dark:text-slate-400 leading-relaxed mb-8">
-                    Your email has been successfully verified. Your account is now active and you can access all features.
-                </p>
-<!-- Action Button -->
-<button class="w-full bg-primary hover:bg-primary/90 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-slate-800 flex items-center justify-center group">
-<span>Go to Dashboard</span>
-<span class="material-icons-outlined ml-2 text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-2 relative z-10">Email verified!</h2>
+<p class="text-slate-500 dark:text-slate-400 mb-8 relative z-10">
+                Your email has been successfully verified. Welcome to Propely! You can now access all features.
+            </p>
+<button class="w-full h-12 bg-primary hover:bg-primary/90 text-white rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors relative z-10">
+                Go to Dashboard
+                <span class="material-symbols-outlined text-xl">arrow_right_alt</span>
 </button>
-<!-- Secondary Link -->
-<div class="mt-6 pt-6 border-t border-slate-100 dark:border-slate-700/50 w-full">
-<p class="text-xs text-slate-400 dark:text-slate-500">
-                        Having trouble logging in? <a class="text-primary hover:text-primary/80 font-medium hover:underline" href="#">Contact Support</a>
-</p>
+<p class="mt-6 text-xs italic text-slate-400 dark:text-slate-500 relative z-10">
+                You'll be redirected automatically in <span class="font-semibold">5</span> seconds...
+            </p>
 </div>
+<footer class="mt-12 text-center text-sm text-slate-500 dark:text-slate-400">
+            © 2023 Propely. All rights reserved.
+        </footer>
 </div>
-<!-- Decorative Pattern at bottom of card (Abstract/Subtle) -->
-<div class="bg-slate-50 dark:bg-slate-700/30 h-2 w-full"></div>
-</div>
-</main>
-<!-- Simple Footer -->
-<footer class="py-6 text-center">
-<p class="text-xs text-slate-400 dark:text-slate-600">
-            © 2023 Veriflow Inc. All rights reserved.
-        </p>
-</footer>
 </body></html>

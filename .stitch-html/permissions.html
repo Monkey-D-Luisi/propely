@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Propely - Member Permissions Matrix</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-10 py-3 sticky top-0 z-10">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-slate-900 dark:text-slate-100">
+<div class="size-6 text-primary">
+<span class="material-symbols-outlined" style="font-size: 24px;">real_estate_agent</span>
+</div>
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-[-0.015em]">Propely</h2>
+</div>
+<label class="flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-xl h-full">
+<div class="text-slate-500 dark:text-slate-400 flex border-none bg-slate-100 dark:bg-slate-800 items-center justify-center pl-4 rounded-l-xl border-r-0">
+<span class="material-symbols-outlined" style="font-size: 20px;">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-slate-900 dark:text-slate-100 focus:outline-0 focus:ring-0 border-none bg-slate-100 dark:bg-slate-800 focus:border-none h-full placeholder:text-slate-500 dark:placeholder:text-slate-400 px-4 rounded-l-none border-l-0 pl-2 text-sm font-medium leading-normal" placeholder="Search" value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9 hidden md:flex">
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Dashboard</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Properties</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Contacts</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Work Items</a>
+<a class="text-slate-900 dark:text-slate-100 text-sm font-semibold leading-normal" href="#">Settings</a>
+</div>
+<div class="flex gap-2 items-center">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Add Member</span>
+</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-900 dark:text-slate-100 gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+<span class="material-symbols-outlined" style="font-size: 20px;">notifications</span>
+</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-900 dark:text-slate-100 gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+<span class="material-symbols-outlined" style="font-size: 20px;">help</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border border-slate-200 dark:border-slate-700" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC_KL0cxTedPynG4rebU2S6Fe3gYmqZwzAAIav6UCfo2jx434DN5gEZhACMNbsBUT0FfsReQEtzpGpY7FKoBjJBWIl7USvbwu0wdTHEc7rY5yNLYWZS5_pzZhJIh7UaWvS0EHOvwr-H0ekLgcD8umKBoiurbo-VMeoXna58-mV_Eu1AXH3jGjCEuPHMQnuGTO5QzpTkAUuRlXqJOxn4as8X_9vBdLqLea2JEEo_mnrszXhuullTMK3kn8CBFEuYFmbj1zi35H9LH_j_");'></div>
+</div>
+</header>
+<div class="px-4 md:px-10 lg:px-20 xl:px-40 flex flex-1 justify-center py-8">
+<div class="layout-content-container flex flex-col max-w-[1200px] flex-1 w-full gap-8">
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="flex border-b border-slate-200 dark:border-slate-800 px-6 gap-8 overflow-x-auto">
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 pb-[13px] pt-4 whitespace-nowrap" href="#">
+<p class="text-sm font-semibold leading-normal tracking-[0.015em]">Organization</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 pb-[13px] pt-4 whitespace-nowrap" href="#">
+<p class="text-sm font-semibold leading-normal tracking-[0.015em]">Members</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-primary text-primary pb-[13px] pt-4 whitespace-nowrap" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Permissions</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 pb-[13px] pt-4 whitespace-nowrap" href="#">
+<p class="text-sm font-semibold leading-normal tracking-[0.015em]">Billing</p>
+</a>
+</div>
+<div class="p-6">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="flex flex-col gap-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-5 hover:border-primary/50 transition-colors cursor-pointer">
+<div class="flex justify-between items-start">
+<div class="text-primary bg-primary/10 p-2 rounded-lg">
+<span class="material-symbols-outlined" style="font-size: 24px;">workspace_premium</span>
+</div>
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 px-2 py-1 rounded-full border border-slate-200 dark:border-slate-700">1 Member</span>
+</div>
+<div class="flex flex-col gap-1 mt-2">
+<h2 class="text-slate-900 dark:text-slate-100 text-base font-bold leading-tight">Owner</h2>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-normal leading-relaxed">Full access to all settings, billing, and system features.</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-5 hover:border-primary/50 transition-colors cursor-pointer">
+<div class="flex justify-between items-start">
+<div class="text-slate-700 dark:text-slate-300 bg-slate-200 dark:bg-slate-700 p-2 rounded-lg">
+<span class="material-symbols-outlined" style="font-size: 24px;">admin_panel_settings</span>
+</div>
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 px-2 py-1 rounded-full border border-slate-200 dark:border-slate-700">2 Members</span>
+</div>
+<div class="flex flex-col gap-1 mt-2">
+<h2 class="text-slate-900 dark:text-slate-100 text-base font-bold leading-tight">Admin</h2>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-normal leading-relaxed">Manage users, teams, and core organization settings.</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-5 hover:border-primary/50 transition-colors cursor-pointer">
+<div class="flex justify-between items-start">
+<div class="text-slate-700 dark:text-slate-300 bg-slate-200 dark:bg-slate-700 p-2 rounded-lg">
+<span class="material-symbols-outlined" style="font-size: 24px;">support_agent</span>
+</div>
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 px-2 py-1 rounded-full border border-slate-200 dark:border-slate-700">8 Members</span>
+</div>
+<div class="flex flex-col gap-1 mt-2">
+<h2 class="text-slate-900 dark:text-slate-100 text-base font-bold leading-tight">Agent</h2>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-normal leading-relaxed">Manage properties, client contacts, and daily tasks.</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-5 hover:border-primary/50 transition-colors cursor-pointer">
+<div class="flex justify-between items-start">
+<div class="text-slate-700 dark:text-slate-300 bg-slate-200 dark:bg-slate-700 p-2 rounded-lg">
+<span class="material-symbols-outlined" style="font-size: 24px;">visibility</span>
+</div>
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 px-2 py-1 rounded-full border border-slate-200 dark:border-slate-700">4 Members</span>
+</div>
+<div class="flex flex-col gap-1 mt-2">
+<h2 class="text-slate-900 dark:text-slate-100 text-base font-bold leading-tight">Viewer</h2>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-normal leading-relaxed">Read-only access to assigned properties and reports.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-end px-2">
+<h2 class="text-slate-900 dark:text-slate-100 text-[20px] font-bold leading-tight tracking-[-0.015em]">Members Permissions</h2>
+<div class="flex items-center gap-4 text-xs font-medium text-slate-500 dark:text-slate-400">
+<div class="flex items-center gap-1"><span class="material-symbols-outlined text-green-500" style="font-size: 16px;">check_circle</span> Full Access</div>
+<div class="flex items-center gap-1"><span class="material-symbols-outlined text-amber-500" style="font-size: 16px;">warning</span> View Only</div>
+<div class="flex items-center gap-1"><span class="material-symbols-outlined text-red-500" style="font-size: 16px;">cancel</span> No Access</div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
+<th class="px-6 py-4 text-slate-900 dark:text-slate-100 text-sm font-semibold leading-normal w-1/4 min-w-[200px]">Member</th>
+<th class="px-6 py-4 text-slate-600 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider w-32">Role</th>
+<th class="px-4 py-4 text-center text-slate-600 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider">Properties</th>
+<th class="px-4 py-4 text-center text-slate-600 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider">Contacts</th>
+<th class="px-4 py-4 text-center text-slate-600 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider">Appointments</th>
+<th class="px-4 py-4 text-center text-slate-600 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider">Work Items</th>
+<th class="px-4 py-4 text-center text-slate-600 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider">Billing</th>
+<th class="px-4 py-4 text-center text-slate-600 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider">Settings</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-8 border border-slate-200 dark:border-slate-700" data-alt="Alex Johnson avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA8k_-84XKn5jHocfs-e9cwFdfMqZKX4s3zoFw6YWaQOSY-y4uuDEGb4Cb9AVaQ43Af-H-bMDzD-XD-KEnF97BSlSgMEaHhKKkT8sRLMrAgcZO7wQLxrUzzxbKX_IMsdrVhDvO8q-7hXgEEcmFWj1NRKdevZC664qoEb3-DSvsKEH10b_nm6w4hFu5HpKxeKZdYsUIkO4c8dWYS_OzzXaGFmfoclAHba8o4pO80x7-teJBeyLs-WPomA2eEX5BD3gO-UhRw2sczzzPM");'></div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-slate-100">Alex Johnson</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">alex@propely.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="relative group cursor-pointer inline-flex items-center gap-1 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-300">
+                                                    Owner
+                                                    <span class="material-symbols-outlined text-slate-400" style="font-size: 16px;">arrow_drop_down</span>
+</div>
+</td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-green-500" style="font-size: 20px;">check_circle</span></td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-green-500" style="font-size: 20px;">check_circle</span></td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-green-500" style="font-size: 20px;">check_circle</span></td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-green-500" style="font-size: 20px;">check_circle</span></td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-green-500" style="font-size: 20px;">check_circle</span></td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-green-500" style="font-size: 20px;">check_circle</span></td>
+</tr>
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-8 border border-slate-200 dark:border-slate-700" data-alt="Sarah Smith avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuACYRpLS3yZomj5z8iHeSKEtMhnA4Lpkgfh-In-Jhc3KDmSoFzG3F6zwnxrvPsHPpuw7UKhuf42KeXpvsciZt4ShgjkFqtibnVyRTK25g9VPuIt1HRPUr5RkKB6vxki3lC2aoWMah-xx7YtCGf8yAr7cUBWLDeLCR9vmiDyEZvqv1f57MB5yBNKXL5Ui_-Tu7AQR5etdfjSDQJbfrSCxIp1O7ziYgbn-zGWR8b5WcYmstVlOR3NsdmYayZITk8a3Mkx2PcHHs100fQ-");'></div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-slate-100">Sarah Smith</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">sarah@propely.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="relative group cursor-pointer inline-flex items-center gap-1 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-300">
+                                                    Admin
+                                                    <span class="material-symbols-outlined text-slate-400" style="font-size: 16px;">arrow_drop_down</span>
+</div>
+</td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-green-500" style="font-size: 20px;">check_circle</span></td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-green-500" style="font-size: 20px;">check_circle</span></td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-green-500" style="font-size: 20px;">check_circle</span></td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-green-500" style="font-size: 20px;">check_circle</span></td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-amber-500" style="font-size: 20px;">warning</span></td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-green-500" style="font-size: 20px;">check_circle</span></td>
+</tr>
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-8 border border-slate-200 dark:border-slate-700" data-alt="Michael Davis avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB-L7daHr0j9wloZvKbdV-UbyplNIxD248U2Bex_qQREjLGbmIhGStopyPQpr5k3KKpIbAnPMD1XqK5QKY7cQ_o2S0WFd9COMjv6zpKcZErcG_8mfYOANzaI8cPgjZZdVx0ADXXEGkOz_olDn_203ObuH7w0VFwObMedGIew9qM90BBXpD3GA7FpGkgJx3h6asiUcnTOaYwTTFBI0nsSURfUwiSSb02M87vr4iYBjeC84k7Cxtwe6ITSgkVqegQM26E7lpc87odDJET");'></div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-slate-100">Michael Davis</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">michael@propely.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="relative group cursor-pointer inline-flex items-center gap-1 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-300">
+                                                    Agent
+                                                    <span class="material-symbols-outlined text-slate-400" style="font-size: 16px;">arrow_drop_down</span>
+</div>
+</td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-green-500" style="font-size: 20px;">check_circle</span></td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-green-500" style="font-size: 20px;">check_circle</span></td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-green-500" style="font-size: 20px;">check_circle</span></td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-amber-500" style="font-size: 20px;">warning</span></td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-red-500" style="font-size: 20px;">cancel</span></td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-red-500" style="font-size: 20px;">cancel</span></td>
+</tr>
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-8 border border-slate-200 dark:border-slate-700 bg-slate-200 flex items-center justify-center text-slate-600 font-semibold text-xs" data-alt="Default avatar initials">
+                                                        EM
+                                                    </div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-slate-100">Emily Miller</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">emily@propely.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="relative group cursor-pointer inline-flex items-center gap-1 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-300">
+                                                    Agent
+                                                    <span class="material-symbols-outlined text-slate-400" style="font-size: 16px;">arrow_drop_down</span>
+</div>
+</td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-green-500" style="font-size: 20px;">check_circle</span></td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-green-500" style="font-size: 20px;">check_circle</span></td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-green-500" style="font-size: 20px;">check_circle</span></td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-amber-500" style="font-size: 20px;">warning</span></td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-red-500" style="font-size: 20px;">cancel</span></td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-red-500" style="font-size: 20px;">cancel</span></td>
+</tr>
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-8 border border-slate-200 dark:border-slate-700" data-alt="David Wilson avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCKzOBvb32tO65UBjua1QW-VBVGAj5heeSwCP_Po1FCfE9hu2Sr2Eur-gyg3PPjTbzAkmoa5cxsYbz1LWM2rrAofepLCjEALMimYOOvKffnHcCnQh4HCwRTcVNStA1zqGF8fF5wkXf_OpqBnjXjehR8tMODJJA2CpLGIG6HvSFw-RFVLknS1zQQ_9VFbHr2GscV4qc5rOFz79c3mNq8nTaB1zO7CajLu8ooB3esDPcNhQKbLr8SakvXXix6e4PmMLLyNAuCiQc1alrD");'></div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-slate-100">David Wilson</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">david@propely.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="relative group cursor-pointer inline-flex items-center gap-1 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-300">
+                                                    Viewer
+                                                    <span class="material-symbols-outlined text-slate-400" style="font-size: 16px;">arrow_drop_down</span>
+</div>
+</td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-amber-500" style="font-size: 20px;">warning</span></td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-amber-500" style="font-size: 20px;">warning</span></td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-amber-500" style="font-size: 20px;">warning</span></td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-amber-500" style="font-size: 20px;">warning</span></td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-red-500" style="font-size: 20px;">cancel</span></td>
+<td class="px-4 py-4 text-center"><span class="material-symbols-outlined text-red-500" style="font-size: 20px;">cancel</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="bg-slate-50 dark:bg-slate-800/50 border-t border-slate-200 dark:border-slate-800 px-6 py-4 flex items-center justify-between">
+<span class="text-sm text-slate-500 dark:text-slate-400">Showing 5 of 15 members</span>
+<div class="flex gap-2">
+<button class="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 text-sm font-medium disabled:opacity-50">Previous</button>
+<button class="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 text-sm font-medium">Next</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Propely User Permissions Screen</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark px-10 py-3">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-slate-900 dark:text-slate-100">
+<div class="size-6 text-primary">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Propely</h2>
+</div>
+<label class="flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-xl h-full">
+<div class="text-slate-500 dark:text-slate-400 flex border-none bg-slate-100 dark:bg-slate-800 items-center justify-center pl-4 rounded-l-xl border-r-0">
+<span class="material-symbols-outlined text-[24px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-slate-900 dark:text-slate-100 focus:outline-0 focus:ring-0 border-none bg-slate-100 dark:bg-slate-800 focus:border-none h-full placeholder:text-slate-500 dark:placeholder:text-slate-400 px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" placeholder="Search" value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9 hidden md:flex">
+<a class="text-slate-900 dark:text-slate-100 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-slate-900 dark:text-slate-100 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Properties</a>
+<a class="text-slate-900 dark:text-slate-100 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Contacts</a>
+<a class="text-primary text-sm font-medium leading-normal border-b-2 border-primary pb-1" href="#">Settings</a>
+</div>
+<div class="flex gap-2">
+<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border border-slate-200 dark:border-slate-700" data-alt="Profile picture of a professional woman" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBANMffDXulUJxOEmKedU6GxI5rP9n1xMmtWTm3No6XzDA-_cPxK1rCKzrnUTaA72ALXyyUfLUMq8SRz0VkZHG6z4CbX-qNPw-BNKvnpEXXvissh0d3hVgP2uxyNs_XEJLUPk9fjK8npMbO8Mop2Atc4OONyU-p09w0s3_6s7_YpzvJIiFJr23aVipFhPFm4P4Z8Whch5h35gcccN6JPhN9w-_yQ_P8_r-HHUPpvR-HOh8AqD3GzdyiCejghZjy5pbkMKmxa19mhrcn");'></div>
+</div>
+</header>
+<div class="flex flex-1 justify-center py-8 px-4 sm:px-6 lg:px-8">
+<div class="layout-content-container flex flex-col w-full max-w-4xl flex-1 gap-6">
+<!-- Breadcrumbs -->
+<nav aria-label="Breadcrumb" class="flex flex-wrap gap-2 px-2">
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Settings</a>
+<span class="text-slate-400 dark:text-slate-500 text-sm font-medium leading-normal">/</span>
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Permissions</a>
+<span class="text-slate-400 dark:text-slate-500 text-sm font-medium leading-normal">/</span>
+<span aria-current="page" class="text-slate-900 dark:text-slate-100 text-sm font-medium leading-normal">María García</span>
+</nav>
+<!-- User Header Card -->
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+<div class="flex items-center gap-5">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-20 w-20 border-2 border-slate-100 dark:border-slate-800" data-alt="Profile picture of María García" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD-oGktNvyOC-kaNmvo7S5k3x9S3Zc681RkNxnMJXgjJOfcShcZGq5Ai8FpKRXQhrlSXTkiqTHGyvVCQTW7BYd86LQYqK6Kx5Vgcul5QyRdcXtEPp6n45ElLYU5t8uqdYIV__zEotlOucsiaIlU9MtitBjWD8RQw9jqaQLkB4hX3OPq97WH27YZkmVddHgSrYkZdpAD1G47Ti6Hl8EXs84MV9yMCO9QXdkRpufLokotqf5oI3Oe3o8iOsh1JEMg3DmwZnXhal6t7MvY");'></div>
+<div class="flex flex-col">
+<div class="flex items-center gap-3">
+<h1 class="text-slate-900 dark:text-slate-100 text-2xl font-bold leading-tight tracking-[-0.015em]">María García</h1>
+<span class="inline-flex items-center rounded-md bg-purple-50 dark:bg-purple-500/10 px-2 py-1 text-xs font-medium text-purple-700 dark:text-purple-400 ring-1 ring-inset ring-purple-700/10 dark:ring-purple-400/20">Admin</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm mt-1 font-medium">maria.garcia@propely.com</p>
+</div>
+</div>
+<button class="flex min-w-[120px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary text-white hover:bg-primary/90 transition-colors text-sm font-medium leading-normal w-full sm:w-auto shadow-sm">
+                            Save Changes
+                        </button>
+</div>
+<div class="space-y-6">
+<!-- Properties Card -->
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+<div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center gap-3 bg-slate-50/50 dark:bg-slate-800/50">
+<div class="p-2 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg">
+<span class="material-symbols-outlined text-[20px]">real_estate_agent</span>
+</div>
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-semibold leading-tight">Properties</h2>
+</div>
+<div class="divide-y divide-slate-100 dark:divide-slate-800/50">
+<div class="flex items-center justify-between px-6 py-4 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<div class="flex flex-col">
+<p class="text-slate-900 dark:text-slate-100 text-sm font-medium leading-normal">View Properties</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs mt-0.5">Can view all property listings</p>
+</div>
+<label class="relative flex h-6 w-11 cursor-pointer items-center rounded-full bg-primary p-0.5 has-[:checked]:justify-end">
+<div class="h-5 w-5 rounded-full bg-white shadow-sm transition-transform translate-x-5"></div>
+<input checked="" class="invisible absolute" type="checkbox"/>
+</label>
+</div>
+<div class="flex items-center justify-between px-6 py-4 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<div class="flex flex-col">
+<p class="text-slate-900 dark:text-slate-100 text-sm font-medium leading-normal">Create Properties</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs mt-0.5">Can add new properties to the system</p>
+</div>
+<label class="relative flex h-6 w-11 cursor-pointer items-center rounded-full bg-primary p-0.5 has-[:checked]:justify-end">
+<div class="h-5 w-5 rounded-full bg-white shadow-sm transition-transform translate-x-5"></div>
+<input checked="" class="invisible absolute" type="checkbox"/>
+</label>
+</div>
+<div class="flex items-center justify-between px-6 py-4 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<div class="flex flex-col">
+<p class="text-slate-900 dark:text-slate-100 text-sm font-medium leading-normal">Edit Properties</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs mt-0.5">Can modify existing property details</p>
+</div>
+<label class="relative flex h-6 w-11 cursor-pointer items-center rounded-full bg-primary p-0.5 has-[:checked]:justify-end">
+<div class="h-5 w-5 rounded-full bg-white shadow-sm transition-transform translate-x-5"></div>
+<input checked="" class="invisible absolute" type="checkbox"/>
+</label>
+</div>
+<div class="flex items-center justify-between px-6 py-4 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<div class="flex flex-col">
+<p class="text-slate-900 dark:text-slate-100 text-sm font-medium leading-normal">Publish Properties</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs mt-0.5">Can change property status to public</p>
+</div>
+<label class="relative flex h-6 w-11 cursor-pointer items-center rounded-full bg-slate-200 dark:bg-slate-700 p-0.5 has-[:checked]:justify-end has-[:checked]:bg-primary">
+<div class="h-5 w-5 rounded-full bg-white shadow-sm transition-transform"></div>
+<input class="invisible absolute" type="checkbox"/>
+</label>
+</div>
+</div>
+</div>
+<!-- Contacts & Leads Card -->
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+<div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center gap-3 bg-slate-50/50 dark:bg-slate-800/50">
+<div class="p-2 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-lg">
+<span class="material-symbols-outlined text-[20px]">group</span>
+</div>
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-semibold leading-tight">Contacts &amp; Leads</h2>
+</div>
+<div class="divide-y divide-slate-100 dark:divide-slate-800/50">
+<div class="flex items-center justify-between px-6 py-4 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<div class="flex flex-col">
+<p class="text-slate-900 dark:text-slate-100 text-sm font-medium leading-normal">View Contacts</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs mt-0.5">Can view client and lead information</p>
+</div>
+<label class="relative flex h-6 w-11 cursor-pointer items-center rounded-full bg-primary p-0.5 has-[:checked]:justify-end">
+<div class="h-5 w-5 rounded-full bg-white shadow-sm transition-transform translate-x-5"></div>
+<input checked="" class="invisible absolute" type="checkbox"/>
+</label>
+</div>
+<div class="flex items-center justify-between px-6 py-4 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<div class="flex flex-col">
+<p class="text-slate-900 dark:text-slate-100 text-sm font-medium leading-normal">Create Contacts</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs mt-0.5">Can add new clients and leads</p>
+</div>
+<label class="relative flex h-6 w-11 cursor-pointer items-center rounded-full bg-primary p-0.5 has-[:checked]:justify-end">
+<div class="h-5 w-5 rounded-full bg-white shadow-sm transition-transform translate-x-5"></div>
+<input checked="" class="invisible absolute" type="checkbox"/>
+</label>
+</div>
+<div class="flex items-center justify-between px-6 py-4 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<div class="flex flex-col">
+<p class="text-slate-900 dark:text-slate-100 text-sm font-medium leading-normal">Export Data</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs mt-0.5">Can export contact lists to CSV</p>
+</div>
+<label class="relative flex h-6 w-11 cursor-pointer items-center rounded-full bg-slate-200 dark:bg-slate-700 p-0.5 has-[:checked]:justify-end has-[:checked]:bg-primary">
+<div class="h-5 w-5 rounded-full bg-white shadow-sm transition-transform"></div>
+<input class="invisible absolute" type="checkbox"/>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="flex flex-col sm:flex-row items-center justify-end gap-4 mt-6 pt-6 border-t border-slate-200 dark:border-slate-800">
+<button class="flex items-center justify-center rounded-lg h-10 px-5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-sm font-medium w-full sm:w-auto">
+                            Reset to Default
+                        </button>
+<button class="flex items-center justify-center rounded-lg h-10 px-5 bg-primary text-white hover:bg-primary/90 transition-colors text-sm font-medium w-full sm:w-auto shadow-sm">
+                            Save Permissions
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>

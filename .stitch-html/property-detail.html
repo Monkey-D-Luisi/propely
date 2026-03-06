@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Propely - Property Detail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#4840ed",
+              "background-light": "#f6f6f8",
+              "background-dark": "#111121",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-slate-200 dark:border-b-slate-800 bg-white dark:bg-slate-900 px-10 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4">
+<div class="size-6 text-primary">
+<span class="material-symbols-outlined text-2xl">real_estate_agent</span>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Propely</h2>
+</div>
+<label class="flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-xl h-full">
+<div class="text-slate-500 dark:text-slate-400 flex border-none bg-slate-100 dark:bg-slate-800 items-center justify-center pl-4 rounded-l-xl border-r-0">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-slate-900 dark:text-slate-100 focus:outline-0 focus:ring-0 border-none bg-slate-100 dark:bg-slate-800 h-full placeholder:text-slate-500 dark:placeholder:text-slate-400 px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" placeholder="Search" value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Dashboard</a>
+<a class="text-primary text-sm font-medium leading-normal" href="#">Properties</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Tenants</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Reports</a>
+</div>
+<div class="flex gap-2">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Add Property</span>
+</button>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-900 dark:text-slate-100 text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Settings</span>
+</button>
+<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 w-10 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-900 dark:text-slate-100">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 w-10 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-900 dark:text-slate-100">
+<span class="material-symbols-outlined text-xl">person</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDOFFk5wmaTy8NGmQw4KVXb4vLNgFhC08_9JdPvGqYgF9LdJ4g5AEQxBAfi9e0aW-iHZpqJYozGwDhLtjiokRZFvCo025YXtF-e9almChBPG4LZz8Ag0cJ0fmQhA-VHaVLm89cVLUCVUOemNrVCZk6B-lJoazuRhcGxbEqnTXdVPRrYch74fXpzIQynCUkBaPTZcnjRuvut_6UOpSHODMJtOsNYmx9hbFzENekNrUEvBHU91u3bk_sEY0pv5ILoCRurFM163OwtLInJ");'></div>
+</div>
+</header>
+<div class="flex flex-1 h-full">
+<aside class="w-64 hidden lg:flex flex-col border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-6 px-4 shrink-0 h-[calc(100vh-65px)] sticky top-[65px]">
+<div class="flex flex-col gap-4 flex-1">
+<div class="flex gap-3 mb-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Company logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCdoOgUyBc3vA1cyEtajxEJGawyGukZNmuWByefkD_171WwhBXNfNWidXxgE2mw1g5rxgGmzu4aUZPdyGvX_kdKvszA6ubecvisjS2tbWDNP7ftnvlf1wa0GMoJ5MG3_gb9uKZpeGAIsUDoKoy_WujgQmttinLAlq3J_x-o6rLXTjxJk_2N3qZS8O_jum_ALfjBXLd_JQAvA0Dgyko8rLBqv0HRgDm_Gjai_XtP5JimwveE0iYp6_acMULHxvJPZ5nSKHEWkY5xSrhD");'></div>
+<div class="flex flex-col justify-center">
+<h1 class="text-base font-medium leading-normal">Propely</h1>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-normal leading-normal">Real Estate Management</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">dashboard</span>
+<span class="text-sm font-medium leading-normal">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-primary/10 text-primary" href="#">
+<span class="material-symbols-outlined text-xl">apartment</span>
+<span class="text-sm font-medium leading-normal">Properties</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">group</span>
+<span class="text-sm font-medium leading-normal">Tenants</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">build</span>
+<span class="text-sm font-medium leading-normal">Maintenance</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">summarize</span>
+<span class="text-sm font-medium leading-normal">Reports</span>
+</a>
+</nav>
+</div>
+</aside>
+<main class="flex-1 max-w-[1200px] mx-auto p-6 md:p-8">
+<nav class="flex flex-wrap gap-2 mb-6 items-center text-sm">
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary transition-colors font-medium" href="#">Properties</a>
+<span class="text-slate-400 dark:text-slate-500 material-symbols-outlined text-sm">chevron_right</span>
+<span class="text-slate-900 dark:text-slate-100 font-medium">Luxury Apartment Gran Vía</span>
+</nav>
+<div class="flex flex-wrap justify-between items-start gap-4 mb-8">
+<div class="flex flex-col gap-2 max-w-2xl">
+<h1 class="text-3xl md:text-4xl font-bold leading-tight tracking-tight">Luxury Apartment Gran Vía</h1>
+<p class="text-slate-500 dark:text-slate-400 text-lg flex items-center gap-1">
+<span class="material-symbols-outlined text-lg">location_on</span>
+                            Madrid, Spain
+                        </p>
+<div class="flex gap-2 flex-wrap mt-2">
+<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                                Active
+                            </span>
+<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
+                                Apartment
+                            </span>
+<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary">
+                                Featured
+                            </span>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center justify-center rounded-xl h-10 px-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-sm font-bold shadow-sm">
+<span class="material-symbols-outlined mr-2 text-sm">edit</span>
+                            Edit
+                        </button>
+<button class="flex items-center justify-center rounded-xl h-10 px-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-red-50 hover:text-red-600 hover:border-red-200 dark:hover:bg-red-900/20 dark:hover:text-red-400 transition-colors text-sm font-bold shadow-sm">
+<span class="material-symbols-outlined mr-2 text-sm">delete</span>
+                            Delete
+                        </button>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm border border-slate-200 dark:border-slate-800 mb-8">
+<div class="aspect-video w-full rounded-xl bg-slate-200 dark:bg-slate-800 mb-4 bg-cover bg-center" data-alt="Modern luxury apartment interior living room" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDDOhipoKQGsw7Nf5ldCAPVsrNdg9MjcDrzfO_9s2fSrRJq2uwWeJ20xbyeowXXdfP0oFyK6-S7U9ccV49SJZgdAGAlBY_y7LgAwe67mI2XNUdfodqlM83p0o7vDpd5rN4I3F0eUvEiIJVKq5RBrE1N4ug5BrnNbseagwfnU7lVyNbC2IJThjtAUcG9QgZjd8jYVqVsUrVxSUb6EvkRD0unPCujnw0IwaB20Pcn9ITol9VpnjXPHFaoMyz8rrEKXo6rlV0bA8bdLLtI");'></div>
+<div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
+<div class="aspect-square rounded-lg bg-slate-200 dark:bg-slate-800 cursor-pointer border-2 border-primary bg-cover bg-center" data-alt="Thumbnail of living room" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA4G4UwWs7Z0d0mzx1hjt-gAZ9qluz5F7gmlRvc0Rz_XRm6OXeC4bMb1w1JFdQ82gUdcQ6G7ccAVyb5rIi8r63WHdTUaR0cc0nR0bNKUN6AIQjJRqddT75668cwqfMHC5aIH5BY4m9wAdmjKgUKXmva2obviAJUsqd3xH1NCsJcHeSd7fntuZf5gCOlHLKPbuzRKIchob-SEkQSfIoFPPApRssNOsPUETBEgIrd--3co7O28Tj2Jk09xou9CnTuemSKC9nMWdmAUcQY");'></div>
+<div class="aspect-square rounded-lg bg-slate-200 dark:bg-slate-800 cursor-pointer opacity-70 hover:opacity-100 transition-opacity bg-cover bg-center" data-alt="Thumbnail of bedroom" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBfo7JooED_VA853kUdQCGp3bgAb0M9_kFDALoPSjbQgCBWTWJrvYQ97jcR4lzhAHKIhnnmfjETYD9OaxPmNxajDsLuJCfQmDmDqlIM5BOF-7YG8paxo6vrgLQth4gb-9vYh_m8Y-MxNO9q5bPD9RcWsVbP-C9FCw8peIfx_Js2soHKeAc75gWqhuMHEDahSHbMokatFP7EXusK3aQU0_8rMNI2ez-pRqLpzOqsZHMRzIVDSVAVy7u-RYSBhgbzn7Ia1iX8cxSayjeW");'></div>
+<div class="aspect-square rounded-lg bg-slate-200 dark:bg-slate-800 cursor-pointer opacity-70 hover:opacity-100 transition-opacity bg-cover bg-center" data-alt="Thumbnail of kitchen" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDHIvxo832VhPYbxvVJZFlW7hGfyU3x4k_ckQKBrwABRu5gE24_Q7-a0qiOuX-bAQNoCtXEXhd4x18LqlYZPAVkCRu4VHU0zy8u16vEmOsjrS-jj44XqHDK50QM_159HR-raYD3LZbBhVjtngcvjlbYIlHMv93PNLiqMu5xJitQqKMApIzDYe6O6ULSWjIq42tli38Y5Oequr1WYbxAWKIIgES7MfooJqVoMZZ9GVdoty9X8q4rITCDukFgTrC5EyvrXN-MP54q5qUA");'></div>
+<div class="aspect-square rounded-lg bg-slate-200 dark:bg-slate-800 cursor-pointer opacity-70 hover:opacity-100 transition-opacity bg-cover bg-center" data-alt="Thumbnail of bathroom" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBdlK1lO2Ur6SR0psGHig6ASAsrr6jV-FYUUJkZCCMqO2wfp_rmfDk1t7pHOLQkoeEKQrh6CabUW6Qhhwx64U1GJ1khhwOM4ERkNt7hr3QtHgbR4MZpelOXVOgfwZIq2A6jpWtmik3yd-r-D6q0lGWXQ1bBcc3MlU8EbUqiDIV-1FFWMtopcAcQNF95i-No7kK7OmLvwJ4grCfqeuWzdX-NblE-FcSQ73o5yCjjY44OFKJtw9AEgR-SyE07gPZc4L-URLGQQq1l7o8B");'></div>
+<div class="aspect-square rounded-lg bg-slate-200 dark:bg-slate-800 cursor-pointer opacity-70 hover:opacity-100 transition-opacity flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+<span class="font-medium">+8</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-2 flex flex-col gap-8">
+<section class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-800">
+<h3 class="text-xl font-bold mb-4">Property Details</h3>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="flex flex-col p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
+<span class="material-symbols-outlined text-slate-400 mb-2">bed</span>
+<span class="text-sm text-slate-500 dark:text-slate-400">Bedrooms</span>
+<span class="font-semibold text-lg">3</span>
+</div>
+<div class="flex flex-col p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
+<span class="material-symbols-outlined text-slate-400 mb-2">bathtub</span>
+<span class="text-sm text-slate-500 dark:text-slate-400">Bathrooms</span>
+<span class="font-semibold text-lg">2</span>
+</div>
+<div class="flex flex-col p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
+<span class="material-symbols-outlined text-slate-400 mb-2">square_foot</span>
+<span class="text-sm text-slate-500 dark:text-slate-400">Size</span>
+<span class="font-semibold text-lg">120 m²</span>
+</div>
+<div class="flex flex-col p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
+<span class="material-symbols-outlined text-slate-400 mb-2">energy_savings_leaf</span>
+<span class="text-sm text-slate-500 dark:text-slate-400">Energy Rating</span>
+<span class="font-semibold text-lg text-green-600 dark:text-green-400">B</span>
+</div>
+</div>
+</section>
+<section class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-800">
+<h3 class="text-xl font-bold mb-4">Description</h3>
+<div class="prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-300">
+<p class="mb-4">Stunning luxury apartment located in the heart of Madrid's iconic Gran Vía. This fully renovated property offers a perfect blend of classic architectural details and modern high-end finishes.</p>
+<p class="mb-4">The spacious open-plan living and dining area is flooded with natural light from floor-to-ceiling windows that provide spectacular city views. The chef's kitchen features premium integrated appliances, a large island with marble countertops, and custom cabinetry.</p>
+<p>The master suite includes a walk-in closet and a spa-like en-suite bathroom with a freestanding soaking tub and dual vanities. Two additional well-appointed bedrooms offer ample space for family or guests. Smart home technology is integrated throughout the apartment, controlling lighting, climate, and security.</p>
+</div>
+</section>
+<section class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-800">
+<h3 class="text-xl font-bold mb-4">Amenities</h3>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-y-3 gap-x-4">
+<div class="flex items-center gap-2 text-slate-700 dark:text-slate-200">
+<span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+<span>Air Conditioning</span>
+</div>
+<div class="flex items-center gap-2 text-slate-700 dark:text-slate-200">
+<span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+<span>Heating</span>
+</div>
+<div class="flex items-center gap-2 text-slate-700 dark:text-slate-200">
+<span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+<span>Balcony</span>
+</div>
+<div class="flex items-center gap-2 text-slate-700 dark:text-slate-200">
+<span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+<span>Elevator</span>
+</div>
+<div class="flex items-center gap-2 text-slate-700 dark:text-slate-200">
+<span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+<span>Parking</span>
+</div>
+<div class="flex items-center gap-2 text-slate-700 dark:text-slate-200">
+<span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+<span>Gym</span>
+</div>
+<div class="flex items-center gap-2 text-slate-700 dark:text-slate-200">
+<span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+<span>Doorman</span>
+</div>
+<div class="flex items-center gap-2 text-slate-700 dark:text-slate-200">
+<span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+<span>Smart Home</span>
+</div>
+<div class="flex items-center gap-2 text-slate-700 dark:text-slate-200">
+<span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+<span>Furnished</span>
+</div>
+</div>
+</section>
+</div>
+<div class="flex flex-col gap-6">
+<section class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-800">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider mb-1">Asking Price</p>
+<h3 class="text-3xl font-bold text-primary mb-6">€450,000</h3>
+<div class="flex flex-col gap-3">
+<button class="w-full flex items-center justify-center rounded-xl h-12 px-4 bg-primary hover:bg-primary/90 transition-colors text-white font-bold shadow-sm">
+                                    Contact Agent
+                                </button>
+<button class="w-full flex items-center justify-center rounded-xl h-12 px-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-slate-900 dark:text-slate-100 font-bold shadow-sm">
+                                    Schedule Visit
+                                </button>
+</div>
+</section>
+<section class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-800">
+<h3 class="text-lg font-bold mb-4">Location</h3>
+<div class="aspect-video w-full rounded-xl bg-slate-200 dark:bg-slate-800 mb-4 overflow-hidden relative" data-location="Madrid" style="">
+<div class="absolute inset-0 bg-slate-300 dark:bg-slate-700 flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-slate-400 dark:text-slate-500">map</span>
+</div>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-300">Gran Vía 42, 28013 Madrid, Spain</p>
+</section>
+<section class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-800">
+<h3 class="text-lg font-bold mb-4">Assigned Agent</h3>
+<div class="flex items-center gap-4 mb-4">
+<div class="size-12 rounded-full bg-slate-200 dark:bg-slate-800 bg-cover bg-center" data-alt="Portrait of agent Carlos Ruiz" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDp7DVBt0MGDTsHWweagCPiZk7WcFYs9e6ZKjdvVJXT_xnC0HOVvME3iZyqtKanBrOfKfEpDXri8iN6RhKsBgGkyjplgThmWpIwBTjTUbD0PwAYeZaR-5UFkv2WCDfQ7h6DXVUgNVS22vZ6JH3T0yVx7EoYYrXfJXQnw2Y_B8gwy9jfrxibDXWUqWe_RJuEvsTUqSftT1GoHTuH1lrrjqceHW8T68UxBLHG9p3tmKYryG1ttmwDZS73s1kzE6W2HDIg3BEqNn89ZEhW");'></div>
+<div>
+<p class="font-bold">Carlos Ruiz</p>
+<p class="text-sm text-slate-500 dark:text-slate-400">Senior Property Manager</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 flex items-center justify-center gap-2 rounded-xl py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-sm font-medium">
+<span class="material-symbols-outlined text-sm">mail</span> Email
+                                </button>
+<button class="flex-1 flex items-center justify-center gap-2 rounded-xl py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-sm font-medium">
+<span class="material-symbols-outlined text-sm">call</span> Call
+                                </button>
+</div>
+</section>
+<section class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-800">
+<h3 class="text-lg font-bold mb-4">Recent Activity</h3>
+<div class="relative pl-4 border-l-2 border-slate-100 dark:border-slate-800 space-y-6">
+<div class="relative">
+<div class="absolute -left-[21px] top-1 size-3 rounded-full bg-primary ring-4 ring-white dark:ring-slate-900"></div>
+<p class="text-sm font-medium">Status changed to Active</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Today, 09:41 AM</p>
+</div>
+<div class="relative">
+<div class="absolute -left-[21px] top-1 size-3 rounded-full bg-slate-300 dark:bg-slate-600 ring-4 ring-white dark:ring-slate-900"></div>
+<p class="text-sm font-medium">Price updated to €450,000</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Oct 24, 2023</p>
+</div>
+<div class="relative">
+<div class="absolute -left-[21px] top-1 size-3 rounded-full bg-slate-300 dark:bg-slate-600 ring-4 ring-white dark:ring-slate-900"></div>
+<p class="text-sm font-medium">Property listed</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Oct 20, 2023</p>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

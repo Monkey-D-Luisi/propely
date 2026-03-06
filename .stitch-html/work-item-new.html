@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Create Work Item - Propely</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2513ec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121022",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar -->
+<div class="w-64 flex-shrink-0 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col h-full z-10">
+<div class="p-6 flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white font-bold text-xl">
+                    P
+                </div>
+<div>
+<h1 class="text-base font-bold leading-tight">Propely</h1>
+<p class="text-xs text-slate-500 dark:text-slate-400">Real Estate SaaS</p>
+</div>
+</div>
+<nav class="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">grid_view</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">apartment</span>
+<span class="text-sm font-medium">Properties</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">assignment</span>
+<span class="text-sm font-medium">Work Items</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">group</span>
+<span class="text-sm font-medium">Tenants</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">payments</span>
+<span class="text-sm font-medium">Financials</span>
+</a>
+<div class="pt-6 pb-2">
+<p class="px-3 text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Settings</p>
+</div>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">settings</span>
+<span class="text-sm font-medium">Preferences</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3">
+<img alt="User avatar" class="w-9 h-9 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfo_SkkT_q0KKIdS6-nhLml-korAGwqfXfZ4dLr08sThUjjwyq3zq-pO_KViNgbkqUeoGBb_JyjSECSl9GOP9o8Bwa0TcQppfxVPrqIXKU3RNkgxb31gBCkc2k9RgU9Qq4uVu-DTNIWC72PkN8AQZMDvNyMKt_y-pFaeI6yJd23W-UegH8__EAt2kcqb3MmivZ1bAS_1h_bfmkMZFmEjUlxr6e1ySe5fyS_PaHnjvFnWcbVZLulpK7wTg4JLb0gBrpP6JH2pBMK4Hm"/>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-medium text-slate-900 dark:text-white truncate">Alex Morgan</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 truncate">Admin</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto w-full">
+<div class="max-w-4xl mx-auto py-8 px-6 lg:px-8">
+<!-- Header -->
+<div class="mb-8">
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-2">
+<a class="hover:text-primary transition-colors" href="#">Work Items</a>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="text-slate-900 dark:text-slate-100 font-medium">New</span>
+</div>
+<h2 class="text-3xl font-bold tracking-tight">Create Work Item</h2>
+<p class="mt-1 text-slate-500 dark:text-slate-400 text-sm">Fill in the details below to create a new task or maintenance request.</p>
+</div>
+<!-- Form Card -->
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+<div class="p-6 md:p-8 space-y-8">
+<!-- Linked Property -->
+<div>
+<h3 class="text-base font-semibold text-slate-900 dark:text-white mb-3">Linked Property</h3>
+<div class="flex items-stretch justify-between gap-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 p-4 relative group cursor-pointer hover:border-primary transition-colors">
+<div class="flex flex-col justify-center gap-1 flex-1">
+<p class="text-slate-900 dark:text-white text-base font-bold leading-tight">123 Main St, Unit 4</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal leading-normal">Downtown Apartment Complex</p>
+</div>
+<div class="w-32 bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="Modern apartment building exterior" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBDRYaBf8Eqp4dWLB6Jt02zyx9z_L9jSBZsvQSsGzXZEJMsHp4Pqqfr5g2Boiu0BEXNDt4IIeKDFvXnes9NT8IXgOFuU17qmZqJzVNj1ZR8Y5lZBjDCnCHqWShyqtiG2-F_iNs_e0uh_9Y8Hv40TIwhU_1LbnOuGSW-YzeAwjRzVUg9_mAykaMERaspaEbakiDOY-1uRUp0lr7QXJtOo4ZyV3-5bt-o4nGRKere2tSsP3Q9iJUbhcY6c5ufZ6VT2-6ar_D-nixTtnxz');"></div>
+<button class="absolute top-2 right-2 text-slate-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity p-1 bg-white dark:bg-slate-800 rounded-full shadow-sm">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+<div class="mt-2 text-right">
+<button class="text-sm text-primary font-medium hover:underline">Change Property</button>
+</div>
+</div>
+<hr class="border-slate-200 dark:border-slate-800"/>
+<!-- Title & Description -->
+<div class="space-y-5">
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" for="title">Title <span class="text-red-500">*</span></label>
+<input class="form-input block w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-primary focus:ring-primary sm:text-sm" id="title" name="title" placeholder="e.g., Fix leaky faucet in master bathroom" type="text"/>
+</div>
+<div>
+<div class="flex justify-between items-center mb-1">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300" for="description">Description</label>
+<button class="text-xs flex items-center gap-1 text-primary hover:text-primary/80 font-medium bg-primary/10 px-2 py-1 rounded-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">auto_awesome</span>
+                                        AI Suggest
+                                    </button>
+</div>
+<textarea class="form-textarea block w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-primary focus:ring-primary sm:text-sm" id="description" name="description" placeholder="Provide detailed information about the task..." rows="4"></textarea>
+</div>
+</div>
+<!-- Grid Properties -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Type -->
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" for="type">Type</label>
+<div class="relative">
+<select class="form-select block w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-primary focus:ring-primary sm:text-sm appearance-none pr-10" id="type" name="type">
+<option>Maintenance</option>
+<option>Repair</option>
+<option>Inspection</option>
+<option>Cleaning</option>
+<option>Other</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+<span class="material-symbols-outlined text-sm">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Priority -->
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" for="priority">Priority</label>
+<div class="relative">
+<select class="form-select block w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-primary focus:ring-primary sm:text-sm appearance-none pl-8 pr-10" id="priority" name="priority">
+<option value="high">High</option>
+<option selected="" value="medium">Medium</option>
+<option value="low">Low</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+<div class="w-2 h-2 rounded-full bg-orange-500"></div>
+</div>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+<span class="material-symbols-outlined text-sm">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Assignee -->
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" for="assignee">Assign To</label>
+<div class="relative">
+<button class="w-full flex items-center justify-between rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-left text-sm text-slate-900 dark:text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary shadow-sm" type="button">
+<div class="flex items-center gap-2">
+<img alt="Assignee avatar" class="w-5 h-5 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAF5WmiX7BpGPKHe9yrOYuCrLIbgLxSlg-tMBCCnyj89VibT_PQxXxOVaxlu7mOUuA8tx01DUrtBlaFITQwI94h6hXuJep5uauArQi1DUZGMU0SZ7NimkRfnNo8KRngSWsuD7ElXtlCrHP8yKXg34_1yhv-UnUEI6fWeX76VLVeGPoqFdR62lchqrRgjswzncHUUw6U4D_bU9i7jMujQXAddnjIbNAEsjPNs6xA2rRuXqxFf1JBuP_TtRoN5z0KtXTD4l2P6duO0R8W"/>
+<span>Michael Chen</span>
+</div>
+<span class="material-symbols-outlined text-sm text-slate-500">expand_more</span>
+</button>
+</div>
+</div>
+<!-- Due Date -->
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" for="duedate">Due Date</label>
+<div class="relative">
+<input class="form-input block w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-primary focus:ring-primary sm:text-sm" id="duedate" name="duedate" type="date"/>
+</div>
+</div>
+</div>
+<hr class="border-slate-200 dark:border-slate-800"/>
+<!-- Checklist -->
+<div>
+<div class="flex justify-between items-center mb-3">
+<h3 class="text-base font-semibold text-slate-900 dark:text-white">Checklist</h3>
+<button class="text-sm flex items-center gap-1 text-primary hover:text-primary/80 font-medium" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                                    Add Item
+                                </button>
+</div>
+<div class="space-y-2">
+<div class="flex items-center gap-3">
+<input class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
+<input class="form-input block w-full rounded-md border-transparent bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 focus:bg-white dark:focus:bg-slate-900 focus:border-primary text-sm py-1.5 px-3" type="text" value="Inspect under the sink for water damage"/>
+<button class="text-slate-400 hover:text-red-500 p-1"><span class="material-symbols-outlined text-[18px]">close</span></button>
+</div>
+<div class="flex items-center gap-3">
+<input class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
+<input class="form-input block w-full rounded-md border-transparent bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 focus:bg-white dark:focus:bg-slate-900 focus:border-primary text-sm py-1.5 px-3" type="text" value="Replace worn O-rings"/>
+<button class="text-slate-400 hover:text-red-500 p-1"><span class="material-symbols-outlined text-[18px]">close</span></button>
+</div>
+<div class="flex items-center gap-3">
+<input class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" disabled="" type="checkbox"/>
+<input class="form-input block w-full rounded-md border-dashed border-slate-300 dark:border-slate-600 bg-transparent text-sm py-1.5 px-3 text-slate-500" placeholder="Add new checklist item..." type="text"/>
+</div>
+</div>
+</div>
+<!-- Attachments -->
+<div>
+<h3 class="text-base font-semibold text-slate-900 dark:text-white mb-3">Attachments</h3>
+<div class="mt-1 flex justify-center rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 px-6 pt-5 pb-6 hover:border-primary hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<div class="space-y-1 text-center">
+<span class="material-symbols-outlined text-4xl text-slate-400">cloud_upload</span>
+<div class="flex text-sm text-slate-600 dark:text-slate-400 justify-center">
+<label class="relative cursor-pointer rounded-md bg-transparent font-medium text-primary focus-within:outline-none hover:text-primary/80" for="file-upload">
+<span>Upload a file</span>
+<input class="sr-only" id="file-upload" name="file-upload" type="file"/>
+</label>
+<p class="pl-1">or drag and drop</p>
+</div>
+<p class="text-xs text-slate-500">PNG, JPG, PDF up to 10MB</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="bg-slate-50 dark:bg-slate-800/50 px-6 py-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-end gap-3 rounded-b-xl">
+<button class="rounded-lg px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-slate-900 transition-colors shadow-sm" type="button">
+                            Cancel
+                        </button>
+<button class="rounded-lg px-6 py-2.5 text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-slate-900 transition-colors shadow-sm flex items-center gap-2" type="submit">
+                            Create Work Item
+                        </button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

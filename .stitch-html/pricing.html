@@ -1,35 +1,42 @@
 <!DOCTYPE html>
 
-<html class="light" lang="en"><head>
+<html lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>SaaS Pricing Plans Overview</title>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<!-- Material Icons -->
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<!-- Tailwind CSS -->
+<title>Propely Desktop Pricing Page</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<!-- Theme Configuration -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#5048e5",
-                        "primary-dark": "#4338ca",
-                        "background-light": "#f6f6f8",
+                        "primary": "#4f46e5",
+                        "background-light": "#ffffff",
                         "background-dark": "#121121",
-                        "slate-850": "#1a1b26", // Custom dark slate for cards
+                        "slate-50": "#f8fafc",
+                        "slate-100": "#f1f5f9",
+                        "slate-200": "#e2e8f0",
+                        "slate-300": "#cbd5e1",
+                        "slate-400": "#94a3b8",
+                        "slate-500": "#64748b",
+                        "slate-600": "#475569",
+                        "slate-700": "#334155",
+                        "slate-800": "#1e293b",
+                        "slate-900": "#0f172a",
                     },
                     fontFamily: {
                         "display": ["Inter", "sans-serif"]
                     },
-                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
                 },
             },
         }
@@ -40,229 +47,179 @@
         }
     </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300">
-<!-- Navigation -->
-<nav class="w-full border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md sticky top-0 z-50">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="flex justify-between h-16 items-center">
-<div class="flex-shrink-0 flex items-center gap-2">
-<div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-bold text-xl">S</div>
-<span class="font-bold text-xl tracking-tight text-slate-900 dark:text-white">SaaS Starter Kit</span>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display min-h-screen flex flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-slate-200 dark:border-slate-800 px-10 py-4 sticky top-0 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-md z-50">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="size-6 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
 </div>
-<div class="hidden md:flex space-x-8 items-center">
-<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium" href="#">Features</a>
-<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium" href="#">Customers</a>
-<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium" href="#">Blog</a>
-<div class="h-4 w-px bg-slate-200 dark:bg-slate-700"></div>
-<a class="text-slate-900 dark:text-white hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium" href="#">Sign in</a>
-<a class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors" href="#">Get Started</a>
+<h2 class="text-xl font-bold leading-tight tracking-tight">Propely</h2>
 </div>
-<!-- Mobile menu button -->
-<div class="md:hidden flex items-center">
-<button class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white p-2">
-<span class="material-icons">menu</span>
-</button>
-</div>
-</div>
-</div>
+<div class="flex items-center gap-8">
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary transition-colors text-slate-600 dark:text-slate-300" href="#">Features</a>
+<a class="text-sm font-medium text-primary" href="#">Pricing</a>
+<a class="text-sm font-medium hover:text-primary transition-colors text-slate-600 dark:text-slate-300" href="#">Resources</a>
+<a class="text-sm font-medium hover:text-primary transition-colors text-slate-600 dark:text-slate-300" href="#">Company</a>
 </nav>
-<!-- Main Content -->
-<main class="flex-grow">
-<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-<!-- Header Section -->
-<div class="text-center max-w-3xl mx-auto mb-16">
-<h1 class="text-3xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white mb-6">
-                    Simple, transparent pricing
-                </h1>
-<p class="text-lg text-slate-600 dark:text-slate-400">
-                    Choose the perfect plan for your team. No hidden fees, cancel anytime. Join thousands of happy customers today.
-                </p>
-<!-- Toggle (Monthly/Yearly) -->
-<div class="mt-8 flex justify-center items-center space-x-4">
-<span class="text-sm font-medium text-slate-900 dark:text-white">Monthly</span>
-<button aria-checked="false" class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-primary" role="switch">
-<span class="sr-only">Use setting</span>
-<span aria-hidden="true" class="translate-x-5 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+<div class="flex gap-3">
+<button class="hidden md:flex items-center justify-center rounded-xl h-10 px-5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white text-sm font-bold transition-colors">
+                    Log In
+                </button>
+<button class="flex items-center justify-center rounded-xl h-10 px-5 bg-primary hover:bg-primary/90 text-white text-sm font-bold shadow-sm transition-colors">
+                    Sign Up
+                </button>
+</div>
+</div>
+</header>
+<main class="flex-grow flex flex-col items-center py-16 px-4 sm:px-6 lg:px-8">
+<div class="max-w-3xl w-full text-center mb-12">
+<h1 class="text-4xl sm:text-5xl font-black leading-tight tracking-tight mb-4 text-slate-900 dark:text-white">Simple, transparent pricing</h1>
+<p class="text-lg text-slate-600 dark:text-slate-400">Choose the perfect plan for your real estate business. No hidden fees.</p>
+</div>
+<div class="flex justify-center mb-16">
+<div class="flex h-12 items-center rounded-xl bg-slate-100 dark:bg-slate-800 p-1 shadow-inner">
+<label class="relative flex cursor-pointer h-full items-center justify-center rounded-lg px-6 text-sm font-semibold transition-all">
+<input checked="" class="peer sr-only" name="billing" type="radio" value="monthly"/>
+<span class="relative z-10 text-slate-600 peer-checked:text-slate-900 dark:text-slate-400 dark:peer-checked:text-white">Monthly</span>
+<div class="absolute inset-0 rounded-lg bg-white dark:bg-slate-700 shadow-sm opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+</label>
+<label class="relative flex cursor-pointer h-full items-center justify-center rounded-lg px-6 text-sm font-semibold transition-all">
+<input class="peer sr-only" name="billing" type="radio" value="yearly"/>
+<span class="relative z-10 text-slate-600 peer-checked:text-slate-900 dark:text-slate-400 dark:peer-checked:text-white">Yearly <span class="ml-1 text-xs text-green-600 dark:text-green-400 font-bold">-20%</span></span>
+<div class="absolute inset-0 rounded-lg bg-white dark:bg-slate-700 shadow-sm opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+</label>
+</div>
+</div>
+<div class="w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="flex flex-col rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-8 shadow-sm hover:shadow-md transition-shadow">
+<div class="mb-6">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Starter</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-4 h-10">Perfect for individuals managing a small portfolio.</p>
+<div class="flex items-baseline gap-1">
+<span class="text-4xl font-black tracking-tight text-slate-900 dark:text-white">$0</span>
+<span class="text-slate-500 dark:text-slate-400 font-medium">/mo</span>
+</div>
+</div>
+<button class="w-full rounded-xl h-12 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white font-bold mb-8 transition-colors">
+                    Get Started
+                </button>
+<ul class="flex flex-col gap-4 text-sm text-slate-700 dark:text-slate-300">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-green-500 text-xl leading-none">check_circle</span>
+<span>Up to 5 properties</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-green-500 text-xl leading-none">check_circle</span>
+<span>Basic reporting</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-green-500 text-xl leading-none">check_circle</span>
+<span>Email support</span>
+</li>
+<li class="flex items-start gap-3 opacity-50">
+<span class="material-symbols-outlined text-slate-300 dark:text-slate-600 text-xl leading-none">cancel</span>
+<span>Automated rent collection</span>
+</li>
+</ul>
+</div>
+<div class="flex flex-col rounded-xl border-2 border-primary bg-white dark:bg-slate-900 p-8 shadow-lg relative transform md:-translate-y-4">
+<div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
+                    Recommended
+                </div>
+<div class="mb-6 mt-2">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Professional</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-4 h-10">Ideal for growing real estate businesses and agencies.</p>
+<div class="flex items-baseline gap-1">
+<span class="text-4xl font-black tracking-tight text-slate-900 dark:text-white">$49</span>
+<span class="text-slate-500 dark:text-slate-400 font-medium">/mo</span>
+</div>
+</div>
+<button class="w-full rounded-xl h-12 bg-primary hover:bg-primary/90 text-white font-bold mb-8 shadow-md transition-colors">
+                    Start Free Trial
+                </button>
+<ul class="flex flex-col gap-4 text-sm text-slate-700 dark:text-slate-300">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-green-500 text-xl leading-none">check_circle</span>
+<span class="font-medium">Up to 50 properties</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-green-500 text-xl leading-none">check_circle</span>
+<span>Advanced analytics</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-green-500 text-xl leading-none">check_circle</span>
+<span>Automated rent collection</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-green-500 text-xl leading-none">check_circle</span>
+<span>Priority 24/7 support</span>
+</li>
+</ul>
+</div>
+<div class="flex flex-col rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-8 shadow-sm hover:shadow-md transition-shadow">
+<div class="mb-6">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Enterprise</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-4 h-10">For large scale operations requiring custom solutions.</p>
+<div class="flex items-baseline gap-1">
+<span class="text-4xl font-black tracking-tight text-slate-900 dark:text-white">$149</span>
+<span class="text-slate-500 dark:text-slate-400 font-medium">/mo</span>
+</div>
+</div>
+<button class="w-full rounded-xl h-12 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white font-bold mb-8 transition-colors">
+                    Contact Sales
+                </button>
+<ul class="flex flex-col gap-4 text-sm text-slate-700 dark:text-slate-300">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-green-500 text-xl leading-none">check_circle</span>
+<span>Unlimited properties</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-green-500 text-xl leading-none">check_circle</span>
+<span>Custom reporting &amp; white-labeling</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-green-500 text-xl leading-none">check_circle</span>
+<span>Dedicated account manager</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-green-500 text-xl leading-none">check_circle</span>
+<span>Full API access</span>
+</li>
+</ul>
+</div>
+</div>
+<div class="w-full max-w-3xl mt-24 mb-16">
+<h2 class="text-2xl font-bold text-center mb-8 text-slate-900 dark:text-white">Frequently Asked Questions</h2>
+<div class="space-y-4">
+<div class="border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-slate-900 p-5">
+<button class="flex w-full items-center justify-between text-left focus:outline-none">
+<span class="font-semibold text-slate-900 dark:text-white">Can I switch plans later?</span>
+<span class="material-symbols-outlined text-slate-400">expand_more</span>
 </button>
-<span class="text-sm font-medium text-slate-500 dark:text-slate-400">Yearly <span class="text-primary text-xs ml-1 font-bold">(Save 20%)</span></span>
 </div>
+<div class="border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-slate-900 p-5">
+<button class="flex w-full items-center justify-between text-left focus:outline-none mb-2">
+<span class="font-semibold text-slate-900 dark:text-white">What payment methods do you accept?</span>
+<span class="material-symbols-outlined text-primary">expand_less</span>
+</button>
+<p class="text-sm text-slate-600 dark:text-slate-400 mt-3">We accept all major credit cards including Visa, Mastercard, and American Express. For annual Enterprise plans, we can also arrange invoice payments via ACH or wire transfer.</p>
 </div>
-<!-- Pricing Grid -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-<!-- Free Plan -->
-<div class="relative bg-white dark:bg-slate-850 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm p-8 flex flex-col h-full hover:shadow-md transition-shadow duration-300">
-<div class="mb-6">
-<h3 class="text-lg font-semibold text-slate-900 dark:text-white">Starter</h3>
-<p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Perfect for hobbyists and side projects.</p>
+<div class="border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-slate-900 p-5">
+<button class="flex w-full items-center justify-between text-left focus:outline-none">
+<span class="font-semibold text-slate-900 dark:text-white">Is there a free trial for the Professional plan?</span>
+<span class="material-symbols-outlined text-slate-400">expand_more</span>
+</button>
 </div>
-<div class="mb-6 flex items-baseline">
-<span class="text-4xl font-bold text-slate-900 dark:text-white">$0</span>
-<span class="text-slate-500 dark:text-slate-400 ml-2">/mo</span>
-</div>
-<ul class="space-y-4 mb-8 flex-1">
-<li class="flex items-start">
-<span class="material-icons text-emerald-500 text-xl mr-2">check_circle</span>
-<span class="text-slate-600 dark:text-slate-300 text-sm">Up to 3 projects</span>
-</li>
-<li class="flex items-start">
-<span class="material-icons text-emerald-500 text-xl mr-2">check_circle</span>
-<span class="text-slate-600 dark:text-slate-300 text-sm">Basic analytics</span>
-</li>
-<li class="flex items-start">
-<span class="material-icons text-emerald-500 text-xl mr-2">check_circle</span>
-<span class="text-slate-600 dark:text-slate-300 text-sm">Community support</span>
-</li>
-<li class="flex items-start opacity-50">
-<span class="material-icons text-slate-300 dark:text-slate-600 text-xl mr-2">cancel</span>
-<span class="text-slate-400 dark:text-slate-500 text-sm">Custom domains</span>
-</li>
-</ul>
-<button class="w-full py-2.5 px-4 border border-slate-300 dark:border-slate-600 rounded-lg text-slate-700 dark:text-slate-200 font-medium hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                        Get Started
-                    </button>
-</div>
-<!-- Pro Plan (Highlighted) -->
-<div class="relative bg-white dark:bg-slate-850 rounded-xl border-2 border-primary shadow-lg p-8 flex flex-col h-full transform md:-translate-y-4 z-10">
-<!-- Badge -->
-<div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-<span class="bg-primary text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full shadow-sm">
-                            Recommended
-                        </span>
-</div>
-<div class="mb-6">
-<h3 class="text-lg font-semibold text-primary">Pro</h3>
-<p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Best for growing teams and serious users.</p>
-</div>
-<div class="mb-6 flex items-baseline">
-<span class="text-4xl font-bold text-slate-900 dark:text-white">$29</span>
-<span class="text-slate-500 dark:text-slate-400 ml-2">/mo</span>
-</div>
-<ul class="space-y-4 mb-8 flex-1">
-<li class="flex items-start">
-<span class="material-icons text-emerald-500 text-xl mr-2">check_circle</span>
-<span class="text-slate-600 dark:text-slate-300 text-sm">Everything in Starter</span>
-</li>
-<li class="flex items-start">
-<span class="material-icons text-emerald-500 text-xl mr-2">check_circle</span>
-<span class="text-slate-600 dark:text-slate-300 text-sm">Unlimited projects</span>
-</li>
-<li class="flex items-start">
-<span class="material-icons text-emerald-500 text-xl mr-2">check_circle</span>
-<span class="text-slate-600 dark:text-slate-300 text-sm">Advanced analytics dashboard</span>
-</li>
-<li class="flex items-start">
-<span class="material-icons text-emerald-500 text-xl mr-2">check_circle</span>
-<span class="text-slate-600 dark:text-slate-300 text-sm">Custom domains</span>
-</li>
-<li class="flex items-start">
-<span class="material-icons text-emerald-500 text-xl mr-2">check_circle</span>
-<span class="text-slate-600 dark:text-slate-300 text-sm">Priority email support</span>
-</li>
-<li class="flex items-start">
-<span class="material-icons text-emerald-500 text-xl mr-2">check_circle</span>
-<span class="text-slate-600 dark:text-slate-300 text-sm">Team collaboration tools</span>
-</li>
-</ul>
-<button class="w-full py-2.5 px-4 bg-primary hover:bg-primary-dark text-white rounded-lg font-semibold shadow-md shadow-primary/30 transition-all hover:shadow-primary/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                        Subscribe Now
-                    </button>
-</div>
-<!-- Enterprise Plan -->
-<div class="relative bg-white dark:bg-slate-850 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm p-8 flex flex-col h-full hover:shadow-md transition-shadow duration-300">
-<div class="mb-6">
-<h3 class="text-lg font-semibold text-slate-900 dark:text-white">Enterprise</h3>
-<p class="text-sm text-slate-500 dark:text-slate-400 mt-2">For large-scale organizations with specific needs.</p>
-</div>
-<div class="mb-6 flex items-baseline">
-<span class="text-4xl font-bold text-slate-900 dark:text-white">$99</span>
-<span class="text-slate-500 dark:text-slate-400 ml-2">/mo</span>
-</div>
-<ul class="space-y-4 mb-8 flex-1">
-<li class="flex items-start">
-<span class="material-icons text-emerald-500 text-xl mr-2">check_circle</span>
-<span class="text-slate-600 dark:text-slate-300 text-sm">Everything in Pro</span>
-</li>
-<li class="flex items-start">
-<span class="material-icons text-emerald-500 text-xl mr-2">check_circle</span>
-<span class="text-slate-600 dark:text-slate-300 text-sm">Single Sign-On (SSO)</span>
-</li>
-<li class="flex items-start">
-<span class="material-icons text-emerald-500 text-xl mr-2">check_circle</span>
-<span class="text-slate-600 dark:text-slate-300 text-sm">Audit logs &amp; compliance</span>
-</li>
-<li class="flex items-start">
-<span class="material-icons text-emerald-500 text-xl mr-2">check_circle</span>
-<span class="text-slate-600 dark:text-slate-300 text-sm">Dedicated account manager</span>
-</li>
-<li class="flex items-start">
-<span class="material-icons text-emerald-500 text-xl mr-2">check_circle</span>
-<span class="text-slate-600 dark:text-slate-300 text-sm">99.99% Uptime SLA</span>
-</li>
-</ul>
-<button class="w-full py-2.5 px-4 border border-slate-300 dark:border-slate-600 rounded-lg text-slate-700 dark:text-slate-200 font-medium hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                        Contact Sales
-                    </button>
-</div>
-</div>
-<!-- FAQ Section Preview -->
-<div class="mt-24 pt-10 border-t border-slate-200 dark:border-slate-800">
-<h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-8 text-center">Frequently asked questions</h2>
-<div class="grid md:grid-cols-2 gap-x-12 gap-y-8 max-w-4xl mx-auto">
-<div>
-<h4 class="font-medium text-slate-900 dark:text-white mb-2">Can I switch plans later?</h4>
-<p class="text-sm text-slate-600 dark:text-slate-400">Yes, you can upgrade or downgrade your plan at any time. The changes will be reflected in your next billing cycle.</p>
-</div>
-<div>
-<h4 class="font-medium text-slate-900 dark:text-white mb-2">Is my data secure?</h4>
-<p class="text-sm text-slate-600 dark:text-slate-400">Absolutely. We use industry-standard encryption and security practices to keep your data safe and private.</p>
-</div>
-<div>
-<h4 class="font-medium text-slate-900 dark:text-white mb-2">Do you offer a free trial for Pro?</h4>
-<p class="text-sm text-slate-600 dark:text-slate-400">Yes, we offer a 14-day free trial for the Pro plan so you can explore all features before committing.</p>
-</div>
-<div>
-<h4 class="font-medium text-slate-900 dark:text-white mb-2">What payment methods do you accept?</h4>
-<p class="text-sm text-slate-600 dark:text-slate-400">We accept all major credit cards including Visa, Mastercard, and American Express, as well as PayPal.</p>
-</div>
-</div>
-</div>
-<!-- Trusted By Section -->
-<div class="mt-20 text-center">
-<p class="text-sm font-semibold text-slate-500 dark:text-slate-500 uppercase tracking-wider mb-6">Trusted by innovative teams worldwide</p>
-<div class="flex flex-wrap justify-center gap-8 opacity-60 grayscale dark:invert">
-<img alt="Logo 1" class="h-8 object-contain" data-alt="Company Logo 1 abstract geometric shape" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFS1Y2ScavLrKB4ZuaVpUDXuO7eSYc2Tk0aF3tQy1XR4BZhEMThgCoxd1WC5Qf6an0iUn11U5QiTnozFzMK6NiNGFtWJWhiqVN8DgQ0Dq6DpSIrAxc3iQ0FX_QPF-frFrr5pNGugVBx2bvNY_jgZGbFhy5I5u6pDGNbnb9VvOW6IgMSoYD6BVnBur_G7dAvnofHVViudy5B9tKh7x3mL0wjRbAP0TnMIpit_72YMm6I-xT6rrCsDucl-OMviYWhfbIC2jHD0w2IFZz"/>
-<img alt="Logo 2" class="h-8 object-contain" data-alt="Company Logo 2 abstract wave" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCinmK2ynelmmVAqswrjQLxARxSXGV4waEg7hiaR-HtO60moiyWsQzeQqxuuliZig2kJwd0rj8aSedhmbVigMyer-0F3P26osjLOCZhM5LtJNqidJeVMoGHGyKS8nR50HJFVvi7TMplUohbvBskxxNbN4z8b9WQCmuG6I_09wSCIMXpfXbQNUfH36ean_44-T_V-Xhf5plkz6ddynEa-PIDNX0v7AvUzK1t7W0rRpUGliICDbZLkkgAOt6xsL5Yb0lzWJ59Y95Qqtnf"/>
-<img alt="Logo 3" class="h-8 object-contain" data-alt="Company Logo 3 minimal font" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAonWIB8IjUis96gy21WSIyaLOScLYw-tgqoZTMhBLjZm3ToktnRLa5UqAGyj1UJNT_joz3QPvpqoVgabZ0JN9q0nlHCa6YUGoZGqgftnHKYyyrJ_Zz8jhp7v1Ib31ylL5RAGwKHFnNrsax3fT4fY1JIghmBe0QzYAgSCUqjhqDrK91Z_Mz2wrp4bA23Ooqk1CKtypzgsbfMbAYWdJtn9gxStF0KHTdEvs6W4tMyE-XN7AzbdPICyiwUALnskXbqXNnfop5TqXrtCD5"/>
-<img alt="Logo 4" class="h-8 object-contain" data-alt="Company Logo 4 solid block" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPKxvHWtJhVNovFSDnMyuBQ7RYRLMoYwz4G-kurINE6kWzIluhw1bA6lpInHiaqXUbO8tlqYKVZ_KPYryTRKgVWraCoEAHDxjHyYEapvCAUucld9KCXPNVueQETphRwjzcDycRMZ_pHmPAXeHyByfBqEMW2Aob7jXPryZLuV287IPUILEAtKzBkAFiV1rWFTAZoDMvIGoXDS-G5JJrL84CJ5q9EbwAYu7PwcuCJV-ERWbTjiQB2H9LeG3vWlu1xMZggUWdG8AsEubE"/>
-<img alt="Logo 5" class="h-8 object-contain" data-alt="Company Logo 5 modern icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTDNaYJx72EgaUBL-u7Fh2YfslC2KzMsU8wUltF3Y_xMdoZFY9UEll2C9tWLApM_sOB2o3YzwqslF8Ks8SgEN8gfa5lfEbN6FR47Zo24kY8gUOOkKrGac-Dz28fvmbz4UwTMRKEv0TuqOtKkbzJZx3Um9xvM-xVdnOKf3Vo_jRUtaW_82O2JOwdqhwWIEaiebmrP7PSmvLw5B4a8kC0FQosWiqULDVOUPR2eoX5xAuAmM1wcnsl0jXEDmh-W3kdHKOfLyIxVcpFFyu"/>
+<div class="border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-slate-900 p-5">
+<button class="flex w-full items-center justify-between text-left focus:outline-none">
+<span class="font-semibold text-slate-900 dark:text-white">Do you offer discounts for non-profits?</span>
+<span class="material-symbols-outlined text-slate-400">expand_more</span>
+</button>
 </div>
 </div>
 </div>
 </main>
-<!-- Footer -->
-<footer class="bg-white dark:bg-background-dark border-t border-slate-200 dark:border-slate-800">
-<div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-<div class="flex flex-col md:flex-row justify-between items-center">
-<div class="flex items-center gap-2 mb-4 md:mb-0">
-<div class="w-6 h-6 rounded bg-primary flex items-center justify-center text-white text-xs font-bold">S</div>
-<span class="text-slate-900 dark:text-white font-semibold">SaaS Starter Kit</span>
-</div>
-<div class="flex space-x-6">
-<a class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors" href="#">Privacy</a>
-<a class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors" href="#">Terms</a>
-<a class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors" href="#">Twitter</a>
-<a class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors" href="#">GitHub</a>
-</div>
-</div>
-<div class="mt-8 text-center text-sm text-slate-400 dark:text-slate-600">
-                © 2023 SaaS Starter Kit Inc. All rights reserved.
-            </div>
-</div>
-</footer>
-<script>
-        // Simple dark mode toggle logic for demonstration purposes (checks system preference)
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.documentElement.classList.add('dark');
-        }
-    </script>
 </body></html>

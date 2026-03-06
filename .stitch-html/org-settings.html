@@ -1,230 +1,196 @@
 <!DOCTYPE html>
 
-<html class="light" lang="en"><head>
+<html lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Organization Settings - Team Management</title>
+<title>Propely - Organization Settings</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24
+        }
+    </style>
 <script id="tailwind-config">
         tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#5048e5",
-                        "background-light": "#f6f6f8",
-                        "background-dark": "#121121",
-                    },
-                    fontFamily: {
-                        "display": ["Inter"]
-                    },
-                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
-                },
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#5048e5",
+                "background-light": "#f6f6f8",
+                "background-dark": "#121121",
+              },
+              fontFamily: {
+                "display": ["Inter", "Noto Sans", "sans-serif"]
+              },
+              borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
             },
+          },
         }
     </script>
 </head>
-<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
-<!-- Top Navigation -->
-<nav class="sticky top-0 z-50 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="flex justify-between h-16 items-center">
-<div class="flex items-center gap-4">
-<div class="w-8 h-8 bg-primary rounded flex items-center justify-center">
-<span class="material-icons text-white text-lg">layers</span>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display min-h-screen">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<!-- Top Nav Bar -->
+<header class="bg-white dark:bg-slate-900 flex items-center justify-between whitespace-nowrap border-b border-solid border-b-slate-200 dark:border-b-slate-800 px-4 lg:px-10 py-3 shrink-0">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="size-6 text-primary">
+<span class="material-symbols-outlined text-2xl">real_estate_agent</span>
 </div>
-<div class="flex items-center gap-2">
-<span class="font-semibold text-lg tracking-tight">NexusFlow</span>
-<span class="text-slate-300 dark:text-slate-700">/</span>
-<span class="text-slate-500 text-sm font-medium">Organization Settings</span>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Propely</h2>
 </div>
+<label class="hidden md:flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-xl h-full">
+<div class="text-slate-500 dark:text-slate-400 flex border-none bg-slate-100 dark:bg-slate-800 items-center justify-center pl-4 rounded-l-xl border-r-0">
+<span class="material-symbols-outlined text-xl">search</span>
 </div>
-<div class="flex items-center gap-4">
-<button class="p-2 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">
-<span class="material-icons">notifications</span>
-</button>
-<div class="flex items-center gap-3 pl-4 border-l border-slate-200 dark:border-slate-800">
-<div class="text-right hidden sm:block">
-<p class="text-xs font-semibold">Alex Rivera</p>
-<p class="text-[10px] text-slate-500">Workspace Owner</p>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-slate-900 dark:text-white focus:outline-0 focus:ring-0 border-none bg-slate-100 dark:bg-slate-800 focus:border-none h-full placeholder:text-slate-500 dark:placeholder:text-slate-400 px-4 rounded-l-none border-l-0 pl-2 text-sm font-normal leading-normal" placeholder="Search" value=""/>
 </div>
-<img alt="User Avatar" class="w-8 h-8 rounded-full border border-slate-200 dark:border-slate-700" data-alt="Professional user profile headshot photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_ptiH4yDb1VhZJItCLoyIWxJ9XsProveKHCwJFPxe-gN2UvLP7_8h6qiteBUbbsG4FU-qcbFDslHjGaGG3F3UTQhYA8TV_Gtl02XvPIXSY7TmjYWfAZqHn53iZfaVAiWn5laj9VVmvw5DQ9yYmwJjhavtp0pZ-iq9FLV6591wiCzo2Xv51zvUO1Tm1xmO879SVsmR6Z6EW7K5khO23wZ3B9rJbKZoTA6vpAumtedjU5agSjjYdDu4UHRu8lgmT1JL5a8RFq4LjDLh"/>
+</label>
 </div>
-</div>
-</div>
-</div>
+<div class="flex flex-1 justify-end gap-8">
+<nav class="hidden lg:flex items-center gap-9">
+<a class="text-slate-900 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Dashboard</a>
+<a class="text-slate-900 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Properties</a>
+<a class="text-slate-900 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Tenants</a>
+<a class="text-slate-900 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Tasks</a>
+<a class="text-primary font-bold text-sm leading-normal" href="#">Organization</a>
 </nav>
-<!-- Main Content -->
-<main class="max-w-5xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
-<!-- Header Title -->
-<header class="mb-8">
-<h1 class="text-2xl font-bold tracking-tight">Organization Settings</h1>
-<p class="text-slate-500 dark:text-slate-400 mt-1">Manage your team members and account preferences.</p>
+<div class="flex gap-2">
+<button class="hidden sm:flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Create Property</span>
+</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-900 dark:text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-900 dark:text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+<span class="material-symbols-outlined text-xl">chat</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border border-slate-200 dark:border-slate-700" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDCXxjWYS9UOLQ7MEH-dR_On4-XvgqyJPogToTzo8ZADM3McgE7qBSSk4O8n-FNeQ_d7Ma1umVqZWvJbcGqaoZPf2RR9MkM9rjJpsVb0cQzhQUVLVBdooOCtwyMGcPNHT5eAiddC3SiSVdD_0-TbSowVmSVpTz9jdIooU0KKEUZWaWCEp7_DigI3_YvU5OeMI66f_PmEnROQYUDGfCF8jQNDHwz1nIO2ag-9H6daYgSn_DWuU4GttAsagXu-YSd100PuuzxSvNj7U8-");'></div>
+</div>
 </header>
-<!-- Section 1: Organization Details -->
-<section class="mb-8">
-<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm overflow-hidden">
-<div class="px-6 py-5 border-b border-slate-100 dark:border-slate-800">
-<h2 class="text-base font-semibold">General Information</h2>
-</div>
-<div class="p-6">
-<form class="space-y-6">
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-<div>
-<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Organization Name</label>
-<p class="text-xs text-slate-500 dark:text-slate-400 mb-2">Used for invoicing and team identification.</p>
-</div>
-<div class="md:col-span-2">
-<input class="w-full rounded border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white focus:ring-primary focus:border-primary" type="text" value="NexusFlow Systems"/>
-</div>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-<div>
-<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Description</label>
-<p class="text-xs text-slate-500 dark:text-slate-400 mb-2">A brief overview of your organization's purpose.</p>
-</div>
-<div class="md:col-span-2">
-<textarea class="w-full rounded border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white focus:ring-primary focus:border-primary" rows="3">A high-growth SaaS platform focused on streamlining workflow automation for modern enterprises.</textarea>
+<!-- Sub Nav Bar -->
+<div class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shrink-0">
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex gap-8 overflow-x-auto no-scrollbar">
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent hover:border-b-slate-300 dark:hover:border-b-slate-600 text-slate-500 dark:text-slate-400 pb-[13px] pt-4 whitespace-nowrap transition-colors" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Overview</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent hover:border-b-slate-300 dark:hover:border-b-slate-600 text-slate-500 dark:text-slate-400 pb-[13px] pt-4 whitespace-nowrap transition-colors" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Members</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent hover:border-b-slate-300 dark:hover:border-b-slate-600 text-slate-500 dark:text-slate-400 pb-[13px] pt-4 whitespace-nowrap transition-colors" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Billing</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-primary text-primary pb-[13px] pt-4 whitespace-nowrap" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Settings</p>
+</a>
 </div>
 </div>
-<div class="flex justify-end pt-4">
-<button class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors" type="submit">
-                                Save Changes
-                            </button>
 </div>
-</form>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto">
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+<!-- Header -->
+<div class="flex flex-col gap-2">
+<h1 class="text-slate-900 dark:text-white text-3xl font-bold leading-tight tracking-[-0.033em]">Organization Settings</h1>
+<p class="text-slate-500 dark:text-slate-400 text-base font-normal leading-normal">Manage your Propely organization details and preferences.</p>
 </div>
+<!-- General Information Card -->
+<section class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+<div class="px-6 py-5 border-b border-slate-200 dark:border-slate-800">
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">General Information</h2>
+</div>
+<div class="p-6 space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<label class="flex flex-col">
+<span class="text-slate-900 dark:text-white text-sm font-medium leading-normal pb-2">Organization Name</span>
+<input class="form-input flex w-full rounded-lg text-slate-900 dark:text-white focus:ring-primary focus:border-primary border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-sm shadow-sm" type="text" value="Acme Properties LLC"/>
+</label>
+<label class="flex flex-col">
+<span class="text-slate-900 dark:text-white text-sm font-medium leading-normal pb-2">Organization Slug</span>
+<div class="flex rounded-lg shadow-sm">
+<span class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 sm:text-sm">propely.io/</span>
+<input class="form-input flex-1 block w-full rounded-none rounded-r-lg text-slate-900 dark:text-white focus:ring-primary focus:border-primary border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-sm" type="text" value="acme-properties"/>
+</div>
+</label>
+</div>
+<label class="flex flex-col">
+<span class="text-slate-900 dark:text-white text-sm font-medium leading-normal pb-2">Description</span>
+<textarea class="form-textarea w-full rounded-lg text-slate-900 dark:text-white focus:ring-primary focus:border-primary border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-sm shadow-sm" rows="3">Leading property management firm in the Pacific Northwest.</textarea>
+</label>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<label class="flex flex-col">
+<span class="text-slate-900 dark:text-white text-sm font-medium leading-normal pb-2">Website</span>
+<div class="relative rounded-lg shadow-sm">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-400 dark:text-slate-500 text-lg">language</span>
+</div>
+<input class="form-input block w-full pl-10 rounded-lg text-slate-900 dark:text-white focus:ring-primary focus:border-primary border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-sm" type="url" value="https://acmeproperties.com"/>
+</div>
+</label>
+<label class="flex flex-col">
+<span class="text-slate-900 dark:text-white text-sm font-medium leading-normal pb-2">Support Phone</span>
+<div class="relative rounded-lg shadow-sm">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-400 dark:text-slate-500 text-lg">call</span>
+</div>
+<input class="form-input block w-full pl-10 rounded-lg text-slate-900 dark:text-white focus:ring-primary focus:border-primary border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-sm" type="tel" value="+1 (555) 123-4567"/>
+</div>
+</label>
+</div>
+</div>
+<div class="px-6 py-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-200 dark:border-slate-800 flex justify-end">
+<button class="flex cursor-pointer items-center justify-center rounded-lg h-9 px-4 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-medium shadow-sm">
+                        Save Changes
+                    </button>
+</div>
+</section>
+<!-- Logo Card -->
+<section class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+<div class="px-6 py-5 border-b border-slate-200 dark:border-slate-800">
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Organization Logo</h2>
+<p class="text-slate-500 dark:text-slate-400 text-sm mt-1">This logo will be displayed on reports and tenant portals.</p>
+</div>
+<div class="p-6 flex flex-col sm:flex-row items-center gap-6">
+<div class="shrink-0 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-2">
+<div class="size-20 bg-white dark:bg-slate-900 rounded flex items-center justify-center text-primary text-2xl font-bold border border-slate-100 dark:border-slate-700">
+                            A
+                        </div>
+</div>
+<div class="flex-1 w-full">
+<div class="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-6 flex flex-col items-center justify-center text-center hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-slate-400 dark:text-slate-500 text-3xl mb-2">cloud_upload</span>
+<p class="text-sm font-medium text-primary mb-1">Click to upload <span class="text-slate-500 dark:text-slate-400 font-normal">or drag and drop</span></p>
+<p class="text-xs text-slate-500 dark:text-slate-400">SVG, PNG, JPG or GIF (max. 800x400px)</p>
+</div>
+</div>
+</div>
+</section>
 <!-- Danger Zone -->
-<div class="bg-red-50/50 dark:bg-red-950/20 border-t border-red-100 dark:border-red-900/50 p-6">
-<div class="flex items-center justify-between gap-4">
-<div class="flex items-center gap-3">
-<div class="bg-red-100 dark:bg-red-900/50 p-2 rounded-lg">
-<span class="material-icons text-red-600 dark:text-red-400">report_problem</span>
+<section class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-red-200 dark:border-red-900/50 overflow-hidden">
+<div class="px-6 py-5 border-b border-red-100 dark:border-red-900/30">
+<h2 class="text-red-600 dark:text-red-400 text-lg font-bold leading-tight tracking-[-0.015em]">Danger Zone</h2>
 </div>
+<div class="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 <div>
-<h3 class="text-sm font-semibold text-red-900 dark:text-red-400">Delete Organization</h3>
-<p class="text-xs text-red-700/70 dark:text-red-500/70">Permanently delete the organization and all associated data.</p>
+<h3 class="text-slate-900 dark:text-white text-base font-semibold">Delete Organization</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Permanently delete this organization and all of its properties, tenants, and data. This action cannot be undone.</p>
 </div>
-</div>
-<button class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors">
-                            Delete Organization
-                        </button>
-</div>
-</div>
+<button class="shrink-0 flex cursor-pointer items-center justify-center rounded-lg h-9 px-4 bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/40 border border-red-200 dark:border-red-800 transition-colors text-sm font-medium shadow-sm">
+                        Delete Organization
+                    </button>
 </div>
 </section>
-<!-- Section 2: Team Members -->
-<section>
-<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm overflow-hidden">
-<div class="px-6 py-5 border-b border-slate-100 dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
-<div>
-<h2 class="text-base font-semibold">Members</h2>
-<p class="text-xs text-slate-500 dark:text-slate-400">Manage who has access to this workspace.</p>
 </div>
-<div class="relative w-full md:w-64">
-<span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg leading-none">search</span>
-<input class="w-full pl-10 pr-4 py-2 text-sm rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 focus:ring-primary focus:border-primary" placeholder="Search members..." type="text"/>
-</div>
-</div>
-<!-- Members Table -->
-<div class="overflow-x-auto">
-<table class="w-full text-left border-collapse">
-<thead class="bg-slate-50 dark:bg-slate-800/50">
-<tr>
-<th class="px-6 py-3 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Name</th>
-<th class="px-6 py-3 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Email</th>
-<th class="px-6 py-3 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Role</th>
-<th class="px-6 py-3 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Joined Date</th>
-<th class="px-6 py-3 text-right"></th>
-</tr>
-</thead>
-<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-<!-- Member 1 -->
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-<td class="px-6 py-4">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">AR</div>
-<span class="text-sm font-medium">Alex Rivera</span>
-</div>
-</td>
-<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">alex@nexusflow.io</td>
-<td class="px-6 py-4">
-<span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-primary/10 text-primary uppercase">Owner</span>
-</td>
-<td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-500">Jan 12, 2023</td>
-<td class="px-6 py-4 text-right">
-<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
-<span class="material-icons text-xl">more_vert</span>
-</button>
-</td>
-</tr>
-<!-- Member 2 -->
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-<td class="px-6 py-4">
-<div class="flex items-center gap-3">
-<img alt="Sarah Chen" class="w-8 h-8 rounded-full object-cover" data-alt="Modern professional woman portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlJEZ-qUShS8bkGQgghWSHvrHUZYU6wHL11XUsoQGlMmF0p5QVS3D4EAdCc16d1hgbYzatMBGhs5vfDPbd05Pi8nLn7-WSF-UIODn_La5l7UPlPOPizBYR0mzkCucklr9KDCp1tRqR-M38V7fSbFeY9jx2t7wqHOYE-W9pl1zmTthnLeN0XhA_u5-3OIZ_0-SL1a-MIMlpZGMcacuH98Hpxh3Dae_YdV57ExueaiXVLQq6mFX-JCvHwnjfPtHXE10LDbFodcEr9RWJ"/>
-<span class="text-sm font-medium">Sarah Chen</span>
-</div>
-</td>
-<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">sarah.c@nexusflow.io</td>
-<td class="px-6 py-4">
-<span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 uppercase">Admin</span>
-</td>
-<td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-500">Mar 05, 2023</td>
-<td class="px-6 py-4 text-right">
-<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
-<span class="material-icons text-xl">more_vert</span>
-</button>
-</td>
-</tr>
-<!-- Member 3 -->
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-<td class="px-6 py-4">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 flex items-center justify-center font-bold text-xs">JM</div>
-<span class="text-sm font-medium">Jordan Miller</span>
-</div>
-</td>
-<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">jordan.m@nexusflow.io</td>
-<td class="px-6 py-4">
-<span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 uppercase">Member</span>
-</td>
-<td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-500">Jun 20, 2023</td>
-<td class="px-6 py-4 text-right">
-<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
-<span class="material-icons text-xl">more_vert</span>
-</button>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<!-- Invite Member Row -->
-<div class="p-6 bg-slate-50/50 dark:bg-slate-800/20 border-t border-slate-100 dark:border-slate-800">
-<h3 class="text-sm font-semibold mb-4">Invite new member</h3>
-<div class="flex flex-col md:flex-row gap-4">
-<div class="flex-grow">
-<input class="w-full text-sm rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 focus:ring-primary focus:border-primary" placeholder="colleague@company.com" type="email"/>
-</div>
-<div class="w-full md:w-40">
-<select class="w-full text-sm rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 focus:ring-primary focus:border-primary">
-<option value="member">Member</option>
-<option value="admin">Admin</option>
-</select>
-</div>
-<button class="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-lg font-medium text-sm transition-colors whitespace-nowrap">
-                            Send Invite
-                        </button>
-</div>
-</div>
-</div>
-</section>
-<!-- Footer Help -->
-<footer class="mt-12 text-center">
-<p class="text-sm text-slate-500">Need help with organization roles? <a class="text-primary hover:underline font-medium" href="#">Check our documentation</a></p>
-</footer>
 </main>
+</div>
 </body></html>

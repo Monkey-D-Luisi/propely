@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Edit Work Item - Propely</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2513ec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121022",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+<div class="flex h-screen w-full">
+<!-- Sidebar -->
+<div class="flex flex-col w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 h-full shrink-0">
+<div class="flex items-center gap-3 p-4 border-b border-slate-200 dark:border-slate-800">
+<div class="bg-primary/10 bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 flex items-center justify-center text-primary" data-alt="Propely Logo">
+<span class="material-symbols-outlined">real_estate_agent</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-slate-900 dark:text-slate-100 text-base font-semibold leading-normal">Propely</h1>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium leading-normal">Management</p>
+</div>
+</div>
+<div class="flex flex-col gap-1 p-3 flex-1 overflow-y-auto">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">apartment</span>
+<span class="text-sm font-medium">Properties</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-light transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">build</span>
+<span class="text-sm font-medium">Work Items</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">group</span>
+<span class="text-sm font-medium">Tenants</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">bar_chart</span>
+<span class="text-sm font-medium">Reports</span>
+</a>
+<div class="mt-auto">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Main Content -->
+<div class="flex-1 flex flex-col h-full overflow-hidden relative">
+<!-- Top Header Area -->
+<div class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-8 py-4 shrink-0">
+<div class="flex items-center text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">
+<a class="hover:text-primary transition-colors" href="#">Work Items</a>
+<span class="mx-2 material-symbols-outlined text-[16px]">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">WI-042</a>
+<span class="mx-2 material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-slate-900 dark:text-slate-100">Edit</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4">
+<h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100">Edit Work Item</h2>
+<span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-mono font-medium border border-slate-200 dark:border-slate-700">WI-042</span>
+</div>
+</div>
+</div>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto p-8 pb-32">
+<div class="max-w-4xl mx-auto space-y-6">
+<!-- Status Banner -->
+<div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-amber-600 dark:text-amber-400">pending_actions</span>
+<div>
+<p class="text-sm font-medium text-amber-900 dark:text-amber-200">Current Status</p>
+<p class="text-xs text-amber-700 dark:text-amber-400">This task is currently marked as In Progress.</p>
+</div>
+</div>
+<button class="flex items-center gap-2 bg-white dark:bg-slate-800 border border-amber-200 dark:border-amber-700 px-3 py-1.5 rounded-lg text-sm font-medium text-amber-900 dark:text-amber-200 hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-colors">
+                            In Progress
+                            <span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+</div>
+<!-- Main Form Card -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="p-6 space-y-6">
+<!-- Title -->
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Title</label>
+<input class="w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 shadow-sm focus:border-primary focus:ring-primary sm:text-sm h-11 px-4" type="text" value="Fix plumbing leak in kitchen"/>
+</div>
+<!-- Description -->
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Description</label>
+<textarea class="w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 shadow-sm focus:border-primary focus:ring-primary sm:text-sm p-4 resize-y" rows="4">Tenant reported a significant leak under the kitchen sink. Water is pooling on the floor and causing damage to the baseboards. Needs immediate attention to prevent further structural damage. Likely a burst pipe or loose fitting.</textarea>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Type & Priority -->
+<div class="space-y-4">
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Type</label>
+<select class="w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 shadow-sm focus:border-primary focus:ring-primary sm:text-sm h-11 px-4">
+<option>Maintenance</option>
+<option selected="">Repair</option>
+<option>Inspection</option>
+<option>Other</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Priority</label>
+<div class="relative">
+<select class="w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 shadow-sm focus:border-primary focus:ring-primary sm:text-sm h-11 pl-10 pr-4 appearance-none">
+<option>Low</option>
+<option>Medium</option>
+<option>High</option>
+<option selected="">Urgent</option>
+</select>
+<div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+<span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+</div>
+<div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-500">
+<span class="material-symbols-outlined text-[20px]">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Assignment & Due Date -->
+<div class="space-y-4">
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Assigned To</label>
+<div class="flex items-center gap-3 p-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800/50">
+<div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xs">CR</div>
+<span class="text-sm font-medium text-slate-900 dark:text-slate-100 flex-1">Carlos Ruiz</span>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 px-2"><span class="material-symbols-outlined text-[18px]">close</span></button>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Due Date</label>
+<div class="relative">
+<input class="w-full rounded-lg border-red-300 dark:border-red-800 bg-red-50 dark:bg-red-900/10 text-red-700 dark:text-red-400 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm h-11 pl-10 pr-4 font-medium" type="date" value="2026-03-07"/>
+<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-red-500">
+<span class="material-symbols-outlined text-[20px]">warning</span>
+</div>
+</div>
+<p class="mt-1 text-xs text-red-600 dark:text-red-400 font-medium">Overdue</p>
+</div>
+</div>
+</div>
+<!-- Linked Property -->
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Linked Property</label>
+<div class="border border-slate-200 dark:border-slate-700 rounded-lg p-3 flex items-center gap-4 bg-white dark:bg-slate-800">
+<div class="w-12 h-12 rounded bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400 shrink-0">
+<span class="material-symbols-outlined">apartment</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">Luxury Apartment Gran Vía</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 truncate">Unit 4B • Madrid, Spain</p>
+</div>
+<button class="text-primary hover:text-primary/80 text-sm font-medium px-2">Change</button>
+</div>
+</div>
+<!-- Checklist -->
+<div>
+<div class="flex items-center justify-between mb-2">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Checklist</label>
+<button class="text-xs text-primary font-medium hover:underline flex items-center"><span class="material-symbols-outlined text-[14px] mr-1">add</span> Add Item</button>
+</div>
+<div class="space-y-2 border border-slate-200 dark:border-slate-700 rounded-lg p-1 bg-slate-50 dark:bg-slate-800/30">
+<div class="flex items-center gap-3 p-2 hover:bg-white dark:hover:bg-slate-800 rounded group transition-colors">
+<input checked="" class="w-4 h-4 text-primary rounded border-slate-300 focus:ring-primary" type="checkbox"/>
+<span class="text-sm text-slate-500 dark:text-slate-400 line-through flex-1">Inspect initial damage</span>
+<button class="text-slate-400 opacity-0 group-hover:opacity-100 hover:text-red-500 transition-opacity"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+</div>
+<div class="flex items-center gap-3 p-2 hover:bg-white dark:hover:bg-slate-800 rounded group transition-colors">
+<input checked="" class="w-4 h-4 text-primary rounded border-slate-300 focus:ring-primary" type="checkbox"/>
+<span class="text-sm text-slate-500 dark:text-slate-400 line-through flex-1">Turn off water main</span>
+<button class="text-slate-400 opacity-0 group-hover:opacity-100 hover:text-red-500 transition-opacity"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+</div>
+<div class="flex items-center gap-3 p-2 hover:bg-white dark:hover:bg-slate-800 rounded group transition-colors">
+<input class="w-4 h-4 text-primary rounded border-slate-300 focus:ring-primary" type="checkbox"/>
+<span class="text-sm text-slate-900 dark:text-slate-100 flex-1">Replace damaged pipe section</span>
+<button class="text-slate-400 opacity-0 group-hover:opacity-100 hover:text-red-500 transition-opacity"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+</div>
+<div class="flex items-center gap-3 p-2 hover:bg-white dark:hover:bg-slate-800 rounded group transition-colors">
+<input class="w-4 h-4 text-primary rounded border-slate-300 focus:ring-primary" type="checkbox"/>
+<span class="text-sm text-slate-900 dark:text-slate-100 flex-1">Test for leaks</span>
+<button class="text-slate-400 opacity-0 group-hover:opacity-100 hover:text-red-500 transition-opacity"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+</div>
+</div>
+</div>
+<!-- Attachments -->
+<div>
+<div class="flex items-center justify-between mb-2">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Attachments</label>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden group relative">
+<div class="aspect-video bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-400 text-3xl">image</span>
+</div>
+<div class="p-2 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700">
+<p class="text-xs font-medium text-slate-900 dark:text-slate-100 truncate">photo_leak.jpg</p>
+</div>
+<button class="absolute top-1 right-1 w-6 h-6 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 transition-opacity text-slate-600 dark:text-slate-300 hover:text-red-500">
+<span class="material-symbols-outlined text-[14px]">close</span>
+</button>
+</div>
+<div class="border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden group relative">
+<div class="aspect-video bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-400 text-3xl">description</span>
+</div>
+<div class="p-2 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700">
+<p class="text-xs font-medium text-slate-900 dark:text-slate-100 truncate">plumber_quote.pdf</p>
+</div>
+<button class="absolute top-1 right-1 w-6 h-6 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 transition-opacity text-slate-600 dark:text-slate-300 hover:text-red-500">
+<span class="material-symbols-outlined text-[14px]">close</span>
+</button>
+</div>
+<div class="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-lg flex flex-col items-center justify-center text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:border-primary transition-colors cursor-pointer aspect-video md:aspect-auto h-full">
+<span class="material-symbols-outlined mb-1">upload_file</span>
+<span class="text-xs font-medium">Upload File</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Bottom Action Bar -->
+<div class="absolute bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 p-4 px-8 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-10">
+<div class="max-w-4xl mx-auto flex items-center justify-between">
+<div class="flex items-center gap-2 text-amber-600 dark:text-amber-500">
+<span class="material-symbols-outlined text-[20px]">error</span>
+<span class="text-sm font-medium">You have unsaved changes</span>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-4 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                            Discard
+                        </button>
+<button class="px-5 py-2 rounded-lg text-sm font-medium text-white bg-primary hover:bg-primary/90 shadow-sm transition-colors">
+                            Save Changes
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>
