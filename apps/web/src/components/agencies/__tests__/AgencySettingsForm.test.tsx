@@ -169,9 +169,10 @@ describe('AgencySettingsForm', () => {
     expect(screen.getByLabelText('Agency name')).toBeDisabled();
   });
 
-  it('shows back to agency link', () => {
+  it('shows breadcrumb navigation with agency link', () => {
     renderWithProviders(<AgencySettingsForm agencyId={AGENCY_ID} />);
 
-    expect(screen.getByText(/Back to agency/)).toBeInTheDocument();
+    expect(screen.getByRole('navigation', { name: 'Breadcrumb' })).toBeInTheDocument();
+    expect(screen.getByText('Test Agency')).toBeInTheDocument();
   });
 });

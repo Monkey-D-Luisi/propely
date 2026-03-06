@@ -9,8 +9,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from '@/i18n/navigation';
 import { Link } from '@/i18n/navigation';
-import { Button } from '@/components/ui/button';
-import { FormSubmitButton, FormError } from '@/components/ui/form';
+import { FormError } from '@/components/ui/form';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ErrorMessage } from '@/components/ui/ErrorMessage';
 import { useToast } from '@/components/ui/toast';
@@ -25,6 +24,7 @@ interface AgencySettingsFormProps {
 
 export function AgencySettingsForm({ agencyId }: AgencySettingsFormProps) {
   const t = useTranslations('agencies');
+  const tCommon = useTranslations('common');
   const { toast } = useToast();
   const router = useRouter();
   const { agency, isLoading, error } = useAgency(agencyId);
@@ -49,31 +49,29 @@ export function AgencySettingsForm({ agencyId }: AgencySettingsFormProps) {
 
   if (isLoading) {
     return (
-      <div className="mx-auto w-full max-w-5xl px-4 py-12">
+      <main className="flex-1 w-full max-w-[1024px] mx-auto px-6 lg:px-8 py-8">
         <Skeleton className="mb-2 h-9 w-48" />
         <Skeleton className="mb-8 h-4 w-64" />
-        <div className="space-y-6 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm">
           <Skeleton className="h-10 w-full" />
           <Skeleton className="h-10 w-full" />
           <Skeleton className="h-10 w-32" />
         </div>
-      </div>
+      </main>
     );
   }
 
   if (error || !agency) {
     return (
-      <div className="mx-auto w-full max-w-5xl px-4 py-12">
+      <main className="flex-1 w-full max-w-[1024px] mx-auto px-6 lg:px-8 py-8">
         <ErrorMessage message={t('settings.loadError')} />
-      </div>
+      </main>
     );
   }
 
   const isOwner = user?.id === agency.createdByUserId;
 
   const onSubmit = async (_data: UpdateAgencyFormData) => {
-    // Note: Update agency endpoint not yet available in backend.
-    // When the backend adds PATCH /api/agencies/{id}, this form will work.
     toast({
       title: t('settings.updateNotAvailable'),
     });
@@ -110,95 +108,138 @@ export function AgencySettingsForm({ agencyId }: AgencySettingsFormProps) {
   };
 
   return (
-    <div className="mx-auto w-full max-w-5xl px-4 py-12">
-      <h1 className="mb-2 text-3xl font-bold tracking-tight text-slate-900">
-        {t('settings.title')}
-      </h1>
-      <p className="mb-8 text-slate-500">{t('settings.description')}</p>
-
-      {/* Settings Form */}
-      <FormProvider {...methods}>
-        <form
-          className="mb-8 space-y-6 rounded-xl border border-slate-200 bg-white p-6 shadow-sm"
-          noValidate
-          onSubmit={methods.handleSubmit(onSubmit)}
-        >
-          <div>
-            <label htmlFor="agency-name" className="mb-1.5 block text-sm font-medium text-slate-700">
-              {t('settings.nameLabel')}
-            </label>
-            <input
-              id="agency-name"
-              type="text"
-              {...methods.register('name')}
-              disabled={!isOwner}
-              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-transparent focus:ring-2 focus:ring-primary-600 disabled:bg-slate-50 disabled:text-slate-500"
-            />
-            {methods.formState.errors.name && (
-              <p className="mt-1 text-sm text-red-600">{methods.formState.errors.name.message}</p>
-            )}
-          </div>
-
-          <div>
-            <label htmlFor="agency-slug" className="mb-1.5 block text-sm font-medium text-slate-700">
-              {t('settings.slugLabel')}
-            </label>
-            <input
-              id="agency-slug"
-              type="text"
-              value={agency.slug}
-              disabled
-              className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-500"
-            />
-            <p className="mt-1 text-xs text-slate-400">{t('settings.slugReadOnly')}</p>
-          </div>
-
-          <FormError message={methods.formState.errors.root?.message} />
-
-          {isOwner && (
-            <FormSubmitButton loadingText={t('settings.savingButton')}>
-              {t('settings.saveButton')}
-            </FormSubmitButton>
-          )}
-        </form>
-      </FormProvider>
-
-      {/* Danger Zone */}
-      {isOwner && (
-        <div className="rounded-xl border border-red-200 bg-white p-6 shadow-sm">
-          <h2 className="mb-1 text-lg font-semibold text-red-600">{t('settings.dangerZone')}</h2>
-          <p className="mb-4 text-sm text-slate-600">{t('settings.deleteDescription')}</p>
-
-          <div className="mb-4">
-            <label htmlFor="delete-confirm" className="mb-1.5 block text-sm font-medium text-slate-700">
-              {t('settings.typeNameToConfirm', { name: agency.name })}
-            </label>
-            <input
-              id="delete-confirm"
-              type="text"
-              value={deleteConfirm}
-              onChange={(e) => setDeleteConfirm(e.target.value)}
-              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-transparent focus:ring-2 focus:ring-red-500"
-              placeholder={agency.name}
-            />
-          </div>
-
-          <Button
-            type="button"
-            onClick={() => void handleDelete()}
-            disabled={deleteConfirm !== agency.name || isDeleting}
-            className="bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 disabled:opacity-50"
-          >
-            {isDeleting ? t('settings.deletingButton') : t('settings.deleteButton')}
-          </Button>
-        </div>
-      )}
-
-      <div className="mt-8">
-        <Link href={`/agencies/${agencyId}`} className="text-sm text-slate-500 hover:text-slate-700">
-          ← {t('settings.backToDashboard')}
+    <main className="flex-1 w-full max-w-[1024px] mx-auto px-6 lg:px-8 py-8">
+      {/* Breadcrumb */}
+      <nav className="flex flex-wrap items-center gap-2 mb-8 text-sm" aria-label="Breadcrumb">
+        <Link href="/orgs/mine" className="text-slate-500 hover:text-primary-600 transition-colors">
+          {tCommon('backToOrgs')}
         </Link>
+        <span className="material-symbols-outlined text-slate-400 text-[16px]" aria-hidden="true">chevron_right</span>
+        <Link href={`/agencies/${agencyId}`} className="text-slate-500 hover:text-primary-600 transition-colors">
+          {agency.name}
+        </Link>
+        <span className="material-symbols-outlined text-slate-400 text-[16px]" aria-hidden="true">chevron_right</span>
+        <span className="text-slate-900 font-medium">{t('settings.title')}</span>
+      </nav>
+
+      {/* Page Title */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-slate-900 mb-2">
+          {t('settings.title')}
+        </h1>
+        <p className="text-slate-600">{t('settings.description')}</p>
       </div>
-    </div>
+
+      <div className="space-y-8">
+        {/* Basic Info Card */}
+        <section className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+          <FormProvider {...methods}>
+            <form noValidate onSubmit={methods.handleSubmit(onSubmit)}>
+              <div className="p-6 md:p-8">
+                <h2 className="text-xl font-bold text-slate-900 mb-6">
+                  {t('settings.sectionGeneral')}
+                </h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label htmlFor="agency-name" className="block text-sm font-medium text-slate-700">
+                      {t('settings.nameLabel')}
+                    </label>
+                    <input
+                      id="agency-name"
+                      type="text"
+                      {...methods.register('name')}
+                      disabled={!isOwner}
+                      className="w-full rounded-xl border-slate-300 bg-white text-slate-900 focus:ring-primary-600 focus:border-primary-600 shadow-sm h-11 px-4 disabled:bg-slate-50 disabled:text-slate-500"
+                    />
+                    {methods.formState.errors.name && (
+                      <p className="text-sm text-red-600">{methods.formState.errors.name.message}</p>
+                    )}
+                  </div>
+
+                  <div className="space-y-2">
+                    <label htmlFor="agency-slug" className="block text-sm font-medium text-slate-700">
+                      {t('settings.slugLabel')}
+                    </label>
+                    <input
+                      id="agency-slug"
+                      type="text"
+                      value={agency.slug}
+                      disabled
+                      className="w-full rounded-xl border-slate-300 bg-slate-50 text-slate-500 shadow-sm h-11 px-4"
+                    />
+                    <p className="text-xs text-slate-400">{t('settings.slugReadOnly')}</p>
+                  </div>
+                </div>
+
+                <FormError message={methods.formState.errors.root?.message} />
+              </div>
+
+              {isOwner && (
+                <div className="bg-slate-50 px-6 py-4 border-t border-slate-200 flex justify-end gap-3">
+                  <button
+                    type="button"
+                    onClick={() => methods.reset()}
+                    className="px-5 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-200 transition-colors"
+                  >
+                    {tCommon('discard')}
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={methods.formState.isSubmitting}
+                    className="px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-primary-600 hover:bg-primary-600/90 transition-colors shadow-sm flex items-center gap-2 disabled:opacity-50"
+                  >
+                    <span className="material-symbols-outlined text-[18px]" aria-hidden="true">save</span>
+                    {methods.formState.isSubmitting ? t('settings.savingButton') : t('settings.saveButton')}
+                  </button>
+                </div>
+              )}
+            </form>
+          </FormProvider>
+        </section>
+
+        {/* Danger Zone */}
+        {isOwner && (
+          <section className="bg-red-50 rounded-2xl border border-red-200 p-6 md:p-8">
+            <div className="flex items-start gap-4 mb-6">
+              <div className="bg-red-100 p-2 rounded-lg text-red-600">
+                <span className="material-symbols-outlined text-[24px]" aria-hidden="true">warning</span>
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-red-600">{t('settings.dangerZone')}</h2>
+                <p className="text-slate-700 text-sm mt-1 max-w-2xl">{t('settings.deleteDescription')}</p>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-white rounded-xl border border-red-100">
+                <div>
+                  <h3 className="font-semibold text-slate-900">{t('settings.deleteAgencyTitle')}</h3>
+                  <p className="text-sm text-slate-500 mt-1">
+                    {t('settings.typeNameToConfirm', { name: agency.name })}
+                  </p>
+                  <input
+                    id="delete-confirm"
+                    type="text"
+                    value={deleteConfirm}
+                    onChange={(e) => setDeleteConfirm(e.target.value)}
+                    className="mt-2 w-full sm:w-64 rounded-xl border-slate-300 bg-white text-slate-900 focus:ring-red-500 focus:border-red-500 shadow-sm h-11 px-4 placeholder:text-slate-400"
+                    placeholder={agency.name}
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => void handleDelete()}
+                  disabled={deleteConfirm !== agency.name || isDeleting}
+                  className="shrink-0 px-4 py-2.5 rounded-xl text-sm font-medium text-white bg-red-600 hover:bg-red-700 transition-colors shadow-sm disabled:opacity-50"
+                >
+                  {isDeleting ? t('settings.deletingButton') : t('settings.deleteButton')}
+                </button>
+              </div>
+            </div>
+          </section>
+        )}
+      </div>
+    </main>
   );
 }

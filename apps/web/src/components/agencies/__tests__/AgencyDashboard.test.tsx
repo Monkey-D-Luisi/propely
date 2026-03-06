@@ -141,6 +141,6 @@ describe('AgencyDashboard', () => {
   it('shows back to organizations link', () => {
     renderWithProviders(<AgencyDashboard agencyId={AGENCY_ID} />);
 
-    expect(screen.getByText(/Back to my organizations/)).toBeInTheDocument();
+    expect(screen.getAllByText(/Back to my organizations/).length).toBeGreaterThan(0);
   });
 });
