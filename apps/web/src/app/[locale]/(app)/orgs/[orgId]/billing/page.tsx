@@ -25,8 +25,6 @@ export default async function BillingPage({ params }: BillingPageProps) {
   const { orgId } = parsed.data;
 
   return (
-    <div className="mx-auto flex min-h-dvh w-full max-w-5xl flex-col gap-8 p-6 md:p-10">
-      <BillingManagement orgId={orgId} />
-    </div>
+    <BillingManagement orgId={orgId} />
   );
 }

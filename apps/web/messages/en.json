@@ -216,7 +216,10 @@
       "loadError": "We couldn't load your organizations. Try again.",
       "emptyState": "You don't belong to any organization yet.",
       "yourRole": "Your role:",
-      "view": "View"
+      "view": "View",
+      "properties": "Properties",
+      "members": "Members",
+      "contacts": "Contacts"
     },
     "members": {
       "title": "Members",
@@ -236,6 +239,12 @@
       "noActionsAvailable": "No actions available",
       "noPermission": "No permission"
     },
+    "subNav": {
+      "members": "Members",
+      "settings": "Settings",
+      "billing": "Billing",
+      "permissions": "Permissions"
+    },
     "roles": {
       "owner": "Owner",
       "admin": "Admin",
@@ -248,6 +257,7 @@
       "orgNameRequired": "Organization name is required."
     },
     "invite": {
+      "sectionTitle": "Invite New Member",
       "title": "Invite a member",
       "emailLabel": "Email",
       "emailPlaceholder": "person@company.com",
@@ -290,7 +300,9 @@
       "errorDescription": "Try again in a few minutes."
     },
     "settings": {
-      "title": "Organization settings",
+      "pageTitle": "Organization Settings",
+      "pageDescription": "Manage your organization's general information and preferences.",
+      "title": "General Information",
       "description": "Manage your organization's name and description.",
       "nameLabel": "Organization name",
       "descriptionLabel": "Description (optional)",
@@ -347,7 +359,8 @@
       },
       "success": {
         "title": "Invitation accepted",
-        "description": "You now have access to the organization."
+        "description": "You now have access to the organization.",
+        "autoRedirect": "Redirecting you automatically..."
       },
       "error": {
         "title": "Something went wrong",

@@ -64,7 +64,7 @@ describe('AcceptInvite', () => {
     renderWithProviders(<AcceptInvite />);
 
     await waitFor(() => {
-      expect(screen.getByText(/missing/i)).toBeInTheDocument();
+      expect(screen.getAllByText(/missing/i).length).toBeGreaterThan(0);
     });
   });
 

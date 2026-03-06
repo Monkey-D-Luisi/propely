@@ -8,9 +8,8 @@ import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FormField, FormTextarea, FormSubmitButton, FormError } from '@/components/ui/form';
+import { FormField, FormTextarea, FormError } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
-import { RoleBadge } from '@/components/orgs/RoleBadge';
 import { DeleteOrgSection } from '@/components/orgs/DeleteOrgSection';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ErrorMessage } from '@/components/ui/ErrorMessage';
@@ -19,7 +18,6 @@ import { useOrg, useUpdateOrg } from '@/hooks/orgs';
 import { createUpdateOrgFormSchema, type UpdateOrgFormData } from '@/lib/schemas';
 import { isApiError } from '@/lib/api';
 import { isManager } from '@/lib/roles';
-import { Link } from '@/i18n/navigation';
 
 interface OrgSettingsFormProps {
   orgId: string;
@@ -122,24 +120,26 @@ export function OrgSettingsForm({ orgId }: OrgSettingsFormProps) {
   };
 
   return (
-    <div className="space-y-6">
-      <section className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-        <div className="p-6 md:p-8">
-          <div className="mb-8 border-b border-slate-100 pb-6">
-            <div className="flex items-center gap-3">
-              <h1 className="text-lg font-semibold text-slate-900">{t('settings.title')}</h1>
-              {org.role ? <RoleBadge role={org.role} /> : null}
-            </div>
-            <p className="mt-1 text-sm text-slate-500">{t('settings.description')}</p>
-          </div>
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-slate-900 text-3xl font-bold leading-tight">{t('settings.pageTitle')}</h1>
+        <p className="mt-1 text-slate-500 text-base">{t('settings.pageDescription')}</p>
+      </div>
 
+      <section className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        <div className="px-6 py-5 border-b border-slate-200">
+          <h2 className="text-slate-900 text-lg font-bold leading-tight">{t('settings.title')}</h2>
+        </div>
+        <div className="p-6">
           <FormProvider {...methods}>
-            <form className="flex flex-col gap-4" noValidate onSubmit={methods.handleSubmit(onSubmit)}>
-              <FormField<UpdateOrgFormData>
-                name="name"
-                label={t('settings.nameLabel')}
-                disabled={!canEdit}
-              />
+            <form className="space-y-6" noValidate onSubmit={methods.handleSubmit(onSubmit)}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField<UpdateOrgFormData>
+                  name="name"
+                  label={t('settings.nameLabel')}
+                  disabled={!canEdit}
+                />
+              </div>
 
               <FormTextarea<UpdateOrgFormData>
                 name="description"
@@ -150,31 +150,26 @@ export function OrgSettingsForm({ orgId }: OrgSettingsFormProps) {
               />
 
               <FormError message={methods.formState.errors.root?.message} />
-
-              {canEdit ? (
-                <div className="flex items-center justify-end border-t border-slate-100 pt-4">
-                  <FormSubmitButton loadingText={t('settings.saving')}>
-                    {t('settings.save')}
-                  </FormSubmitButton>
-                </div>
-              ) : null}
             </form>
           </FormProvider>
         </div>
+        {canEdit ? (
+          <div className="px-6 py-4 bg-slate-50 border-t border-slate-200 flex justify-end">
+            <button
+              type="button"
+              onClick={methods.handleSubmit(onSubmit)}
+              disabled={methods.formState.isSubmitting}
+              className="rounded-lg h-9 px-4 bg-primary-600 hover:bg-primary-600/90 text-white text-sm font-medium shadow-sm transition-colors disabled:opacity-60"
+            >
+              {methods.formState.isSubmitting ? t('settings.saving') : t('settings.save')}
+            </button>
+          </div>
+        ) : null}
       </section>
 
       {org.role === 'owner' ? (
         <DeleteOrgSection orgId={orgId} orgName={org.name} />
       ) : null}
-
-      <div className="flex justify-end">
-        <Link
-          href={`/orgs/${orgId}/members`}
-          className="text-sm font-medium text-slate-500 transition hover:text-slate-700"
-        >
-          {t('settings.backToMembers')}
-        </Link>
-      </div>
     </div>
   );
 }

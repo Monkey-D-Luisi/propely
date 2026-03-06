@@ -64,10 +64,11 @@ describe('OrgSettingsForm', () => {
     expect(screen.getByRole('button', { name: 'Save changes' })).toBeInTheDocument();
   });
 
-  it('shows settings title and description', () => {
+  it('shows settings title and section header', () => {
     renderWithProviders(<OrgSettingsForm orgId={ORG_ID} />);
 
-    expect(screen.getByRole('heading', { name: 'Organization settings' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Organization Settings' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'General Information' })).toBeInTheDocument();
   });
 
   it('shows validation error for empty name', async () => {
@@ -166,9 +167,4 @@ describe('OrgSettingsForm', () => {
     expect(screen.getByText("We couldn't load the organization settings.")).toBeInTheDocument();
   });
 
-  it('shows back to members link', () => {
-    renderWithProviders(<OrgSettingsForm orgId={ORG_ID} />);
-
-    expect(screen.getByText('Back to members')).toBeInTheDocument();
-  });
 });

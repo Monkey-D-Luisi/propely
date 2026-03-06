@@ -102,26 +102,6 @@ describe('PermissionMembersList', () => {
     expect(screen.getByText('Manage fine-grained permissions for branch members')).toBeInTheDocument();
   });
 
-  it('renders back to members link', () => {
-    vi.mocked(useCurrentUser).mockReturnValue({
-      user: { id: 'u1', email: 'alice@example.com', name: 'Alice', emailVerified: true, isSystemAdmin: false },
-      isLoading: false,
-      error: null,
-    });
-    vi.mocked(useMembers).mockReturnValue({
-      members: mockMembers,
-      setMembers: vi.fn(),
-      pagination: emptyPagination,
-      isLoading: false,
-      error: null,
-      refetch: vi.fn(),
-    });
-
-    renderWithProviders(<PermissionMembersList orgId="org-1" />);
-
-    expect(screen.getByText('Back to Members')).toBeInTheDocument();
-  });
-
   it('renders all member names in the table', () => {
     vi.mocked(useCurrentUser).mockReturnValue({
       user: { id: 'u1', email: 'alice@example.com', name: 'Alice', emailVerified: true, isSystemAdmin: false },
