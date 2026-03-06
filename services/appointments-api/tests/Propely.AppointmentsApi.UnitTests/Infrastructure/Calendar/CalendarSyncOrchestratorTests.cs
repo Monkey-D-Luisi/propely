@@ -140,4 +140,61 @@ public class CalendarSyncOrchestratorTests
         await _googleSyncService.DidNotReceive().CreateEventAsync(
             Arg.Any<Appointment>(), Arg.Any<CalendarConnection>(), Arg.Any<CancellationToken>());
     }
+
+    [Fact]
+    public async Task ProcessPendingOperationsAsync_WhenConnectionNotFound_FailsOperation()
+    {
+        var connectionId = Guid.NewGuid();
+        var appointmentId = Guid.NewGuid();
+        var operation = SyncOperation.Create(
+            calendarConnectionId: connectionId,
+            appointmentId: appointmentId,
+            direction: SyncDirection.Outbound,
+            operationType: SyncOperationType.Create);
+
+        _syncOperationRepository.GetPendingAsync(Arg.Any<CancellationToken>())
+            .Returns(new List<SyncOperation> { operation });
+
+        _connectionRepository.GetByIdAsync(connectionId, Arg.Any<CancellationToken>())
+            .Returns((CalendarConnection?)null);
+
+        await _orchestrator.ProcessPendingOperationsAsync();
+
+        operation.Status.Should().Be(SyncOperationStatus.Failed);
+        operation.ErrorMessage.Should().Be("Calendar connection not found or disabled.");
+
+        await _googleSyncService.DidNotReceive().CreateEventAsync(
+            Arg.Any<Appointment>(), Arg.Any<CalendarConnection>(), Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task ProcessPendingOperationsAsync_WhenAppointmentNotFound_FailsOperation()
+    {
+        var appointmentId = Guid.NewGuid();
+        var googleConnection = CalendarConnection.Create(
+            AgentId, TenantId, CalendarProvider.Google, "token", "refresh", DateTime.UtcNow.AddHours(1), "primary");
+
+        var operation = SyncOperation.Create(
+            calendarConnectionId: googleConnection.Id,
+            appointmentId: appointmentId,
+            direction: SyncDirection.Outbound,
+            operationType: SyncOperationType.Create);
+
+        _syncOperationRepository.GetPendingAsync(Arg.Any<CancellationToken>())
+            .Returns(new List<SyncOperation> { operation });
+
+        _connectionRepository.GetByIdAsync(googleConnection.Id, Arg.Any<CancellationToken>())
+            .Returns(googleConnection);
+
+        _appointmentRepository.GetByIdAsync(appointmentId, googleConnection.TenantId, Arg.Any<CancellationToken>())
+            .Returns((Appointment?)null);
+
+        await _orchestrator.ProcessPendingOperationsAsync();
+
+        operation.Status.Should().Be(SyncOperationStatus.Failed);
+        operation.ErrorMessage.Should().Be("Appointment not found.");
+
+        await _googleSyncService.DidNotReceive().CreateEventAsync(
+            Arg.Any<Appointment>(), Arg.Any<CalendarConnection>(), Arg.Any<CancellationToken>());
+    }
 }
