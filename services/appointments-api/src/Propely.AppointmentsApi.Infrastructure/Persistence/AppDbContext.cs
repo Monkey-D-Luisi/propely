@@ -4,6 +4,7 @@
 using System.Text.Json;
 using Propely.AppointmentsApi.Application.Common.Interfaces;
 using Propely.AppointmentsApi.Application.Common.Models;
+using Propely.AppointmentsApi.Domain.Appointments;
 using Propely.AppointmentsApi.Domain.Common;
 using Propely.AppointmentsApi.Infrastructure.Persistence.Configurations;
 using Propely.AppointmentsApi.Infrastructure.Persistence.Entities;
@@ -37,6 +38,7 @@ public sealed class AppDbContext : DbContext
 
     public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
     public DbSet<ProcessedEvent> ProcessedEvents => Set<ProcessedEvent>();
+    public DbSet<Appointment> Appointments => Set<Appointment>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -44,6 +46,7 @@ public sealed class AppDbContext : DbContext
 
         modelBuilder.ApplyConfiguration(new OutboxMessageConfiguration());
         modelBuilder.ApplyConfiguration(new ProcessedEventConfiguration());
+        modelBuilder.ApplyConfiguration(new AppointmentConfiguration());
     }
 
     /// <summary>
