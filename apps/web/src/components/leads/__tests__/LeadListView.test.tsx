@@ -23,7 +23,7 @@ const mockItems: LeadListItem[] = [
     email: 'bob@example.com',
     source: null,
     propertyId: '00000000-0000-0000-0000-000000000002',
-    status: 'Converted',
+    status: 'Qualified',
     assignedAgentId: '00000000-0000-0000-0000-000000000099',
     createdAtUtc: '2026-02-15T14:30:00Z',
   },
@@ -50,12 +50,12 @@ describe('LeadListView', () => {
     expect(screen.getByText('Bob Smith')).toBeInTheDocument();
   });
 
-  it('shows convert button only for non-Converted non-Lost leads', () => {
+  it('shows convert button only for Qualified leads', () => {
     renderWithProviders(
       <LeadListView items={mockItems} isLoading={false} onViewDetails={vi.fn()} onChangeStatus={vi.fn()} onConvert={vi.fn()} />,
     );
     const convertButtons = screen.getAllByText('Convert to Contact');
-    // Only Alice (New status) should have convert button, not Bob (Converted)
+    // Only Bob (Qualified status) should have the convert button — domain invariant
     expect(convertButtons).toHaveLength(1);
   });
 
