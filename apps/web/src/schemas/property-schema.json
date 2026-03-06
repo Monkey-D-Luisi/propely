@@ -18,7 +18,7 @@
     },
     "operationType": {
       "type": "string",
-      "enum": ["Sale", "Rent", "RentToBuy", "Transfer"],
+      "enum": ["Sale", "Rent", "SaleOrRent", "Transfer", "Vacation"],
       "description": "Type of operation"
     },
     "description": {

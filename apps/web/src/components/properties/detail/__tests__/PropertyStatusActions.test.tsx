@@ -33,7 +33,7 @@ const testCases = [
   { status: 'Reserved' as const, expectedButtons: ['Release reservation', 'Mark as Sold', 'Mark as Rented', 'Archive'] },
   { status: 'Sold' as const, expectedButtons: [] },
   { status: 'Rented' as const, expectedButtons: [] },
-  { status: 'Archived' as const, expectedButtons: ['Activate'] },
+  { status: 'Archived' as const, expectedButtons: ['Move to Draft'] },
 ];
 
 describe('PropertyStatusActions', () => {

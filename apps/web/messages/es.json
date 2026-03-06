@@ -987,7 +987,8 @@
       "markSold": "Marcar Vendido",
       "markRented": "Marcar Alquilado",
       "archive": "Archivar",
-      "release": "Liberar reserva"
+      "release": "Liberar reserva",
+      "moveToDraft": "Pasar a Borrador"
     },
     "empty": {
       "title": "Sin propiedades aún",

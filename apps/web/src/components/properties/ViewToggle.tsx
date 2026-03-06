@@ -15,6 +15,7 @@ export function ViewToggle({ view, onViewChange }: ViewToggleProps) {
         type="button"
         role="radio"
         aria-checked={view === 'table'}
+        aria-label="Table view"
         onClick={() => onViewChange('table')}
         className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
           view === 'table'
@@ -28,6 +29,7 @@ export function ViewToggle({ view, onViewChange }: ViewToggleProps) {
         type="button"
         role="radio"
         aria-checked={view === 'card'}
+        aria-label="Card view"
         onClick={() => onViewChange('card')}
         className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
           view === 'card'

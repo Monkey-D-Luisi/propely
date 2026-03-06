@@ -110,7 +110,7 @@ export default function PropertiesPage() {
       }
     }, 300);
     return () => clearTimeout(timer);
-  }, [search]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [search, filters.search, setFilters]);
 
   // Persist view preference
   useEffect(() => {

@@ -6,6 +6,7 @@
 import { rankWith, scopeEndsWith } from '@jsonforms/core';
 import type { ControlProps } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
+import { useTranslations } from 'next-intl';
 
 const PROPERTY_TYPES = [
   { value: 'Apartment', icon: '\ud83c\udfe2' },
@@ -22,10 +23,12 @@ const PROPERTY_TYPES = [
 ] as const;
 
 function PropertyTypeRendererComponent({ data, handleChange, path, label }: ControlProps) {
+  const t = useTranslations('properties');
+
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-sm font-medium text-slate-700">{label || 'Property Type'}</label>
-      <div className="grid grid-cols-3 sm:grid-cols-4 gap-2" role="radiogroup" aria-label="Property Type">
+      <label className="text-sm font-medium text-slate-700">{label || t('form.propertyType')}</label>
+      <div className="grid grid-cols-3 sm:grid-cols-4 gap-2" role="radiogroup" aria-label={label || t('form.propertyType')}>
         {PROPERTY_TYPES.map(({ value, icon }) => (
           <button
             key={value}
@@ -40,7 +43,7 @@ function PropertyTypeRendererComponent({ data, handleChange, path, label }: Cont
             }`}
           >
             <span className="text-lg">{icon}</span>
-            <span>{value}</span>
+            <span>{t(`type.${value}`)}</span>
           </button>
         ))}
       </div>
