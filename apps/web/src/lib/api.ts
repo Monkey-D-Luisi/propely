@@ -110,7 +110,7 @@ export async function aiApiFetch<T>(
 // Deduplication: only one refresh in-flight at a time
 let refreshPromise: Promise<boolean> | null = null;
 
-async function tryRefreshToken(): Promise<boolean> {
+export async function tryRefreshToken(): Promise<boolean> {
   if (refreshPromise) return refreshPromise;
   refreshPromise = doRefresh();
   try {

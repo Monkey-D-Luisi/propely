@@ -8,11 +8,14 @@ import { aiApiFetch } from '@/lib/api';
 import { ensureCsrfToken } from '@/lib/csrf';
 
 export interface ActionResult {
+  success: boolean;
   message: string;
   actionType?: string;
   needsConfirmation?: boolean;
   extractedParams?: Record<string, unknown>;
   confirmationId?: string;
+  errors?: string[];
+  confidence?: number;
 }
 
 export function useExecuteAction() {

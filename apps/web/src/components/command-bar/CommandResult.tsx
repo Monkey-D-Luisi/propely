@@ -74,6 +74,41 @@ export function CommandResult({ result, error, isLoading, onRetry }: CommandResu
   }
 
   if (result && !result.needsConfirmation) {
+    if (result.success === false) {
+      return (
+        <div className="px-4 py-3" role="alert">
+          <div className="flex items-center gap-3">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-red-50">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="h-4 w-4 text-red-500"
+                aria-hidden="true"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </div>
+            <div className="flex-1">
+              <p className="text-sm font-medium text-slate-900">{t('error')}</p>
+              <p className="text-xs text-slate-600">{result.message}</p>
+            </div>
+            <button
+              type="button"
+              onClick={onRetry}
+              className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm transition-all hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
+            >
+              {t('retry')}
+            </button>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="px-4 py-3" role="status" aria-live="polite">
         <div className="flex items-center gap-3">

@@ -73,12 +73,12 @@ export function CommandBar() {
   const handleAudioReady = useCallback(
     async (blob: Blob) => {
       const voiceResult = await executeVoice(blob);
-      if (voiceResult?.transcription) {
-        setTranscribedText(voiceResult.transcription);
+      if (voiceResult?.transcribedText) {
+        setTranscribedText(voiceResult.transcribedText);
         // Auto-submit the transcribed text as a command
-        addRecentCommand(voiceResult.transcription);
-        lastCommandRef.current = voiceResult.transcription;
-        await execute(voiceResult.transcription);
+        addRecentCommand(voiceResult.transcribedText);
+        lastCommandRef.current = voiceResult.transcribedText;
+        await execute(voiceResult.transcribedText);
       }
     },
     [executeVoice, execute, addRecentCommand],

@@ -3,6 +3,7 @@
 
 'use client';
 
+import { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { useVoiceInput, type VoiceInputState } from '@/hooks/use-voice-input';
 import { useAudioWaveform } from '@/hooks/use-audio-waveform';
@@ -48,10 +49,11 @@ export function VoiceMicButton({
     isProcessing ? 'processing' : state;
 
   // Notify parent when audio blob is ready
-  if (audioBlob && onAudioReady && state === 'processing' && !isProcessing) {
-    // Defer to avoid calling during render
-    queueMicrotask(() => onAudioReady(audioBlob));
-  }
+  useEffect(() => {
+    if (audioBlob && onAudioReady && state === 'processing' && !isProcessing) {
+      onAudioReady(audioBlob);
+    }
+  }, [audioBlob, onAudioReady, state, isProcessing]);
 
   const handleClick = async () => {
     if (effectiveState === 'recording') {
@@ -135,7 +137,7 @@ export function VoiceMicButton({
           className="absolute top-full mt-2 w-56 rounded-lg bg-amber-50 border border-amber-200 p-3 text-sm text-amber-700 shadow-lg z-50"
           role="alert"
         >
-          <p>{t(error as 'noAudioDetected' | 'transcriptionFailed')}</p>
+          <p>{t(error as 'permissionDenied' | 'noAudioDetected')}</p>
         </div>
       )}
     </div>
