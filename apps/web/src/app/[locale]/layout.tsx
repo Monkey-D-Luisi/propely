@@ -9,7 +9,6 @@ import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
 import { brand } from '@/config/brand';
 import { Providers } from '../providers';
-import { AppHeader } from '@/components/layout/AppHeader';
 import { CommandBar } from '@/components/command-bar/CommandBar';
 
 type Props = {
@@ -56,7 +55,6 @@ export default async function LocaleLayout({ children, params }: Props) {
       <NextIntlClientProvider>
         <Providers>
           <div className="flex min-h-dvh flex-col bg-surface">
-            <AppHeader />
             <main id="main-content" className="flex-1" tabIndex={-1}>
               {children}
             </main>

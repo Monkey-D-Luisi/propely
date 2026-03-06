@@ -59,7 +59,22 @@
     "properties": "Properties",
     "contacts": "Contacts",
     "leads": "Leads",
-    "appointments": "Appointments"
+    "appointments": "Appointments",
+    "dashboard": "Dashboard",
+    "search": "Search",
+    "newProperty": "New Property",
+    "addProperty": "Add Property",
+    "getStarted": "Get Started",
+    "features": "Features",
+    "product": "Product",
+    "company": "Company",
+    "legal": "Legal",
+    "aboutUs": "About Us",
+    "contact": "Contact",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "footerTagline": "The intelligent platform for modern property management. Empowering teams to do more with AI.",
+    "copyright": "© 2026 Propely Inc. All rights reserved."
   },
   "auth": {
     "login": {
