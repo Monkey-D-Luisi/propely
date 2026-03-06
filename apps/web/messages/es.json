@@ -59,7 +59,22 @@
     "properties": "Propiedades",
     "contacts": "Contactos",
     "leads": "Oportunidades",
-    "appointments": "Citas"
+    "appointments": "Citas",
+    "dashboard": "Panel",
+    "search": "Buscar",
+    "newProperty": "Nueva Propiedad",
+    "addProperty": "Añadir Propiedad",
+    "getStarted": "Comenzar",
+    "features": "Características",
+    "product": "Producto",
+    "company": "Empresa",
+    "legal": "Legal",
+    "aboutUs": "Sobre nosotros",
+    "contact": "Contacto",
+    "privacyPolicy": "Política de privacidad",
+    "termsOfService": "Términos de servicio",
+    "footerTagline": "La plataforma inteligente para la gestión inmobiliaria moderna. Potenciando equipos con IA.",
+    "copyright": "© 2026 Propely Inc. Todos los derechos reservados."
   },
   "auth": {
     "login": {
