@@ -11,6 +11,7 @@
     "loading": "Loading…",
     "submitting": "Submitting…",
     "cancel": "Cancel",
+    "discard": "Discard",
     "confirm": "Confirm",
     "tryAgain": "Try again",
     "refresh": "Refresh",
@@ -823,6 +824,7 @@
     "create": {
       "title": "Create agency",
       "description": "Set up a new agency to manage multiple branches.",
+      "sectionDetails": "Agency Details",
       "nameLabel": "Agency name",
       "namePlaceholder": "My Real Estate Agency",
       "slugLabel": "Agency slug",
@@ -837,6 +839,7 @@
     },
     "dashboard": {
       "subtitle": "{slug}",
+      "active": "Active",
       "settings": "Settings",
       "branchesTitle": "Branches",
       "branchCount": "{count, plural, =0 {No branches} one {# branch} other {# branches}}",
@@ -845,7 +848,14 @@
       "viewBranch": "View",
       "emptyBranches": "No branches yet",
       "emptyBranchesHint": "Create an organization and add it as a branch.",
-      "loadError": "We couldn't load the agency. Please try again."
+      "loadError": "We couldn't load the agency. Please try again.",
+      "statBranches": "Branches",
+      "statAgents": "Total Agents",
+      "statLeads": "Active Leads",
+      "statRevenue": "Monthly Revenue",
+      "infoTitle": "Agency Info",
+      "infoSlug": "Slug",
+      "infoCreated": "Created"
     },
     "switcher": {
       "label": "Switch agency",
@@ -856,6 +866,7 @@
     "settings": {
       "title": "Agency settings",
       "description": "Manage your agency name and configuration.",
+      "sectionGeneral": "Basic Information",
       "nameLabel": "Agency name",
       "slugLabel": "Agency slug",
       "slugReadOnly": "The slug cannot be changed after creation.",
@@ -864,6 +875,7 @@
       "updateNotAvailable": "Agency update is not yet available.",
       "dangerZone": "Danger zone",
       "deleteDescription": "Once you delete an agency, there is no going back. All branches will be detached.",
+      "deleteAgencyTitle": "Delete this agency",
       "typeNameToConfirm": "Type \"{name}\" to confirm:",
       "deleteButton": "Delete agency",
       "deletingButton": "Deleting…",

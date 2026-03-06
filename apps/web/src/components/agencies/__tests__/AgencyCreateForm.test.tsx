@@ -39,18 +39,18 @@ describe('AgencyCreateForm', () => {
     renderWithProviders(<AgencyCreateForm />);
 
     expect(screen.getByRole('heading', { name: 'Create agency' })).toBeInTheDocument();
-    expect(screen.getByLabelText('Agency name')).toBeInTheDocument();
-    expect(screen.getByLabelText('Agency slug')).toBeInTheDocument();
+    expect(screen.getByLabelText(/Agency name/)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Agency slug/)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Create agency' })).toBeInTheDocument();
   });
 
   it('auto-generates slug from name', async () => {
     const { user } = renderWithProviders(<AgencyCreateForm />);
 
-    const nameInput = screen.getByLabelText('Agency name');
+    const nameInput = screen.getByLabelText(/Agency name/);
     await user.type(nameInput, 'My Great Agency');
 
-    expect(screen.getByLabelText('Agency slug')).toHaveValue('my-great-agency');
+    expect(screen.getByLabelText(/Agency slug/)).toHaveValue('my-great-agency');
   });
 
   it('shows validation error for empty name', async () => {
@@ -66,10 +66,10 @@ describe('AgencyCreateForm', () => {
   it('shows validation error for invalid slug', async () => {
     const { user } = renderWithProviders(<AgencyCreateForm />);
 
-    const nameInput = screen.getByLabelText('Agency name');
+    const nameInput = screen.getByLabelText(/Agency name/);
     await user.type(nameInput, 'Test');
 
-    const slugInput = screen.getByLabelText('Agency slug');
+    const slugInput = screen.getByLabelText(/Agency slug/);
     await user.clear(slugInput);
     await user.type(slugInput, 'AB');
 
@@ -86,7 +86,7 @@ describe('AgencyCreateForm', () => {
 
     const { user } = renderWithProviders(<AgencyCreateForm />);
 
-    const nameInput = screen.getByLabelText('Agency name');
+    const nameInput = screen.getByLabelText(/Agency name/);
     await user.type(nameInput, 'My Agency');
 
     await user.click(screen.getByRole('button', { name: 'Create agency' }));
@@ -106,10 +106,10 @@ describe('AgencyCreateForm', () => {
 
     const { user } = renderWithProviders(<AgencyCreateForm />);
 
-    const nameInput = screen.getByLabelText('Agency name');
+    const nameInput = screen.getByLabelText(/Agency name/);
     await user.type(nameInput, 'Test Agency');
 
-    const slugInput = screen.getByLabelText('Agency slug');
+    const slugInput = screen.getByLabelText(/Agency slug/);
     await user.clear(slugInput);
     await user.type(slugInput, 'test-agency');
 
@@ -126,10 +126,10 @@ describe('AgencyCreateForm', () => {
 
     const { user } = renderWithProviders(<AgencyCreateForm />);
 
-    const nameInput = screen.getByLabelText('Agency name');
+    const nameInput = screen.getByLabelText(/Agency name/);
     await user.type(nameInput, 'Test Agency');
 
-    const slugInput = screen.getByLabelText('Agency slug');
+    const slugInput = screen.getByLabelText(/Agency slug/);
     await user.clear(slugInput);
     await user.type(slugInput, 'test-agency');
 

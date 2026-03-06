@@ -11,6 +11,7 @@
     "loading": "Cargando…",
     "submitting": "Enviando…",
     "cancel": "Cancelar",
+    "discard": "Descartar",
     "confirm": "Confirmar",
     "tryAgain": "Reintentar",
     "refresh": "Actualizar",
@@ -823,6 +824,7 @@
     "create": {
       "title": "Crear agencia",
       "description": "Configura una nueva agencia para gestionar múltiples sucursales.",
+      "sectionDetails": "Detalles de la agencia",
       "nameLabel": "Nombre de la agencia",
       "namePlaceholder": "Mi Agencia Inmobiliaria",
       "slugLabel": "Slug de la agencia",
@@ -837,6 +839,7 @@
     },
     "dashboard": {
       "subtitle": "{slug}",
+      "active": "Activo",
       "settings": "Configuración",
       "branchesTitle": "Sucursales",
       "branchCount": "{count, plural, =0 {Sin sucursales} one {# sucursal} other {# sucursales}}",
@@ -845,7 +848,14 @@
       "viewBranch": "Ver",
       "emptyBranches": "Aún no hay sucursales",
       "emptyBranchesHint": "Crea una organización y añádela como sucursal.",
-      "loadError": "No pudimos cargar la agencia. Inténtalo de nuevo."
+      "loadError": "No pudimos cargar la agencia. Inténtalo de nuevo.",
+      "statBranches": "Sucursales",
+      "statAgents": "Agentes totales",
+      "statLeads": "Leads activos",
+      "statRevenue": "Ingresos mensuales",
+      "infoTitle": "Información de la agencia",
+      "infoSlug": "Slug",
+      "infoCreated": "Creado"
     },
     "switcher": {
       "label": "Cambiar agencia",
@@ -856,6 +866,7 @@
     "settings": {
       "title": "Configuración de la agencia",
       "description": "Gestiona el nombre y la configuración de tu agencia.",
+      "sectionGeneral": "Información básica",
       "nameLabel": "Nombre de la agencia",
       "slugLabel": "Slug de la agencia",
       "slugReadOnly": "El slug no se puede cambiar después de la creación.",
@@ -864,6 +875,7 @@
       "updateNotAvailable": "La actualización de agencia aún no está disponible.",
       "dangerZone": "Zona de peligro",
       "deleteDescription": "Una vez elimines una agencia, no hay vuelta atrás. Todas las sucursales se desvincularán.",
+      "deleteAgencyTitle": "Eliminar esta agencia",
       "typeNameToConfirm": "Escribe \"{name}\" para confirmar:",
       "deleteButton": "Eliminar agencia",
       "deletingButton": "Eliminando…",

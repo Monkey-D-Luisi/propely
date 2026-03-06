@@ -8,8 +8,8 @@ import { useTranslations } from 'next-intl';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from '@/i18n/navigation';
-import { Button } from '@/components/ui/button';
-import { FormSubmitButton, FormError } from '@/components/ui/form';
+import { Link } from '@/i18n/navigation';
+import { FormError } from '@/components/ui/form';
 import { useToast } from '@/components/ui/toast';
 import { useCreateAgency } from '@/hooks/agencies';
 import { isApiError } from '@/lib/api';
@@ -80,68 +80,108 @@ export function AgencyCreateForm() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-md px-4 py-12">
-      <h1 className="mb-2 text-3xl font-bold tracking-tight text-slate-900">
-        {t('create.title')}
-      </h1>
-      <p className="mb-8 text-slate-500">{t('create.description')}</p>
+    <main className="flex flex-1 justify-center py-8 px-4 sm:px-8">
+      <div className="flex flex-col max-w-[800px] w-full gap-6">
+        {/* Breadcrumb */}
+        <nav className="flex flex-wrap items-center gap-2 text-sm" aria-label="Breadcrumb">
+          <Link href="/orgs/mine" className="text-slate-500 hover:text-primary-600 transition-colors font-medium">
+            {tCommon('backToOrgs')}
+          </Link>
+          <span className="material-symbols-outlined text-slate-400 text-[18px]" aria-hidden="true">chevron_right</span>
+          <span className="text-slate-900 font-medium">{t('create.title')}</span>
+        </nav>
 
-      <FormProvider {...methods}>
-        <form
-          className="space-y-6 rounded-xl border border-slate-200 bg-white p-6 shadow-sm"
-          noValidate
-          onSubmit={methods.handleSubmit(onSubmit)}
-        >
-          <div>
-            <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-slate-700">
-              {t('create.nameLabel')}
-            </label>
-            <input
-              id="name"
-              type="text"
-              {...methods.register('name', {
-                onChange: onNameChange,
-              })}
-              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-transparent focus:ring-2 focus:ring-primary-600"
-              placeholder={t('create.namePlaceholder')}
-              autoFocus
-            />
-            {methods.formState.errors.name && (
-              <p className="mt-1 text-sm text-red-600">{methods.formState.errors.name.message}</p>
-            )}
-          </div>
+        {/* Page Title */}
+        <div>
+          <h1 className="text-3xl font-bold leading-tight tracking-tight text-slate-900">
+            {t('create.title')}
+          </h1>
+          <p className="mt-1 text-slate-500">{t('create.description')}</p>
+        </div>
 
-          <div>
-            <label htmlFor="slug" className="mb-1.5 block text-sm font-medium text-slate-700">
-              {t('create.slugLabel')}
-            </label>
-            <input
-              id="slug"
-              type="text"
-              {...methods.register('slug', {
-                onChange: onSlugChange,
-              })}
-              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-transparent focus:ring-2 focus:ring-primary-600"
-              placeholder={t('create.slugPlaceholder')}
-            />
-            <p className="mt-1 text-xs text-slate-400">{t('create.slugHint')}</p>
-            {methods.formState.errors.slug && (
-              <p className="mt-1 text-sm text-red-600">{methods.formState.errors.slug.message}</p>
-            )}
-          </div>
+        {/* Form Card */}
+        <FormProvider {...methods}>
+          <form
+            className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 sm:p-8"
+            noValidate
+            onSubmit={methods.handleSubmit(onSubmit)}
+          >
+            <div className="flex flex-col gap-10">
+              {/* Agency Details Section */}
+              <section className="flex flex-col gap-6">
+                <h2 className="text-lg font-bold text-slate-900 border-b border-slate-100 pb-3">
+                  {t('create.sectionDetails')}
+                </h2>
 
-          <FormError message={methods.formState.errors.root?.message} />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="flex flex-col gap-2">
+                    <label htmlFor="name" className="text-sm font-semibold text-slate-700">
+                      {t('create.nameLabel')} *
+                    </label>
+                    <input
+                      id="name"
+                      type="text"
+                      {...methods.register('name', {
+                        onChange: onNameChange,
+                      })}
+                      className="form-input w-full rounded-lg border-slate-300 bg-white text-slate-900 focus:border-primary-600 focus:ring-primary-600 h-11 placeholder:text-slate-400"
+                      placeholder={t('create.namePlaceholder')}
+                      autoFocus
+                    />
+                    {methods.formState.errors.name && (
+                      <p className="text-sm text-red-600">{methods.formState.errors.name.message}</p>
+                    )}
+                  </div>
 
-          <div className="flex gap-3">
-            <FormSubmitButton loadingText={t('create.creatingButton')}>
-              {t('create.createButton')}
-            </FormSubmitButton>
-            <Button type="button" onClick={() => router.push('/orgs/mine')} className="border border-slate-200 bg-white text-slate-700 shadow-none hover:bg-slate-50">
-              {tCommon('cancel')}
-            </Button>
-          </div>
-        </form>
-      </FormProvider>
-    </div>
+                  <div className="flex flex-col gap-2">
+                    <label htmlFor="slug" className="text-sm font-semibold text-slate-700">
+                      {t('create.slugLabel')} *
+                    </label>
+                    <div className="flex rounded-lg shadow-sm">
+                      <span className="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-slate-300 bg-slate-50 text-slate-500 text-sm">
+                        propely.app/
+                      </span>
+                      <input
+                        id="slug"
+                        type="text"
+                        {...methods.register('slug', {
+                          onChange: onSlugChange,
+                        })}
+                        className="form-input flex-1 min-w-0 block w-full rounded-none rounded-r-lg border-slate-300 bg-white text-slate-900 focus:border-primary-600 focus:ring-primary-600 h-11 placeholder:text-slate-400"
+                        placeholder={t('create.slugPlaceholder')}
+                      />
+                    </div>
+                    <p className="text-xs text-slate-400">{t('create.slugHint')}</p>
+                    {methods.formState.errors.slug && (
+                      <p className="text-sm text-red-600">{methods.formState.errors.slug.message}</p>
+                    )}
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <FormError message={methods.formState.errors.root?.message} />
+
+            {/* Actions */}
+            <div className="flex items-center justify-end gap-4 pt-6 mt-10 border-t border-slate-200">
+              <button
+                type="button"
+                onClick={() => router.push('/orgs/mine')}
+                className="px-5 py-2.5 text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors"
+              >
+                {tCommon('cancel')}
+              </button>
+              <button
+                type="submit"
+                disabled={methods.formState.isSubmitting}
+                className="px-6 py-2.5 rounded-xl bg-primary-600 hover:bg-primary-600/90 text-white text-sm font-bold shadow-sm transition-colors disabled:opacity-50"
+              >
+                {methods.formState.isSubmitting ? t('create.creatingButton') : t('create.createButton')}
+              </button>
+            </div>
+          </form>
+        </FormProvider>
+      </div>
+    </main>
   );
 }

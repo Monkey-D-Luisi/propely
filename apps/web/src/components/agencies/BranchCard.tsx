@@ -24,21 +24,22 @@ export function BranchCard({ branch }: BranchCardProps) {
   return (
     <Link
       href={`/orgs/${branch.id}/members`}
-      className="group flex flex-col rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
+      className="group flex flex-col rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-colors hover:border-primary-600/50"
     >
-      <div className="mb-4 flex items-start justify-between">
-        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary-600/10 text-primary-600">
-          <span className="material-symbols-outlined" aria-hidden="true">store</span>
+      <div className="mb-3 flex items-start justify-between">
+        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-600/10 text-primary-600">
+          <span className="material-symbols-outlined text-[22px]" aria-hidden="true">store</span>
         </div>
         <span className="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
           {t('dashboard.memberCount', { count: branch.memberCount })}
         </span>
       </div>
-      <h3 className="mb-1 text-lg font-bold text-slate-900">{branch.name}</h3>
-      <p className="text-sm text-slate-500">{t('dashboard.createdOn', { date: formattedDate })}</p>
-      <div className="mt-auto flex items-center justify-end border-t border-slate-50 pt-4">
+      <h3 className="text-sm font-semibold text-slate-900">{branch.name}</h3>
+      <p className="text-xs text-slate-500 mt-1">{t('dashboard.createdOn', { date: formattedDate })}</p>
+      <div className="mt-auto flex items-center justify-end pt-3">
         <span className="flex items-center text-sm font-semibold text-primary-600 transition-transform group-hover:translate-x-1">
-          {t('dashboard.viewBranch')} <span className="material-symbols-outlined ml-1 text-xs" aria-hidden="true">chevron_right</span>
+          {t('dashboard.viewBranch')}
+          <span className="material-symbols-outlined ml-1 text-[16px]" aria-hidden="true">chevron_right</span>
         </span>
       </div>
     </Link>
