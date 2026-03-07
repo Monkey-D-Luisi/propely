@@ -204,6 +204,30 @@ Design tokens are defined in `apps/web/src/app/globals.css` via Tailwind v4 `@th
 - **Use cases before UI**: define use cases exhaustively before generating Stitch designs or writing code
 - When creating a PR, always use the GitHub PR template at `.github/PULL_REQUEST_TEMPLATE.md` and fill all sections.
 
+## GPT Consultation (product decisions)
+
+The `openai-oauth` MCP server enables consulting GPT (gpt-5.4) for product and architecture discussions via the `ask_gpt` tool. It authenticates through the user's Codex OAuth subscription (no API key needed).
+
+### When to consult GPT
+- **Product decisions**: UX flows, feature scoping, prioritization trade-offs
+- **Architecture debates**: choosing between patterns, evaluating trade-offs
+- **Domain modeling**: entity design, aggregate boundaries, event schemas
+- **API design**: endpoint structure, request/response contracts, versioning strategies
+- **Second opinions**: when uncertain about an approach, get an alternative perspective
+
+### How to use
+Call the `ask_gpt` MCP tool with:
+- `prompt`: The question or discussion topic
+- `system` (optional): Context-setting instructions (defaults to a general assistant prompt)
+- `model` (optional): Override model (default: gpt-5.4, fallback: gpt-5.2)
+
+### Guidelines
+- **Always present GPT's response to the user** — never silently act on GPT's advice without showing it
+- **Frame as a second opinion** — Claude's analysis + GPT's perspective, then let the user decide
+- Include relevant Propely context in the system prompt (e.g., "Propely is a multi-tenant real estate SaaS with 6 .NET microservices...")
+- For complex discussions, break into focused questions rather than one massive prompt
+- **Do NOT use for**: code generation, writing tests, or file modifications — GPT is for discussion only
+
 ## Port Allocation
 
 | Service | Port |
