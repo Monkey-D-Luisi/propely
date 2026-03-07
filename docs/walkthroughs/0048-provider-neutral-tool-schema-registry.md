@@ -55,7 +55,7 @@ dotnet test services/ai-api/tests/Propely.AiApi.UnitTests/  # 585 passed, 0 fail
 | `Infrastructure/AI/OpenAiIntentClassifier.cs` | Constructor accepts registry + adapter via DI; removed static ToolDefinitions reference |
 | `Infrastructure/DependencyInjection.cs` | Added registrations for IToolSchemaRegistry, OpenAiToolAdapter |
 | `tests/.../ToolDefinitionsTests.cs` | Updated to use ToolSchemaRegistry instead of deleted ToolDefinitions |
-| `tests/.../ToolSchemaRegistryTests.cs` | (Already existed — no changes needed) |
+| `tests/.../ToolSchemaRegistryTests.cs` | New — 10 tests for registry (count, names, descriptions, JSON validity, ActionType resolution) |
 | `tests/.../OpenAiIntentClassifierTests.cs` | Updated constructor calls to include registry and adapter |
 | `tests/.../PromptRegressionTests.cs` | Updated 6 references from ToolDefinitions to _registry |
 

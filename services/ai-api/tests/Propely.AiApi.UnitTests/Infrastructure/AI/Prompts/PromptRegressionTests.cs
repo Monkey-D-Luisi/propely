@@ -4,7 +4,6 @@
 using FluentAssertions;
 using Propely.AiApi.Application.Actions.Tools;
 using Propely.AiApi.Infrastructure.AI;
-using Propely.AiApi.Infrastructure.AI.Adapters;
 using Propely.AiApi.Infrastructure.AI.Prompts;
 
 namespace Propely.AiApi.UnitTests.Infrastructure.AI.Prompts;
