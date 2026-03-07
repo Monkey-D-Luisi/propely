@@ -1,0 +1,246 @@
+// Copyright (c) 2026 Propely. All rights reserved.
+// Licensed under the Proprietary Software License. See LICENSE.
+
+using FluentAssertions;
+using Microsoft.Extensions.Logging;
+using NSubstitute;
+using NSubstitute.ExceptionExtensions;
+using Propely.AiApi.Application.Actions.Commands.AppointmentActions;
+using Propely.AiApi.Application.Actions.Handlers.AppointmentActions;
+using Propely.AiApi.Domain.Actions;
+using Propely.AppointmentsApi.Client;
+using Propely.AppointmentsApi.Client.Models;
+
+namespace Propely.AiApi.UnitTests.Application.Actions.Handlers.AppointmentActions;
+
+public sealed class RescheduleAppointmentActionHandlerTests
+{
+    private readonly IAppointmentsApiClient _appointmentsClient;
+    private readonly RescheduleAppointmentActionHandler _handler;
+    private static readonly Guid TenantId = Guid.NewGuid();
+    private static readonly Guid AgentId = Guid.NewGuid();
+
+    public RescheduleAppointmentActionHandlerTests()
+    {
+        _appointmentsClient = Substitute.For<IAppointmentsApiClient>();
+        var logger = Substitute.For<ILogger<RescheduleAppointmentActionHandler>>();
+        _handler = new RescheduleAppointmentActionHandler(_appointmentsClient, logger);
+    }
+
+    [Fact]
+    public async Task Handle_WithValidParameters_ShouldRescheduleAppointmentViaSDK()
+    {
+        // Arrange
+        var appointmentId = Guid.NewGuid();
+        var propertyId = Guid.NewGuid();
+        var parameters = new Dictionary<string, object?>
+        {
+            ["appointment_id"] = appointmentId.ToString(),
+            ["new_start_time"] = "2026-03-20T14:00:00"
+        };
+        var command = new RescheduleAppointmentActionCommand(parameters, TenantId, AgentId);
+
+        var existingAppointment = new AppointmentResponse
+        {
+            Id = appointmentId,
+            Title = "Viewing at Calle Mayor",
+            Type = "PropertyViewing",
+            StartTimeUtc = new DateTime(2026, 3, 15, 10, 0, 0),
+            EndTimeUtc = new DateTime(2026, 3, 15, 10, 30, 0),
+            PropertyId = propertyId,
+            Status = "Scheduled"
+        };
+
+        var updatedAppointment = new AppointmentResponse
+        {
+            Id = appointmentId,
+            Title = "Viewing at Calle Mayor",
+            StartTimeUtc = new DateTime(2026, 3, 20, 14, 0, 0),
+            EndTimeUtc = new DateTime(2026, 3, 20, 14, 30, 0),
+            Status = "Scheduled"
+        };
+
+        _appointmentsClient.GetAppointmentByIdAsync(appointmentId, Arg.Any<CancellationToken>())
+            .Returns(existingAppointment);
+        _appointmentsClient.UpdateAppointmentAsync(appointmentId, Arg.Any<UpdateAppointmentClientRequest>(), Arg.Any<CancellationToken>())
+            .Returns(updatedAppointment);
+
+        // Act
+        var result = await _handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        result.Success.Should().BeTrue();
+        result.ActionType.Should().Be(ActionType.RescheduleAppointment);
+        result.Message.Should().Contain("Rescheduled");
+        result.Message.Should().Contain("2026-03-20");
+        await _appointmentsClient.Received(1).UpdateAppointmentAsync(
+            appointmentId,
+            Arg.Is<UpdateAppointmentClientRequest>(r =>
+                r.StartTimeUtc == new DateTime(2026, 3, 20, 14, 0, 0) &&
+                r.EndTimeUtc == new DateTime(2026, 3, 20, 14, 30, 0) &&
+                r.Title == "Viewing at Calle Mayor"),
+            Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task Handle_WithMissingAppointmentId_ShouldReturnFailure()
+    {
+        // Arrange
+        var parameters = new Dictionary<string, object?>
+        {
+            ["new_start_time"] = "2026-03-20T14:00:00"
+        };
+        var command = new RescheduleAppointmentActionCommand(parameters, TenantId, AgentId);
+
+        // Act
+        var result = await _handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        result.Success.Should().BeFalse();
+        result.ActionType.Should().Be(ActionType.RescheduleAppointment);
+        result.Errors.Should().Contain("Appointment ID is required to reschedule.");
+    }
+
+    [Fact]
+    public async Task Handle_WithMissingNewStartTime_ShouldReturnFailure()
+    {
+        // Arrange
+        var parameters = new Dictionary<string, object?>
+        {
+            ["appointment_id"] = Guid.NewGuid().ToString()
+        };
+        var command = new RescheduleAppointmentActionCommand(parameters, TenantId, AgentId);
+
+        // Act
+        var result = await _handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        result.Success.Should().BeFalse();
+        result.ActionType.Should().Be(ActionType.RescheduleAppointment);
+        result.Errors.Should().Contain("A new start time is required to reschedule.");
+    }
+
+    [Fact]
+    public async Task Handle_WithInvalidNewStartTime_ShouldReturnFailure()
+    {
+        // Arrange
+        var parameters = new Dictionary<string, object?>
+        {
+            ["appointment_id"] = Guid.NewGuid().ToString(),
+            ["new_start_time"] = "not-a-date"
+        };
+        var command = new RescheduleAppointmentActionCommand(parameters, TenantId, AgentId);
+
+        // Act
+        var result = await _handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        result.Success.Should().BeFalse();
+        result.ActionType.Should().Be(ActionType.RescheduleAppointment);
+        result.Errors.Should().Contain("Could not parse the new start time.");
+    }
+
+    [Fact]
+    public async Task Handle_ShouldPreserveOriginalDuration()
+    {
+        // Arrange
+        var appointmentId = Guid.NewGuid();
+        var parameters = new Dictionary<string, object?>
+        {
+            ["appointment_id"] = appointmentId.ToString(),
+            ["new_start_time"] = "2026-03-20T14:00:00"
+        };
+        var command = new RescheduleAppointmentActionCommand(parameters, TenantId, AgentId);
+
+        // Original is 1 hour duration
+        var existing = new AppointmentResponse
+        {
+            Id = appointmentId,
+            Title = "Long Viewing",
+            Type = "PropertyViewing",
+            StartTimeUtc = new DateTime(2026, 3, 15, 10, 0, 0),
+            EndTimeUtc = new DateTime(2026, 3, 15, 11, 0, 0),
+            Status = "Scheduled"
+        };
+
+        _appointmentsClient.GetAppointmentByIdAsync(appointmentId, Arg.Any<CancellationToken>())
+            .Returns(existing);
+        _appointmentsClient.UpdateAppointmentAsync(appointmentId, Arg.Any<UpdateAppointmentClientRequest>(), Arg.Any<CancellationToken>())
+            .Returns(new AppointmentResponse
+            {
+                Id = appointmentId,
+                Title = "Long Viewing",
+                StartTimeUtc = new DateTime(2026, 3, 20, 14, 0, 0),
+                EndTimeUtc = new DateTime(2026, 3, 20, 15, 0, 0),
+                Status = "Scheduled"
+            });
+
+        // Act
+        await _handler.Handle(command, CancellationToken.None);
+
+        // Assert — new end time should preserve the original 1-hour duration
+        await _appointmentsClient.Received(1).UpdateAppointmentAsync(
+            appointmentId,
+            Arg.Is<UpdateAppointmentClientRequest>(r =>
+                r.EndTimeUtc == new DateTime(2026, 3, 20, 15, 0, 0)),
+            Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task Handle_WhenFetchFails_ShouldReturnFailure()
+    {
+        // Arrange
+        var appointmentId = Guid.NewGuid();
+        var parameters = new Dictionary<string, object?>
+        {
+            ["appointment_id"] = appointmentId.ToString(),
+            ["new_start_time"] = "2026-03-20T14:00:00"
+        };
+        var command = new RescheduleAppointmentActionCommand(parameters, TenantId, AgentId);
+
+        _appointmentsClient.GetAppointmentByIdAsync(appointmentId, Arg.Any<CancellationToken>())
+            .ThrowsAsync(new HttpRequestException("Not found"));
+
+        // Act
+        var result = await _handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        result.Success.Should().BeFalse();
+        result.ActionType.Should().Be(ActionType.RescheduleAppointment);
+        result.Errors.Should().NotBeEmpty();
+    }
+
+    [Fact]
+    public async Task Handle_WhenUpdateFails_ShouldReturnFailure()
+    {
+        // Arrange
+        var appointmentId = Guid.NewGuid();
+        var parameters = new Dictionary<string, object?>
+        {
+            ["appointment_id"] = appointmentId.ToString(),
+            ["new_start_time"] = "2026-03-20T14:00:00"
+        };
+        var command = new RescheduleAppointmentActionCommand(parameters, TenantId, AgentId);
+
+        _appointmentsClient.GetAppointmentByIdAsync(appointmentId, Arg.Any<CancellationToken>())
+            .Returns(new AppointmentResponse
+            {
+                Id = appointmentId,
+                Title = "Test",
+                Type = "PropertyViewing",
+                StartTimeUtc = new DateTime(2026, 3, 15, 10, 0, 0),
+                EndTimeUtc = new DateTime(2026, 3, 15, 10, 30, 0),
+                Status = "Scheduled"
+            });
+        _appointmentsClient.UpdateAppointmentAsync(appointmentId, Arg.Any<UpdateAppointmentClientRequest>(), Arg.Any<CancellationToken>())
+            .ThrowsAsync(new HttpRequestException("Service unavailable"));
+
+        // Act
+        var result = await _handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        result.Success.Should().BeFalse();
+        result.ActionType.Should().Be(ActionType.RescheduleAppointment);
+        result.Errors.Should().NotBeEmpty();
+    }
+}

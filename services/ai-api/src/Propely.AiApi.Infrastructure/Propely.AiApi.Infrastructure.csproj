@@ -29,6 +29,7 @@
     <ProjectReference Include="..\Propely.AiApi.Application\Propely.AiApi.Application.csproj" />
     <ProjectReference Include="..\..\..\properties-api\src\Propely.PropertiesApi.Client\Propely.PropertiesApi.Client.csproj" />
     <ProjectReference Include="..\..\..\contacts-api\src\Propely.ContactsApi.Client\Propely.ContactsApi.Client.csproj" />
+    <ProjectReference Include="..\..\..\appointments-api\src\Propely.AppointmentsApi.Client\Propely.AppointmentsApi.Client.csproj" />
   </ItemGroup>
 
 </Project>

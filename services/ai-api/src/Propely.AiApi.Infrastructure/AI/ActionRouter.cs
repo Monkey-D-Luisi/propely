@@ -3,6 +3,7 @@
 
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Propely.AiApi.Application.Actions.Commands.AppointmentActions;
 using Propely.AiApi.Application.Actions.Commands.ContactActions;
 using Propely.AiApi.Application.Actions.Commands.Content;
 using Propely.AiApi.Application.Actions.Commands.Operations;
@@ -89,21 +90,22 @@ public sealed class ActionRouter : IActionRouter
             ActionType.QueryLeads => await _mediator.Send(
                 new QueryLeadsActionCommand(intent.Parameters, tenantId, agentId), ct),
 
+            // Appointment actions — dispatched to MediatR handlers
+            ActionType.BookViewing => await _mediator.Send(
+                new BookViewingActionCommand(intent.Parameters, tenantId, agentId), ct),
+            ActionType.QueryAppointments => await _mediator.Send(
+                new QueryAppointmentsActionCommand(intent.Parameters, tenantId, agentId), ct),
+            ActionType.CancelAppointment => await _mediator.Send(
+                new CancelAppointmentActionCommand(intent.Parameters, tenantId, agentId), ct),
+            ActionType.RescheduleAppointment => await _mediator.Send(
+                new RescheduleAppointmentActionCommand(intent.Parameters, tenantId, agentId), ct),
+
             // All other action types — placeholder until subsequent tasks implement them
             _ => ActionResult.Ok(
                 data: new { intent.Parameters },
-                message: GetPlaceholderMessage(intent.ActionType),
+                message: "Action understood but not yet implemented.",
                 type: intent.ActionType,
                 confidence: intent.Confidence)
         };
     }
-
-    private static string GetPlaceholderMessage(ActionType actionType) => actionType switch
-    {
-        ActionType.BookViewing => "I understood you want to book a viewing. This action will be available soon.",
-        ActionType.QueryAppointments => "I understood you want to search appointments. This action will be available soon.",
-        ActionType.CancelAppointment => "I understood you want to cancel an appointment. This action will be available soon.",
-        ActionType.RescheduleAppointment => "I understood you want to reschedule an appointment. This action will be available soon.",
-        _ => "Action understood but not yet implemented."
-    };
 }

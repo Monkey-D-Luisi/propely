@@ -14,6 +14,7 @@ using Propely.AiApi.Infrastructure.Persistence.Repositories;
 using Propely.AiApi.Infrastructure.Services;
 using Propely.PropertiesApi.Client;
 using Propely.ContactsApi.Client;
+using Propely.AppointmentsApi.Client;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -89,6 +90,12 @@ public static class DependencyInjection
         services.AddContactsApiClient(options =>
         {
             options.BaseUrl = configuration["ContactsApi:BaseUrl"] ?? "http://localhost:5050";
+        });
+
+        // Appointments API SDK Client (cross-service communication)
+        services.AddAppointmentsApiClient(options =>
+        {
+            options.BaseUrl = configuration["AppointmentsApi:BaseUrl"] ?? "http://localhost:5060";
         });
 
         return services;

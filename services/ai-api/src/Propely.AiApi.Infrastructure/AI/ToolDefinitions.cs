@@ -214,6 +214,73 @@ public static class ToolDefinitions
         }
         """));
 
+    // --- Appointment Actions ---
+
+    public static readonly ChatTool BookViewing = ChatTool.CreateFunctionTool(
+        functionName: "book_viewing",
+        functionDescription: "Book a property viewing appointment for a contact at a specific date and time.",
+        functionParameters: BinaryData.FromString("""
+        {
+            "type": "object",
+            "properties": {
+                "property_id": { "type": "string", "description": "ID of the property to view" },
+                "contact_id": { "type": "string", "description": "ID of the contact attending the viewing" },
+                "start_time": { "type": "string", "description": "Start date and time in ISO 8601 format (e.g., 2026-03-15T10:00:00)" },
+                "end_time": { "type": "string", "description": "Optional end time. Defaults to 30 minutes after start." },
+                "title": { "type": "string", "description": "Optional title for the appointment" },
+                "location": { "type": "string", "description": "Location or address of the viewing" },
+                "notes": { "type": "string", "description": "Notes for the viewing" }
+            },
+            "required": ["property_id", "start_time"]
+        }
+        """));
+
+    public static readonly ChatTool QueryAppointments = ChatTool.CreateFunctionTool(
+        functionName: "query_appointments",
+        functionDescription: "Search and list appointments filtered by date range, status, property, or type.",
+        functionParameters: BinaryData.FromString("""
+        {
+            "type": "object",
+            "properties": {
+                "status": { "type": "string", "enum": ["Scheduled", "Confirmed", "Completed", "Cancelled", "NoShow"], "description": "Filter by appointment status" },
+                "type": { "type": "string", "enum": ["PropertyViewing", "OwnerMeeting", "Generic"], "description": "Filter by appointment type" },
+                "property_id": { "type": "string", "description": "Filter by property ID" },
+                "from_date": { "type": "string", "description": "Start of date range in ISO 8601 format" },
+                "to_date": { "type": "string", "description": "End of date range in ISO 8601 format" }
+            },
+            "required": []
+        }
+        """));
+
+    public static readonly ChatTool CancelAppointment = ChatTool.CreateFunctionTool(
+        functionName: "cancel_appointment",
+        functionDescription: "Cancel a scheduled appointment with an optional reason.",
+        functionParameters: BinaryData.FromString("""
+        {
+            "type": "object",
+            "properties": {
+                "appointment_id": { "type": "string", "description": "ID of the appointment to cancel" },
+                "reason": { "type": "string", "description": "Reason for cancelling" }
+            },
+            "required": ["appointment_id"]
+        }
+        """));
+
+    public static readonly ChatTool RescheduleAppointment = ChatTool.CreateFunctionTool(
+        functionName: "reschedule_appointment",
+        functionDescription: "Reschedule an existing appointment to a new date and time.",
+        functionParameters: BinaryData.FromString("""
+        {
+            "type": "object",
+            "properties": {
+                "appointment_id": { "type": "string", "description": "ID of the appointment to reschedule" },
+                "new_start_time": { "type": "string", "description": "New start date and time in ISO 8601 format" },
+                "new_end_time": { "type": "string", "description": "Optional new end time" }
+            },
+            "required": ["appointment_id", "new_start_time"]
+        }
+        """));
+
     // --- Operation Actions ---
 
     public static readonly ChatTool ReserveProperty = ChatTool.CreateFunctionTool(
@@ -290,6 +357,10 @@ public static class ToolDefinitions
         QualifyLead,
         ConvertLead,
         QueryLeads,
+        BookViewing,
+        QueryAppointments,
+        CancelAppointment,
+        RescheduleAppointment,
         ReserveProperty,
         CloseOperation,
         ArchiveProperty,
@@ -313,6 +384,10 @@ public static class ToolDefinitions
         ["qualify_lead"] = ActionType.QualifyLead,
         ["convert_lead"] = ActionType.ConvertLead,
         ["query_leads"] = ActionType.QueryLeads,
+        ["book_viewing"] = ActionType.BookViewing,
+        ["query_appointments"] = ActionType.QueryAppointments,
+        ["cancel_appointment"] = ActionType.CancelAppointment,
+        ["reschedule_appointment"] = ActionType.RescheduleAppointment,
         ["reserve_property"] = ActionType.ReserveProperty,
         ["close_operation"] = ActionType.CloseOperation,
         ["archive_property"] = ActionType.ArchiveProperty,

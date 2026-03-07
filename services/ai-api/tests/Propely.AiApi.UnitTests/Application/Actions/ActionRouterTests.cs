@@ -5,6 +5,7 @@ using FluentAssertions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
+using Propely.AiApi.Application.Actions.Commands.AppointmentActions;
 using Propely.AiApi.Application.Actions.Commands.Content;
 using Propely.AiApi.Application.Actions.Commands.Operations;
 using Propely.AiApi.Application.Actions.Commands.PropertyActions;
@@ -263,27 +264,68 @@ public sealed class ActionRouterTests
             Arg.Any<CancellationToken>());
     }
 
-    [Theory]
-    [InlineData(ActionType.BookViewing)]
-    [InlineData(ActionType.QueryAppointments)]
-    [InlineData(ActionType.CancelAppointment)]
-    [InlineData(ActionType.RescheduleAppointment)]
-    public async Task RouteAsync_WhenUnimplementedActionType_ShouldReturnPlaceholder(ActionType actionType)
+    [Fact]
+    public async Task RouteAsync_WhenBookViewing_ShouldDispatchToMediator()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?> { ["test_param"] = "value" };
-        var intent = new ClassifiedIntent(actionType, parameters, 0.9);
+        var parameters = new Dictionary<string, object?>
+        {
+            ["property_id"] = Guid.NewGuid().ToString(),
+            ["start_time"] = "2026-03-15T10:00:00"
+        };
+        var intent = new ClassifiedIntent(ActionType.BookViewing, parameters, 0.9);
         var tenantId = Guid.NewGuid();
         var agentId = Guid.NewGuid();
+
+        var expectedResult = ActionResult.Ok(
+            data: new { title = "Property Viewing" },
+            message: "Booked viewing",
+            type: ActionType.BookViewing);
+
+        _mediator.Send(Arg.Any<BookViewingActionCommand>(), Arg.Any<CancellationToken>())
+            .Returns(expectedResult);
 
         // Act
         var result = await _router.RouteAsync(intent, tenantId, agentId);
 
         // Assert
         result.Success.Should().BeTrue();
-        result.ActionType.Should().Be(actionType);
-        result.Message.Should().NotBeNullOrEmpty();
-        result.Message.Should().Contain("available soon");
-        result.Confidence.Should().Be(0.9);
+        result.ActionType.Should().Be(ActionType.BookViewing);
+        await _mediator.Received(1).Send(
+            Arg.Is<BookViewingActionCommand>(c =>
+                c.Parameters == parameters && c.TenantId == tenantId && c.AgentId == agentId),
+            Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task RouteAsync_WhenCancelAppointment_ShouldDispatchToMediator()
+    {
+        // Arrange
+        var parameters = new Dictionary<string, object?>
+        {
+            ["appointment_id"] = Guid.NewGuid().ToString()
+        };
+        var intent = new ClassifiedIntent(ActionType.CancelAppointment, parameters, 0.95);
+        var tenantId = Guid.NewGuid();
+        var agentId = Guid.NewGuid();
+
+        var expectedResult = ActionResult.Ok(
+            data: new { status = "Cancelled" },
+            message: "Appointment cancelled",
+            type: ActionType.CancelAppointment);
+
+        _mediator.Send(Arg.Any<CancelAppointmentActionCommand>(), Arg.Any<CancellationToken>())
+            .Returns(expectedResult);
+
+        // Act
+        var result = await _router.RouteAsync(intent, tenantId, agentId);
+
+        // Assert
+        result.Success.Should().BeTrue();
+        result.ActionType.Should().Be(ActionType.CancelAppointment);
+        await _mediator.Received(1).Send(
+            Arg.Is<CancelAppointmentActionCommand>(c =>
+                c.Parameters == parameters && c.TenantId == tenantId && c.AgentId == agentId),
+            Arg.Any<CancellationToken>());
     }
 }
