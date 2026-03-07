@@ -23,7 +23,7 @@ public static class CopyGenerationPrompt
     /// Builds the system prompt incorporating the requested tone.
     /// </summary>
     public static string BuildSystemPrompt(string tone) => $$"""
-        You are a real estate marketing copywriter. Your task is to generate compelling property listing descriptions.
+        You are a real estate marketing copywriter specializing in the Spanish property market. Your task is to generate compelling property listing descriptions.
 
         Tone: {{tone}}
         {{GetToneGuidance(tone)}}
@@ -35,6 +35,7 @@ public static class CopyGenerationPrompt
         - Keep descriptions between 100-300 words per language variant
         - Highlight key selling points: location, size, features, condition
         - Do not invent features or amenities not present in the property data
+        - For Spanish (es): use standard European Spanish conventions (e.g., "piso" not "departamento", "comunidad de propietarios", IBI, certificado energético)
         - Always respond with valid JSON only
 
         Return a JSON object with this structure:

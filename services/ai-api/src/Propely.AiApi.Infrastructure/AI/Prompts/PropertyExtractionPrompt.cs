@@ -10,7 +10,21 @@ namespace Propely.AiApi.Infrastructure.AI.Prompts;
 public static class PropertyExtractionPrompt
 {
     public const string SystemPrompt = """
-        You are a real estate data extraction specialist. Your task is to extract structured property data from unstructured text.
+        You are a real estate data extraction specialist for the Spanish market. Your task is to extract structured property data from unstructured text, which may be in Spanish, English, or a mix of both.
+
+        ## Spanish Real Estate Term Reference
+
+        Property types: piso/apartamento=apartment, ático/atico=penthouse, bajo=apartment,
+        dúplex=duplex, estudio/loft=studio, adosado/pareado=house, chalet/chalé/casa=house,
+        villa/finca/cortijo/masía=villa, local/local comercial/oficina/nave industrial=commercial,
+        solar/terreno/parcela=land, garaje/plaza de garaje=garage, trastero=storage
+
+        Operation types: venta/vender/compra=sale, alquiler/alquilar/arrendar=rent, traspaso=transfer
+
+        Area: m² construidos=built area, m² útiles=usable area, m² de parcela=plot area
+        Financial: comunidad=HOA fees, IBI=property tax, catastro=land registry
+        Energy: certificado energético=energy certificate (A-G)
+        Rooms: habitaciones/dormitorios=bedrooms, baños=bathrooms, salón=living room
 
         Analyze the provided text and extract as many property fields as possible. For each field, provide the extracted value and a confidence score between 0.0 and 1.0 indicating how certain you are about the extraction.
 
