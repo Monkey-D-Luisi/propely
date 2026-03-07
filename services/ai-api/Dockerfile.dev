@@ -2,11 +2,22 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0
 
 WORKDIR /src
 
-# Restore dependencies first (layer caching)
+# Copy SDK client project files for cross-service references.
+# These are referenced via relative paths from Propely.AiApi.Application.
+# At runtime, the actual source files are mounted via docker-compose volumes.
 COPY src/Propely.AiApi.Domain/Propely.AiApi.Domain.csproj src/Propely.AiApi.Domain/
 COPY src/Propely.AiApi.Application/Propely.AiApi.Application.csproj src/Propely.AiApi.Application/
 COPY src/Propely.AiApi.Infrastructure/Propely.AiApi.Infrastructure.csproj src/Propely.AiApi.Infrastructure/
 COPY src/Propely.AiApi.Api/Propely.AiApi.Api.csproj src/Propely.AiApi.Api/
+
+# Copy client csproj stubs so dotnet restore can resolve ProjectReferences.
+# The build context is ./services/ai-api, so we include these via docker-compose
+# build.additional_contexts or copy from a pre-stage. Since these are just for
+# restore, we create minimal stubs matching the expected relative paths.
+COPY client-stubs/Propely.PropertiesApi.Client.csproj /properties-api/src/Propely.PropertiesApi.Client/Propely.PropertiesApi.Client.csproj
+COPY client-stubs/Propely.ContactsApi.Client.csproj /contacts-api/src/Propely.ContactsApi.Client/Propely.ContactsApi.Client.csproj
+COPY client-stubs/Propely.AppointmentsApi.Client.csproj /appointments-api/src/Propely.AppointmentsApi.Client/Propely.AppointmentsApi.Client.csproj
+
 RUN dotnet restore src/Propely.AiApi.Api/Propely.AiApi.Api.csproj
 
 COPY . .
