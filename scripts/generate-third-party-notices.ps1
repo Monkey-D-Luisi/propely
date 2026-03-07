@@ -256,11 +256,12 @@ $content = $sb.ToString()
 # 4. Generate dependency hash for CI staleness check
 # --------------------------------------------------------------------------
 $hashFile = Join-Path $RepoRoot '.third-party-notices-hash'
-$aiApiSrcPath = Join-Path (Join-Path (Join-Path $RepoRoot 'services') 'ai-api') 'src'
-$orgsApiSrcPath = Join-Path (Join-Path (Join-Path $RepoRoot 'services') 'orgs-api') 'src'
+$serviceNames = @('ai-api', 'orgs-api', 'properties-api', 'publishing-api', 'contacts-api', 'appointments-api')
 $depFiles = @()
-$depFiles += Get-ChildItem -Path $aiApiSrcPath -Filter '*.csproj' -Recurse
-$depFiles += Get-ChildItem -Path $orgsApiSrcPath -Filter '*.csproj' -Recurse
+foreach ($svc in $serviceNames) {
+    $svcSrcPath = Join-Path (Join-Path (Join-Path $RepoRoot 'services') $svc) 'src'
+    $depFiles += Get-ChildItem -Path $svcSrcPath -Filter '*.csproj' -Recurse
+}
 $depFiles += Get-Item (Join-Path (Join-Path (Join-Path $RepoRoot 'apps') 'web') 'package-lock.json')
 
 # Compute lowercase hex digests, sort by digest value, match Linux sha256sum pipeline
