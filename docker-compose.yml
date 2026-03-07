@@ -103,6 +103,10 @@ services:
       - ai-api-obj-app:/src/src/Propely.AiApi.Application/obj
       - ai-api-obj-infra:/src/src/Propely.AiApi.Infrastructure/obj
       - ai-api-obj-api:/src/src/Propely.AiApi.Api/obj
+      # SDK client projects referenced via relative ProjectReference paths
+      - ./services/properties-api/src/Propely.PropertiesApi.Client:/properties-api/src/Propely.PropertiesApi.Client:ro
+      - ./services/contacts-api/src/Propely.ContactsApi.Client:/contacts-api/src/Propely.ContactsApi.Client:ro
+      - ./services/appointments-api/src/Propely.AppointmentsApi.Client:/appointments-api/src/Propely.AppointmentsApi.Client:ro
     ports:
       - "127.0.0.1:5010:5010"
     depends_on:
