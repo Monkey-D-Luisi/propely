@@ -211,7 +211,7 @@ echo "  Writing THIRD_PARTY_NOTICES.md..."
 # 4. Generate dependency hash for CI staleness check
 # --------------------------------------------------------------------------
 HASH_FILE="$REPO_ROOT/.third-party-notices-hash"
-DEP_HASHES=$(find "$REPO_ROOT/services/ai-api/src" "$REPO_ROOT/services/orgs-api/src" -name '*.csproj' | sort | xargs sha256sum 2>/dev/null || find "$REPO_ROOT/services/ai-api/src" "$REPO_ROOT/services/orgs-api/src" -name '*.csproj' | sort | xargs shasum -a 256)
+DEP_HASHES=$(find "$REPO_ROOT/services/ai-api/src" "$REPO_ROOT/services/orgs-api/src" "$REPO_ROOT/services/properties-api/src" "$REPO_ROOT/services/publishing-api/src" "$REPO_ROOT/services/contacts-api/src" "$REPO_ROOT/services/appointments-api/src" -name '*.csproj' | sort | xargs sha256sum 2>/dev/null || find "$REPO_ROOT/services/ai-api/src" "$REPO_ROOT/services/orgs-api/src" "$REPO_ROOT/services/properties-api/src" "$REPO_ROOT/services/publishing-api/src" "$REPO_ROOT/services/contacts-api/src" "$REPO_ROOT/services/appointments-api/src" -name '*.csproj' | sort | xargs shasum -a 256)
 PKG_LOCK_HASH=$(sha256sum "$REPO_ROOT/apps/web/package-lock.json" 2>/dev/null || shasum -a 256 "$REPO_ROOT/apps/web/package-lock.json")
 # Extract only hex digests (no filenames) for cross-platform consistency with PowerShell
 ALL_DIGESTS=$(echo -e "${DEP_HASHES}\n${PKG_LOCK_HASH}" | awk '{print $1}' | sort)
