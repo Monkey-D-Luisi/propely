@@ -28,7 +28,7 @@ public sealed class JwtTokenService : IJwtTokenService
         _configuration = configuration;
     }
 
-    public string GenerateToken(User user, IReadOnlyList<Guid> orgIds)
+    public string GenerateToken(User user, IReadOnlyList<Guid> orgIds, IReadOnlyList<string>? roles = null)
     {
         var claims = BuildBaseClaims(user.Id, user.Email);
         if (user.Name is not null)
@@ -46,6 +46,15 @@ public sealed class JwtTokenService : IJwtTokenService
         if (orgIds.Count > 0)
         {
             claims.Add(new Claim(AuthClaimTypes.OrgIds, string.Join(',', orgIds)));
+        }
+
+        // Include distinct membership roles so authorization policies can evaluate them
+        if (roles is { Count: > 0 })
+        {
+            foreach (var role in roles.Distinct(StringComparer.OrdinalIgnoreCase))
+            {
+                claims.Add(new Claim("role", role));
+            }
         }
 
         return GenerateJwt(claims, DateTime.UtcNow.AddMinutes(15));

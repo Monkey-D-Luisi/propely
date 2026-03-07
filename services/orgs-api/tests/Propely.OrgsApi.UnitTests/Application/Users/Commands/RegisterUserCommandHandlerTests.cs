@@ -66,7 +66,7 @@ public sealed class RegisterUserCommandHandlerTests
         _userRepository.GetByEmailAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
             .Returns((User?)null);
         _passwordHasher.HashPassword("Password123!").Returns("hashed_password");
-        _jwtTokenService.GenerateToken(Arg.Any<User>(), Arg.Any<IReadOnlyList<Guid>>()).Returns("jwt_token_123");
+        _jwtTokenService.GenerateToken(Arg.Any<User>(), Arg.Any<IReadOnlyList<Guid>>(), Arg.Any<IReadOnlyList<string>?>()).Returns("jwt_token_123");
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
@@ -87,7 +87,7 @@ public sealed class RegisterUserCommandHandlerTests
         _userRepository.GetByEmailAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
             .Returns((User?)null);
         _passwordHasher.HashPassword("Password123!").Returns("hashed_password");
-        _jwtTokenService.GenerateToken(Arg.Any<User>(), Arg.Any<IReadOnlyList<Guid>>()).Returns("jwt_token_123");
+        _jwtTokenService.GenerateToken(Arg.Any<User>(), Arg.Any<IReadOnlyList<Guid>>(), Arg.Any<IReadOnlyList<string>?>()).Returns("jwt_token_123");
         _userRepository.AddAsync(Arg.Do<User>(u => capturedUser = u), Arg.Any<CancellationToken>())
             .Returns(Task.CompletedTask);
 
@@ -111,7 +111,7 @@ public sealed class RegisterUserCommandHandlerTests
         _userRepository.GetByEmailAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
             .Returns((User?)null);
         _passwordHasher.HashPassword(Arg.Any<string>()).Returns("hashed");
-        _jwtTokenService.GenerateToken(Arg.Any<User>(), Arg.Any<IReadOnlyList<Guid>>()).Returns("token");
+        _jwtTokenService.GenerateToken(Arg.Any<User>(), Arg.Any<IReadOnlyList<Guid>>(), Arg.Any<IReadOnlyList<string>?>()).Returns("token");
 
         // Act
         await _handler.Handle(command, CancellationToken.None);
@@ -176,13 +176,13 @@ public sealed class RegisterUserCommandHandlerTests
         _userRepository.GetByEmailAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
             .Returns((User?)null);
         _passwordHasher.HashPassword(Arg.Any<string>()).Returns("hashed");
-        _jwtTokenService.GenerateToken(Arg.Do<User>(u => tokenUser = u), Arg.Any<IReadOnlyList<Guid>>()).Returns("token");
+        _jwtTokenService.GenerateToken(Arg.Do<User>(u => tokenUser = u), Arg.Any<IReadOnlyList<Guid>>(), Arg.Any<IReadOnlyList<string>?>()).Returns("token");
 
         // Act
         await _handler.Handle(command, CancellationToken.None);
 
         // Assert
-        _jwtTokenService.Received(1).GenerateToken(Arg.Any<User>(), Arg.Any<IReadOnlyList<Guid>>());
+        _jwtTokenService.Received(1).GenerateToken(Arg.Any<User>(), Arg.Any<IReadOnlyList<Guid>>(), Arg.Any<IReadOnlyList<string>?>());
         tokenUser.Should().NotBeNull();
         tokenUser!.Email.Should().Be("test@example.com");
     }
@@ -195,7 +195,7 @@ public sealed class RegisterUserCommandHandlerTests
         _userRepository.GetByEmailAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
             .Returns((User?)null);
         _passwordHasher.HashPassword(Arg.Any<string>()).Returns("hashed");
-        _jwtTokenService.GenerateToken(Arg.Any<User>(), Arg.Any<IReadOnlyList<Guid>>()).Returns("token");
+        _jwtTokenService.GenerateToken(Arg.Any<User>(), Arg.Any<IReadOnlyList<Guid>>(), Arg.Any<IReadOnlyList<string>?>()).Returns("token");
         _jwtTokenService.GenerateEmailVerificationToken(Arg.Any<Guid>(), Arg.Any<string>())
             .Returns("verification-token");
 
@@ -221,7 +221,7 @@ public sealed class RegisterUserCommandHandlerTests
         _userRepository.GetByEmailAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
             .Returns((User?)null);
         _passwordHasher.HashPassword(Arg.Any<string>()).Returns("hashed");
-        _jwtTokenService.GenerateToken(Arg.Any<User>(), Arg.Any<IReadOnlyList<Guid>>()).Returns("token");
+        _jwtTokenService.GenerateToken(Arg.Any<User>(), Arg.Any<IReadOnlyList<Guid>>(), Arg.Any<IReadOnlyList<string>?>()).Returns("token");
 
         // Act
         await _handler.Handle(command, token);
@@ -251,7 +251,7 @@ public sealed class RegisterUserCommandHandlerTests
         _userRepository.GetByEmailAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
             .Returns((User?)null);
         _passwordHasher.HashPassword(Arg.Any<string>()).Returns("hashed");
-        _jwtTokenService.GenerateToken(Arg.Any<User>(), Arg.Any<IReadOnlyList<Guid>>()).Returns("token");
+        _jwtTokenService.GenerateToken(Arg.Any<User>(), Arg.Any<IReadOnlyList<Guid>>(), Arg.Any<IReadOnlyList<string>?>()).Returns("token");
 
         // Act
         await _handler.Handle(command, CancellationToken.None);
@@ -273,7 +273,7 @@ public sealed class RegisterUserCommandHandlerTests
         _userRepository.GetByEmailAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
             .Returns((User?)null);
         _passwordHasher.HashPassword(Arg.Any<string>()).Returns("hashed");
-        _jwtTokenService.GenerateToken(Arg.Any<User>(), Arg.Any<IReadOnlyList<Guid>>()).Returns("jwt_token");
+        _jwtTokenService.GenerateToken(Arg.Any<User>(), Arg.Any<IReadOnlyList<Guid>>(), Arg.Any<IReadOnlyList<string>?>()).Returns("jwt_token");
         _emailService.SendEmailVerificationEmailAsync(
                 Arg.Any<string>(),
                 Arg.Any<string>(),

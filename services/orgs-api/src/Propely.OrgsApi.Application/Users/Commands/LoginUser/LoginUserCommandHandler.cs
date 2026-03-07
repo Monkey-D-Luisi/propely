@@ -88,7 +88,8 @@ public sealed class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, 
 
         var memberships = await _membershipRepository.GetByUserIdAsync(user!.Id, cancellationToken);
         var orgIds = memberships.Select(m => m.OrganizationId).ToList();
-        var token = _jwtTokenService.GenerateToken(user!, orgIds);
+        var roles = memberships.Select(m => m.Role.ToString().ToLowerInvariant()).ToList();
+        var token = _jwtTokenService.GenerateToken(user!, orgIds, roles);
 
         var (refreshTokenEntity, plainRefreshToken) = RefreshToken.Create(user!.Id, RefreshTokenLifetime);
         await _refreshTokenRepository.AddAsync(refreshTokenEntity, cancellationToken);

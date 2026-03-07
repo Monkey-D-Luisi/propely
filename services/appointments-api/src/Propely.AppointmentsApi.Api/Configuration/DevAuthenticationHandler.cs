@@ -33,7 +33,8 @@ public sealed class DevAuthenticationHandler : AuthenticationHandler<Authenticat
         var claims = new List<Claim>
         {
             new(ClaimTypes.Name, "dev-user"),
-            new(ClaimTypes.NameIdentifier, userId)
+            new(ClaimTypes.NameIdentifier, userId),
+            new("role", "owner")
         };
 
         if (!string.Equals(orgIdHeader, "none", StringComparison.OrdinalIgnoreCase))

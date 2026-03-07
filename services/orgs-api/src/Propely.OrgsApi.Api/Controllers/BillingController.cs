@@ -27,7 +27,7 @@ namespace Propely.OrgsApi.Api.Controllers;
 
 [ApiController]
 [Route("billing")]
-[Authorize(Policy = AuthorizationPolicies.RequireOwnerOrAdmin)]
+[Authorize]
 public sealed class BillingController : ControllerBase
 {
     private readonly IMediator _mediator;

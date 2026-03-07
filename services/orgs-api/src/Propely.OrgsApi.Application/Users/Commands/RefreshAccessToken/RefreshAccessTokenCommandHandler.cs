@@ -88,7 +88,8 @@ public sealed class RefreshAccessTokenCommandHandler
 
         var memberships = await _membershipRepository.GetByUserIdAsync(user.Id, cancellationToken);
         var orgIds = memberships.Select(m => m.OrganizationId).ToList();
-        var accessToken = _jwtTokenService.GenerateToken(user, orgIds);
+        var roles = memberships.Select(m => m.Role.ToString().ToLowerInvariant()).ToList();
+        var accessToken = _jwtTokenService.GenerateToken(user, orgIds, roles);
 
         _logger.LogInformation("Security: Refresh token rotated for user {UserId}", user.Id);
         return new RefreshAccessTokenResult(accessToken, newPlainToken);

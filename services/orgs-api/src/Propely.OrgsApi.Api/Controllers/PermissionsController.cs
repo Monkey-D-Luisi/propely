@@ -16,7 +16,7 @@ namespace Propely.OrgsApi.Api.Controllers;
 
 [ApiController]
 [Route("api/organizations/{orgId:guid}/permissions")]
-[Authorize(Policy = AuthorizationPolicies.RequireOwnerOrAdmin)]
+[Authorize]
 public sealed class PermissionsController : ControllerBase
 {
     private readonly IMediator _mediator;
