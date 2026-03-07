@@ -11,6 +11,11 @@ This document defines how the AI agent operates when processing an entire epic. 
 
 Do NOT stop between tasks. Do NOT ask for user input between tasks. Run to completion.
 
+**Context limit resilience:** If the conversation approaches its context limit mid-epic, the agent must:
+1. Complete and commit the current task before context expires.
+2. Ensure the session summary clearly states: (a) which tasks are DONE, (b) which task was in progress and its exact state, and (c) what remains.
+3. Upon session resumption, continue from the exact point of interruption without re-asking the user — the `next epic` command is still in effect.
+
 ## Trigger Command
 
 **Command:** `"next epic"` or `"next epic: <epic-ref>"`
