@@ -35,7 +35,7 @@ RUN dotnet publish services/ai-api/src/Propely.AiApi.Api/Propely.AiApi.Api.cspro
 
 # Stage 3: Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine AS runtime
-
+RUN apk add --no-cache krb5-libs
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
 WORKDIR /app

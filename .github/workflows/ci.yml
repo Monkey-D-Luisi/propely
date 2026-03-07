@@ -215,7 +215,11 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Create .env from example
-        run: cp .env.example .env
+        run: |
+          cp .env.example .env
+          # Align Postgres password with .env.docker connection strings
+          # (.env.example uses "changeme" but .env.docker uses "propely_dev_password")
+          sed -i 's/POSTGRES_PASSWORD=changeme/POSTGRES_PASSWORD=propely_dev_password/' .env
 
       - name: Free ports used by E2E stack
         run: |
