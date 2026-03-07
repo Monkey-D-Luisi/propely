@@ -61,7 +61,7 @@ public sealed class QueryAppointmentsActionHandlerTests
             page: 1, pageSize: 20, status: "Scheduled", type: Arg.Any<string?>(),
             agentId: null, propertyId: Arg.Any<Guid?>(), contactId: null,
             fromUtc: Arg.Any<DateTime?>(), toUtc: Arg.Any<DateTime?>(),
-            sortBy: "startTimeUtc", sortDescending: false, ct: Arg.Any<CancellationToken>())
+            sortBy: "start", sortDescending: false, ct: Arg.Any<CancellationToken>())
             .Returns(response);
 
         // Act

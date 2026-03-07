@@ -104,6 +104,25 @@ public static class ParameterExtractor
     }
 
     /// <summary>
+    /// Extracts a DateTime value from the parameters dictionary, parsed with invariant culture
+    /// and assumed to be UTC. Returns a UTC <see cref="DateTime"/> or null if parsing fails.
+    /// </summary>
+    public static DateTime? GetDateTimeUtc(Dictionary<string, object?> parameters, string key)
+    {
+        var stringValue = GetString(parameters, key);
+        if (string.IsNullOrWhiteSpace(stringValue))
+            return null;
+
+        return DateTime.TryParse(
+            stringValue,
+            CultureInfo.InvariantCulture,
+            DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
+            out var result)
+            ? result
+            : null;
+    }
+
+    /// <summary>
     /// Extracts an enum value from the parameters dictionary.
     /// </summary>
     public static T? GetEnum<T>(Dictionary<string, object?> parameters, string key) where T : struct, Enum

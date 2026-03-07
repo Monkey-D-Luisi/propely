@@ -36,8 +36,8 @@ public sealed class RescheduleAppointmentActionHandler : IRequestHandler<Resched
 
         var parameters = request.Parameters;
         var appointmentId = ParameterExtractor.GetGuid(parameters, "appointment_id");
-        var newStartTime = ParameterExtractor.GetString(parameters, "new_start_time");
-        var newEndTime = ParameterExtractor.GetString(parameters, "new_end_time");
+        var newStartTimeUtcParsed = ParameterExtractor.GetDateTimeUtc(parameters, "new_start_time");
+        var newEndTimeUtcParsed = ParameterExtractor.GetDateTimeUtc(parameters, "new_end_time");
 
         if (!appointmentId.HasValue)
         {
@@ -47,21 +47,15 @@ public sealed class RescheduleAppointmentActionHandler : IRequestHandler<Resched
                 "I need to know which appointment to reschedule. Could you specify the appointment?");
         }
 
-        if (string.IsNullOrWhiteSpace(newStartTime))
+        if (!newStartTimeUtcParsed.HasValue)
         {
             return ActionResult.Fail(
-                ["A new start time is required to reschedule."],
+                ["A valid new start time is required to reschedule."],
                 ActionType.RescheduleAppointment,
-                "I need the new date and time for the appointment.");
+                "I need the new date and time for the appointment. Could you try a format like '2026-03-16 14:00'?");
         }
 
-        if (!DateTime.TryParse(newStartTime, out var newStartTimeUtc))
-        {
-            return ActionResult.Fail(
-                ["Could not parse the new start time."],
-                ActionType.RescheduleAppointment,
-                "I couldn't understand the date/time format. Could you try again?");
-        }
+        var newStartTimeUtc = newStartTimeUtcParsed.Value;
 
         // Fetch existing appointment to preserve its data
         AppointmentResponse existing;
@@ -81,10 +75,14 @@ public sealed class RescheduleAppointmentActionHandler : IRequestHandler<Resched
 
         // Calculate duration from original appointment
         var originalDuration = existing.EndTimeUtc - existing.StartTimeUtc;
-        var newEndTimeUtc = newStartTimeUtc + originalDuration;
-        if (!string.IsNullOrWhiteSpace(newEndTime) && DateTime.TryParse(newEndTime, out var parsedEnd))
+        var newEndTimeUtc = newEndTimeUtcParsed ?? newStartTimeUtc + originalDuration;
+
+        if (newEndTimeUtc <= newStartTimeUtc)
         {
-            newEndTimeUtc = parsedEnd;
+            return ActionResult.Fail(
+                ["The new end time must be after the new start time."],
+                ActionType.RescheduleAppointment,
+                "The end time must be after the start time. Could you correct the times?");
         }
 
         AppointmentResponse result;
@@ -100,6 +98,7 @@ public sealed class RescheduleAppointmentActionHandler : IRequestHandler<Resched
                     EndTimeUtc = newEndTimeUtc,
                     Description = existing.Description,
                     Location = existing.Location,
+                    IsAllDay = existing.IsAllDay,
                     PropertyId = existing.PropertyId,
                     ContactId = existing.ContactId,
                     Notes = existing.Notes

@@ -117,7 +117,7 @@ public sealed class RescheduleAppointmentActionHandlerTests
         // Assert
         result.Success.Should().BeFalse();
         result.ActionType.Should().Be(ActionType.RescheduleAppointment);
-        result.Errors.Should().Contain("A new start time is required to reschedule.");
+        result.Errors.Should().Contain("A valid new start time is required to reschedule.");
     }
 
     [Fact]
@@ -137,7 +137,7 @@ public sealed class RescheduleAppointmentActionHandlerTests
         // Assert
         result.Success.Should().BeFalse();
         result.ActionType.Should().Be(ActionType.RescheduleAppointment);
-        result.Errors.Should().Contain("Could not parse the new start time.");
+        result.Errors.Should().Contain("A valid new start time is required to reschedule.");
     }
 
     [Fact]
@@ -183,6 +183,87 @@ public sealed class RescheduleAppointmentActionHandlerTests
             appointmentId,
             Arg.Is<UpdateAppointmentClientRequest>(r =>
                 r.EndTimeUtc == new DateTime(2026, 3, 20, 15, 0, 0)),
+            Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task Handle_WhenEndTimeBeforeStartTime_ShouldReturnFailure()
+    {
+        // Arrange
+        var appointmentId = Guid.NewGuid();
+        var parameters = new Dictionary<string, object?>
+        {
+            ["appointment_id"] = appointmentId.ToString(),
+            ["new_start_time"] = "2026-03-20T14:00:00",
+            ["new_end_time"] = "2026-03-20T13:00:00"
+        };
+        var command = new RescheduleAppointmentActionCommand(parameters, TenantId, AgentId);
+
+        var existing = new AppointmentResponse
+        {
+            Id = appointmentId,
+            Title = "Test",
+            Type = "PropertyViewing",
+            StartTimeUtc = new DateTime(2026, 3, 15, 10, 0, 0),
+            EndTimeUtc = new DateTime(2026, 3, 15, 10, 30, 0),
+            Status = "Scheduled"
+        };
+
+        _appointmentsClient.GetAppointmentByIdAsync(appointmentId, Arg.Any<CancellationToken>())
+            .Returns(existing);
+
+        // Act
+        var result = await _handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        result.Success.Should().BeFalse();
+        result.ActionType.Should().Be(ActionType.RescheduleAppointment);
+        result.Errors.Should().Contain("The new end time must be after the new start time.");
+    }
+
+    [Fact]
+    public async Task Handle_ShouldPreserveIsAllDayFlag()
+    {
+        // Arrange
+        var appointmentId = Guid.NewGuid();
+        var parameters = new Dictionary<string, object?>
+        {
+            ["appointment_id"] = appointmentId.ToString(),
+            ["new_start_time"] = "2026-03-20T14:00:00"
+        };
+        var command = new RescheduleAppointmentActionCommand(parameters, TenantId, AgentId);
+
+        var existing = new AppointmentResponse
+        {
+            Id = appointmentId,
+            Title = "All Day Event",
+            Type = "PropertyViewing",
+            StartTimeUtc = new DateTime(2026, 3, 15, 0, 0, 0),
+            EndTimeUtc = new DateTime(2026, 3, 15, 23, 59, 0),
+            IsAllDay = true,
+            Status = "Scheduled"
+        };
+
+        _appointmentsClient.GetAppointmentByIdAsync(appointmentId, Arg.Any<CancellationToken>())
+            .Returns(existing);
+        _appointmentsClient.UpdateAppointmentAsync(appointmentId, Arg.Any<UpdateAppointmentClientRequest>(), Arg.Any<CancellationToken>())
+            .Returns(new AppointmentResponse
+            {
+                Id = appointmentId,
+                Title = "All Day Event",
+                StartTimeUtc = new DateTime(2026, 3, 20, 14, 0, 0),
+                EndTimeUtc = new DateTime(2026, 3, 21, 13, 59, 0),
+                IsAllDay = true,
+                Status = "Scheduled"
+            });
+
+        // Act
+        await _handler.Handle(command, CancellationToken.None);
+
+        // Assert — IsAllDay should be preserved
+        await _appointmentsClient.Received(1).UpdateAppointmentAsync(
+            appointmentId,
+            Arg.Is<UpdateAppointmentClientRequest>(r => r.IsAllDay == true),
             Arg.Any<CancellationToken>());
     }
 

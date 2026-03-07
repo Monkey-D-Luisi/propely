@@ -260,6 +260,62 @@ public sealed class ParameterExtractorTests
         result.Should().BeNull();
     }
 
+    // --- GetDateTimeUtc ---
+
+    [Fact]
+    public void GetDateTimeUtc_WhenValueIsIsoString_ShouldReturnUtcDateTime()
+    {
+        var parameters = new Dictionary<string, object?> { ["start_time"] = "2026-03-15T10:00:00" };
+
+        var result = ParameterExtractor.GetDateTimeUtc(parameters, "start_time");
+
+        result.Should().NotBeNull();
+        result!.Value.Kind.Should().Be(DateTimeKind.Utc);
+        result.Value.Should().Be(new DateTime(2026, 3, 15, 10, 0, 0, DateTimeKind.Utc));
+    }
+
+    [Fact]
+    public void GetDateTimeUtc_WhenValueIsIsoWithZ_ShouldReturnUtcDateTime()
+    {
+        var parameters = new Dictionary<string, object?> { ["start_time"] = "2026-03-15T10:00:00Z" };
+
+        var result = ParameterExtractor.GetDateTimeUtc(parameters, "start_time");
+
+        result.Should().NotBeNull();
+        result!.Value.Kind.Should().Be(DateTimeKind.Utc);
+        result.Value.Should().Be(new DateTime(2026, 3, 15, 10, 0, 0, DateTimeKind.Utc));
+    }
+
+    [Fact]
+    public void GetDateTimeUtc_WhenKeyMissing_ShouldReturnNull()
+    {
+        var parameters = new Dictionary<string, object?>();
+
+        var result = ParameterExtractor.GetDateTimeUtc(parameters, "start_time");
+
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public void GetDateTimeUtc_WhenValueIsInvalidString_ShouldReturnNull()
+    {
+        var parameters = new Dictionary<string, object?> { ["start_time"] = "not-a-date" };
+
+        var result = ParameterExtractor.GetDateTimeUtc(parameters, "start_time");
+
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public void GetDateTimeUtc_WhenValueIsNull_ShouldReturnNull()
+    {
+        var parameters = new Dictionary<string, object?> { ["start_time"] = null };
+
+        var result = ParameterExtractor.GetDateTimeUtc(parameters, "start_time");
+
+        result.Should().BeNull();
+    }
+
     // --- GetEnum ---
 
     private enum TestStatus { Draft, Active, Sold }
