@@ -75,6 +75,9 @@ public sealed class ApiWebApplicationFactory : WebApplicationFactory<Program>, I
                 ["OAuth:Google:ClientSecret"] = "test-google-client-secret",
                 ["OAuth:GitHub:ClientId"] = "test-github-client-id",
                 ["OAuth:GitHub:ClientSecret"] = "test-github-client-secret",
+                // Disable infrastructure health checks in CI (no Redis/RabbitMQ available)
+                ["Redis:ConnectionString"] = "",
+                ["RabbitMQ:Host"] = "",
                 // Billing configuration for integration tests
                 ["Billing:Mode"] = "free",
                 ["Billing:Stripe:WebhookSecret"] = "whsec_test_integration_secret",

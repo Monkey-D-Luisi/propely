@@ -30,24 +30,30 @@ public class TestWebApplicationFactory : WebApplicationFactory<Program>
             config.AddInMemoryCollection(new Dictionary<string, string?>
             {
                 ["Security:AllowAnonymous"] = "true",
-                ["OutboxDispatcher:Enabled"] = "false"
+                ["OutboxDispatcher:Enabled"] = "false",
+                ["Redis:ConnectionString"] = "",
+                ["RabbitMQ:Host"] = ""
             });
         });
 
         builder.ConfigureServices(services =>
         {
-            // Remove existing DbContext registration
-            var descriptor = services.SingleOrDefault(
-                d => d.ServiceType == typeof(DbContextOptions<AppDbContext>));
-            if (descriptor != null)
-            {
-                services.Remove(descriptor);
-            }
+            // Remove existing DbContext and Npgsql provider to switch to InMemory
+            var descriptorsToRemove = services.Where(
+                d => d.ServiceType == typeof(DbContextOptions<AppDbContext>)
+                  || d.ServiceType == typeof(DbContextOptions)
+                  || (d.ServiceType.IsGenericType &&
+                      d.ServiceType.GetGenericTypeDefinition().FullName?.StartsWith("Microsoft.EntityFrameworkCore") == true)
+                  || d.ServiceType.FullName?.StartsWith("Npgsql") == true
+                  || d.ImplementationType?.FullName?.StartsWith("Npgsql") == true)
+                .ToList();
+            foreach (var d in descriptorsToRemove)
+                services.Remove(d);
 
-            // Add in-memory database for testing
-            services.AddDbContext<AppDbContext>(options =>
+            // Re-register AppDbContext with InMemory provider
+            services.AddDbContext<AppDbContext>((sp, options) =>
             {
-                options.UseInMemoryDatabase("TestDb_" + Guid.NewGuid().ToString("N"));
+                options.UseInMemoryDatabase("ContactsTestDb");
             });
 
             // Replace RabbitMQ publisher with mock
