@@ -16,7 +16,7 @@ public sealed class ToolDefinitionsTests
         var tools = ToolDefinitions.All;
 
         // Assert
-        tools.Should().HaveCount(16);
+        tools.Should().HaveCount(20);
     }
 
     [Theory]
@@ -36,6 +36,10 @@ public sealed class ToolDefinitionsTests
     [InlineData("qualify_lead", ActionType.QualifyLead)]
     [InlineData("convert_lead", ActionType.ConvertLead)]
     [InlineData("query_leads", ActionType.QueryLeads)]
+    [InlineData("book_viewing", ActionType.BookViewing)]
+    [InlineData("query_appointments", ActionType.QueryAppointments)]
+    [InlineData("cancel_appointment", ActionType.CancelAppointment)]
+    [InlineData("reschedule_appointment", ActionType.RescheduleAppointment)]
     public void ResolveActionType_WithKnownFunctionName_ShouldReturnCorrectActionType(
         string functionName, ActionType expectedType)
     {
