@@ -27,6 +27,7 @@ export default defineConfig({
         'src/i18n/**',
         'src/**/index.ts',
         'src/**/*-demo.tsx',
+        'src/**/loading.tsx',
       ],
       thresholds: {
         lines: 50,
