@@ -253,6 +253,9 @@ jobs:
               exit 0
             fi
             echo "::warning::Attempt $attempt/3 failed, retrying after cleanup..."
+            echo "--- ai-api logs (last 50 lines) ---"
+            docker compose -f docker-compose.yml -f docker-compose.ci.yml logs --tail=50 ai-api 2>/dev/null || true
+            echo "---"
             docker compose -f docker-compose.yml -f docker-compose.ci.yml --profile apps down 2>/dev/null || true
             if [ "$RUNNER_OS" = "Windows" ]; then
               net stop winnat 2>/dev/null || true

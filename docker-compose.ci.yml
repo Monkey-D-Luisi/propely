@@ -29,6 +29,14 @@ services:
 
   ai-api:
     container_name: ci-propely-ai-api
+    # CI override: dotnet watch builds from source which takes 5+ min on the
+    # self-hosted runner. Extend health check budget (300s start + 20×15s = 600s).
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:5010/health/live || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 20
+      start_period: 300s
 
   orgs-api:
     container_name: ci-propely-orgs-api
