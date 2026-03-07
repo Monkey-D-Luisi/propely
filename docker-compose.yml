@@ -104,13 +104,10 @@ services:
       - ai-api-obj-infra:/src/src/Propely.AiApi.Infrastructure/obj
       - ai-api-obj-api:/src/src/Propely.AiApi.Api/obj
       # SDK client projects referenced via relative ProjectReference paths
-      - ./services/properties-api/src/Propely.PropertiesApi.Client:/properties-api/src/Propely.PropertiesApi.Client:ro
-      - ./services/contacts-api/src/Propely.ContactsApi.Client:/contacts-api/src/Propely.ContactsApi.Client:ro
-      - ./services/appointments-api/src/Propely.AppointmentsApi.Client:/appointments-api/src/Propely.AppointmentsApi.Client:ro
-      # Writable obj/ overlays for SDK client projects (dotnet build needs these)
-      - ai-api-obj-properties-client:/properties-api/src/Propely.PropertiesApi.Client/obj
-      - ai-api-obj-contacts-client:/contacts-api/src/Propely.ContactsApi.Client/obj
-      - ai-api-obj-appointments-client:/appointments-api/src/Propely.AppointmentsApi.Client/obj
+      # Not read-only: dotnet build writes obj/ dirs inside these paths
+      - ./services/properties-api/src/Propely.PropertiesApi.Client:/properties-api/src/Propely.PropertiesApi.Client
+      - ./services/contacts-api/src/Propely.ContactsApi.Client:/contacts-api/src/Propely.ContactsApi.Client
+      - ./services/appointments-api/src/Propely.AppointmentsApi.Client:/appointments-api/src/Propely.AppointmentsApi.Client
     ports:
       - "127.0.0.1:5010:5010"
     depends_on:
@@ -334,9 +331,6 @@ volumes:
   ai-api-obj-app:
   ai-api-obj-infra:
   ai-api-obj-api:
-  ai-api-obj-properties-client:
-  ai-api-obj-contacts-client:
-  ai-api-obj-appointments-client:
   orgs-api-obj-domain:
   orgs-api-obj-app:
   orgs-api-obj-infra:
