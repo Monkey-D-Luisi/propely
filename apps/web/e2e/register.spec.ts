@@ -7,7 +7,7 @@ test.describe('Registration flow', () => {
   }) => {
     await page.goto('/en/register');
 
-    await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Propely' })).toBeVisible();
 
     await page.getByLabel('Name (optional)').fill(testUser.name);
     await page.getByLabel('Email').fill(testUser.email);
@@ -55,7 +55,7 @@ test.describe('Registration flow', () => {
 
     // Navigate back to register with the same email
     await page.goto('/en/register');
-    await expect(page.getByRole('heading', { name: 'Create account' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Propely' })).toBeVisible();
 
     await page.getByLabel('Email').fill(user.email);
     await page.getByLabel('Password', { exact: true }).fill(user.password);

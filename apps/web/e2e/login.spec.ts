@@ -13,7 +13,7 @@ test.describe('Login flow', () => {
     await page.goto('about:blank');
 
     await page.goto('/en/login');
-    await expect(page.getByRole('heading', { name: 'Sign in' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Propely' })).toBeVisible();
 
     await page.getByLabel('Email').fill(user.email);
     await page.getByLabel('Password').fill(user.password);

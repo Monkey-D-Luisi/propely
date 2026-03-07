@@ -16,7 +16,7 @@ test.describe('Permission management flow', () => {
     await page.getByText(orgName).click();
     await page.waitForURL(/\/orgs\/[^/]+\/members/, { timeout: 15_000 });
     await page.waitForLoadState('networkidle');
-    await expect(page.getByRole('heading', { name: 'Members' })).toBeVisible({
+    await expect(page.locator('h1', { hasText: 'Members' })).toBeVisible({
       timeout: 30_000,
     });
 
