@@ -162,7 +162,17 @@ public static class DependencyInjection
         services.AddAuthorizationBuilder()
             .SetDefaultPolicy(new Microsoft.AspNetCore.Authorization.AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
-                .Build());
+                .Build())
+            // Role-based authorization policies (hierarchical: higher roles inherit lower)
+            .AddPolicy("RequireOwnerOrAdmin", policy =>
+                policy.RequireAuthenticatedUser()
+                      .RequireClaim("role", "owner", "admin"))
+            .AddPolicy("RequireAgent", policy =>
+                policy.RequireAuthenticatedUser()
+                      .RequireClaim("role", "owner", "admin", "agent"))
+            .AddPolicy("RequireViewer", policy =>
+                policy.RequireAuthenticatedUser()
+                      .RequireClaim("role", "owner", "admin", "agent", "viewer"));
     }
 
     public static void AddSwaggerGenWithAuth(this IServiceCollection services)

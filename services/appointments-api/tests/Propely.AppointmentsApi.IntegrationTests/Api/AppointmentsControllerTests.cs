@@ -60,7 +60,8 @@ public sealed class AppointmentsControllerTests : IClassFixture<TestWebApplicati
             Type = "PropertyViewing",
             StartTimeUtc = startTime,
             EndTimeUtc = endTime,
-            Location = "123 Main St"
+            Location = "123 Main St",
+            PropertyId = Guid.NewGuid()
         };
 
         // Act
@@ -138,7 +139,8 @@ public sealed class AppointmentsControllerTests : IClassFixture<TestWebApplicati
             Title = "Appointment To Delete",
             Type = "PropertyViewing",
             StartTimeUtc = startTime,
-            EndTimeUtc = endTime
+            EndTimeUtc = endTime,
+            PropertyId = Guid.NewGuid()
         };
 
         var createResponse = await _client.PostAsJsonAsync("/api/appointments", createRequest, JsonOptions);

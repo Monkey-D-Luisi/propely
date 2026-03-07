@@ -14,7 +14,7 @@ namespace Propely.ContactsApi.Api.Configuration;
 /// </summary>
 public sealed class DevAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
 {
-    private const string DefaultUserId = "00000000-0000-0000-0000-000000000000";
+    private const string DefaultUserId = "00000000-0000-0000-0000-000000000002";
     private const string DefaultOrgId = "00000000-0000-0000-0000-000000000001";
 
     public DevAuthenticationHandler(

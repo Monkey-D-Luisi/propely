@@ -53,7 +53,9 @@ public sealed class ApiWebApplicationFactory : WebApplicationFactory<Program>, I
             {
                 ["Security:AllowAnonymous"] = "true",
                 ["OutboxDispatcher:PollingIntervalSeconds"] = "1",
-                ["OutboxDispatcher:Enabled"] = "true"
+                ["OutboxDispatcher:Enabled"] = "true",
+                ["Redis:ConnectionString"] = "",
+                ["RabbitMQ:Host"] = ""
             });
         });
 

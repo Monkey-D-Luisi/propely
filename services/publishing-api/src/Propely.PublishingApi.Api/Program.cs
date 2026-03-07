@@ -36,6 +36,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCorrelationId();
+app.UseSecurityHeaders();
 app.UseHealthCheckEndpoints();
 app.UseGlobalExceptionHandler();
 
@@ -45,7 +46,6 @@ if (!app.Environment.IsDevelopment() && app.Environment.EnvironmentName != "Test
     app.UseHttpsRedirection();
 }
 
-app.UseSecurityHeaders();
 app.UseIpRateLimiting();
 app.UseRouting();
 app.UseCors();
