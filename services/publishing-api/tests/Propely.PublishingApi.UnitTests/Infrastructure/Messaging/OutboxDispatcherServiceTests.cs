@@ -94,7 +94,7 @@ public sealed class OutboxDispatcherServiceTests
 
         using var cts = new CancellationTokenSource();
         await service.StartAsync(cts.Token);
-        await Task.Delay(300);
+        await Task.Delay(1000);
         cts.Cancel();
         try { await service.StopAsync(CancellationToken.None); } catch (OperationCanceledException) { }
 
@@ -171,7 +171,7 @@ public sealed class OutboxDispatcherServiceTests
 
         using var cts = new CancellationTokenSource();
         await service.StartAsync(cts.Token);
-        await Task.Delay(300);
+        await Task.Delay(1000);
         cts.Cancel();
         try { await service.StopAsync(CancellationToken.None); } catch (OperationCanceledException) { }
 
