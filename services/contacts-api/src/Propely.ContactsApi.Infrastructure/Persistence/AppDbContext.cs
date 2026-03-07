@@ -52,6 +52,15 @@ public sealed class AppDbContext : DbContext
         modelBuilder.ApplyConfiguration(new ContactConfiguration());
         modelBuilder.ApplyConfiguration(new ContactPropertyInterestConfiguration());
         modelBuilder.ApplyConfiguration(new LeadConfiguration());
+
+        // Tenant + soft-delete combined filter for Contact
+        // When _currentOrgId is null (system/background), the filter passes all tenants
+        modelBuilder.Entity<Contact>()
+            .HasQueryFilter(c => !c.IsDeleted && (_currentOrgId == null || c.TenantId == _currentOrgId));
+
+        // Tenant + soft-delete filter for Lead
+        modelBuilder.Entity<Lead>()
+            .HasQueryFilter(l => !l.IsDeleted && (_currentOrgId == null || l.TenantId == _currentOrgId));
     }
 
     /// <summary>

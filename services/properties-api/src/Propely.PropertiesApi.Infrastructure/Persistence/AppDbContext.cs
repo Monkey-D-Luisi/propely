@@ -49,6 +49,15 @@ public sealed class AppDbContext : DbContext
         modelBuilder.ApplyConfiguration(new ProcessedEventConfiguration());
         modelBuilder.ApplyConfiguration(new PropertyConfiguration());
         modelBuilder.ApplyConfiguration(new PropertyMediaConfiguration());
+
+        // Tenant + soft-delete combined filter for Property
+        // When _currentOrgId is null (system/background), the filter passes all tenants
+        modelBuilder.Entity<Property>()
+            .HasQueryFilter(p => !p.IsDeleted && (_currentOrgId == null || p.TenantId == _currentOrgId));
+
+        // Tenant filter for PropertyMedia (no soft-delete on media)
+        modelBuilder.Entity<PropertyMedia>()
+            .HasQueryFilter(m => _currentOrgId == null || m.TenantId == _currentOrgId);
     }
 
     /// <summary>

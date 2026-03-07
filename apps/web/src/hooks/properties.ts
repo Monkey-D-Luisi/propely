@@ -3,14 +3,14 @@
 
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback } from 'react';
 import { propertiesApiFetch } from '@/lib/api';
+import { useFetch, usePaginatedFetch, type FetcherFn } from '@/hooks/use-fetch';
 import { ensureCsrfToken } from '@/lib/csrf';
 import type {
   PropertyListItem,
   Property,
   PropertyMedia,
-  PagedResponse,
   StatusCount,
   PropertyTypeType,
   OperationTypeType,
@@ -20,8 +20,6 @@ import {
   PropertiesListResponseSchema,
   PropertySchema,
 } from '@/lib/schemas';
-import type { PaginationState } from '@/lib/pagination';
-import { emptyPagination } from '@/lib/pagination';
 
 export interface PropertyFilters {
   type?: PropertyTypeType;
@@ -45,126 +43,54 @@ export interface PropertyFilters {
   hasTerrace?: boolean;
 }
 
+function buildPropertiesUrl(page: number, pageSize: number, filters: PropertyFilters): string {
+  const params = new URLSearchParams({
+    page: String(page),
+    pageSize: String(pageSize),
+  });
+  if (filters.type) params.set('type', filters.type);
+  if (filters.operation) params.set('operation', filters.operation);
+  if (filters.status) params.set('status', filters.status);
+  if (filters.minPrice != null) params.set('minPrice', String(filters.minPrice));
+  if (filters.maxPrice != null) params.set('maxPrice', String(filters.maxPrice));
+  if (filters.city) params.set('city', filters.city);
+  if (filters.agentId) params.set('agentId', filters.agentId);
+  if (filters.sortBy) params.set('sortBy', filters.sortBy);
+  if (filters.sortDesc) params.set('sortDesc', 'true');
+  if (filters.search) params.set('search', filters.search);
+  if (filters.minBedrooms != null) params.set('minBedrooms', String(filters.minBedrooms));
+  if (filters.minBathrooms != null) params.set('minBathrooms', String(filters.minBathrooms));
+  if (filters.minArea != null) params.set('minArea', String(filters.minArea));
+  if (filters.maxArea != null) params.set('maxArea', String(filters.maxArea));
+  if (filters.hasPool) params.set('hasPool', 'true');
+  if (filters.hasGarden) params.set('hasGarden', 'true');
+  if (filters.hasGarage) params.set('hasGarage', 'true');
+  if (filters.hasElevator) params.set('hasElevator', 'true');
+  if (filters.hasTerrace) params.set('hasTerrace', 'true');
+  return `/api/properties?${params}`;
+}
+
 export function useProperties(page = 1, pageSize = 20, filters: PropertyFilters = {}) {
-  const [items, setItems] = useState<PropertyListItem[]>([]);
-  const [pagination, setPagination] = useState<PaginationState>(emptyPagination);
-  const [isLoading, setLoading] = useState(true);
-  const [error, setError] = useState<unknown>(null);
-
-  const fetcher = useCallback(async (signal?: AbortSignal) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const params = new URLSearchParams({
-        page: String(page),
-        pageSize: String(pageSize),
-      });
-      if (filters.type) params.set('type', filters.type);
-      if (filters.operation) params.set('operation', filters.operation);
-      if (filters.status) params.set('status', filters.status);
-      if (filters.minPrice != null) params.set('minPrice', String(filters.minPrice));
-      if (filters.maxPrice != null) params.set('maxPrice', String(filters.maxPrice));
-      if (filters.city) params.set('city', filters.city);
-      if (filters.agentId) params.set('agentId', filters.agentId);
-      if (filters.sortBy) params.set('sortBy', filters.sortBy);
-      if (filters.sortDesc) params.set('sortDesc', 'true');
-      if (filters.search) params.set('search', filters.search);
-      if (filters.minBedrooms != null) params.set('minBedrooms', String(filters.minBedrooms));
-      if (filters.minBathrooms != null) params.set('minBathrooms', String(filters.minBathrooms));
-      if (filters.minArea != null) params.set('minArea', String(filters.minArea));
-      if (filters.maxArea != null) params.set('maxArea', String(filters.maxArea));
-      if (filters.hasPool) params.set('hasPool', 'true');
-      if (filters.hasGarden) params.set('hasGarden', 'true');
-      if (filters.hasGarage) params.set('hasGarage', 'true');
-      if (filters.hasElevator) params.set('hasElevator', 'true');
-      if (filters.hasTerrace) params.set('hasTerrace', 'true');
-
-      const data = await propertiesApiFetch<PagedResponse<PropertyListItem>>(
-        `/api/properties?${params}`,
-        { method: 'GET', signal },
-        PropertiesListResponseSchema,
-      );
-      const { items: fetchedItems, ...paginationData } = data;
-      setItems(fetchedItems);
-      setPagination(paginationData);
-    } catch (e) {
-      if (e instanceof DOMException && e.name === 'AbortError') return;
-      setError(e);
-    } finally {
-      if (!signal?.aborted) setLoading(false);
-    }
-  }, [page, pageSize, filters.type, filters.operation, filters.status, filters.minPrice, filters.maxPrice, filters.city, filters.agentId, filters.sortBy, filters.sortDesc, filters.search, filters.minBedrooms, filters.minBathrooms, filters.minArea, filters.maxArea, filters.hasPool, filters.hasGarden, filters.hasGarage, filters.hasElevator, filters.hasTerrace]);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    void fetcher(controller.signal);
-    return () => { controller.abort(); };
-  }, [fetcher]);
-
-  return { items, pagination, isLoading, error, refetch: fetcher };
+  const url = buildPropertiesUrl(page, pageSize, filters);
+  return usePaginatedFetch<PropertyListItem>(url, {
+    fetcher: propertiesApiFetch as FetcherFn,
+    schema: PropertiesListResponseSchema,
+  });
 }
 
 export function useProperty(id: string) {
-  const [property, setProperty] = useState<Property | null>(null);
-  const [isLoading, setLoading] = useState(true);
-  const [error, setError] = useState<unknown>(null);
-
-  const fetcher = useCallback(async (signal?: AbortSignal) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await propertiesApiFetch<Property>(
-        `/api/properties/${id}`,
-        { method: 'GET', signal },
-        PropertySchema,
-      );
-      setProperty(data);
-    } catch (e) {
-      if (e instanceof DOMException && e.name === 'AbortError') return;
-      setError(e);
-    } finally {
-      if (!signal?.aborted) setLoading(false);
-    }
-  }, [id]);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    void fetcher(controller.signal);
-    return () => { controller.abort(); };
-  }, [fetcher]);
-
-  return { property, isLoading, error, refetch: fetcher };
+  const { data: property, ...rest } = useFetch<Property>(`/api/properties/${id}`, {
+    fetcher: propertiesApiFetch as FetcherFn,
+    schema: PropertySchema,
+  });
+  return { property, ...rest };
 }
 
 export function usePropertyMedia(propertyId: string) {
-  const [media, setMedia] = useState<PropertyMedia[]>([]);
-  const [isLoading, setLoading] = useState(true);
-  const [error, setError] = useState<unknown>(null);
-
-  const fetcher = useCallback(async (signal?: AbortSignal) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await propertiesApiFetch<PropertyMedia[]>(
-        `/api/properties/${propertyId}/media`,
-        { method: 'GET', signal },
-      );
-      setMedia(data);
-    } catch (e) {
-      if (e instanceof DOMException && e.name === 'AbortError') return;
-      setError(e);
-    } finally {
-      if (!signal?.aborted) setLoading(false);
-    }
-  }, [propertyId]);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    void fetcher(controller.signal);
-    return () => { controller.abort(); };
-  }, [fetcher]);
-
-  return { media, isLoading, error, refetch: fetcher };
+  const { data: media, ...rest } = useFetch<PropertyMedia[]>(`/api/properties/${propertyId}/media`, {
+    fetcher: propertiesApiFetch as FetcherFn,
+  });
+  return { media: media ?? [], ...rest };
 }
 
 export function useCreateProperty() {
@@ -211,32 +137,8 @@ export function useChangePropertyStatus() {
 }
 
 export function useStatusCounts() {
-  const [counts, setCounts] = useState<StatusCount[]>([]);
-  const [isLoading, setLoading] = useState(true);
-  const [error, setError] = useState<unknown>(null);
-
-  const fetcher = useCallback(async (signal?: AbortSignal) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await propertiesApiFetch<StatusCount[]>(
-        '/api/properties/count-by-status',
-        { method: 'GET', signal },
-      );
-      setCounts(data);
-    } catch (e) {
-      if (e instanceof DOMException && e.name === 'AbortError') return;
-      setError(e);
-    } finally {
-      if (!signal?.aborted) setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    void fetcher(controller.signal);
-    return () => { controller.abort(); };
-  }, [fetcher]);
-
-  return { counts, isLoading, error, refetch: fetcher };
+  const { data: counts, ...rest } = useFetch<StatusCount[]>('/api/properties/count-by-status', {
+    fetcher: propertiesApiFetch as FetcherFn,
+  });
+  return { counts: counts ?? [], ...rest };
 }

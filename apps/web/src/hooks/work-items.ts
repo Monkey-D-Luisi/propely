@@ -3,86 +3,37 @@
 
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { aiApiFetch } from '@/lib/api';
-import type { WorkItem, PagedResponse, ParseWorkItemResponse } from '@/lib/schemas';
+import { useFetch, usePaginatedFetch, type FetcherFn } from '@/hooks/use-fetch';
+import type { WorkItem, ParseWorkItemResponse } from '@/lib/schemas';
 import { WorkItemSchema, WorkItemsResponseSchema, ParseWorkItemResponseSchema } from '@/lib/schemas';
-import type { PaginationState } from '@/lib/pagination';
-import { emptyPagination } from '@/lib/pagination';
 import { ensureCsrfToken } from '@/lib/csrf';
 
+function buildWorkItemsUrl(page: number, pageSize: number, status?: string, search?: string): string {
+  const params = new URLSearchParams({
+    page: String(page),
+    pageSize: String(pageSize),
+  });
+  if (status) params.set('status', status);
+  if (search) params.set('search', search);
+  return `/v1/work-items?${params}`;
+}
+
 export function useWorkItems(page = 1, pageSize = 10, status?: string, search?: string) {
-  const [items, setItems] = useState<WorkItem[]>([]);
-  const [pagination, setPagination] = useState<PaginationState>(emptyPagination);
-  const [isLoading, setLoading] = useState(true);
-  const [error, setError] = useState<unknown>(null);
-
-  const fetcher = useCallback(async (signal?: AbortSignal) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const params = new URLSearchParams({
-        page: String(page),
-        pageSize: String(pageSize),
-      });
-      if (status) params.set('status', status);
-      if (search) params.set('search', search);
-
-      const data = await aiApiFetch<PagedResponse<WorkItem>>(
-        `/v1/work-items?${params}`,
-        { method: 'GET', signal },
-        WorkItemsResponseSchema,
-      );
-      const { items: fetchedItems, ...paginationData } = data;
-      setItems(fetchedItems);
-      setPagination(paginationData);
-    } catch (e) {
-      if (e instanceof DOMException && e.name === 'AbortError') return;
-      setError(e);
-    } finally {
-      if (!signal?.aborted) setLoading(false);
-    }
-  }, [page, pageSize, status, search]);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    void fetcher(controller.signal);
-    return () => { controller.abort(); };
-  }, [fetcher]);
-
-  return { items, pagination, isLoading, error, refetch: fetcher };
+  const url = buildWorkItemsUrl(page, pageSize, status, search);
+  return usePaginatedFetch<WorkItem>(url, {
+    fetcher: aiApiFetch as FetcherFn,
+    schema: WorkItemsResponseSchema,
+  });
 }
 
 export function useWorkItem(id: string) {
-  const [item, setItem] = useState<WorkItem | null>(null);
-  const [isLoading, setLoading] = useState(true);
-  const [error, setError] = useState<unknown>(null);
-
-  const fetcher = useCallback(async (signal?: AbortSignal) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await aiApiFetch<WorkItem>(
-        `/v1/work-items/${id}`,
-        { method: 'GET', signal },
-        WorkItemSchema,
-      );
-      setItem(data);
-    } catch (e) {
-      if (e instanceof DOMException && e.name === 'AbortError') return;
-      setError(e);
-    } finally {
-      if (!signal?.aborted) setLoading(false);
-    }
-  }, [id]);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    void fetcher(controller.signal);
-    return () => { controller.abort(); };
-  }, [fetcher]);
-
-  return { item, isLoading, error, refetch: fetcher };
+  const { data: item, ...rest } = useFetch<WorkItem>(`/v1/work-items/${id}`, {
+    fetcher: aiApiFetch as FetcherFn,
+    schema: WorkItemSchema,
+  });
+  return { item, ...rest };
 }
 
 export function useCreateWorkItem() {
