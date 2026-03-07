@@ -108,7 +108,7 @@ public sealed class BookViewingActionHandlerTests
         // Assert
         result.Success.Should().BeFalse();
         result.ActionType.Should().Be(ActionType.BookViewing);
-        result.Errors.Should().Contain("A start time is required to book a viewing.");
+        result.Errors.Should().Contain("A valid start time is required to book a viewing.");
     }
 
     [Fact]
@@ -128,7 +128,7 @@ public sealed class BookViewingActionHandlerTests
         // Assert
         result.Success.Should().BeFalse();
         result.ActionType.Should().Be(ActionType.BookViewing);
-        result.Errors.Should().Contain("Could not parse the start time.");
+        result.Errors.Should().Contain("A valid start time is required to book a viewing.");
     }
 
     [Fact]

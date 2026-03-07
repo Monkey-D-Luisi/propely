@@ -40,8 +40,8 @@ public sealed class BookViewingActionHandler : IRequestHandler<BookViewingAction
 
         var propertyId = ParameterExtractor.GetGuid(parameters, "property_id");
         var contactId = ParameterExtractor.GetGuid(parameters, "contact_id");
-        var startTime = ParameterExtractor.GetString(parameters, "start_time");
-        var endTime = ParameterExtractor.GetString(parameters, "end_time");
+        var startTimeUtcParsed = ParameterExtractor.GetDateTimeUtc(parameters, "start_time");
+        var endTimeUtcParsed = ParameterExtractor.GetDateTimeUtc(parameters, "end_time");
         var title = ParameterExtractor.GetString(parameters, "title");
         var location = ParameterExtractor.GetString(parameters, "location");
         var notes = ParameterExtractor.GetString(parameters, "notes");
@@ -54,27 +54,16 @@ public sealed class BookViewingActionHandler : IRequestHandler<BookViewingAction
                 "I need to know which property the viewing is for. Could you specify the property?");
         }
 
-        if (string.IsNullOrWhiteSpace(startTime))
+        if (!startTimeUtcParsed.HasValue)
         {
             return ActionResult.Fail(
-                ["A start time is required to book a viewing."],
+                ["A valid start time is required to book a viewing."],
                 ActionType.BookViewing,
-                "I need to know when to schedule the viewing. Could you provide a date and time?");
+                "I need to know when to schedule the viewing. Could you provide a date and time like '2026-03-15 10:00'?");
         }
 
-        if (!DateTime.TryParse(startTime, out var startTimeUtc))
-        {
-            return ActionResult.Fail(
-                ["Could not parse the start time."],
-                ActionType.BookViewing,
-                "I couldn't understand the date/time format. Could you try again with a format like '2026-03-15 10:00'?");
-        }
-
-        var endTimeUtc = startTimeUtc.AddMinutes(DefaultViewingDurationMinutes);
-        if (!string.IsNullOrWhiteSpace(endTime) && DateTime.TryParse(endTime, out var parsedEnd))
-        {
-            endTimeUtc = parsedEnd;
-        }
+        var startTimeUtc = startTimeUtcParsed.Value;
+        var endTimeUtc = endTimeUtcParsed ?? startTimeUtc.AddMinutes(DefaultViewingDurationMinutes);
 
         AppointmentResponse result;
         try

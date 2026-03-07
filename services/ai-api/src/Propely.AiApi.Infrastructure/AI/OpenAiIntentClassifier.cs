@@ -76,7 +76,7 @@ public sealed class OpenAiIntentClassifier : IIntentClassifier
         → call query_properties(property_type="penthouse", operation_type="rent", city="Barcelona", max_price=1500)
 
         User: "Agenda una visita para la propiedad X mañana a las 10"
-        → call book_viewing(property_id="X", start_time="<tomorrow 10:00 ISO>")
+        → call book_viewing(property_id="X", start_time="2026-03-16T10:00:00")
 
         User: "Create a lead for Juan García, interested in property ABC"
         → call create_lead(name="Juan García", property_id="ABC")

@@ -39,15 +39,8 @@ public sealed class QueryAppointmentsActionHandler : IRequestHandler<QueryAppoin
         var status = ParameterExtractor.GetString(parameters, "status");
         var type = ParameterExtractor.GetString(parameters, "type");
         var propertyId = ParameterExtractor.GetGuid(parameters, "property_id");
-        var fromDate = ParameterExtractor.GetString(parameters, "from_date");
-        var toDate = ParameterExtractor.GetString(parameters, "to_date");
-
-        DateTime? fromUtc = null;
-        DateTime? toUtc = null;
-        if (!string.IsNullOrWhiteSpace(fromDate) && DateTime.TryParse(fromDate, out var parsedFrom))
-            fromUtc = parsedFrom;
-        if (!string.IsNullOrWhiteSpace(toDate) && DateTime.TryParse(toDate, out var parsedTo))
-            toUtc = parsedTo;
+        var fromUtc = ParameterExtractor.GetDateTimeUtc(parameters, "from_date");
+        var toUtc = ParameterExtractor.GetDateTimeUtc(parameters, "to_date");
 
         AppointmentListResponse result;
         try
@@ -62,7 +55,7 @@ public sealed class QueryAppointmentsActionHandler : IRequestHandler<QueryAppoin
                 contactId: null,
                 fromUtc: fromUtc,
                 toUtc: toUtc,
-                sortBy: "startTimeUtc",
+                sortBy: "start",
                 sortDescending: false,
                 ct: cancellationToken);
         }
