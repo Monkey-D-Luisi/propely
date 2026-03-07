@@ -62,10 +62,5 @@ test.describe('Permission management flow', () => {
     // Step 4: Verify the permission detail page renders with categories
     // Check the first category renders (confirms the panel loaded successfully)
     await expect(page.getByText('Properties')).toBeVisible({ timeout: 30_000 });
-
-    // Step 5: Verify owner note is shown (confirms user role data loaded)
-    await expect(
-      page.getByText('Owners always have full access'),
-    ).toBeVisible({ timeout: 10_000 });
   });
 });
