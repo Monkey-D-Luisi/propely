@@ -20,7 +20,7 @@ export default function PermissionDetailLoading() {
         </div>
 
         {/* Permission toggles */}
-        <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
           <Skeleton className="h-5 w-32" />
           <div className="mt-4 space-y-4">
             {Array.from({ length: 6 }).map((_, i) => (

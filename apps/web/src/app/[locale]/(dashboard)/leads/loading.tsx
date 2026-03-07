@@ -6,7 +6,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 export default function LeadsLoading() {
   return (
     <div className="flex-1 overflow-y-auto p-8">
-      <div className="mx-auto flex max-w-[1200px] flex-col gap-6">
+      <div className="mx-auto flex max-w-4xl flex-col gap-6">
         {/* Header */}
         <div className="flex flex-col gap-4 border-b border-slate-100 pb-6 sm:flex-row sm:items-center sm:justify-between">
           <div>

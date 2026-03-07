@@ -13,7 +13,7 @@ export default function BillingLoading() {
         </header>
 
         {/* Current plan card */}
-        <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
           <Skeleton className="h-5 w-32" />
           <div className="mt-4 flex items-baseline gap-2">
             <Skeleton className="h-8 w-20" />
@@ -23,7 +23,7 @@ export default function BillingLoading() {
         </div>
 
         {/* Payment method */}
-        <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
           <Skeleton className="h-5 w-40" />
           <Skeleton className="mt-4 h-12 w-full rounded-lg" />
         </div>

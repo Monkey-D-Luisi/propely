@@ -5,7 +5,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export default function FeatureFlagsLoading() {
   return (
-    <main className="flex-1 w-full max-w-[1440px] mx-auto px-10 py-8">
+    <main className="flex-1 w-full max-w-5xl mx-auto px-10 py-8">
       <Skeleton className="h-8 w-48" />
       <div className="mt-6 space-y-3">
         {Array.from({ length: 5 }).map((_, i) => (
