@@ -213,6 +213,10 @@ jobs:
           docker compose --profile apps down 2>/dev/null || true
           docker compose -f docker-compose.yml -f docker-compose.ci.yml --profile apps down --volumes 2>/dev/null || true
 
+          # Explicitly remove CI-named volumes to prevent stale Postgres data
+          # (e.g. password mismatch from a previous run's initialization)
+          docker volume rm ci_propely_postgres_data ci_propely_rabbitmq_data ci_propely_redis_data 2>/dev/null || true
+
           # On Windows, reset the NAT service to release Hyper-V dynamic port reservations
           # This fixes WSAEACCES (10013) errors when Hyper-V reserves ports in our range
           if [ "$RUNNER_OS" = "Windows" ]; then
@@ -258,7 +262,8 @@ jobs:
             echo "--- ai-api logs (last 50 lines) ---"
             docker compose -f docker-compose.yml -f docker-compose.ci.yml logs --tail=50 ai-api 2>/dev/null || true
             echo "---"
-            docker compose -f docker-compose.yml -f docker-compose.ci.yml --profile apps down 2>/dev/null || true
+            docker compose -f docker-compose.yml -f docker-compose.ci.yml --profile apps down --volumes 2>/dev/null || true
+            docker volume rm ci_propely_postgres_data ci_propely_rabbitmq_data ci_propely_redis_data 2>/dev/null || true
             if [ "$RUNNER_OS" = "Windows" ]; then
               net stop winnat 2>/dev/null || true
               net start winnat 2>/dev/null || true
