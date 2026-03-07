@@ -203,18 +203,29 @@ public static class DependencyInjection
             .SetDefaultPolicy(new Microsoft.AspNetCore.Authorization.AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
                 .Build())
-            // Named authorization policies.
-            // Currently all require only an authenticated user because the JWT issued by
-            // orgs-api does not include a "role" claim. When role-based access is needed,
-            // add RequireClaim("role", ...) here and update JwtTokenService to emit it.
-            .AddPolicy(AuthorizationPolicies.CanCreateWorkItem, policy => policy
-                .RequireAuthenticatedUser())
-            .AddPolicy(AuthorizationPolicies.CanReadWorkItem, policy => policy
-                .RequireAuthenticatedUser())
-            .AddPolicy(AuthorizationPolicies.CanUpdateWorkItem, policy => policy
-                .RequireAuthenticatedUser())
-            .AddPolicy(AuthorizationPolicies.CanDeleteWorkItem, policy => policy
-                .RequireAuthenticatedUser());
+            // Role-based authorization policies (hierarchical: higher roles inherit lower)
+            .AddPolicy(AuthorizationPolicies.RequireOwnerOrAdmin, policy =>
+                policy.RequireAuthenticatedUser()
+                      .RequireClaim("role", "owner", "admin"))
+            .AddPolicy(AuthorizationPolicies.RequireAgent, policy =>
+                policy.RequireAuthenticatedUser()
+                      .RequireClaim("role", "owner", "admin", "agent"))
+            .AddPolicy(AuthorizationPolicies.RequireViewer, policy =>
+                policy.RequireAuthenticatedUser()
+                      .RequireClaim("role", "owner", "admin", "agent", "viewer"))
+            // Work item policies (mapped to role-based equivalents)
+            .AddPolicy(AuthorizationPolicies.CanCreateWorkItem, policy =>
+                policy.RequireAuthenticatedUser()
+                      .RequireClaim("role", "owner", "admin", "agent"))
+            .AddPolicy(AuthorizationPolicies.CanReadWorkItem, policy =>
+                policy.RequireAuthenticatedUser()
+                      .RequireClaim("role", "owner", "admin", "agent", "viewer"))
+            .AddPolicy(AuthorizationPolicies.CanUpdateWorkItem, policy =>
+                policy.RequireAuthenticatedUser()
+                      .RequireClaim("role", "owner", "admin", "agent"))
+            .AddPolicy(AuthorizationPolicies.CanDeleteWorkItem, policy =>
+                policy.RequireAuthenticatedUser()
+                      .RequireClaim("role", "owner", "admin", "agent"));
     }
 
     public static void AddSwaggerGenWithAuth(this IServiceCollection services)

@@ -54,7 +54,8 @@ public sealed class OAuthLoginCommandHandler : IRequestHandler<OAuthLoginCommand
 
             var linkedMemberships = await _membershipRepository.GetByUserIdAsync(linkedUser.Id, cancellationToken);
             var linkedOrgIds = linkedMemberships.Select(m => m.OrganizationId).ToList();
-            var linkedToken = _jwtTokenService.GenerateToken(linkedUser, linkedOrgIds);
+            var linkedRoles = linkedMemberships.Select(m => m.Role.ToString().ToLowerInvariant()).ToList();
+            var linkedToken = _jwtTokenService.GenerateToken(linkedUser, linkedOrgIds, linkedRoles);
 
             var (linkedRefreshEntity, linkedPlainRefresh) = RefreshToken.Create(linkedUser.Id, RefreshTokenLifetime);
             await _refreshTokenRepository.AddAsync(linkedRefreshEntity, cancellationToken);
@@ -101,7 +102,8 @@ public sealed class OAuthLoginCommandHandler : IRequestHandler<OAuthLoginCommand
 
         var memberships = await _membershipRepository.GetByUserIdAsync(user.Id, cancellationToken);
         var orgIds = memberships.Select(m => m.OrganizationId).ToList();
-        var token = _jwtTokenService.GenerateToken(user, orgIds);
+        var roles = memberships.Select(m => m.Role.ToString().ToLowerInvariant()).ToList();
+        var token = _jwtTokenService.GenerateToken(user, orgIds, roles);
         return new OAuthLoginResult(user.Id, token, plainRefreshToken);
     }
 }

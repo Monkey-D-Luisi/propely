@@ -36,7 +36,6 @@ public sealed class AgenciesController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Policy = AuthorizationPolicies.RequireOwnerOrAdmin)]
     public async Task<IActionResult> CreateAgency([FromBody] CreateAgencyRequest request, CancellationToken cancellationToken)
     {
         var userId = this.GetUserId();
@@ -55,7 +54,6 @@ public sealed class AgenciesController : ControllerBase
     }
 
     [HttpGet]
-    [Authorize(Policy = AuthorizationPolicies.RequireViewer)]
     public async Task<IActionResult> ListAgencies(CancellationToken cancellationToken)
     {
         var userId = this.GetUserId();
@@ -67,7 +65,6 @@ public sealed class AgenciesController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
-    [Authorize(Policy = AuthorizationPolicies.RequireViewer)]
     public async Task<IActionResult> GetAgency(Guid id, CancellationToken cancellationToken)
     {
         var userId = this.GetUserId();
@@ -79,7 +76,6 @@ public sealed class AgenciesController : ControllerBase
     }
 
     [HttpPost("{id:guid}/branches")]
-    [Authorize(Policy = AuthorizationPolicies.RequireOwnerOrAdmin)]
     public async Task<IActionResult> AddBranch(Guid id, [FromBody] AddBranchRequest request, CancellationToken cancellationToken)
     {
         var userId = this.GetUserId();
@@ -97,7 +93,6 @@ public sealed class AgenciesController : ControllerBase
     }
 
     [HttpDelete("{id:guid}/branches/{branchId:guid}")]
-    [Authorize(Policy = AuthorizationPolicies.RequireOwnerOrAdmin)]
     public async Task<IActionResult> RemoveBranch(Guid id, Guid branchId, CancellationToken cancellationToken)
     {
         var userId = this.GetUserId();

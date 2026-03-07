@@ -50,7 +50,7 @@ public sealed class LoginUserCommandHandlerTests
         _userRepository.GetByEmailAsync("test@example.com", Arg.Any<CancellationToken>())
             .Returns(user);
         _passwordHasher.VerifyPassword("Password123!", "hashed_password").Returns(true);
-        _jwtTokenService.GenerateToken(user, Arg.Any<IReadOnlyList<Guid>>()).Returns("jwt_token_123");
+        _jwtTokenService.GenerateToken(user, Arg.Any<IReadOnlyList<Guid>>(), Arg.Any<IReadOnlyList<string>?>()).Returns("jwt_token_123");
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
@@ -157,7 +157,7 @@ public sealed class LoginUserCommandHandlerTests
         _userRepository.GetByEmailAsync("test@example.com", Arg.Any<CancellationToken>())
             .Returns(user);
         _passwordHasher.VerifyPassword("Password123!", "hashed_password").Returns(true);
-        _jwtTokenService.GenerateToken(user, Arg.Any<IReadOnlyList<Guid>>()).Returns("jwt_token_123");
+        _jwtTokenService.GenerateToken(user, Arg.Any<IReadOnlyList<Guid>>(), Arg.Any<IReadOnlyList<string>?>()).Returns("jwt_token_123");
 
         // Act
         await _handler.Handle(command, CancellationToken.None);
@@ -183,7 +183,7 @@ public sealed class LoginUserCommandHandlerTests
         _passwordHasher.Received(1).VerifyPassword(
             command.Password,
             Arg.Is<string>(hash => hash.StartsWith("$2")));
-        _jwtTokenService.DidNotReceive().GenerateToken(Arg.Any<User>(), Arg.Any<IReadOnlyList<Guid>>());
+        _jwtTokenService.DidNotReceive().GenerateToken(Arg.Any<User>(), Arg.Any<IReadOnlyList<Guid>>(), Arg.Any<IReadOnlyList<string>?>());
     }
 
     [Fact]
@@ -198,7 +198,7 @@ public sealed class LoginUserCommandHandlerTests
         _userRepository.GetByEmailAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
             .Returns(user);
         _passwordHasher.VerifyPassword(Arg.Any<string>(), Arg.Any<string>()).Returns(true);
-        _jwtTokenService.GenerateToken(Arg.Any<User>(), Arg.Any<IReadOnlyList<Guid>>()).Returns("token");
+        _jwtTokenService.GenerateToken(Arg.Any<User>(), Arg.Any<IReadOnlyList<Guid>>(), Arg.Any<IReadOnlyList<string>?>()).Returns("token");
 
         // Act
         await _handler.Handle(command, token);

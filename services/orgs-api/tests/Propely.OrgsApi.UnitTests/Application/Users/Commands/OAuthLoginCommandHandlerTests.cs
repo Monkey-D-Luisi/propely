@@ -58,7 +58,7 @@ public sealed class OAuthLoginCommandHandlerTests
             .GetByProviderAndExternalIdAsync("google", "google-id-123", Arg.Any<CancellationToken>())
             .Returns(externalLogin);
         _userRepository.GetByIdAsync(user.Id, Arg.Any<CancellationToken>()).Returns(user);
-        _jwtTokenService.GenerateToken(user, Arg.Any<IReadOnlyList<Guid>>()).Returns("linked-user-token");
+        _jwtTokenService.GenerateToken(user, Arg.Any<IReadOnlyList<Guid>>(), Arg.Any<IReadOnlyList<string>?>()).Returns("linked-user-token");
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
@@ -90,7 +90,7 @@ public sealed class OAuthLoginCommandHandlerTests
                 Arg.Do<UserExternalLogin>(login => createdLogin = login),
                 Arg.Any<CancellationToken>())
             .Returns(Task.CompletedTask);
-        _jwtTokenService.GenerateToken(Arg.Any<User>(), Arg.Any<IReadOnlyList<Guid>>()).Returns("new-user-token");
+        _jwtTokenService.GenerateToken(Arg.Any<User>(), Arg.Any<IReadOnlyList<Guid>>(), Arg.Any<IReadOnlyList<string>?>()).Returns("new-user-token");
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
@@ -125,7 +125,7 @@ public sealed class OAuthLoginCommandHandlerTests
             .Returns((UserExternalLogin?)null);
         _userExternalLoginRepository.AddAsync(Arg.Any<UserExternalLogin>(), Arg.Any<CancellationToken>())
             .Returns(Task.CompletedTask);
-        _jwtTokenService.GenerateToken(user, Arg.Any<IReadOnlyList<Guid>>()).Returns("existing-user-token");
+        _jwtTokenService.GenerateToken(user, Arg.Any<IReadOnlyList<Guid>>(), Arg.Any<IReadOnlyList<string>?>()).Returns("existing-user-token");
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
@@ -175,7 +175,7 @@ public sealed class OAuthLoginCommandHandlerTests
             .Returns((UserExternalLogin?)null);
         _userExternalLoginRepository.AddAsync(Arg.Any<UserExternalLogin>(), Arg.Any<CancellationToken>())
             .Returns(Task.CompletedTask);
-        _jwtTokenService.GenerateToken(user, Arg.Any<IReadOnlyList<Guid>>()).Returns("verified-after-oauth-token");
+        _jwtTokenService.GenerateToken(user, Arg.Any<IReadOnlyList<Guid>>(), Arg.Any<IReadOnlyList<string>?>()).Returns("verified-after-oauth-token");
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);

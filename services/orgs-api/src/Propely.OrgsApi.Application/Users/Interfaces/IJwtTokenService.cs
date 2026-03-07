@@ -14,7 +14,7 @@ public sealed record PasswordResetTokenPayload(
 
 public interface IJwtTokenService
 {
-    string GenerateToken(User user, IReadOnlyList<Guid> orgIds);
+    string GenerateToken(User user, IReadOnlyList<Guid> orgIds, IReadOnlyList<string>? roles = null);
 
     string GenerateEmailVerificationToken(Guid userId, string email);
 

@@ -50,7 +50,6 @@ public sealed class OrgsController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Policy = AuthorizationPolicies.RequireOwnerOrAdmin)]
     public async Task<IActionResult> CreateOrg([FromBody] CreateOrgRequest request, CancellationToken cancellationToken)
     {
         var userId = this.GetUserId();
@@ -69,7 +68,6 @@ public sealed class OrgsController : ControllerBase
     }
 
     [HttpGet("mine")]
-    [Authorize(Policy = AuthorizationPolicies.RequireViewer)]
     public async Task<IActionResult> GetMyOrgs(
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 20,
@@ -85,7 +83,6 @@ public sealed class OrgsController : ControllerBase
     }
 
     [HttpGet("{orgId:guid}")]
-    [Authorize(Policy = AuthorizationPolicies.RequireViewer)]
     public async Task<IActionResult> GetOrg(Guid orgId, CancellationToken cancellationToken)
     {
         var userId = this.GetUserId();
@@ -98,7 +95,6 @@ public sealed class OrgsController : ControllerBase
     }
 
     [HttpGet("{orgId:guid}/members")]
-    [Authorize(Policy = AuthorizationPolicies.RequireViewer)]
     public async Task<IActionResult> GetMembers(
         Guid orgId,
         [FromQuery] int page = 1,
@@ -116,7 +112,6 @@ public sealed class OrgsController : ControllerBase
     }
 
     [HttpPost("{orgId:guid}/invitations")]
-    [Authorize(Policy = AuthorizationPolicies.RequireOwnerOrAdmin)]
     public async Task<IActionResult> CreateInvitation(Guid orgId, [FromBody] InviteRequest request, CancellationToken cancellationToken)
     {
         var requestingUserId = this.GetUserId();
@@ -159,7 +154,6 @@ public sealed class OrgsController : ControllerBase
     }
 
     [HttpPut("{orgId:guid}/members/{userId:guid}")]
-    [Authorize(Policy = AuthorizationPolicies.RequireOwnerOrAdmin)]
     public async Task<IActionResult> UpdateMemberRole(Guid orgId, Guid userId, [FromBody] UpdateRoleRequest request, CancellationToken cancellationToken)
     {
         var requestingUserId = this.GetUserId();
@@ -193,7 +187,6 @@ public sealed class OrgsController : ControllerBase
     }
 
     [HttpDelete("{orgId:guid}/members/{targetUserId:guid}")]
-    [Authorize(Policy = AuthorizationPolicies.RequireOwnerOrAdmin)]
     public async Task<IActionResult> RemoveMember(Guid orgId, Guid targetUserId, CancellationToken cancellationToken)
     {
         var userId = this.GetUserId();
@@ -205,7 +198,6 @@ public sealed class OrgsController : ControllerBase
     }
 
     [HttpDelete("{orgId:guid}")]
-    [Authorize(Policy = AuthorizationPolicies.RequireOwnerOrAdmin)]
     public async Task<IActionResult> DeleteOrganization(Guid orgId, CancellationToken cancellationToken)
     {
         var userId = this.GetUserId();
@@ -217,7 +209,6 @@ public sealed class OrgsController : ControllerBase
     }
 
     [HttpPatch("{orgId:guid}")]
-    [Authorize(Policy = AuthorizationPolicies.RequireOwnerOrAdmin)]
     public async Task<IActionResult> UpdateOrg(Guid orgId, [FromBody] UpdateOrgRequest request, CancellationToken cancellationToken)
     {
         var userId = this.GetUserId();
