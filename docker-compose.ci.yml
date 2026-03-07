@@ -1,15 +1,14 @@
 # CI-specific Docker Compose overrides
-# Purpose: Isolate CI containers and volumes from local development.
+# Purpose: Isolate CI containers/volumes from dev AND use production Dockerfiles
+#          for fast startup (pre-compiled binaries instead of dotnet watch).
 # Usage:   docker compose -f docker-compose.yml -f docker-compose.ci.yml --profile apps up -d --build
 #
-# This file overrides container_name and volume name directives so that
-# CI resources (ci-propely-*) are fully independent of dev resources
-# (propely-*). The E2E teardown (down --volumes) only destroys CI
-# volumes, leaving dev data intact.
-#
-# Port overrides: publishing-api uses host port 15040 instead of 5040
-# to avoid conflict with Windows CDPSvc (Connected Devices Platform)
-# which binds to 0.0.0.0:5040 on the self-hosted runner.
+# Key differences from base docker-compose.yml:
+#   - Production Dockerfiles (multi-stage, Alpine runtime) instead of Dockerfile.dev
+#   - Build context is repo root (.) because production Dockerfiles reference cross-service projects
+#   - No bind-mount volumes (production images contain all files)
+#   - CI-namespaced containers (ci-propely-*) and volumes (ci_propely_*)
+#   - publishing-api uses host port 15040 (Windows CDPSvc conflict on self-hosted runner)
 
 services:
   postgres:
@@ -29,34 +28,54 @@ services:
 
   ai-api:
     container_name: ci-propely-ai-api
-    # CI override: dotnet watch builds from source which takes 5+ min on the
-    # self-hosted runner. Extend health check budget (300s start + 20×15s = 600s).
-    healthcheck:
-      test: ["CMD-SHELL", "curl -sf http://localhost:5010/health/live || exit 1"]
-      interval: 15s
-      timeout: 5s
-      retries: 20
-      start_period: 300s
+    build:
+      context: .
+      dockerfile: services/ai-api/Dockerfile
+    volumes: !override []
 
   orgs-api:
     container_name: ci-propely-orgs-api
+    build:
+      context: .
+      dockerfile: services/orgs-api/Dockerfile
+    volumes: !override []
 
   properties-api:
     container_name: ci-propely-properties-api
+    build:
+      context: .
+      dockerfile: services/properties-api/Dockerfile
+    volumes: !override []
 
   publishing-api:
     container_name: ci-propely-publishing-api
+    build:
+      context: .
+      dockerfile: services/publishing-api/Dockerfile
+    volumes: !override []
     ports: !override
       - "127.0.0.1:15040:5040"
 
   contacts-api:
     container_name: ci-propely-contacts-api
+    build:
+      context: .
+      dockerfile: services/contacts-api/Dockerfile
+    volumes: !override []
 
   appointments-api:
     container_name: ci-propely-appointments-api
+    build:
+      context: .
+      dockerfile: services/appointments-api/Dockerfile
+    volumes: !override []
 
   web:
     container_name: ci-propely-web
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    volumes: !override []
 
 volumes:
   postgres_data:

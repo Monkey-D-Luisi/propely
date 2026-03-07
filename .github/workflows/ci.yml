@@ -36,6 +36,12 @@ jobs:
     outputs:
       backend: ${{ steps.filter.outputs.backend }}
       web: ${{ steps.filter.outputs.web }}
+      ai-api: ${{ steps.filter.outputs.ai-api }}
+      orgs-api: ${{ steps.filter.outputs.orgs-api }}
+      properties-api: ${{ steps.filter.outputs.properties-api }}
+      publishing-api: ${{ steps.filter.outputs.publishing-api }}
+      contacts-api: ${{ steps.filter.outputs.contacts-api }}
+      appointments-api: ${{ steps.filter.outputs.appointments-api }}
     steps:
       - uses: actions/checkout@v6
       - uses: dorny/paths-filter@v3
@@ -46,6 +52,18 @@ jobs:
               - 'services/**'
             web:
               - 'apps/web/**'
+            ai-api:
+              - 'services/ai-api/**'
+            orgs-api:
+              - 'services/orgs-api/**'
+            properties-api:
+              - 'services/properties-api/**'
+            publishing-api:
+              - 'services/publishing-api/**'
+            contacts-api:
+              - 'services/contacts-api/**'
+            appointments-api:
+              - 'services/appointments-api/**'
 
   dotnet-services:
     name: ${{ matrix.service.label }} - Build & Test
@@ -74,14 +92,6 @@ jobs:
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
-
-      - name: Cache NuGet packages
-        uses: actions/cache@v5
-        with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ matrix.service.name }}-${{ hashFiles(format('services/{0}/**/*.csproj', matrix.service.name)) }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-${{ matrix.service.name }}-
 
       - name: Restore dependencies
         run: dotnet restore ${{ matrix.service.solution }}.sln
@@ -174,7 +184,7 @@ jobs:
 
   e2e:
     name: E2E Smoke Tests
-    needs: [changes, dotnet-services, web, license-headers, third-party-notices]
+    needs: [changes, dotnet-services, web]
     if: >-
       always() &&
       !cancelled() &&
@@ -246,10 +256,10 @@ jobs:
           # Wait for ports to be fully released (TIME_WAIT clearance)
           sleep 5
 
-      - name: Build Docker images (sequential to avoid BuildKit OOM)
+      - name: Build Docker images
         run: docker compose -f docker-compose.yml -f docker-compose.ci.yml --profile apps build
         env:
-          COMPOSE_PARALLEL_LIMIT: 1
+          COMPOSE_PARALLEL_LIMIT: 3
 
       - name: Start full stack
         run: |
