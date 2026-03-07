@@ -98,7 +98,7 @@ User Input (text or voice audio)
 | 3.6 | Appointment Actions via Natural Language | DONE | 3.1, 5.8 |
 | 3.7 | Voice Input (Speech-to-Text) | DONE | 3.1 |
 | 3.8 | AI-API NuGet SDK Client | DONE | 3.1, 3.7 |
-| 3.9 | Prompt Engineering & Spanish RE Vocabulary | BLOCKED | 3.2, 3.3, 3.4 |
+| 3.9 | Prompt Engineering & Spanish RE Vocabulary | DONE | 3.2, 3.3, 3.4 |
 | 3.10 | Frontend: Command Bar | DONE | 3.8 |
 | 3.11 | Frontend: Voice Mode | DONE | 3.10, 3.7 |
 
@@ -914,7 +914,7 @@ Write DI registration tests first. Verify all interfaces resolve from the servic
 
 ## Task 3.9 -- Prompt Engineering & Spanish RE Vocabulary
 
-**Status:** BLOCKED
+**Status:** DONE
 **Dependencies:** 3.2, 3.3, 3.4 (all action handlers that use prompts)
 
 ### Goal
