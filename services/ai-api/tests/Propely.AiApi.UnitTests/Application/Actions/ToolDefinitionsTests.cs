@@ -16,7 +16,7 @@ public sealed class ToolDefinitionsTests
         var tools = ToolDefinitions.All;
 
         // Assert
-        tools.Should().HaveCount(11);
+        tools.Should().HaveCount(16);
     }
 
     [Theory]
@@ -31,6 +31,11 @@ public sealed class ToolDefinitionsTests
     [InlineData("close_operation", ActionType.CloseOperation)]
     [InlineData("archive_property", ActionType.ArchiveProperty)]
     [InlineData("reactivate_property", ActionType.ReactivateProperty)]
+    [InlineData("create_lead", ActionType.CreateLead)]
+    [InlineData("create_contact", ActionType.CreateContact)]
+    [InlineData("qualify_lead", ActionType.QualifyLead)]
+    [InlineData("convert_lead", ActionType.ConvertLead)]
+    [InlineData("query_leads", ActionType.QueryLeads)]
     public void ResolveActionType_WithKnownFunctionName_ShouldReturnCorrectActionType(
         string functionName, ActionType expectedType)
     {
@@ -44,7 +49,6 @@ public sealed class ToolDefinitionsTests
     [Theory]
     [InlineData("unknown_function")]
     [InlineData("")]
-    [InlineData("create_lead")]
     [InlineData("nonexistent")]
     public void ResolveActionType_WithUnknownFunctionName_ShouldReturnUnknown(string functionName)
     {

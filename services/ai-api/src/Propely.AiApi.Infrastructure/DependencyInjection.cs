@@ -13,6 +13,7 @@ using Propely.AiApi.Infrastructure.Persistence;
 using Propely.AiApi.Infrastructure.Persistence.Repositories;
 using Propely.AiApi.Infrastructure.Services;
 using Propely.PropertiesApi.Client;
+using Propely.ContactsApi.Client;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -82,6 +83,12 @@ public static class DependencyInjection
         services.AddPropertiesApiClient(options =>
         {
             options.BaseUrl = configuration["PropertiesApi:BaseUrl"] ?? "http://localhost:5030";
+        });
+
+        // Contacts API SDK Client (cross-service communication)
+        services.AddContactsApiClient(options =>
+        {
+            options.BaseUrl = configuration["ContactsApi:BaseUrl"] ?? "http://localhost:5050";
         });
 
         return services;

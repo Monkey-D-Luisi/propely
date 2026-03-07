@@ -131,6 +131,89 @@ public static class ToolDefinitions
         }
         """));
 
+    // --- Contact & Lead Actions ---
+
+    public static readonly ChatTool CreateLead = ChatTool.CreateFunctionTool(
+        functionName: "create_lead",
+        functionDescription: "Create a new lead (potential client inquiry) for a specific property.",
+        functionParameters: BinaryData.FromString("""
+        {
+            "type": "object",
+            "properties": {
+                "name": { "type": "string", "description": "Full name of the lead (e.g., Maria Garcia)" },
+                "email": { "type": "string", "description": "Email address of the lead" },
+                "phone": { "type": "string", "description": "Phone number of the lead" },
+                "property_id": { "type": "string", "description": "ID of the property the lead is interested in" },
+                "message": { "type": "string", "description": "The lead's inquiry message or notes" },
+                "source": { "type": "string", "description": "Source of the lead (e.g., Portal, Phone, WalkIn, Website)" }
+            },
+            "required": ["name", "email", "property_id"]
+        }
+        """));
+
+    public static readonly ChatTool CreateContact = ChatTool.CreateFunctionTool(
+        functionName: "create_contact",
+        functionDescription: "Create a new contact (buyer, seller, tenant, landlord, or professional).",
+        functionParameters: BinaryData.FromString("""
+        {
+            "type": "object",
+            "properties": {
+                "first_name": { "type": "string", "description": "First name of the contact" },
+                "last_name": { "type": "string", "description": "Last name of the contact" },
+                "email": { "type": "string", "description": "Email address of the contact" },
+                "phone": { "type": "string", "description": "Phone number of the contact" },
+                "role": { "type": "string", "enum": ["buyer", "seller", "tenant", "landlord", "professional"], "description": "Role of the contact (comprador, vendedor, inquilino, propietario, profesional)" },
+                "company": { "type": "string", "description": "Company name if applicable" },
+                "notes": { "type": "string", "description": "Notes about the contact" },
+                "source": { "type": "string", "description": "Source of the contact (e.g., Portal, Phone, WalkIn, Website, Referral)" }
+            },
+            "required": ["first_name", "last_name", "email"]
+        }
+        """));
+
+    public static readonly ChatTool QualifyLead = ChatTool.CreateFunctionTool(
+        functionName: "qualify_lead",
+        functionDescription: "Qualify a lead, changing its status to Qualified to indicate it has been vetted.",
+        functionParameters: BinaryData.FromString("""
+        {
+            "type": "object",
+            "properties": {
+                "lead_id": { "type": "string", "description": "ID of the lead to qualify" }
+            },
+            "required": ["lead_id"]
+        }
+        """));
+
+    public static readonly ChatTool ConvertLead = ChatTool.CreateFunctionTool(
+        functionName: "convert_lead",
+        functionDescription: "Convert a qualified lead into a full contact record.",
+        functionParameters: BinaryData.FromString("""
+        {
+            "type": "object",
+            "properties": {
+                "lead_id": { "type": "string", "description": "ID of the lead to convert" },
+                "role": { "type": "string", "enum": ["Buyer", "Seller", "Tenant", "Landlord", "Professional"], "description": "Role to assign to the new contact. Defaults to Buyer." },
+                "notes": { "type": "string", "description": "Notes for the conversion" }
+            },
+            "required": ["lead_id"]
+        }
+        """));
+
+    public static readonly ChatTool QueryLeads = ChatTool.CreateFunctionTool(
+        functionName: "query_leads",
+        functionDescription: "Search and filter leads based on status, property, or name.",
+        functionParameters: BinaryData.FromString("""
+        {
+            "type": "object",
+            "properties": {
+                "status": { "type": "string", "enum": ["New", "Contacted", "Qualified", "Converted", "Lost"], "description": "Filter by lead status" },
+                "property_id": { "type": "string", "description": "Filter by property ID" },
+                "search": { "type": "string", "description": "Search by lead name or email" }
+            },
+            "required": []
+        }
+        """));
+
     // --- Operation Actions ---
 
     public static readonly ChatTool ReserveProperty = ChatTool.CreateFunctionTool(
@@ -202,6 +285,11 @@ public static class ToolDefinitions
         GenerateCopy,
         ExtractFromText,
         ExtractFromPhotos,
+        CreateLead,
+        CreateContact,
+        QualifyLead,
+        ConvertLead,
+        QueryLeads,
         ReserveProperty,
         CloseOperation,
         ArchiveProperty,
@@ -220,6 +308,11 @@ public static class ToolDefinitions
         ["generate_copy"] = ActionType.GenerateCopy,
         ["extract_from_text"] = ActionType.ExtractFromText,
         ["extract_from_photos"] = ActionType.ExtractFromPhotos,
+        ["create_lead"] = ActionType.CreateLead,
+        ["create_contact"] = ActionType.CreateContact,
+        ["qualify_lead"] = ActionType.QualifyLead,
+        ["convert_lead"] = ActionType.ConvertLead,
+        ["query_leads"] = ActionType.QueryLeads,
         ["reserve_property"] = ActionType.ReserveProperty,
         ["close_operation"] = ActionType.CloseOperation,
         ["archive_property"] = ActionType.ArchiveProperty,
