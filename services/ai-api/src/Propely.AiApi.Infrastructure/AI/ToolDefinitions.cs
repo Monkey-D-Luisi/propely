@@ -24,9 +24,9 @@ public static class ToolDefinitions
             "type": "object",
             "properties": {
                 "title": { "type": "string", "description": "Title or name of the property listing" },
-                "property_type": { "type": "string", "enum": ["apartment", "house", "villa", "studio", "penthouse", "duplex", "commercial", "land", "garage", "storage"], "description": "Type of property" },
-                "operation_type": { "type": "string", "enum": ["sale", "rent", "transfer"], "description": "Whether the property is for sale, rent, or transfer" },
-                "bedrooms": { "type": "integer", "description": "Number of bedrooms" },
+                "property_type": { "type": "string", "enum": ["apartment", "house", "villa", "studio", "penthouse", "duplex", "commercial", "land", "garage", "storage"], "description": "Type of property (piso=apartment, chalet/casa=house, ático=penthouse, estudio/loft=studio, finca/cortijo=villa, local/oficina/nave=commercial, solar/terreno=land, garaje=garage, trastero=storage)" },
+                "operation_type": { "type": "string", "enum": ["sale", "rent", "transfer"], "description": "Whether the property is for sale, rent, or transfer (venta/compra=sale, alquiler=rent, traspaso=transfer)" },
+                "bedrooms": { "type": "integer", "description": "Number of bedrooms (habitaciones, dormitorios)" },
                 "bathrooms": { "type": "integer", "description": "Number of bathrooms" },
                 "price": { "type": "number", "description": "Price in EUR" },
                 "city": { "type": "string", "description": "City where the property is located" },
@@ -61,8 +61,8 @@ public static class ToolDefinitions
         {
             "type": "object",
             "properties": {
-                "property_type": { "type": "string", "enum": ["apartment", "house", "villa", "studio", "penthouse", "duplex", "commercial", "land", "garage", "storage"], "description": "Filter by property type" },
-                "operation_type": { "type": "string", "enum": ["sale", "rent", "transfer"], "description": "Filter by operation type" },
+                "property_type": { "type": "string", "enum": ["apartment", "house", "villa", "studio", "penthouse", "duplex", "commercial", "land", "garage", "storage"], "description": "Filter by property type (piso=apartment, chalet/casa=house, ático=penthouse, estudio/loft=studio, finca/cortijo=villa, local/oficina/nave=commercial, solar/terreno=land)" },
+                "operation_type": { "type": "string", "enum": ["sale", "rent", "transfer"], "description": "Filter by operation type (venta/compra=sale, alquiler=rent, traspaso=transfer)" },
                 "city": { "type": "string", "description": "Filter by city" },
                 "min_price": { "type": "number", "description": "Minimum price in EUR" },
                 "max_price": { "type": "number", "description": "Maximum price in EUR" },
