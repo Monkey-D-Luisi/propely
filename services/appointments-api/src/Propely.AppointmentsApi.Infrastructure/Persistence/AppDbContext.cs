@@ -51,6 +51,15 @@ public sealed class AppDbContext : DbContext
         modelBuilder.ApplyConfiguration(new AppointmentConfiguration());
         modelBuilder.ApplyConfiguration(new CalendarConnectionConfiguration());
         modelBuilder.ApplyConfiguration(new SyncOperationConfiguration());
+
+        // Tenant + soft-delete combined filter for Appointment
+        // When _currentOrgId is null (system/background), the filter passes all tenants
+        modelBuilder.Entity<Appointment>()
+            .HasQueryFilter(a => !a.IsDeleted && (_currentOrgId == null || a.TenantId == _currentOrgId));
+
+        // Tenant + soft-delete filter for CalendarConnection
+        modelBuilder.Entity<CalendarConnection>()
+            .HasQueryFilter(c => !c.IsDeleted && (_currentOrgId == null || c.TenantId == _currentOrgId));
     }
 
     /// <summary>
