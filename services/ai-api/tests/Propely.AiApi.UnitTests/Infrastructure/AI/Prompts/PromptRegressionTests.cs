@@ -2,7 +2,9 @@
 // Licensed under the Proprietary Software License. See LICENSE.
 
 using FluentAssertions;
+using Propely.AiApi.Application.Actions.Tools;
 using Propely.AiApi.Infrastructure.AI;
+using Propely.AiApi.Infrastructure.AI.Adapters;
 using Propely.AiApi.Infrastructure.AI.Prompts;
 
 namespace Propely.AiApi.UnitTests.Infrastructure.AI.Prompts;
@@ -14,6 +16,7 @@ namespace Propely.AiApi.UnitTests.Infrastructure.AI.Prompts;
 /// </summary>
 public sealed class PromptRegressionTests
 {
+    private readonly ToolSchemaRegistry _registry = new();
     // --- System Prompt: Property Type Vocabulary ---
 
     [Theory]
@@ -140,8 +143,8 @@ public sealed class PromptRegressionTests
     [Fact]
     public void CreatePropertyTool_ShouldContainSpanishPropertyTypeAliases()
     {
-        var tool = ToolDefinitions.CreateProperty;
-        var json = tool.FunctionParameters.ToString();
+        var schema = _registry.GetByName("create_property")!;
+        var json = schema.ParametersJsonSchema;
 
         json.Should().Contain("piso", "create_property tool should mention 'piso' in property_type description");
         json.Should().Contain("chalet", "create_property tool should mention 'chalet' in property_type description");
@@ -151,8 +154,8 @@ public sealed class PromptRegressionTests
     [Fact]
     public void CreatePropertyTool_ShouldContainSpanishOperationTypeAliases()
     {
-        var tool = ToolDefinitions.CreateProperty;
-        var json = tool.FunctionParameters.ToString();
+        var schema = _registry.GetByName("create_property")!;
+        var json = schema.ParametersJsonSchema;
 
         json.Should().Contain("venta", "create_property tool should mention 'venta' in operation_type description");
         json.Should().Contain("alquiler", "create_property tool should mention 'alquiler' in operation_type description");
@@ -161,8 +164,8 @@ public sealed class PromptRegressionTests
     [Fact]
     public void CreatePropertyTool_ShouldContainSpanishBedroomAlias()
     {
-        var tool = ToolDefinitions.CreateProperty;
-        var json = tool.FunctionParameters.ToString();
+        var schema = _registry.GetByName("create_property")!;
+        var json = schema.ParametersJsonSchema;
 
         json.Should().Contain("habitaciones",
             "create_property tool should mention 'habitaciones' in bedrooms description");
@@ -224,24 +227,24 @@ public sealed class PromptRegressionTests
     [Fact]
     public void AllToolDefinitions_ShouldHave20Tools()
     {
-        ToolDefinitions.All.Should().HaveCount(20,
+        _registry.All.Should().HaveCount(20,
             "there should be 20 tool definitions covering all action types");
     }
 
     [Fact]
     public void AllToolDefinitions_ShouldHaveUniqueNames()
     {
-        var names = ToolDefinitions.All.Select(t => t.FunctionName).ToList();
+        var names = _registry.All.Select(t => t.Name).ToList();
         names.Should().OnlyHaveUniqueItems("tool function names must be unique");
     }
 
     [Fact]
     public void AllToolDefinitions_ShouldNotHaveEmptyDescriptions()
     {
-        foreach (var tool in ToolDefinitions.All)
+        foreach (var tool in _registry.All)
         {
-            tool.FunctionDescription.Should().NotBeNullOrWhiteSpace(
-                $"tool '{tool.FunctionName}' must have a description");
+            tool.Description.Should().NotBeNullOrWhiteSpace(
+                $"tool '{tool.Name}' must have a description");
         }
     }
 

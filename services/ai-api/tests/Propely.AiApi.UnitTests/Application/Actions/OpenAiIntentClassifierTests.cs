@@ -5,21 +5,26 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NSubstitute;
+using Propely.AiApi.Application.Actions.Tools;
 using Propely.AiApi.Domain.Actions;
 using Propely.AiApi.Infrastructure.AI;
+using Propely.AiApi.Infrastructure.AI.Adapters;
 using Propely.AiApi.Infrastructure.Services;
 
 namespace Propely.AiApi.UnitTests.Application.Actions;
 
 public sealed class OpenAiIntentClassifierTests
 {
+    private readonly IToolSchemaRegistry _registry = new ToolSchemaRegistry();
+    private readonly OpenAiToolAdapter _adapter = new();
+
     [Fact]
     public async Task ClassifyAsync_WhenApiKeyNotConfigured_ShouldReturnUnknownIntent()
     {
         // Arrange
         var options = Options.Create(new OpenAiOptions { ApiKey = null, ModelId = "gpt-5-mini" });
         var logger = Substitute.For<ILogger<OpenAiIntentClassifier>>();
-        var classifier = new OpenAiIntentClassifier(options, logger);
+        var classifier = new OpenAiIntentClassifier(options, _registry, _adapter, logger);
 
         // Act
         var result = await classifier.ClassifyAsync("Create a 3 bedroom apartment in Malaga");
@@ -36,7 +41,7 @@ public sealed class OpenAiIntentClassifierTests
         // Arrange
         var options = Options.Create(new OpenAiOptions { ApiKey = "", ModelId = "gpt-5-mini" });
         var logger = Substitute.For<ILogger<OpenAiIntentClassifier>>();
-        var classifier = new OpenAiIntentClassifier(options, logger);
+        var classifier = new OpenAiIntentClassifier(options, _registry, _adapter, logger);
 
         // Act
         var result = await classifier.ClassifyAsync("Show me all villas under 500k");
@@ -52,7 +57,7 @@ public sealed class OpenAiIntentClassifierTests
         // Arrange
         var options = Options.Create(new OpenAiOptions { ApiKey = "   ", ModelId = "gpt-5-mini" });
         var logger = Substitute.For<ILogger<OpenAiIntentClassifier>>();
-        var classifier = new OpenAiIntentClassifier(options, logger);
+        var classifier = new OpenAiIntentClassifier(options, _registry, _adapter, logger);
 
         // Act
         var result = await classifier.ClassifyAsync("What properties do I have?");

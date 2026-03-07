@@ -2,9 +2,11 @@
 // Licensed under the Proprietary Software License. See LICENSE.
 
 using Propely.AiApi.Application.Actions.Interfaces;
+using Propely.AiApi.Application.Actions.Tools;
 using Propely.AiApi.Application.Common.Interfaces;
 using Propely.AiApi.Application.WorkItems.Interfaces;
 using Propely.AiApi.Infrastructure.AI;
+using Propely.AiApi.Infrastructure.AI.Adapters;
 using Propely.AiApi.Infrastructure.Caching;
 using Propely.AiApi.Infrastructure.Caching.Configuration;
 using Propely.AiApi.Infrastructure.Messaging;
@@ -76,7 +78,9 @@ public static class DependencyInjection
         // Voice Transcription Service (OpenAI Audio API)
         services.AddScoped<IVoiceTranscriptionService, OpenAiVoiceTranscriptionService>();
 
-        // AI Action Engine (Intent Classifier + Action Router)
+        // AI Action Engine (Tool Schema Registry, Adapter, Intent Classifier, Action Router)
+        services.AddSingleton<IToolSchemaRegistry, ToolSchemaRegistry>();
+        services.AddSingleton<OpenAiToolAdapter>();
         services.AddScoped<IIntentClassifier, OpenAiIntentClassifier>();
         services.AddScoped<IActionRouter, ActionRouter>();
 

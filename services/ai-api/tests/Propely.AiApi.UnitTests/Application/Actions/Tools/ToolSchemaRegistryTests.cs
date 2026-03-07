@@ -5,13 +5,9 @@ using FluentAssertions;
 using Propely.AiApi.Application.Actions.Tools;
 using Propely.AiApi.Domain.Actions;
 
-namespace Propely.AiApi.UnitTests.Application.Actions;
+namespace Propely.AiApi.UnitTests.Application.Actions.Tools;
 
-/// <summary>
-/// Backward-compatibility tests ensuring the ToolSchemaRegistry
-/// provides the same behavior as the removed ToolDefinitions class.
-/// </summary>
-public sealed class ToolDefinitionsTests
+public sealed class ToolSchemaRegistryTests
 {
     private readonly ToolSchemaRegistry _registry = new();
 
@@ -19,6 +15,34 @@ public sealed class ToolDefinitionsTests
     public void All_ShouldContainExpectedNumberOfTools()
     {
         _registry.All.Should().HaveCount(20);
+    }
+
+    [Fact]
+    public void All_ToolsShouldHaveUniqueNames()
+    {
+        var names = _registry.All.Select(t => t.Name).ToList();
+        names.Should().OnlyHaveUniqueItems();
+    }
+
+    [Fact]
+    public void All_ToolsShouldHaveNonEmptyDescriptions()
+    {
+        foreach (var schema in _registry.All)
+        {
+            schema.Description.Should().NotBeNullOrWhiteSpace(
+                because: $"tool '{schema.Name}' must have a description");
+        }
+    }
+
+    [Fact]
+    public void All_ToolsShouldHaveValidJsonSchemas()
+    {
+        foreach (var schema in _registry.All)
+        {
+            var act = () => System.Text.Json.JsonDocument.Parse(schema.ParametersJsonSchema);
+            act.Should().NotThrow(
+                because: $"tool '{schema.Name}' must have valid JSON Schema");
+        }
     }
 
     [Theory]
@@ -58,25 +82,23 @@ public sealed class ToolDefinitionsTests
     }
 
     [Fact]
-    public void CreateProperty_ShouldHaveCorrectName()
+    public void GetByName_WithExistingName_ShouldReturnSchema()
     {
         var schema = _registry.GetByName("create_property");
         schema.Should().NotBeNull();
         schema!.Name.Should().Be("create_property");
+        schema.ActionType.Should().Be(ActionType.CreateProperty);
     }
 
     [Fact]
-    public void QueryProperties_ShouldHaveCorrectName()
+    public void GetByName_WithNonExistentName_ShouldReturnNull()
     {
-        var schema = _registry.GetByName("query_properties");
-        schema.Should().NotBeNull();
-        schema!.Name.Should().Be("query_properties");
+        _registry.GetByName("does_not_exist").Should().BeNull();
     }
 
     [Fact]
-    public void All_ToolsShouldHaveUniqueNames()
+    public void All_ShouldNotContainUnknownActionType()
     {
-        var names = _registry.All.Select(t => t.Name).ToList();
-        names.Should().OnlyHaveUniqueItems();
+        _registry.All.Should().NotContain(s => s.ActionType == ActionType.Unknown);
     }
 }
