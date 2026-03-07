@@ -752,8 +752,14 @@ Phase 5 ──┼── 5.1 Appointment ── 5.2 API ──── 5.3 Google �
 Phase 6 ──── (DEPRIORITIZED — scaffolded only, portal schemas as reference)
            │
 Phase 7 ──┴── 7.1 Dashboard ── 7.2 Conversation Context
-                                7.3 Proactive Suggestions
-                                7.4 Design Refinement
+           │                    7.3 Proactive Suggestions
+           │                    7.4 Design Refinement
+           │
+Phase 8 ──┼── 8.5 Shared TenantDelegatingHandler (independent)
+  (AI      │
+  Provider ├── 8.1 Tool Schema Registry
+  Abstrac- │   ├── 8.2 Typed Parameters ── 8.3 Classifier Adapter
+  tion)    │   └── 8.4 MCP Server Endpoint
 ```
 
 ### Recommended execution order
@@ -772,6 +778,45 @@ The AI action engine (P3) depends on service SDKs being available. The recommend
 10. **P4–P5 frontend** — contacts UI, calendar UI
 11. **P5 sync** (5.3–5.5) — calendar integrations
 12. **P7** — dashboard, conversation context, proactive suggestions
+13. **P8** — AI provider abstraction, MCP server, typed parameters, shared infra
+
+---
+
+## Phase 8 — AI Provider Abstraction & MCP Server
+
+**Goal:** Decouple the AI Action Engine from OpenAI-specific types, add typed action parameters, expose ai-api as an MCP server for multi-LLM interoperability, and deduplicate shared infrastructure.
+
+**Dependencies:** All of P3 (DONE). Independent of P7.
+
+### Task 8.1 — Provider-Neutral Tool Schema Registry
+- **Status:** DONE
+- **Dependencies:** 3.1 (DONE)
+- **Scope:** Extract 20 tool definitions from OpenAI-coupled `ToolDefinitions.cs` into provider-neutral `ToolSchemaRegistry` (JSON Schema records). Create `IToolAdapter` interface with `OpenAiToolAdapter` implementation. Delete `ToolDefinitions.cs`.
+- **TDD:** Unit tests for all 20 schemas, ActionType resolution, adapter output equivalence.
+
+### Task 8.2 — Typed Action Parameter Records
+- **Status:** PENDING
+- **Dependencies:** 8.1
+- **Scope:** Replace `Dictionary<string,object?>` + `ParameterExtractor` with 20 typed parameter records (one per action). Create `IParameterBinder` for type-safe conversion. Refactor all 19 action handlers to use typed properties. Delete `ParameterExtractor.cs`.
+- **TDD:** Binder type conversion tests, handler refactor with behavioral equivalence.
+
+### Task 8.3 — OpenAI Classifier Adapter Refactor
+- **Status:** PENDING
+- **Dependencies:** 8.1, 8.2
+- **Scope:** Refactor `OpenAiIntentClassifier` to use `IToolSchemaRegistry` + `OpenAiToolAdapter` via DI injection. Add keyed DI for multi-provider support preparation. No OpenAI types in Application layer.
+- **TDD:** Adapter injection tests, provider DI resolution tests.
+
+### Task 8.4 — MCP Server Endpoint
+- **Status:** PENDING
+- **Dependencies:** 8.1
+- **Scope:** Add `ModelContextProtocol` NuGet package to ai-api. Mount MCP Streamable HTTP endpoint at `/mcp`. Register 20 tools from `IToolSchemaRegistry`. Route `tools/call` through `ActionRouter`. Enforce auth + tenant isolation.
+- **TDD:** Integration tests for tools/list, tools/call, auth enforcement, behavioral equivalence with REST.
+
+### Task 8.5 — Shared TenantDelegatingHandler Package
+- **Status:** PENDING
+- **Dependencies:** None
+- **Scope:** Create `Propely.Shared.Http` package with single `TenantDelegatingHandler`. Update all 5 SDK clients to reference shared package. Delete 5 duplicate files.
+- **TDD:** Existing tests verify behavioral equivalence.
 
 ## Key Library Decisions
 
@@ -786,4 +831,5 @@ The AI action engine (P3) depends on service SDKs being available. The recommend
 | Microsoft.Graph | latest | Outlook calendar integration | MIT |
 | Google.Cloud.Storage.V1 | latest | GCP Cloud Storage for media | Apache 2.0 |
 | OpenAI (NuGet) | latest | Chat completions, function calling, audio API | MIT |
+| ModelContextProtocol | latest | .NET MCP SDK for AI tool interoperability | MIT |
 | cmdk | latest | Command palette/bar for NL input | MIT |

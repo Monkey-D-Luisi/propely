@@ -6,7 +6,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OpenAI.Chat;
 using Propely.AiApi.Application.Actions.Interfaces;
+using Propely.AiApi.Application.Actions.Tools;
 using Propely.AiApi.Domain.Actions;
+using Propely.AiApi.Infrastructure.AI.Adapters;
 using Propely.AiApi.Infrastructure.Services;
 
 namespace Propely.AiApi.Infrastructure.AI;
@@ -19,6 +21,8 @@ namespace Propely.AiApi.Infrastructure.AI;
 public sealed class OpenAiIntentClassifier : IIntentClassifier
 {
     private readonly ChatClient? _chatClient;
+    private readonly IToolSchemaRegistry _toolSchemaRegistry;
+    private readonly OpenAiToolAdapter _toolAdapter;
     private readonly ILogger<OpenAiIntentClassifier> _logger;
 
     private const string SystemPrompt = """
@@ -85,8 +89,14 @@ public sealed class OpenAiIntentClassifier : IIntentClassifier
         → call query_properties(property_type="house", operation_type="sale", city="Marbella", min_price=500000)
         """;
 
-    public OpenAiIntentClassifier(IOptions<OpenAiOptions> options, ILogger<OpenAiIntentClassifier> logger)
+    public OpenAiIntentClassifier(
+        IOptions<OpenAiOptions> options,
+        IToolSchemaRegistry toolSchemaRegistry,
+        OpenAiToolAdapter toolAdapter,
+        ILogger<OpenAiIntentClassifier> logger)
     {
+        _toolSchemaRegistry = toolSchemaRegistry;
+        _toolAdapter = toolAdapter;
         _logger = logger;
         var apiKey = options.Value.ApiKey;
         var modelId = options.Value.ModelId;
@@ -106,9 +116,10 @@ public sealed class OpenAiIntentClassifier : IIntentClassifier
         }
 
         var chatOptions = new ChatCompletionOptions();
-        foreach (var tool in ToolDefinitions.All)
+        var providerTools = _toolAdapter.ConvertAll(_toolSchemaRegistry.All);
+        foreach (var tool in providerTools)
         {
-            chatOptions.Tools.Add(tool);
+            chatOptions.Tools.Add((ChatTool)tool);
         }
 
         var messages = new List<ChatMessage>
@@ -133,7 +144,7 @@ public sealed class OpenAiIntentClassifier : IIntentClassifier
         {
             var toolCall = completion.ToolCalls[0];
             var functionName = toolCall.FunctionName;
-            var actionType = ToolDefinitions.ResolveActionType(functionName);
+            var actionType = _toolSchemaRegistry.ResolveActionType(functionName);
 
             var parameters = ParseFunctionArguments(toolCall.FunctionArguments);
 
