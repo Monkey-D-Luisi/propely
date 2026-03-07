@@ -8,7 +8,17 @@
 #   - Build context is repo root (.) because production Dockerfiles reference cross-service projects
 #   - No bind-mount volumes (production images contain all files)
 #   - CI-namespaced containers (ci-propely-*) and volumes (ci_propely_*)
+#   - Extended healthcheck budgets (CI runner is slower than dev machines)
 #   - publishing-api uses host port 15040 (Windows CDPSvc conflict on self-hosted runner)
+
+# Shared healthcheck for all .NET services in CI.
+# Production images start fast but EF migrations on a cold Postgres can take
+# 30-60s. Budget: 60s start_period + 20 retries × 10s = 260s total.
+x-ci-healthcheck: &ci-healthcheck
+  interval: 10s
+  timeout: 5s
+  retries: 20
+  start_period: 60s
 
 services:
   postgres:
@@ -32,6 +42,9 @@ services:
       context: .
       dockerfile: services/ai-api/Dockerfile
     volumes: !override []
+    healthcheck:
+      <<: *ci-healthcheck
+      test: ["CMD-SHELL", "wget -qO- http://localhost:5010/health/live || exit 1"]
 
   orgs-api:
     container_name: ci-propely-orgs-api
@@ -39,6 +52,9 @@ services:
       context: .
       dockerfile: services/orgs-api/Dockerfile
     volumes: !override []
+    healthcheck:
+      <<: *ci-healthcheck
+      test: ["CMD-SHELL", "wget -qO- http://localhost:5020/health/live || exit 1"]
 
   properties-api:
     container_name: ci-propely-properties-api
@@ -46,6 +62,9 @@ services:
       context: .
       dockerfile: services/properties-api/Dockerfile
     volumes: !override []
+    healthcheck:
+      <<: *ci-healthcheck
+      test: ["CMD-SHELL", "wget -qO- http://localhost:5030/health/live || exit 1"]
 
   publishing-api:
     container_name: ci-propely-publishing-api
@@ -55,6 +74,9 @@ services:
     volumes: !override []
     ports: !override
       - "127.0.0.1:15040:5040"
+    healthcheck:
+      <<: *ci-healthcheck
+      test: ["CMD-SHELL", "wget -qO- http://localhost:5040/health/live || exit 1"]
 
   contacts-api:
     container_name: ci-propely-contacts-api
@@ -62,6 +84,9 @@ services:
       context: .
       dockerfile: services/contacts-api/Dockerfile
     volumes: !override []
+    healthcheck:
+      <<: *ci-healthcheck
+      test: ["CMD-SHELL", "wget -qO- http://localhost:5050/health/live || exit 1"]
 
   appointments-api:
     container_name: ci-propely-appointments-api
@@ -69,6 +94,9 @@ services:
       context: .
       dockerfile: services/appointments-api/Dockerfile
     volumes: !override []
+    healthcheck:
+      <<: *ci-healthcheck
+      test: ["CMD-SHELL", "wget -qO- http://localhost:5060/health/live || exit 1"]
 
   web:
     container_name: ci-propely-web
