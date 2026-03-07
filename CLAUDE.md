@@ -191,7 +191,7 @@ Design tokens are defined in `apps/web/src/app/globals.css` via Tailwind v4 `@th
   3. Download the Stitch HTML to `.stitch-html/<screen-name>.html` for reference
   4. Extract exact CSS classes, spacing, colors, and typography from the Stitch HTML
   5. Implement with TDD (Red-Green-Refactor) matching the Stitch design pixel-for-pixel
-  6. Verify visually (Puppeteer screenshot or manual check) against the Stitch design
+  6. Verify visually (Playwright MCP + Chrome DevTools MCP — see Visual Validation Tools section below) against the Stitch design
 - If a Stitch design doesn't exist yet for a screen, generate one before writing any UI code.
 
 ## Rules (always)
@@ -227,6 +227,35 @@ Call the `ask_gpt` MCP tool with:
 - Include relevant Propely context in the system prompt (e.g., "Propely is a multi-tenant real estate SaaS with 6 .NET microservices...")
 - For complex discussions, break into focused questions rather than one massive prompt
 - **Do NOT use for**: code generation, writing tests, or file modifications — GPT is for discussion only
+
+## Visual Validation Tools (mandatory for UI tasks)
+
+The agent uses two complementary MCP servers for real-time visual validation during UI task implementation. These replace the previous Puppeteer MCP with significantly more capabilities.
+
+### Playwright MCP (`@anthropic-ai/mcp-playwright`)
+Browser automation and testing (~30 tools). Capabilities:
+- **Navigation & interaction**: navigate, click, type, select, drag, file upload
+- **Inspection**: `browser_snapshot` (accessibility tree — token-efficient), `browser_take_screenshot`
+- **Testing assertions**: `browser_verify_text_visible`, `browser_verify_is_visible`, `browser_verify_page_title`
+- **Advanced**: network requests, console messages, multi-tab, test code generation (`browser_generate_playwright_test`)
+
+**Preferred approach:** Use `browser_snapshot` for element verification (fast, deterministic). Reserve `browser_take_screenshot` for visual design comparison against Stitch HTML.
+
+### Chrome DevTools MCP (`@anthropic-ai/mcp-chrome-devtools`)
+Performance profiling, debugging, and quality audits (~29 tools). Capabilities:
+- **Performance**: Core Web Vitals tracing (LCP, INP, CLS), V8 heap snapshots
+- **Accessibility**: ARIA tree inspection, contrast issues
+- **Network**: request/response bodies, failed request detection
+- **Console**: source-mapped error stack traces, warning detection
+
+### Validation Workflow
+After UI implementation, before quality checks:
+1. **Functional** — `browser_snapshot` + `browser_verify_*` assertions
+2. **Design compliance** — `browser_take_screenshot` vs `.stitch-html/<screen>.html`
+3. **Quality** — `console_get_messages` (no errors), `network_get_all_requests` (no 4xx/5xx), `accessibility_snapshot`
+4. **Regression test** (recommended) — `browser_generate_playwright_test` → `apps/web/e2e/visual/`
+
+See `.agent/rules/autonomous-workflow.md` Step 5.5 and `.agent/rules/testing-standards.md` for full details.
 
 ## Port Allocation
 

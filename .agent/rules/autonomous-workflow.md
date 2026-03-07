@@ -129,6 +129,42 @@ cd apps/web && npm run build && npm test
 
 All checks must pass.
 
+### Step 5.5: Visual Validation (mandatory for UI tasks)
+
+Skip this step for backend-only tasks. For any task that modifies UI pages or components:
+
+#### 5.5.1 Functional Verification (Playwright MCP)
+1. Navigate to the implemented page using `browser_navigate`
+2. Verify key elements exist using `browser_snapshot` (accessibility tree — token-efficient, no screenshots needed)
+3. Use testing assertions to validate content:
+   - `browser_verify_text_visible` — confirm expected text is rendered
+   - `browser_verify_is_visible` — confirm key elements are present
+   - `browser_verify_page_title` — validate page title
+4. Test interactive behavior: click buttons, fill forms, verify state changes
+
+#### 5.5.2 Design Compliance (Playwright MCP + Stitch reference)
+1. Take a screenshot with `browser_take_screenshot` for visual record
+2. Compare visually against the Stitch design in `.stitch-html/<screen-name>.html`
+3. Verify: layout structure, spacing, colors, typography, border radius, responsive behavior
+4. If deviations found, fix implementation and re-verify
+
+#### 5.5.3 Quality Audit (Chrome DevTools MCP)
+1. Run `accessibility_snapshot` to check for ARIA issues
+2. Run `network_get_all_requests` to verify no failed API calls (4xx/5xx)
+3. Check `console_get_messages` for JavaScript errors (filter: `error`)
+4. For critical pages, run a performance trace:
+   - `performance_start_tracing` → navigate → `performance_stop_tracing`
+   - Verify Core Web Vitals: LCP < 2.5s, CLS < 0.1
+
+#### 5.5.4 Generate Regression Test (optional but recommended)
+1. Use Playwright MCP `browser_generate_playwright_test` to capture the verification as a reusable E2E test
+2. Save to `apps/web/e2e/visual/<screen-name>.spec.ts`
+3. Add visual regression snapshot: `await expect(page).toHaveScreenshot('<screen-name>.png')`
+
+> **Tool reference:** Playwright MCP provides ~30 tools for browser automation + 5 testing assertions.
+> Chrome DevTools MCP provides ~29 tools for performance profiling, Lighthouse audits, and debugging.
+> See `.agent.md` §15 for the full tool inventory.
+
 ### Step 6: Update Walkthrough
 
 Document in the walkthrough file:
@@ -231,6 +267,7 @@ A task is **not complete** until ALL of these are true:
 | Acceptance criteria met | All AC items checked in task file |
 | Code builds | `dotnet build` succeeds for affected service(s) |
 | Tests pass | `dotnet test` succeeds for affected service(s) |
+| Visual validation (UI tasks) | Playwright assertions pass, design compliance verified, no console errors |
 | No secrets | No credentials in code or config |
 | Walkthrough accurate | Reflects actual implementation |
 | Committed | Changes are in version control |
