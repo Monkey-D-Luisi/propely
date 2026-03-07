@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, renameSync } from "node:fs";
 import { join } from "node:path";
 import { homedir } from "node:os";
 
@@ -98,7 +98,7 @@ async function refreshTokens(
     apiKey: existing.OPENAI_API_KEY ?? null,
   };
 
-  // Persist (preserve original format)
+  // Persist (preserve original format) — atomic write via temp+rename
   try {
     if (existing.tokens) {
       existing.tokens.access_token = newTokens.accessToken;
@@ -110,7 +110,9 @@ async function refreshTokens(
       existing.refresh_token = newTokens.refreshToken;
       existing.expires_at = newTokens.expiresAt;
     }
-    writeFileSync(authPath, JSON.stringify(existing, null, 2), "utf-8");
+    const tmpPath = authPath + ".tmp";
+    writeFileSync(tmpPath, JSON.stringify(existing, null, 2), "utf-8");
+    renameSync(tmpPath, authPath);
     log("Tokens refreshed and saved to auth.json");
   } catch {
     log("Warning: could not persist refreshed tokens to auth.json");
@@ -195,6 +197,20 @@ export async function getAuth(): Promise<{
 
 export function clearTokenCache(): void {
   cachedTokens = null;
+  exchangeAttempted = false;
+  exchangedApiKey = null;
+}
+
+/**
+ * Force a token refresh regardless of expiry status.
+ * Use on 401 when the token may have been revoked or expiresAt is unknown.
+ */
+export async function forceRefresh(): Promise<void> {
+  const authPath = resolveAuthPath();
+  if (!cachedTokens) {
+    cachedTokens = loadTokens(authPath);
+  }
+  cachedTokens = await refreshTokens(cachedTokens.refreshToken, authPath);
   exchangeAttempted = false;
   exchangedApiKey = null;
 }

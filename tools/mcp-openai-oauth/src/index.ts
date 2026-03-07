@@ -1,7 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { getAuth, clearTokenCache } from "./auth.js";
+import { getAuth, forceRefresh } from "./auth.js";
 
 const DEFAULT_MODEL = process.env.DEFAULT_MODEL || "gpt-5.4";
 const FALLBACK_MODEL = process.env.FALLBACK_MODEL || "gpt-5.2";
@@ -75,8 +75,8 @@ async function callGpt(
     const resp = await callChatGPT(prompt, instructions, targetModel);
 
     if (resp.status === 401) {
-      log("Auth error, refreshing token and retrying...");
-      clearTokenCache();
+      log("Auth error, forcing token refresh and retrying...");
+      await forceRefresh();
       const retryResp = await callChatGPT(prompt, instructions, targetModel);
       if (!retryResp.ok) {
         const body = await retryResp.text();
