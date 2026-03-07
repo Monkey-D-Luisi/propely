@@ -8,6 +8,10 @@ vi.mock('@/lib/api', () => ({
   contactsApiFetch: vi.fn(),
 }));
 
+vi.mock('@/lib/csrf', () => ({
+  ensureCsrfToken: vi.fn().mockResolvedValue('mock-csrf-token'),
+}));
+
 import { contactsApiFetch } from '@/lib/api';
 import { useConvertLead } from './useConvertLead';
 
@@ -33,6 +37,7 @@ describe('useConvertLead', () => {
 
     expect(mockFetch).toHaveBeenCalledWith('/api/leads/lead-1/convert', {
       method: 'POST',
+      headers: { 'x-csrf-token': 'mock-csrf-token' },
       body: JSON.stringify({ role: 'Buyer', notes: 'some notes' }),
     });
   });

@@ -5,6 +5,7 @@
 
 import { useCallback } from 'react';
 import { appointmentsApiFetch } from '@/lib/api';
+import { ensureCsrfToken } from '@/lib/csrf';
 import type { Appointment, AppointmentStatus } from '@/hooks/useAppointments';
 
 const statusEndpointMap: Record<string, string> = {
@@ -26,8 +27,10 @@ export function useUpdateAppointmentStatus() {
       status === 'Completed' ? {} :
       undefined;
 
+    const csrfToken = await ensureCsrfToken();
     return appointmentsApiFetch<Appointment>(`/api/appointments/${id}/${endpoint}`, {
       method: 'PUT',
+      headers: csrfToken ? { 'x-csrf-token': csrfToken } : {},
       ...(body !== undefined && { body: JSON.stringify(body) }),
     });
   }, []);

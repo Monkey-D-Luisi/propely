@@ -9,6 +9,8 @@ public sealed class User : Entity, ISoftDeletable
 {
     public const int EmailMaxLength = 256;
     public const int NameMaxLength = 200;
+    public const int MaxFailedLoginAttempts = 5;
+    public static readonly TimeSpan LockoutDuration = TimeSpan.FromMinutes(15);
 
     public Guid Id { get; private set; }
     public string Email { get; private set; } = null!;
@@ -22,6 +24,8 @@ public sealed class User : Entity, ISoftDeletable
     public DateTime? UpdatedAtUtc { get; private set; }
     public int PasswordVersion { get; private set; }
     public bool IsSystemAdmin { get; private set; }
+    public int FailedLoginAttempts { get; private set; }
+    public DateTime? LockoutEndUtc { get; private set; }
 
     private User() { }
 
@@ -79,5 +83,34 @@ public sealed class User : Entity, ISoftDeletable
         IsDeleted = true;
         DeletedAtUtc = now;
         UpdatedAtUtc = now;
+    }
+
+    public bool IsLockedOut()
+    {
+        return LockoutEndUtc.HasValue && LockoutEndUtc.Value > DateTime.UtcNow;
+    }
+
+    public void RecordFailedLogin()
+    {
+        FailedLoginAttempts++;
+
+        if (FailedLoginAttempts >= MaxFailedLoginAttempts)
+        {
+            LockoutEndUtc = DateTime.UtcNow.Add(LockoutDuration);
+        }
+
+        UpdatedAtUtc = DateTime.UtcNow;
+    }
+
+    public void ResetLockout()
+    {
+        if (FailedLoginAttempts == 0 && !LockoutEndUtc.HasValue)
+        {
+            return;
+        }
+
+        FailedLoginAttempts = 0;
+        LockoutEndUtc = null;
+        UpdatedAtUtc = DateTime.UtcNow;
     }
 }

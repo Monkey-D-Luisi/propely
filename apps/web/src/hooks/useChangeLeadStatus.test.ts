@@ -8,6 +8,10 @@ vi.mock('@/lib/api', () => ({
   contactsApiFetch: vi.fn(),
 }));
 
+vi.mock('@/lib/csrf', () => ({
+  ensureCsrfToken: vi.fn().mockResolvedValue('mock-csrf-token'),
+}));
+
 import { contactsApiFetch } from '@/lib/api';
 import { useChangeLeadStatus } from './useChangeLeadStatus';
 
@@ -29,6 +33,7 @@ describe('useChangeLeadStatus', () => {
 
     expect(mockFetch).toHaveBeenCalledWith('/api/leads/lead-1/status', {
       method: 'PUT',
+      headers: { 'x-csrf-token': 'mock-csrf-token' },
       body: JSON.stringify({ status: 'Qualified' }),
     });
   });

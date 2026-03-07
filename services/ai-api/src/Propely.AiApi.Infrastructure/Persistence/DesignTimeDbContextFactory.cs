@@ -15,9 +15,9 @@ public sealed class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<App
     {
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
-        // Use environment variable or default development connection string
+        // Design-time only — override via env var for real credentials
         var connectionString = Environment.GetEnvironmentVariable("AIAPI_ConnectionStrings__DefaultConnection")
-            ?? "Host=localhost;Port=5432;Database=propely_aiapi;Username=propely;Password=propely_dev_password";
+            ?? "Host=localhost;Port=5432;Database=propely_aiapi;Username=propely;Password=REPLACE_ME";
 
         optionsBuilder.UseNpgsql(connectionString);
 

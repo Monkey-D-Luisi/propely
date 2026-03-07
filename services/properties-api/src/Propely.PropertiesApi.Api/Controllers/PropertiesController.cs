@@ -30,6 +30,7 @@ public sealed class PropertiesController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Policy = "RequireAgent")]
     public async Task<IActionResult> Create([FromBody] CreatePropertyRequest request, CancellationToken cancellationToken)
     {
         var userId = this.GetUserId();
@@ -57,6 +58,7 @@ public sealed class PropertiesController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
+    [Authorize(Policy = "RequireViewer")]
     public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
     {
         var tenantId = this.GetTenantId();
@@ -69,6 +71,7 @@ public sealed class PropertiesController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Policy = "RequireViewer")]
     public async Task<IActionResult> List(
         [FromQuery] string? search,
         [FromQuery] PropertyType? type,
@@ -131,6 +134,7 @@ public sealed class PropertiesController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
+    [Authorize(Policy = "RequireAgent")]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdatePropertyRequest request, CancellationToken cancellationToken)
     {
         var userId = this.GetUserId();
@@ -158,6 +162,7 @@ public sealed class PropertiesController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    [Authorize(Policy = "RequireAgent")]
     public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
         var tenantId = this.GetTenantId();
@@ -169,6 +174,7 @@ public sealed class PropertiesController : ControllerBase
     }
 
     [HttpGet("count-by-status")]
+    [Authorize(Policy = "RequireViewer")]
     public async Task<IActionResult> CountByStatus(CancellationToken cancellationToken)
     {
         var tenantId = this.GetTenantId();
@@ -180,6 +186,7 @@ public sealed class PropertiesController : ControllerBase
     }
 
     [HttpPatch("{id:guid}/status")]
+    [Authorize(Policy = "RequireAgent")]
     public async Task<IActionResult> ChangeStatus(Guid id, [FromBody] ChangeStatusRequest request, CancellationToken cancellationToken)
     {
         var tenantId = this.GetTenantId();

@@ -39,7 +39,7 @@ public static class ServiceCollectionExtensions
             .ConfigureHttpClient(client =>
             {
                 client.BaseAddress = new Uri(options.BaseUrl);
-                client.Timeout = System.Threading.Timeout.InfiniteTimeSpan;
+                client.Timeout = TimeSpan.FromSeconds(100);
             })
             .AddHttpMessageHandler<TenantDelegatingHandler>()
             .AddResilienceHandler("ai-api-actions", (builder, _) =>
@@ -53,7 +53,7 @@ public static class ServiceCollectionExtensions
             .ConfigureHttpClient(client =>
             {
                 client.BaseAddress = new Uri(options.BaseUrl);
-                client.Timeout = System.Threading.Timeout.InfiniteTimeSpan;
+                client.Timeout = TimeSpan.FromSeconds(100);
             })
             .AddHttpMessageHandler<TenantDelegatingHandler>()
             .AddResilienceHandler("ai-api-voice", (builder, _) =>
@@ -67,7 +67,7 @@ public static class ServiceCollectionExtensions
             .ConfigureHttpClient(client =>
             {
                 client.BaseAddress = new Uri(options.BaseUrl);
-                client.Timeout = System.Threading.Timeout.InfiniteTimeSpan;
+                client.Timeout = TimeSpan.FromSeconds(100);
             })
             .AddHttpMessageHandler<TenantDelegatingHandler>()
             .AddResilienceHandler("ai-api-content", (builder, _) =>

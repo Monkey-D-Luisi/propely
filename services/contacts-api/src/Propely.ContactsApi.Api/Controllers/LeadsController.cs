@@ -31,6 +31,7 @@ public sealed class LeadsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Policy = "RequireAgent")]
     public async Task<IActionResult> Create([FromBody] CreateLeadRequest request, CancellationToken cancellationToken)
     {
         var userId = this.GetUserId();
@@ -54,6 +55,7 @@ public sealed class LeadsController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
+    [Authorize(Policy = "RequireViewer")]
     public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
     {
         var tenantId = this.GetTenantId();
@@ -66,6 +68,7 @@ public sealed class LeadsController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Policy = "RequireViewer")]
     public async Task<IActionResult> List(
         [FromQuery] string? search,
         [FromQuery] LeadStatus? status,
@@ -102,6 +105,7 @@ public sealed class LeadsController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    [Authorize(Policy = "RequireAgent")]
     public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
         var tenantId = this.GetTenantId();
@@ -113,6 +117,7 @@ public sealed class LeadsController : ControllerBase
     }
 
     [HttpPut("{id:guid}/assign")]
+    [Authorize(Policy = "RequireAgent")]
     public async Task<IActionResult> Assign(Guid id, [FromBody] AssignLeadRequest request, CancellationToken cancellationToken)
     {
         var tenantId = this.GetTenantId();
@@ -124,6 +129,7 @@ public sealed class LeadsController : ControllerBase
     }
 
     [HttpPut("{id:guid}/status")]
+    [Authorize(Policy = "RequireAgent")]
     public async Task<IActionResult> ChangeStatus(Guid id, [FromBody] ChangeLeadStatusRequest request, CancellationToken cancellationToken)
     {
         var tenantId = this.GetTenantId();
@@ -135,6 +141,7 @@ public sealed class LeadsController : ControllerBase
     }
 
     [HttpPost("{id:guid}/convert")]
+    [Authorize(Policy = "RequireAgent")]
     public async Task<IActionResult> Convert(Guid id, [FromBody] ConvertLeadRequest request, CancellationToken cancellationToken)
     {
         var tenantId = this.GetTenantId();

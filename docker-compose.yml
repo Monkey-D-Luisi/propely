@@ -66,12 +66,14 @@ services:
     restart: unless-stopped
     mem_limit: 256m
     environment:
+      # SECURITY: Intentionally insecure — dev-only. Do NOT use in production.
       - DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS=true
     ports:
       - "127.0.0.1:18888:18888"   # Dashboard UI
       - "127.0.0.1:4317:18889"    # OTLP gRPC (external 4317 -> internal 18889)
       - "127.0.0.1:4318:18890"    # OTLP HTTP (external 4318 -> internal 18890)
 
+  # TODO: Migrate to Mailpit (https://github.com/axllent/mailpit) — MailHog is no longer maintained
   mailhog:
     image: mailhog/mailhog:v1.0.1
     container_name: propely-mailhog
@@ -99,12 +101,15 @@ services:
       - .env.docker
     volumes:
       - ./services/ai-api:/src
+      # Named volumes for obj/ dirs prevent host build artifacts from leaking into
+      # the container (and vice versa), avoiding stale artifact conflicts between
+      # host-based and Docker-based builds. These overlay the bind-mounted source.
       - ai-api-obj-domain:/src/src/Propely.AiApi.Domain/obj
       - ai-api-obj-app:/src/src/Propely.AiApi.Application/obj
       - ai-api-obj-infra:/src/src/Propely.AiApi.Infrastructure/obj
       - ai-api-obj-api:/src/src/Propely.AiApi.Api/obj
-      # SDK client projects referenced via relative ProjectReference paths
-      # Not read-only: dotnet build writes obj/ dirs inside these paths
+      # SDK client projects referenced via relative ProjectReference paths.
+      # Not read-only: dotnet build writes obj/ dirs inside these paths.
       - ./services/properties-api/src/Propely.PropertiesApi.Client:/properties-api/src/Propely.PropertiesApi.Client
       - ./services/contacts-api/src/Propely.ContactsApi.Client:/contacts-api/src/Propely.ContactsApi.Client
       - ./services/appointments-api/src/Propely.AppointmentsApi.Client:/appointments-api/src/Propely.AppointmentsApi.Client
@@ -137,6 +142,7 @@ services:
       - .env.docker
     volumes:
       - ./services/orgs-api:/src
+      # Named volumes for obj/ dirs — see ai-api comment above for rationale.
       - orgs-api-obj-domain:/src/src/Propely.OrgsApi.Domain/obj
       - orgs-api-obj-app:/src/src/Propely.OrgsApi.Application/obj
       - orgs-api-obj-infra:/src/src/Propely.OrgsApi.Infrastructure/obj
@@ -170,6 +176,7 @@ services:
       - .env.docker
     volumes:
       - ./services/properties-api:/src
+      # Named volumes for obj/ dirs — see ai-api comment above for rationale.
       - properties-api-obj-domain:/src/src/Propely.PropertiesApi.Domain/obj
       - properties-api-obj-app:/src/src/Propely.PropertiesApi.Application/obj
       - properties-api-obj-infra:/src/src/Propely.PropertiesApi.Infrastructure/obj
@@ -203,6 +210,7 @@ services:
       - .env.docker
     volumes:
       - ./services/publishing-api:/src
+      # Named volumes for obj/ dirs — see ai-api comment above for rationale.
       - publishing-api-obj-domain:/src/src/Propely.PublishingApi.Domain/obj
       - publishing-api-obj-app:/src/src/Propely.PublishingApi.Application/obj
       - publishing-api-obj-infra:/src/src/Propely.PublishingApi.Infrastructure/obj
@@ -236,6 +244,7 @@ services:
       - .env.docker
     volumes:
       - ./services/contacts-api:/src
+      # Named volumes for obj/ dirs — see ai-api comment above for rationale.
       - contacts-api-obj-domain:/src/src/Propely.ContactsApi.Domain/obj
       - contacts-api-obj-app:/src/src/Propely.ContactsApi.Application/obj
       - contacts-api-obj-infra:/src/src/Propely.ContactsApi.Infrastructure/obj
@@ -269,6 +278,7 @@ services:
       - .env.docker
     volumes:
       - ./services/appointments-api:/src
+      # Named volumes for obj/ dirs — see ai-api comment above for rationale.
       - appointments-api-obj-domain:/src/src/Propely.AppointmentsApi.Domain/obj
       - appointments-api-obj-app:/src/src/Propely.AppointmentsApi.Application/obj
       - appointments-api-obj-infra:/src/src/Propely.AppointmentsApi.Infrastructure/obj

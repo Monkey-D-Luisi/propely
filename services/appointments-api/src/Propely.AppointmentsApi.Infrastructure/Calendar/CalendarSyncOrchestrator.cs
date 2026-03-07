@@ -92,6 +92,13 @@ public sealed class CalendarSyncOrchestrator
     public async Task ProcessPendingOperationsAsync(CancellationToken ct = default)
     {
         var pendingOperations = await _syncOperationRepository.GetPendingAsync(ct);
+        if (pendingOperations.Count == 0) return;
+
+        // Pre-load active connections used by pending operations to avoid
+        // per-operation lookups that would require a tenant ID the background
+        // process does not possess.
+        var activeConnections = await _connectionRepository.ListActiveAsync(ct);
+        var connectionMap = activeConnections.ToDictionary(c => c.Id);
 
         foreach (var operation in pendingOperations)
         {
@@ -101,8 +108,8 @@ public sealed class CalendarSyncOrchestrator
                 _syncOperationRepository.Update(operation);
                 await _unitOfWork.SaveChangesAsync(ct);
 
-                var connection = await _connectionRepository.GetByIdAsync(operation.CalendarConnectionId, ct);
-                if (connection is null || connection.SyncState == CalendarSyncState.Disabled)
+                var connection = connectionMap.GetValueOrDefault(operation.CalendarConnectionId);
+                if (connection is null)
                 {
                     operation.Fail("Calendar connection not found or disabled.");
                     _syncOperationRepository.Update(operation);

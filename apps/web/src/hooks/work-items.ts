@@ -7,16 +7,9 @@ import { useState, useEffect, useCallback } from 'react';
 import { aiApiFetch } from '@/lib/api';
 import type { WorkItem, PagedResponse, ParseWorkItemResponse } from '@/lib/schemas';
 import { WorkItemSchema, WorkItemsResponseSchema, ParseWorkItemResponseSchema } from '@/lib/schemas';
-import type { PaginationState } from '@/hooks/orgs';
+import type { PaginationState } from '@/lib/pagination';
+import { emptyPagination } from '@/lib/pagination';
 import { ensureCsrfToken } from '@/lib/csrf';
-
-const emptyPagination: PaginationState = {
-  pageNumber: 1,
-  totalPages: 0,
-  totalCount: 0,
-  hasPreviousPage: false,
-  hasNextPage: false,
-};
 
 export function useWorkItems(page = 1, pageSize = 10, status?: string, search?: string) {
   const [items, setItems] = useState<WorkItem[]>([]);

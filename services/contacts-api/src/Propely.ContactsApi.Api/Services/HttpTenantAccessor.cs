@@ -26,6 +26,6 @@ public sealed class HttpTenantAccessor : ITenantAccessor
         if (Guid.TryParse(orgIdClaim, out var orgId) && orgId != Guid.Empty)
             return orgId;
 
-        return Guid.Empty;
+        return null;
     }
 }

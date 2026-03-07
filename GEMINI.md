@@ -176,7 +176,7 @@ dotnet ef database update \
 
 Gemini is the model used for Stitch design generation. Follow these rules strictly:
 
-- **Stitch Project ID**: `16786124142182555397`
+- **Stitch Project ID**: `11823747923864658899`
 - **Always use `modelId: GEMINI_3_PRO`** when calling `generate_screen_from_text` or `edit_screens`
 - Every new screen MUST have a corresponding Stitch design in the project
 - **Pixel-perfect implementation is mandatory.** The Stitch design is the single source of truth for all UI work. Implementation must match the Stitch HTML output exactly -- same spacing, colors, typography, layout, and component structure.
@@ -199,7 +199,7 @@ Design tokens are defined in `apps/web/src/app/globals.css` via Tailwind v4 `@th
 |---------|---------|
 | JSON Forms (`@jsonforms/react`) | Schema-driven property forms |
 | FullCalendar Standard | Calendar views for appointments |
-| Stitch MCP | Design generation (Project ID: `16786124142182555397`, model: `GEMINI_3_PRO`) |
+| Stitch MCP | Design generation (Project ID: `11823747923864658899`, model: `GEMINI_3_PRO`) |
 
 ### Color usage
 | Purpose | Classes |

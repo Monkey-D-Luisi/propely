@@ -33,7 +33,8 @@ public sealed class LeadReadRepository : ILeadReadRepository
         // Full-text search across name and email fields
         if (!string.IsNullOrWhiteSpace(filter.Search))
         {
-            var searchPattern = $"%{filter.Search}%";
+            var escaped = filter.Search.Replace("\\", "\\\\").Replace("%", "\\%").Replace("_", "\\_");
+            var searchPattern = $"%{escaped}%";
             query = query.Where(l =>
                 EF.Functions.ILike(l.Name, searchPattern)
                 || EF.Functions.ILike(l.Email, searchPattern));
@@ -78,7 +79,8 @@ public sealed class LeadReadRepository : ILeadReadRepository
         // When search is active and no explicit sort, use relevance: name matches first
         if (!string.IsNullOrWhiteSpace(search) && string.IsNullOrWhiteSpace(sortBy))
         {
-            var searchPattern = $"%{search}%";
+            var escaped = search.Replace("\\", "\\\\").Replace("%", "\\%").Replace("_", "\\_");
+            var searchPattern = $"%{escaped}%";
             return query.OrderByDescending(l => EF.Functions.ILike(l.Name, searchPattern))
                 .ThenByDescending(l => l.CreatedAtUtc);
         }
@@ -90,7 +92,8 @@ public sealed class LeadReadRepository : ILeadReadRepository
             "status" => descending ? query.OrderByDescending(l => l.Status) : query.OrderBy(l => l.Status),
             "created" => descending ? query.OrderByDescending(l => l.CreatedAtUtc) : query.OrderBy(l => l.CreatedAtUtc),
             "relevance" when !string.IsNullOrWhiteSpace(search) =>
-                query.OrderByDescending(l => EF.Functions.ILike(l.Name, $"%{search}%"))
+                query.OrderByDescending(l => EF.Functions.ILike(l.Name,
+                    $"%{search.Replace("\\", "\\\\").Replace("%", "\\%").Replace("_", "\\_")}%"))
                     .ThenByDescending(l => l.CreatedAtUtc),
             _ => query.OrderByDescending(l => l.CreatedAtUtc) // default sort
         };

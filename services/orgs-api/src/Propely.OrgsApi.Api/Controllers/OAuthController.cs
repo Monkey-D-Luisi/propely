@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Propely.OrgsApi.Api.Configuration;
 using Propely.OrgsApi.Api.Extensions;
 using Propely.OrgsApi.Api.Services;
+using Propely.OrgsApi.Application.Common;
 using Propely.OrgsApi.Application.Users.Commands.OAuthLogin;
 using Propely.OrgsApi.Domain.Common.Exceptions;
 
@@ -110,7 +111,7 @@ public sealed class OAuthController : ControllerBase
         {
             _logger.LogWarning(
                 "OAuth provider conflict for provider {Provider} with email {MaskedEmail}",
-                normalizedProvider, MaskEmail(email));
+                normalizedProvider, EmailMaskHelper.MaskEmail(email));
             return await RedirectWithOAuthErrorAsync("provider_already_linked", next);
         }
         catch (OperationCanceledException) when (
@@ -127,7 +128,7 @@ public sealed class OAuthController : ControllerBase
             _logger.LogError(
                 ex,
                 "OAuth login failed for provider {Provider} with email {MaskedEmail}",
-                normalizedProvider, MaskEmail(email));
+                normalizedProvider, EmailMaskHelper.MaskEmail(email));
             return await RedirectWithOAuthErrorAsync("oauth_login_failed", next);
         }
     }
@@ -260,22 +261,5 @@ public sealed class OAuthController : ControllerBase
                    providerFromClaim.Trim(),
                    expectedProvider,
                    StringComparison.OrdinalIgnoreCase);
-    }
-
-    /// <summary>
-    /// Masks an email address for safe logging (e.g., "t***@example.com").
-    /// </summary>
-    private static string MaskEmail(string email)
-    {
-        var atIndex = email.IndexOf('@');
-        if (atIndex <= 0)
-        {
-            return "***";
-        }
-
-        var local = email[..atIndex];
-        var domain = email[atIndex..];
-        var visiblePrefix = local.Length >= 1 ? local[..1] : "";
-        return $"{visiblePrefix}***{domain}";
     }
 }

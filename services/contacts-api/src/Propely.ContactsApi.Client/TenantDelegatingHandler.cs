@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 namespace Propely.ContactsApi.Client;
 
 /// <summary>
-/// HTTP message handler that propagates the tenant ID (X-Tenant-Id) header
+/// HTTP message handler that propagates the tenant ID (X-Org-Id) header
 /// from the incoming HTTP request to outgoing inter-service calls.
 /// </summary>
 public sealed class TenantDelegatingHandler : DelegatingHandler
@@ -15,7 +15,7 @@ public sealed class TenantDelegatingHandler : DelegatingHandler
     /// <summary>
     /// The name of the tenant ID header.
     /// </summary>
-    public const string TenantIdHeaderName = "X-Tenant-Id";
+    public const string TenantIdHeaderName = "X-Org-Id";
 
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ILogger<TenantDelegatingHandler> _logger;

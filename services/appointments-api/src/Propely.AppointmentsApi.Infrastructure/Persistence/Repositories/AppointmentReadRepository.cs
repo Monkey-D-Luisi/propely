@@ -35,7 +35,8 @@ public sealed class AppointmentReadRepository : IAppointmentReadRepository
         // Full-text search across title and location fields
         if (!string.IsNullOrWhiteSpace(filter.Search))
         {
-            var searchPattern = $"%{filter.Search}%";
+            var escaped = filter.Search.Replace("\\", "\\\\").Replace("%", "\\%").Replace("_", "\\_");
+            var searchPattern = $"%{escaped}%";
             query = query.Where(a =>
                 EF.Functions.ILike(a.Title, searchPattern)
                 || (a.Description != null && EF.Functions.ILike(a.Description, searchPattern))
@@ -103,7 +104,8 @@ public sealed class AppointmentReadRepository : IAppointmentReadRepository
         // When search is active and no explicit sort, use relevance: title matches first
         if (!string.IsNullOrWhiteSpace(search) && string.IsNullOrWhiteSpace(sortBy))
         {
-            var searchPattern = $"%{search}%";
+            var escaped = search.Replace("\\", "\\\\").Replace("%", "\\%").Replace("_", "\\_");
+            var searchPattern = $"%{escaped}%";
             return query
                 .OrderByDescending(a => EF.Functions.ILike(a.Title, searchPattern))
                 .ThenByDescending(a => a.StartTimeUtc);

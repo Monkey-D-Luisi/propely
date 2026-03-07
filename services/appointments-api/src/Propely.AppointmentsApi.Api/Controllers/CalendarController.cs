@@ -27,6 +27,7 @@ public sealed class CalendarController : ControllerBase
     }
 
     [HttpGet("status")]
+    [Authorize(Policy = "RequireViewer")]
     public async Task<IActionResult> GetStatus(CancellationToken cancellationToken)
     {
         var userId = this.GetUserId();
@@ -39,6 +40,7 @@ public sealed class CalendarController : ControllerBase
     }
 
     [HttpPost("{provider}/connect")]
+    [Authorize(Policy = "RequireAgent")]
     public async Task<IActionResult> Connect(
         CalendarProvider provider,
         [FromBody] ConnectCalendarApiRequest request,
@@ -69,6 +71,7 @@ public sealed class CalendarController : ControllerBase
     }
 
     [HttpDelete("{provider}/disconnect")]
+    [Authorize(Policy = "RequireAgent")]
     public async Task<IActionResult> Disconnect(CalendarProvider provider, CancellationToken cancellationToken)
     {
         var userId = this.GetUserId();

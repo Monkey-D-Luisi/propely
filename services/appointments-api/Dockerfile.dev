@@ -1,3 +1,7 @@
+# Dev Dockerfile — uses full SDK image (not multi-stage) intentionally.
+# The SDK is required for `dotnet watch` hot-reload during development.
+# Production Dockerfiles (Dockerfile) use multi-stage builds with the
+# slim aspnet runtime-only image (mcr.microsoft.com/dotnet/aspnet:10.0-alpine).
 FROM mcr.microsoft.com/dotnet/sdk:10.0
 
 WORKDIR /src

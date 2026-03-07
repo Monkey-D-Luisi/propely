@@ -1,6 +1,7 @@
 // Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 
+using Propely.OrgsApi.Application.Common;
 using Propely.OrgsApi.Application.Common.Interfaces;
 using Propely.OrgsApi.Application.Organizations.Interfaces;
 using Propely.OrgsApi.Application.Users.Interfaces;
@@ -48,6 +49,15 @@ public sealed class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, 
     {
         var user = await _userRepository.GetByEmailAsync(request.Email, cancellationToken);
 
+        // Check account lockout before spending time on bcrypt.
+        // This does reveal the account exists, but that is an acceptable trade-off
+        // for an active lockout -- the user must already know their email to trigger it.
+        if (user is not null && user.IsLockedOut())
+        {
+            _logger.LogWarning("Security: Login attempt on locked account for user {UserId}", user.Id);
+            throw new UnauthorizedAccessException("ACCOUNT_LOCKED");
+        }
+
         // Always run bcrypt verification to prevent timing-based email enumeration.
         // When user is null, verify against a dummy hash so the response time is consistent.
         var hashToVerify = user?.PasswordHash ?? TimingSafetyHash;
@@ -55,9 +65,24 @@ public sealed class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, 
 
         if (!isValid)
         {
-            _logger.LogWarning("Security: Failed login attempt for email {Email}", MaskEmail(request.Email));
+            if (user is not null)
+            {
+                user.RecordFailedLogin();
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+                if (user.IsLockedOut())
+                {
+                    _logger.LogWarning("Security: Account locked after {Attempts} failed attempts for user {UserId}",
+                        user.FailedLoginAttempts, user.Id);
+                }
+            }
+
+            _logger.LogWarning("Security: Failed login attempt for email {Email}", EmailMaskHelper.MaskEmail(request.Email));
             throw new UnauthorizedAccessException("INVALID_CREDENTIALS");
         }
+
+        // Successful login -- reset any accumulated failed attempts.
+        user!.ResetLockout();
 
         _logger.LogInformation("Security: Successful login for user {UserId}", user!.Id);
 
@@ -72,12 +97,4 @@ public sealed class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, 
         return new LoginUserResult(user!.Id, token, plainRefreshToken);
     }
 
-    private static string MaskEmail(string email)
-    {
-        var atIndex = email.IndexOf('@');
-        if (atIndex <= 1)
-            return "***@***";
-
-        return string.Concat(email.AsSpan(0, 1), "***", email.AsSpan(atIndex));
-    }
 }

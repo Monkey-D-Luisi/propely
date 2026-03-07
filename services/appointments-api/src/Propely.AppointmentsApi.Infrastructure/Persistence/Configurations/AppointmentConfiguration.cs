@@ -121,8 +121,7 @@ public sealed class AppointmentConfiguration : IEntityTypeConfiguration<Appointm
                 .IsRequired();
         });
 
-        // Soft-delete query filter
-        builder.HasQueryFilter(a => !a.IsDeleted);
+        // NOTE: Query filter (soft-delete + tenant isolation) is defined in AppDbContext.OnModelCreating
 
         // Indexes
         builder.HasIndex(a => new { a.AgentId, a.StartTimeUtc })

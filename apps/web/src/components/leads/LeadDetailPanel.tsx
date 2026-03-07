@@ -7,6 +7,7 @@ import { useEffect, useRef } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { useLead } from '@/hooks/useLead';
+import { useFocusTrap } from '@/hooks/use-focus-trap';
 import { LeadStatusBadge } from './LeadStatusBadge';
 
 interface LeadDetailPanelProps {
@@ -27,6 +28,8 @@ export function LeadDetailPanel({ leadId, onClose, onConvert }: LeadDetailPanelP
   const panelRef = useRef<HTMLDivElement>(null);
 
   const { lead, isLoading } = useLead(leadId);
+
+  useFocusTrap(panelRef);
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {

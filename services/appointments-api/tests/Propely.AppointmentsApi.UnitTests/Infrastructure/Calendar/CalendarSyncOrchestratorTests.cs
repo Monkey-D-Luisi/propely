@@ -155,8 +155,8 @@ public class CalendarSyncOrchestratorTests
         _syncOperationRepository.GetPendingAsync(Arg.Any<CancellationToken>())
             .Returns(new List<SyncOperation> { operation });
 
-        _connectionRepository.GetByIdAsync(connectionId, Arg.Any<CancellationToken>())
-            .Returns((CalendarConnection?)null);
+        _connectionRepository.ListActiveAsync(Arg.Any<CancellationToken>())
+            .Returns(new List<CalendarConnection>());
 
         await _orchestrator.ProcessPendingOperationsAsync();
 
@@ -183,8 +183,8 @@ public class CalendarSyncOrchestratorTests
         _syncOperationRepository.GetPendingAsync(Arg.Any<CancellationToken>())
             .Returns(new List<SyncOperation> { operation });
 
-        _connectionRepository.GetByIdAsync(googleConnection.Id, Arg.Any<CancellationToken>())
-            .Returns(googleConnection);
+        _connectionRepository.ListActiveAsync(Arg.Any<CancellationToken>())
+            .Returns(new List<CalendarConnection> { googleConnection });
 
         _appointmentRepository.GetByIdAsync(appointmentId, googleConnection.TenantId, Arg.Any<CancellationToken>())
             .Returns((Appointment?)null);

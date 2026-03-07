@@ -5,6 +5,7 @@
 
 import { useCallback } from 'react';
 import { appointmentsApiFetch } from '@/lib/api';
+import { ensureCsrfToken } from '@/lib/csrf';
 import type { Appointment } from '@/hooks/useAppointments';
 
 export interface CreateAppointmentRequest {
@@ -22,8 +23,10 @@ export interface CreateAppointmentRequest {
 
 export function useCreateAppointment() {
   return useCallback(async (data: CreateAppointmentRequest) => {
+    const csrfToken = await ensureCsrfToken();
     return appointmentsApiFetch<Appointment>('/api/appointments', {
       method: 'POST',
+      headers: csrfToken ? { 'x-csrf-token': csrfToken } : {},
       body: JSON.stringify(data),
     });
   }, []);

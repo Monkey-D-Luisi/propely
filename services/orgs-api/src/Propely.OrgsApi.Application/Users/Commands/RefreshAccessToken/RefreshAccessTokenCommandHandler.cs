@@ -45,9 +45,30 @@ public sealed class RefreshAccessTokenCommandHandler
         var tokenHash = RefreshToken.HashToken(request.RefreshToken);
         var existingToken = await _refreshTokenRepository.GetByTokenHashAsync(tokenHash, cancellationToken);
 
-        if (existingToken is null || !existingToken.IsActive)
+        if (existingToken is null)
         {
-            _logger.LogWarning("Security: Refresh token validation failed (token not found or inactive)");
+            _logger.LogWarning("Security: Refresh token validation failed (token not found)");
+            throw new UnauthorizedAccessException("INVALID_REFRESH_TOKEN");
+        }
+
+        // Detect token reuse: if the token was already revoked, it means an attacker
+        // replayed a previously-used token. Revoke the entire token family for the user.
+        if (existingToken.IsRevoked)
+        {
+            _logger.LogWarning(
+                "Security: Refresh token reuse detected for user {UserId} — " +
+                "revoking all tokens in the family (potential token theft)",
+                existingToken.UserId);
+
+            await _refreshTokenRepository.RevokeAllForUserAsync(existingToken.UserId, cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            throw new UnauthorizedAccessException("REFRESH_TOKEN_REUSE_DETECTED");
+        }
+
+        if (!existingToken.IsActive)
+        {
+            _logger.LogWarning("Security: Refresh token validation failed (token expired)");
             throw new UnauthorizedAccessException("INVALID_REFRESH_TOKEN");
         }
 

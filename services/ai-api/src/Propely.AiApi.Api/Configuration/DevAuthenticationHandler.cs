@@ -18,8 +18,8 @@ namespace Propely.AiApi.Api.Configuration;
 /// </summary>
 public sealed class DevAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
 {
-    private const string DefaultUserId = "00000000-0000-0000-0000-000000000000";
-    private const string DefaultOrgId = "00000000-0000-0000-0000-000000000001";
+    private const string DefaultUserId = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa";
+    private const string DefaultOrgId = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaab";
 
     public DevAuthenticationHandler(
         IOptionsMonitor<AuthenticationSchemeOptions> options,
@@ -40,7 +40,8 @@ public sealed class DevAuthenticationHandler : AuthenticationHandler<Authenticat
             new(ClaimTypes.Name, "dev-user"),
             new(ClaimTypes.NameIdentifier, userId),
             new("scope", "workitems:read"),
-            new("scope", "workitems:write")
+            new("scope", "workitems:write"),
+            new("role", "owner")
         };
 
         // "none" (case-insensitive) = omit org_id claim entirely (test fail-closed behavior)

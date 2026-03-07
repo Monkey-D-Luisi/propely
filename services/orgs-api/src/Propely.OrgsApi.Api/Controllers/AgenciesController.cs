@@ -1,6 +1,7 @@
 // Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 
+using Propely.OrgsApi.Api.Configuration;
 using Propely.OrgsApi.Api.Dtos;
 using Propely.OrgsApi.Api.Extensions;
 using Propely.OrgsApi.Application.Agencies.Commands.AddBranchToAgency;
@@ -35,6 +36,7 @@ public sealed class AgenciesController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Policy = AuthorizationPolicies.RequireOwnerOrAdmin)]
     public async Task<IActionResult> CreateAgency([FromBody] CreateAgencyRequest request, CancellationToken cancellationToken)
     {
         var userId = this.GetUserId();
@@ -53,6 +55,7 @@ public sealed class AgenciesController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Policy = AuthorizationPolicies.RequireViewer)]
     public async Task<IActionResult> ListAgencies(CancellationToken cancellationToken)
     {
         var userId = this.GetUserId();
@@ -64,6 +67,7 @@ public sealed class AgenciesController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
+    [Authorize(Policy = AuthorizationPolicies.RequireViewer)]
     public async Task<IActionResult> GetAgency(Guid id, CancellationToken cancellationToken)
     {
         var userId = this.GetUserId();
@@ -75,6 +79,7 @@ public sealed class AgenciesController : ControllerBase
     }
 
     [HttpPost("{id:guid}/branches")]
+    [Authorize(Policy = AuthorizationPolicies.RequireOwnerOrAdmin)]
     public async Task<IActionResult> AddBranch(Guid id, [FromBody] AddBranchRequest request, CancellationToken cancellationToken)
     {
         var userId = this.GetUserId();
@@ -92,6 +97,7 @@ public sealed class AgenciesController : ControllerBase
     }
 
     [HttpDelete("{id:guid}/branches/{branchId:guid}")]
+    [Authorize(Policy = AuthorizationPolicies.RequireOwnerOrAdmin)]
     public async Task<IActionResult> RemoveBranch(Guid id, Guid branchId, CancellationToken cancellationToken)
     {
         var userId = this.GetUserId();

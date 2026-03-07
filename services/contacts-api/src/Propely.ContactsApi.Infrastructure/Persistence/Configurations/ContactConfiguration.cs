@@ -99,8 +99,7 @@ public sealed class ContactConfiguration : IEntityTypeConfiguration<Contact>
             .OnDelete(DeleteBehavior.Cascade);
         builder.Navigation(c => c.PropertyInterests).UsePropertyAccessMode(PropertyAccessMode.Field);
 
-        // Soft-delete query filter
-        builder.HasQueryFilter(c => !c.IsDeleted);
+        // NOTE: Query filter (soft-delete + tenant isolation) is defined in AppDbContext.OnModelCreating
 
         // Indexes
         builder.HasIndex(c => c.TenantId)

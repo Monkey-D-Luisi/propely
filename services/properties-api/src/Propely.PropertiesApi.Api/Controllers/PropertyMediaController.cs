@@ -27,6 +27,7 @@ public sealed class PropertyMediaController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Policy = "RequireAgent")]
     [RequestSizeLimit(20 * 1024 * 1024)]
     public async Task<IActionResult> Upload(Guid propertyId, IFormFile file, [FromQuery] MediaType mediaType = MediaType.Photo, CancellationToken cancellationToken = default)
     {
@@ -53,6 +54,7 @@ public sealed class PropertyMediaController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Policy = "RequireViewer")]
     public async Task<IActionResult> List(Guid propertyId, CancellationToken cancellationToken)
     {
         var tenantId = this.GetTenantId();
@@ -64,6 +66,7 @@ public sealed class PropertyMediaController : ControllerBase
     }
 
     [HttpDelete("{mediaId:guid}")]
+    [Authorize(Policy = "RequireAgent")]
     public async Task<IActionResult> Delete(Guid propertyId, Guid mediaId, CancellationToken cancellationToken)
     {
         var tenantId = this.GetTenantId();
@@ -75,6 +78,7 @@ public sealed class PropertyMediaController : ControllerBase
     }
 
     [HttpPatch("reorder")]
+    [Authorize(Policy = "RequireAgent")]
     public async Task<IActionResult> Reorder(Guid propertyId, [FromBody] ReorderRequest request, CancellationToken cancellationToken)
     {
         var tenantId = this.GetTenantId();

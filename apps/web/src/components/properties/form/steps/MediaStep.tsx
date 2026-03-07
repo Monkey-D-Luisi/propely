@@ -4,6 +4,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 
 interface SelectedFile {
@@ -135,10 +136,12 @@ export function MediaStep({ data, onChange }: MediaStepProps) {
           <div className="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6">
             {photos.map((photo) => (
               <div key={photo.id} className="group relative aspect-square overflow-hidden rounded-lg border border-slate-200">
-                <img
+                <Image
                   src={photo.previewUrl}
                   alt={photo.file.name}
-                  className="h-full w-full object-cover"
+                  fill
+                  unoptimized
+                  className="object-cover"
                 />
                 <button
                   type="button"
@@ -190,10 +193,12 @@ export function MediaStep({ data, onChange }: MediaStepProps) {
           <div className="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-4">
             {floorPlans.map((fp) => (
               <div key={fp.id} className="group relative aspect-square overflow-hidden rounded-lg border border-slate-200">
-                <img
+                <Image
                   src={fp.previewUrl}
                   alt={fp.file.name}
-                  className="h-full w-full object-cover"
+                  fill
+                  unoptimized
+                  className="object-cover"
                 />
                 <button
                   type="button"

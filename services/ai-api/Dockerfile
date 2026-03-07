@@ -12,11 +12,22 @@ COPY services/ai-api/src/Propely.AiApi.Application/Propely.AiApi.Application.csp
 COPY services/ai-api/src/Propely.AiApi.Infrastructure/Propely.AiApi.Infrastructure.csproj services/ai-api/src/Propely.AiApi.Infrastructure/
 COPY services/ai-api/src/Propely.AiApi.Api/Propely.AiApi.Api.csproj services/ai-api/src/Propely.AiApi.Api/
 
+# SDK client project files referenced by ai-api (required for dotnet restore)
+COPY services/properties-api/src/Propely.PropertiesApi.Client/Propely.PropertiesApi.Client.csproj services/properties-api/src/Propely.PropertiesApi.Client/
+COPY services/contacts-api/src/Propely.ContactsApi.Client/Propely.ContactsApi.Client.csproj services/contacts-api/src/Propely.ContactsApi.Client/
+COPY services/appointments-api/src/Propely.AppointmentsApi.Client/Propely.AppointmentsApi.Client.csproj services/appointments-api/src/Propely.AppointmentsApi.Client/
+
 RUN dotnet restore services/ai-api/src/Propely.AiApi.Api/Propely.AiApi.Api.csproj
 
 # Stage 2: Build and publish
 FROM restore AS build
 COPY services/ai-api/src/ services/ai-api/src/
+
+# SDK client source files (referenced as ProjectReferences from ai-api)
+COPY services/properties-api/src/Propely.PropertiesApi.Client/ services/properties-api/src/Propely.PropertiesApi.Client/
+COPY services/contacts-api/src/Propely.ContactsApi.Client/ services/contacts-api/src/Propely.ContactsApi.Client/
+COPY services/appointments-api/src/Propely.AppointmentsApi.Client/ services/appointments-api/src/Propely.AppointmentsApi.Client/
+
 RUN dotnet publish services/ai-api/src/Propely.AiApi.Api/Propely.AiApi.Api.csproj \
     -c Release \
     -o /app/publish \

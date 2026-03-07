@@ -16,10 +16,10 @@ public sealed class CalendarConnectionRepository : ICalendarConnectionRepository
         _context = context;
     }
 
-    public async Task<CalendarConnection?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<CalendarConnection?> GetByIdAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default)
     {
         return await _context.CalendarConnections
-            .FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
+            .FirstOrDefaultAsync(c => c.Id == id && c.TenantId == tenantId, cancellationToken);
     }
 
     public async Task<CalendarConnection?> GetByAgentAndProviderAsync(

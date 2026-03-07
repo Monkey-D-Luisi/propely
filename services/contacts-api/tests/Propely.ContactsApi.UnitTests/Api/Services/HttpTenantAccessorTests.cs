@@ -44,7 +44,7 @@ public sealed class HttpTenantAccessorTests
     }
 
     [Fact]
-    public void GetCurrentOrgId_WhenNoOrgIdClaim_ShouldReturnEmptyGuid()
+    public void GetCurrentOrgId_WhenNoOrgIdClaim_ShouldReturnNull()
     {
         var httpContextAccessor = Substitute.For<IHttpContextAccessor>();
         var context = new DefaultHttpContext
@@ -59,11 +59,11 @@ public sealed class HttpTenantAccessorTests
 
         var result = accessor.GetCurrentOrgId();
 
-        result.Should().Be(Guid.Empty);
+        result.Should().BeNull();
     }
 
     [Fact]
-    public void GetCurrentOrgId_WhenInvalidOrgIdClaim_ShouldReturnEmptyGuid()
+    public void GetCurrentOrgId_WhenInvalidOrgIdClaim_ShouldReturnNull()
     {
         var httpContextAccessor = Substitute.For<IHttpContextAccessor>();
         var context = new DefaultHttpContext
@@ -78,11 +78,11 @@ public sealed class HttpTenantAccessorTests
 
         var result = accessor.GetCurrentOrgId();
 
-        result.Should().Be(Guid.Empty);
+        result.Should().BeNull();
     }
 
     [Fact]
-    public void GetCurrentOrgId_WhenEmptyGuidClaim_ShouldReturnEmptyGuid()
+    public void GetCurrentOrgId_WhenEmptyGuidClaim_ShouldReturnNull()
     {
         var httpContextAccessor = Substitute.For<IHttpContextAccessor>();
         var context = new DefaultHttpContext
@@ -97,6 +97,6 @@ public sealed class HttpTenantAccessorTests
 
         var result = accessor.GetCurrentOrgId();
 
-        result.Should().Be(Guid.Empty);
+        result.Should().BeNull();
     }
 }

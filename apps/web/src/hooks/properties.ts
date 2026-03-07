@@ -5,6 +5,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { propertiesApiFetch } from '@/lib/api';
+import { ensureCsrfToken } from '@/lib/csrf';
 import type {
   PropertyListItem,
   Property,
@@ -19,15 +20,8 @@ import {
   PropertiesListResponseSchema,
   PropertySchema,
 } from '@/lib/schemas';
-import type { PaginationState } from '@/hooks/orgs';
-
-const emptyPagination: PaginationState = {
-  pageNumber: 1,
-  totalPages: 0,
-  totalCount: 0,
-  hasPreviousPage: false,
-  hasNextPage: false,
-};
+import type { PaginationState } from '@/lib/pagination';
+import { emptyPagination } from '@/lib/pagination';
 
 export interface PropertyFilters {
   type?: PropertyTypeType;
@@ -175,8 +169,10 @@ export function usePropertyMedia(propertyId: string) {
 
 export function useCreateProperty() {
   return useCallback(async (data: Record<string, unknown>) => {
+    const csrfToken = await ensureCsrfToken();
     return propertiesApiFetch<Property>('/api/properties', {
       method: 'POST',
+      headers: csrfToken ? { 'x-csrf-token': csrfToken } : {},
       body: JSON.stringify(data),
     }, PropertySchema);
   }, []);
@@ -184,8 +180,10 @@ export function useCreateProperty() {
 
 export function useUpdateProperty() {
   return useCallback(async (id: string, data: Record<string, unknown>) => {
+    const csrfToken = await ensureCsrfToken();
     return propertiesApiFetch<Property>(`/api/properties/${id}`, {
       method: 'PUT',
+      headers: csrfToken ? { 'x-csrf-token': csrfToken } : {},
       body: JSON.stringify(data),
     }, PropertySchema);
   }, []);
@@ -193,16 +191,20 @@ export function useUpdateProperty() {
 
 export function useDeleteProperty() {
   return useCallback(async (id: string) => {
+    const csrfToken = await ensureCsrfToken();
     await propertiesApiFetch<void>(`/api/properties/${id}`, {
       method: 'DELETE',
+      headers: csrfToken ? { 'x-csrf-token': csrfToken } : {},
     });
   }, []);
 }
 
 export function useChangePropertyStatus() {
   return useCallback(async (id: string, status: PropertyStatusType) => {
+    const csrfToken = await ensureCsrfToken();
     await propertiesApiFetch<void>(`/api/properties/${id}/status`, {
       method: 'PATCH',
+      headers: csrfToken ? { 'x-csrf-token': csrfToken } : {},
       body: JSON.stringify({ status }),
     });
   }, []);

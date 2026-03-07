@@ -81,4 +81,4 @@ Single Postgres, 6 databases: `propely_aiapi`, `propely_orgsapi`, `propely_prope
 - Prefer file changes over chat -- correctness > security > simplicity > consistency
 - Use GitHub PR template at `.github/PULL_REQUEST_TEMPLATE.md`
 - Design tokens in `apps/web/src/app/globals.css` -- use `primary-*`, never hardcode colors
-- Stitch MCP: Project `16786124142182555397`, model `GEMINI_3_PRO`, pixel-perfect mandate
+- Stitch MCP: Project `11823747923864658899`, model `GEMINI_3_PRO`, pixel-perfect mandate

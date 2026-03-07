@@ -25,9 +25,15 @@ vi.mock('@/lib/api', async () => {
   };
 });
 
+vi.mock('@/lib/csrf', () => ({
+  ensureCsrfToken: vi.fn().mockResolvedValue('mock-csrf-token'),
+}));
+
 import { apiFetch } from '@/lib/api';
+import { ensureCsrfToken } from '@/lib/csrf';
 
 const mockApiFetch = vi.mocked(apiFetch);
+const mockEnsureCsrfToken = vi.mocked(ensureCsrfToken);
 
 // ── Test data ──────────────────────────────────────────────
 
@@ -64,6 +70,7 @@ function pagedResponse<T>(items: T[], totalCount?: number) {
 
 beforeEach(() => {
   vi.resetAllMocks();
+  mockEnsureCsrfToken.mockResolvedValue('mock-csrf-token');
 });
 
 // ── useCurrentUser ─────────────────────────────────────────
@@ -267,7 +274,7 @@ describe('useCreateOrg', () => {
     expect(res).toEqual(response);
     expect(mockApiFetch).toHaveBeenCalledWith(
       '/orgs',
-      { method: 'POST', body: JSON.stringify({ name: 'New Org' }) },
+      { method: 'POST', headers: { 'x-csrf-token': 'mock-csrf-token' }, body: JSON.stringify({ name: 'New Org' }) },
     );
   });
 
@@ -297,7 +304,7 @@ describe('useInviteMember', () => {
     expect(res).toEqual(response);
     expect(mockApiFetch).toHaveBeenCalledWith(
       `/orgs/${ORG_ID}/invitations`,
-      { method: 'POST', body: JSON.stringify(payload) },
+      { method: 'POST', headers: { 'x-csrf-token': 'mock-csrf-token' }, body: JSON.stringify(payload) },
       expect.anything(),
     );
   });
@@ -326,7 +333,7 @@ describe('useUpdateRole', () => {
 
     expect(mockApiFetch).toHaveBeenCalledWith(
       `/orgs/${ORG_ID}/members/${userId}`,
-      { method: 'PUT', body: JSON.stringify({ role: 'admin' }) },
+      { method: 'PUT', headers: { 'x-csrf-token': 'mock-csrf-token' }, body: JSON.stringify({ role: 'admin' }) },
     );
   });
 
@@ -387,7 +394,7 @@ describe('useLeaveOrg', () => {
     expect(res).toEqual({ ok: true });
     expect(mockApiFetch).toHaveBeenCalledWith(
       `/orgs/${ORG_ID}/members/me`,
-      { method: 'DELETE' },
+      { method: 'DELETE', headers: { 'x-csrf-token': 'mock-csrf-token' } },
     );
   });
 
@@ -404,7 +411,7 @@ describe('useLeaveOrg', () => {
     expect(res).toEqual({ ok: true });
     expect(mockApiFetch).toHaveBeenCalledWith(
       `/orgs/${ORG_ID}/members/me`,
-      { method: 'DELETE' },
+      { method: 'DELETE', headers: { 'x-csrf-token': 'mock-csrf-token' } },
     );
   });
 
@@ -427,7 +434,7 @@ describe('useLeaveOrg', () => {
     expect(res).toEqual({ ok: true });
     expect(mockApiFetch).toHaveBeenCalledWith(
       `/orgs/${ORG_ID}/members/me`,
-      { method: 'DELETE' },
+      { method: 'DELETE', headers: { 'x-csrf-token': 'mock-csrf-token' } },
     );
   });
 
@@ -457,7 +464,7 @@ describe('useDeleteOrg', () => {
 
     expect(mockApiFetch).toHaveBeenCalledWith(
       `/orgs/${ORG_ID}`,
-      { method: 'DELETE' },
+      { method: 'DELETE', headers: { 'x-csrf-token': 'mock-csrf-token' } },
     );
   });
 
@@ -482,7 +489,7 @@ describe('useRemoveMember', () => {
 
     expect(mockApiFetch).toHaveBeenCalledWith(
       `/orgs/${ORG_ID}/members/user-123`,
-      { method: 'DELETE' },
+      { method: 'DELETE', headers: { 'x-csrf-token': 'mock-csrf-token' } },
     );
   });
 

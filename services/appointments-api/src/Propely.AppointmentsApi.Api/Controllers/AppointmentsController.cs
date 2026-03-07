@@ -34,6 +34,7 @@ public sealed class AppointmentsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Policy = "RequireAgent")]
     public async Task<IActionResult> Create([FromBody] CreateAppointmentApiRequest request, CancellationToken cancellationToken)
     {
         var userId = this.GetUserId();
@@ -61,6 +62,7 @@ public sealed class AppointmentsController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
+    [Authorize(Policy = "RequireViewer")]
     public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
     {
         var tenantId = this.GetTenantId();
@@ -73,6 +75,7 @@ public sealed class AppointmentsController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Policy = "RequireViewer")]
     public async Task<IActionResult> List(
         [FromQuery] string? search,
         [FromQuery] AppointmentStatus? status,
@@ -117,6 +120,7 @@ public sealed class AppointmentsController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
+    [Authorize(Policy = "RequireAgent")]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateAppointmentApiRequest request, CancellationToken cancellationToken)
     {
         var tenantId = this.GetTenantId();
@@ -142,6 +146,7 @@ public sealed class AppointmentsController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    [Authorize(Policy = "RequireAgent")]
     public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
         var tenantId = this.GetTenantId();
@@ -153,6 +158,7 @@ public sealed class AppointmentsController : ControllerBase
     }
 
     [HttpPut("{id:guid}/confirm")]
+    [Authorize(Policy = "RequireAgent")]
     public async Task<IActionResult> Confirm(Guid id, CancellationToken cancellationToken)
     {
         var tenantId = this.GetTenantId();
@@ -164,6 +170,7 @@ public sealed class AppointmentsController : ControllerBase
     }
 
     [HttpPut("{id:guid}/complete")]
+    [Authorize(Policy = "RequireAgent")]
     public async Task<IActionResult> Complete(Guid id, [FromBody] CompleteAppointmentApiRequest? request, CancellationToken cancellationToken)
     {
         var tenantId = this.GetTenantId();
@@ -181,6 +188,7 @@ public sealed class AppointmentsController : ControllerBase
     }
 
     [HttpPut("{id:guid}/cancel")]
+    [Authorize(Policy = "RequireAgent")]
     public async Task<IActionResult> Cancel(Guid id, [FromBody] CancelAppointmentApiRequest request, CancellationToken cancellationToken)
     {
         var tenantId = this.GetTenantId();
@@ -198,6 +206,7 @@ public sealed class AppointmentsController : ControllerBase
     }
 
     [HttpPut("{id:guid}/no-show")]
+    [Authorize(Policy = "RequireAgent")]
     public async Task<IActionResult> MarkNoShow(Guid id, CancellationToken cancellationToken)
     {
         var tenantId = this.GetTenantId();

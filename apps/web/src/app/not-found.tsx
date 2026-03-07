@@ -5,6 +5,7 @@ import Link from 'next/link';
 
 export default function RootNotFound() {
   return (
+    // Root not-found has no locale context — English fallback intentional
     <main className="min-h-dvh flex flex-col items-center justify-center bg-surface px-4 py-12 relative overflow-x-hidden">
       {/* Decorative background glow */}
       <div className="fixed inset-0 pointer-events-none z-0 flex items-center justify-center">

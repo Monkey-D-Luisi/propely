@@ -59,7 +59,7 @@ public static class ServiceCollectionExtensions
             .ConfigureHttpClient(client =>
             {
                 client.BaseAddress = new Uri(options.BaseUrl);
-                client.Timeout = System.Threading.Timeout.InfiniteTimeSpan;
+                client.Timeout = TimeSpan.FromSeconds(100);
             })
             .AddHttpMessageHandler<TenantDelegatingHandler>()
             .AddResilienceHandler(handlerName, (builder, _) =>

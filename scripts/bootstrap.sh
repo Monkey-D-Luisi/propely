@@ -138,9 +138,13 @@ wait_for_service() {
 
 HEALTH_FAILURES=0
 
-wait_for_service "AI API"   "http://localhost:5010/health/live" || HEALTH_FAILURES=$((HEALTH_FAILURES + 1))
-wait_for_service "Orgs API" "http://localhost:5020/health/live" || HEALTH_FAILURES=$((HEALTH_FAILURES + 1))
-wait_for_service "Web"      "http://localhost:3000"        || HEALTH_FAILURES=$((HEALTH_FAILURES + 1))
+wait_for_service "AI API"           "http://localhost:5010/health/live" || HEALTH_FAILURES=$((HEALTH_FAILURES + 1))
+wait_for_service "Orgs API"         "http://localhost:5020/health/live" || HEALTH_FAILURES=$((HEALTH_FAILURES + 1))
+wait_for_service "Properties API"   "http://localhost:5030/health/live" || HEALTH_FAILURES=$((HEALTH_FAILURES + 1))
+wait_for_service "Publishing API"   "http://localhost:5040/health/live" || HEALTH_FAILURES=$((HEALTH_FAILURES + 1))
+wait_for_service "Contacts API"     "http://localhost:5050/health/live" || HEALTH_FAILURES=$((HEALTH_FAILURES + 1))
+wait_for_service "Appointments API" "http://localhost:5060/health/live" || HEALTH_FAILURES=$((HEALTH_FAILURES + 1))
+wait_for_service "Web"              "http://localhost:3000"             || HEALTH_FAILURES=$((HEALTH_FAILURES + 1))
 
 if [ "$HEALTH_FAILURES" -gt 0 ]; then
     warn "$HEALTH_FAILURES service(s) not responding. Check 'docker compose logs' for details."
@@ -166,9 +170,13 @@ fi
 # --- Done ---
 echo ""
 echo -e "${GREEN}${BOLD}Setup complete!${NC}"
-echo -e "  Web:      ${CYAN}http://localhost:3000${NC}"
-echo -e "  AI API:   ${CYAN}http://localhost:5010${NC}"
-echo -e "  Orgs API: ${CYAN}http://localhost:5020${NC}"
+echo -e "  Web:              ${CYAN}http://localhost:3000${NC}"
+echo -e "  AI API:           ${CYAN}http://localhost:5010${NC}"
+echo -e "  Orgs API:         ${CYAN}http://localhost:5020${NC}"
+echo -e "  Properties API:   ${CYAN}http://localhost:5030${NC}"
+echo -e "  Publishing API:   ${CYAN}http://localhost:5040${NC}"
+echo -e "  Contacts API:     ${CYAN}http://localhost:5050${NC}"
+echo -e "  Appointments API: ${CYAN}http://localhost:5060${NC}"
 echo ""
 echo -e "Run ${BOLD}./scripts/dev-down.sh${NC} to stop all services."
 echo -e "Run ${BOLD}./scripts/dev-reset.sh${NC} to stop and destroy all data."

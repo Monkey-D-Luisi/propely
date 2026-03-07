@@ -3,8 +3,10 @@
 
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
+import { useFocusTrap } from '@/hooks/use-focus-trap';
 import type { PropertyMedia } from '@/lib/schemas';
 
 interface PropertyPhotoGalleryProps {
@@ -16,6 +18,9 @@ export function PropertyPhotoGallery({ media }: PropertyPhotoGalleryProps) {
   const photos = media.filter((m) => m.mediaType === 'Photo');
   const [heroIndex, setHeroIndex] = useState(0);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const lightboxRef = useRef<HTMLDivElement>(null);
+
+  useFocusTrap(lightboxRef, lightboxIndex !== null);
 
   // Close lightbox on Escape, navigate with arrows
   const handleLightboxKeyDown = useCallback(
@@ -67,12 +72,14 @@ export function PropertyPhotoGallery({ media }: PropertyPhotoGalleryProps) {
           className="group relative w-full overflow-hidden rounded-xl bg-slate-100 focus:outline-none focus:ring-2 focus:ring-primary-600"
           data-testid="hero-photo"
         >
-          <div className="aspect-video w-full">
+          <div className="relative aspect-video w-full">
             {heroPhoto?.url || heroPhoto?.thumbnailUrl ? (
-              <img
+              <Image
                 src={heroPhoto.url ?? heroPhoto.thumbnailUrl ?? ''}
                 alt={heroPhoto.fileName}
-                className="h-full w-full object-cover transition group-hover:scale-[1.02]"
+                fill
+                unoptimized
+                className="object-cover transition group-hover:scale-[1.02]"
               />
             ) : (
               <div className="flex h-full w-full items-center justify-center">
@@ -100,10 +107,12 @@ export function PropertyPhotoGallery({ media }: PropertyPhotoGalleryProps) {
                 data-testid={`thumbnail-${index}`}
               >
                 {photo.thumbnailUrl ? (
-                  <img
+                  <Image
                     src={photo.thumbnailUrl}
                     alt={photo.fileName}
-                    className="h-full w-full object-cover"
+                    fill
+                    unoptimized
+                    className="object-cover"
                   />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center">
@@ -121,6 +130,7 @@ export function PropertyPhotoGallery({ media }: PropertyPhotoGalleryProps) {
       {/* Lightbox */}
       {lightboxIndex !== null && (
         <div
+          ref={lightboxRef}
           role="dialog"
           aria-modal="true"
           aria-label="Photo gallery lightbox"
@@ -174,9 +184,12 @@ export function PropertyPhotoGallery({ media }: PropertyPhotoGalleryProps) {
           {/* Current photo */}
           <div className="max-h-[90vh] max-w-[90vw]" onClick={(e) => e.stopPropagation()}>
             {photos[lightboxIndex]?.url ? (
-              <img
+              <Image
                 src={photos[lightboxIndex].url!}
                 alt={photos[lightboxIndex].fileName}
+                width={1920}
+                height={1080}
+                unoptimized
                 className="max-h-[90vh] max-w-[90vw] object-contain"
                 data-testid="lightbox-image"
               />

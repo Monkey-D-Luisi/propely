@@ -345,7 +345,7 @@ Full design audit and consistency pass across all screens using Stitch MCP. Rege
 ### Scope
 
 **In scope:**
-- Audit all existing screens in Stitch project (16786124142182555397)
+- Audit all existing screens in Stitch project (11823747923864658899)
 - Identify inconsistencies: spacing, colors, typography, border radius, shadows
 - Regenerate updated designs for screens that need refinement
 - Download updated Stitch HTML to `.stitch-html/`

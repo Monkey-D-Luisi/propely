@@ -13,6 +13,10 @@ public static class DefaultPermissionMatrix
     private static readonly IReadOnlySet<Permission> OwnerDefaults =
         new HashSet<Permission>(Enum.GetValues<Permission>()).AsReadOnly();
 
+    // INTENTIONAL: Admin and Owner have identical default permissions today.
+    // They will be differentiated when billing/subscription features arrive —
+    // Owner will gain exclusive access to billing management, plan changes,
+    // and org deletion. Until then, both roles grant all permissions.
     private static readonly IReadOnlySet<Permission> AdminDefaults =
         new HashSet<Permission>(Enum.GetValues<Permission>()).AsReadOnly();
 

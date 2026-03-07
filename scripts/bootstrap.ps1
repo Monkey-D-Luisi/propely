@@ -176,9 +176,13 @@ try {
 
     $HealthFailures = 0
 
-    if (-not (Wait-ForService "AI API"   "http://localhost:5010/health/live")) { $HealthFailures++ }
-    if (-not (Wait-ForService "Orgs API" "http://localhost:5020/health/live")) { $HealthFailures++ }
-    if (-not (Wait-ForService "Web"      "http://localhost:3000"))        { $HealthFailures++ }
+    if (-not (Wait-ForService "AI API"           "http://localhost:5010/health/live")) { $HealthFailures++ }
+    if (-not (Wait-ForService "Orgs API"         "http://localhost:5020/health/live")) { $HealthFailures++ }
+    if (-not (Wait-ForService "Properties API"   "http://localhost:5030/health/live")) { $HealthFailures++ }
+    if (-not (Wait-ForService "Publishing API"   "http://localhost:5040/health/live")) { $HealthFailures++ }
+    if (-not (Wait-ForService "Contacts API"     "http://localhost:5050/health/live")) { $HealthFailures++ }
+    if (-not (Wait-ForService "Appointments API" "http://localhost:5060/health/live")) { $HealthFailures++ }
+    if (-not (Wait-ForService "Web"              "http://localhost:3000"))             { $HealthFailures++ }
 
     if ($HealthFailures -gt 0) {
         Write-Warn "$HealthFailures service(s) not responding. Check 'docker compose logs' for details."
@@ -196,9 +200,13 @@ try {
     # --- Done ---
     Write-Host ""
     Write-Host "Setup complete!" -ForegroundColor Green
-    Write-Host "  Web:      http://localhost:3000" -ForegroundColor Cyan
-    Write-Host "  AI API:   http://localhost:5010" -ForegroundColor Cyan
-    Write-Host "  Orgs API: http://localhost:5020" -ForegroundColor Cyan
+    Write-Host "  Web:              http://localhost:3000" -ForegroundColor Cyan
+    Write-Host "  AI API:           http://localhost:5010" -ForegroundColor Cyan
+    Write-Host "  Orgs API:         http://localhost:5020" -ForegroundColor Cyan
+    Write-Host "  Properties API:   http://localhost:5030" -ForegroundColor Cyan
+    Write-Host "  Publishing API:   http://localhost:5040" -ForegroundColor Cyan
+    Write-Host "  Contacts API:     http://localhost:5050" -ForegroundColor Cyan
+    Write-Host "  Appointments API: http://localhost:5060" -ForegroundColor Cyan
     Write-Host ""
     Write-Host "Run .\scripts\dev-down.ps1 to stop all services."
     Write-Host "Run .\scripts\dev-reset.ps1 to stop and destroy all data."

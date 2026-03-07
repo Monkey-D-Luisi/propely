@@ -88,7 +88,7 @@ public static class DependencyInjection
             {
                 policy.WithOrigins(allowedOrigins)
                       .AllowAnyHeader()
-                      .AllowAnyMethod()
+                      .WithMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                       .AllowCredentials();
             });
         });
@@ -176,7 +176,17 @@ public static class DependencyInjection
                 .Build())
             .AddPolicy(AuthorizationPolicies.AdminOnly, policy =>
                 policy.RequireAuthenticatedUser()
-                      .RequireClaim(AuthClaimTypes.SystemAdmin, "true"));
+                      .RequireClaim(AuthClaimTypes.SystemAdmin, "true"))
+            // Role-based authorization policies (hierarchical: higher roles inherit lower)
+            .AddPolicy(AuthorizationPolicies.RequireOwnerOrAdmin, policy =>
+                policy.RequireAuthenticatedUser()
+                      .RequireClaim("role", "owner", "admin"))
+            .AddPolicy(AuthorizationPolicies.RequireAgent, policy =>
+                policy.RequireAuthenticatedUser()
+                      .RequireClaim("role", "owner", "admin", "agent"))
+            .AddPolicy(AuthorizationPolicies.RequireViewer, policy =>
+                policy.RequireAuthenticatedUser()
+                      .RequireClaim("role", "owner", "admin", "agent", "viewer"));
 
         // Permission-based authorization
         services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();

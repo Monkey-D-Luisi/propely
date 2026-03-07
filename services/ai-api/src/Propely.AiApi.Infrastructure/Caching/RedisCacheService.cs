@@ -153,9 +153,12 @@ public sealed class RedisCacheService : ICacheService, IAsyncDisposable
             options.ConnectTimeout = 5000;
             options.SyncTimeout = 5000;
 
-            // Trust Google Memorystore CA cert (private VPC traffic, not publicly trusted)
-            if (options.Ssl)
+            // Only bypass SSL certificate validation when explicitly configured.
+            // In production, SslCertValidation defaults to true (certs are validated).
+            // Set Redis:SslCertValidation=false for Development/Testing with self-signed certs.
+            if (options.Ssl && !_configuration.SslCertValidation)
             {
+                _logger.LogWarning("Redis SSL certificate validation is DISABLED. Do not use this setting in production.");
                 options.CertificateValidation += (_, _, _, _) => true;
             }
 
