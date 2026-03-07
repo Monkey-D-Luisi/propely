@@ -65,10 +65,3 @@ volumes:
     name: ci_propely_rabbitmq_data
   redis_data:
     name: ci_propely_redis_data
-  # SDK client obj/ volumes need CI-specific names for clean teardown
-  ai-api-obj-properties-client:
-    name: ci_ai_api_obj_properties_client
-  ai-api-obj-contacts-client:
-    name: ci_ai_api_obj_contacts_client
-  ai-api-obj-appointments-client:
-    name: ci_ai_api_obj_appointments_client
