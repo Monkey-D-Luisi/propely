@@ -109,7 +109,7 @@ public sealed class ConvertLeadCommandHandler : IRequestHandler<ConvertLeadComma
         return parts.Length switch
         {
             0 => ("Unknown", "Unknown"),
-            1 => (parts[0], parts[0]),
+            1 => (parts[0], string.Empty),
             _ => (parts[0], parts[1])
         };
     }

@@ -3,8 +3,10 @@
 
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
+import { useFocusTrap } from '@/hooks/use-focus-trap';
 import type { PropertyMedia } from '@/lib/schemas';
 
 interface PropertyFloorPlansProps {
@@ -15,6 +17,9 @@ export function PropertyFloorPlans({ media }: PropertyFloorPlansProps) {
   const t = useTranslations('properties.detail');
   const floorPlans = media.filter((m) => m.mediaType === 'FloorPlan');
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const lightboxRef = useRef<HTMLDivElement>(null);
+
+  useFocusTrap(lightboxRef, lightboxIndex !== null);
 
   const handleLightboxKeyDown = useCallback(
     (e: KeyboardEvent) => {
@@ -68,10 +73,12 @@ export function PropertyFloorPlans({ media }: PropertyFloorPlansProps) {
             data-testid={`floor-plan-${index}`}
           >
             {plan.thumbnailUrl || plan.url ? (
-              <img
+              <Image
                 src={plan.thumbnailUrl ?? plan.url ?? ''}
                 alt={plan.fileName}
-                className="h-full w-full object-cover transition group-hover:scale-105"
+                fill
+                unoptimized
+                className="object-cover transition group-hover:scale-105"
               />
             ) : (
               <div className="flex h-full w-full items-center justify-center">
@@ -87,6 +94,7 @@ export function PropertyFloorPlans({ media }: PropertyFloorPlansProps) {
       {/* Lightbox */}
       {lightboxIndex !== null && (
         <div
+          ref={lightboxRef}
           role="dialog"
           aria-modal="true"
           aria-label="Floor plan lightbox"
@@ -133,9 +141,12 @@ export function PropertyFloorPlans({ media }: PropertyFloorPlansProps) {
 
           <div className="max-h-[90vh] max-w-[90vw]" onClick={(e) => e.stopPropagation()}>
             {floorPlans[lightboxIndex]?.url ? (
-              <img
+              <Image
                 src={floorPlans[lightboxIndex].url!}
                 alt={floorPlans[lightboxIndex].fileName}
+                width={1920}
+                height={1080}
+                unoptimized
                 className="max-h-[90vh] max-w-[90vw] object-contain"
               />
             ) : (

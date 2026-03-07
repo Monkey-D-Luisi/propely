@@ -686,6 +686,12 @@ namespace Propely.OrgsApi.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("email_verified_at_utc");
 
+                    b.Property<int>("FailedLoginAttempts")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0)
+                        .HasColumnName("failed_login_attempts");
+
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
@@ -697,6 +703,10 @@ namespace Propely.OrgsApi.Infrastructure.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(false)
                         .HasColumnName("is_system_admin");
+
+                    b.Property<DateTime?>("LockoutEndUtc")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("lockout_end_utc");
 
                     b.Property<string>("Name")
                         .HasMaxLength(200)

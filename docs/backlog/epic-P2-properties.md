@@ -666,7 +666,7 @@ Build the property listing page with table/card views, filters, pagination, sort
 
 **In scope:**
 - Use case definition for property list screen
-- Stitch MCP design generation (Project ID: 16786124142182555397, model: GEMINI_3_PRO)
+- Stitch MCP design generation (Project ID: 11823747923864658899, model: GEMINI_3_PRO)
 - Table view with columns: thumbnail, title, type, operation, price, status, city, agent, updated date
 - Card view (grid) with property cards showing thumbnail, title, price, key features
 - View toggle (table/card)

@@ -28,6 +28,7 @@ public sealed class ContactsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Policy = "RequireAgent")]
     public async Task<IActionResult> Create([FromBody] CreateContactRequest request, CancellationToken cancellationToken)
     {
         var userId = this.GetUserId();
@@ -55,6 +56,7 @@ public sealed class ContactsController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
+    [Authorize(Policy = "RequireViewer")]
     public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
     {
         var tenantId = this.GetTenantId();
@@ -67,6 +69,7 @@ public sealed class ContactsController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Policy = "RequireViewer")]
     public async Task<IActionResult> List(
         [FromQuery] string? search,
         [FromQuery] ContactRole? role,
@@ -99,6 +102,7 @@ public sealed class ContactsController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
+    [Authorize(Policy = "RequireAgent")]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateContactRequest request, CancellationToken cancellationToken)
     {
         var userId = this.GetUserId();
@@ -127,6 +131,7 @@ public sealed class ContactsController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    [Authorize(Policy = "RequireAgent")]
     public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
         var tenantId = this.GetTenantId();

@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+# Frontend: run lint-staged for TS/TSX files
+npx lint-staged
+
+# Backend: run dotnet format on staged .cs files
+STAGED_CS=$(git diff --cached --name-only --diff-filter=ACM -- '*.cs')
+if [ -n "$STAGED_CS" ]; then
+  echo "Running dotnet format on staged .cs files..."
+  dotnet format --include $STAGED_CS --verbosity minimal
+  # Re-stage any files that were reformatted
+  echo "$STAGED_CS" | xargs git add
+fi

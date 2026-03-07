@@ -75,8 +75,7 @@ public sealed class LeadConfiguration : IEntityTypeConfiguration<Lead>
         builder.Property(l => l.DeletedAtUtc)
             .HasColumnName("deleted_at_utc");
 
-        // Soft-delete query filter
-        builder.HasQueryFilter(l => !l.IsDeleted);
+        // NOTE: Query filter (soft-delete + tenant isolation) is defined in AppDbContext.OnModelCreating
 
         // Indexes
         builder.HasIndex(l => l.TenantId)

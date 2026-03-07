@@ -65,6 +65,14 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
             .HasDefaultValue(false)
             .IsRequired();
 
+        builder.Property(u => u.FailedLoginAttempts)
+            .HasColumnName("failed_login_attempts")
+            .HasDefaultValue(0)
+            .IsRequired();
+
+        builder.Property(u => u.LockoutEndUtc)
+            .HasColumnName("lockout_end_utc");
+
         builder.HasIndex(u => u.Email)
             .IsUnique()
             .HasDatabaseName("idx_users_email");

@@ -79,8 +79,7 @@ public sealed class CalendarConnectionConfiguration : IEntityTypeConfiguration<C
         builder.Property(c => c.DeletedAtUtc)
             .HasColumnName("deleted_at_utc");
 
-        // Soft-delete query filter
-        builder.HasQueryFilter(c => !c.IsDeleted);
+        // NOTE: Query filter (soft-delete + tenant isolation) is defined in AppDbContext.OnModelCreating
 
         // Unique index: one connection per agent per provider
         builder.HasIndex(c => new { c.AgentId, c.Provider })

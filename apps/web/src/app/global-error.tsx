@@ -12,6 +12,7 @@ interface GlobalErrorProps {
 
 export default function GlobalError({ reset }: GlobalErrorProps) {
   return (
+    // Root global-error has no locale context — English fallback intentional
     <html lang="en">
       <body className="min-h-dvh bg-surface text-slate-950 antialiased">
         <main className="mx-auto flex min-h-dvh w-full max-w-md flex-col items-center justify-center px-6 py-16 text-center">

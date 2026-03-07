@@ -3,7 +3,8 @@
 
 'use client';
 
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useRef } from 'react';
+import dynamic from 'next/dynamic';
 import { useTranslations } from 'next-intl';
 import { useActiveOrg } from '@/hooks/use-active-org';
 import { useRequireAuth } from '@/hooks/useRequireAuth';
@@ -11,11 +12,24 @@ import { useAppointments, type AppointmentFilters, type AppointmentStatus, type 
 import { useCreateAppointment, type CreateAppointmentRequest } from '@/hooks/useCreateAppointment';
 import { useDeleteAppointment } from '@/hooks/useDeleteAppointment';
 import { useUpdateAppointmentStatus } from '@/hooks/useUpdateAppointmentStatus';
-import { CalendarView } from '@/components/appointments/CalendarView';
+import { useFocusTrap } from '@/hooks/use-focus-trap';
 import { AppointmentDetailPanel } from '@/components/appointments/AppointmentDetailPanel';
 import { AppointmentForm, type AppointmentFormData } from '@/components/appointments/AppointmentForm';
 import { ErrorMessage } from '@/components/ui/ErrorMessage';
 import { useToast } from '@/components/ui/toast';
+
+const CalendarView = dynamic(
+  () => import('@/components/appointments/CalendarView').then((mod) => ({ default: mod.CalendarView })),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="animate-pulse space-y-4">
+        <div className="h-10 w-full rounded-lg bg-slate-200" />
+        <div className="h-[600px] rounded-xl bg-slate-100" />
+      </div>
+    ),
+  },
+);
 
 const statusOptions: AppointmentStatus[] = ['Scheduled', 'Confirmed', 'Completed', 'Cancelled', 'NoShow'];
 const typeOptions: AppointmentType[] = ['PropertyViewing', 'OwnerMeeting', 'Generic'];
@@ -35,6 +49,9 @@ export default function AppointmentsPage() {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [createFormDefaults, setCreateFormDefaults] = useState<Partial<AppointmentFormData>>({});
   const [isSubmitting, setSubmitting] = useState(false);
+  const createFormRef = useRef<HTMLDivElement>(null);
+
+  useFocusTrap(createFormRef, showCreateForm);
 
   const createAppointment = useCreateAppointment();
   const deleteAppointment = useDeleteAppointment();
@@ -236,10 +253,21 @@ export default function AppointmentsPage() {
 
         {/* Create Form Modal */}
         {showCreateForm && (
-          <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/40 pt-20">
-            <div className="relative mx-4 w-full max-w-lg rounded-xl border border-slate-200 bg-white p-6 shadow-xl">
+          <div
+            className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/40 pt-20"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setShowCreateForm(false);
+            }}
+          >
+            <div
+              ref={createFormRef}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="create-appointment-title"
+              className="relative mx-4 w-full max-w-lg rounded-xl border border-slate-200 bg-white p-6 shadow-xl"
+            >
               <div className="mb-6 flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-slate-900">{t('newAppointment')}</h2>
+                <h2 id="create-appointment-title" className="text-lg font-semibold text-slate-900">{t('newAppointment')}</h2>
                 <button
                   type="button"
                   onClick={() => setShowCreateForm(false)}

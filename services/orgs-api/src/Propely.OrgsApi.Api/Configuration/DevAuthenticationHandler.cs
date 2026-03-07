@@ -47,8 +47,9 @@ public sealed class DevAuthenticationHandler : AuthenticationHandler<Authenticat
         var claims = new[]
         {
             new Claim(ClaimTypes.Name, "dev-user"),
-            new Claim(ClaimTypes.NameIdentifier, "00000000-0000-0000-0000-000000000000"), // Guid.Empty
+            new Claim(ClaimTypes.NameIdentifier, "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"), // Well-known dev-only GUID
             new Claim(AuthClaimTypes.SystemAdmin, "true"),
+            new Claim("role", "owner"),
         };
 
         var identity = new ClaimsIdentity(claims, Scheme.Name);

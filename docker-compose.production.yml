@@ -16,6 +16,8 @@ services:
     image: postgres:16-alpine
     container_name: propely-prod-postgres
     restart: unless-stopped
+    mem_limit: 1g
+    cpus: 1.0
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-propely}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -33,6 +35,8 @@ services:
     image: rabbitmq:3-management-alpine
     container_name: propely-prod-rabbitmq
     restart: unless-stopped
+    mem_limit: 512m
+    cpus: 0.5
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-propely}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
@@ -48,6 +52,8 @@ services:
     image: redis:7-alpine
     container_name: propely-prod-redis
     restart: unless-stopped
+    mem_limit: 256m
+    cpus: 0.5
     command: redis-server --requirepass ${REDIS_PASSWORD}
     volumes:
       - redis_data:/data
@@ -67,6 +73,8 @@ services:
       dockerfile: services/ai-api/Dockerfile
     container_name: propely-prod-ai-api
     restart: unless-stopped
+    mem_limit: 1g
+    cpus: 1.0
     environment:
       ASPNETCORE_ENVIRONMENT: Production
       AIAPI_ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=propely_aiapi;Username=${POSTGRES_USER:-propely};Password=${POSTGRES_PASSWORD}
@@ -77,7 +85,7 @@ services:
       AIAPI_Redis__ConnectionString: redis:6379,password=${REDIS_PASSWORD}
       AIAPI_OpenAi__ApiKey: ${AIAPI_OpenAi__ApiKey:-CHANGEME}
     ports:
-      - "${AI_API_PORT:-5010}:8080"
+      - "127.0.0.1:${AI_API_PORT:-5010}:8080"
     depends_on:
       postgres:
         condition: service_healthy
@@ -98,6 +106,8 @@ services:
       dockerfile: services/orgs-api/Dockerfile
     container_name: propely-prod-orgs-api
     restart: unless-stopped
+    mem_limit: 1g
+    cpus: 1.0
     environment:
       ASPNETCORE_ENVIRONMENT: Production
       ORGSAPI_ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=propely_orgsapi;Username=${POSTGRES_USER:-propely};Password=${POSTGRES_PASSWORD}
@@ -110,7 +120,135 @@ services:
       ORGSAPI_Smtp__Host: ${ORGSAPI_Smtp__Host:-mailhog}
       ORGSAPI_Smtp__Port: ${ORGSAPI_Smtp__Port:-1025}
     ports:
-      - "${ORGS_API_PORT:-5020}:8080"
+      - "127.0.0.1:${ORGS_API_PORT:-5020}:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/health/live || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  properties-api:
+    build:
+      context: .
+      dockerfile: services/properties-api/Dockerfile
+    container_name: propely-prod-properties-api
+    restart: unless-stopped
+    mem_limit: 1g
+    cpus: 1.0
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      PROPERTIESAPI_ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=propely_propertiesapi;Username=${POSTGRES_USER:-propely};Password=${POSTGRES_PASSWORD}
+      PROPERTIESAPI_RabbitMQ__Host: rabbitmq
+      PROPERTIESAPI_RabbitMQ__Port: "5672"
+      PROPERTIESAPI_RabbitMQ__Username: ${RABBITMQ_USER:-propely}
+      PROPERTIESAPI_RabbitMQ__Password: ${RABBITMQ_PASSWORD}
+      PROPERTIESAPI_Redis__ConnectionString: redis:6379,password=${REDIS_PASSWORD}
+    ports:
+      - "127.0.0.1:${PROPERTIES_API_PORT:-5030}:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/health/live || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  publishing-api:
+    build:
+      context: .
+      dockerfile: services/publishing-api/Dockerfile
+    container_name: propely-prod-publishing-api
+    restart: unless-stopped
+    mem_limit: 1g
+    cpus: 1.0
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      PUBLISHINGAPI_ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=propely_publishingapi;Username=${POSTGRES_USER:-propely};Password=${POSTGRES_PASSWORD}
+      PUBLISHINGAPI_RabbitMQ__Host: rabbitmq
+      PUBLISHINGAPI_RabbitMQ__Port: "5672"
+      PUBLISHINGAPI_RabbitMQ__Username: ${RABBITMQ_USER:-propely}
+      PUBLISHINGAPI_RabbitMQ__Password: ${RABBITMQ_PASSWORD}
+      PUBLISHINGAPI_Redis__ConnectionString: redis:6379,password=${REDIS_PASSWORD}
+    ports:
+      - "127.0.0.1:${PUBLISHING_API_PORT:-5040}:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/health/live || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  contacts-api:
+    build:
+      context: .
+      dockerfile: services/contacts-api/Dockerfile
+    container_name: propely-prod-contacts-api
+    restart: unless-stopped
+    mem_limit: 1g
+    cpus: 1.0
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      CONTACTSAPI_ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=propely_contactsapi;Username=${POSTGRES_USER:-propely};Password=${POSTGRES_PASSWORD}
+      CONTACTSAPI_RabbitMQ__Host: rabbitmq
+      CONTACTSAPI_RabbitMQ__Port: "5672"
+      CONTACTSAPI_RabbitMQ__Username: ${RABBITMQ_USER:-propely}
+      CONTACTSAPI_RabbitMQ__Password: ${RABBITMQ_PASSWORD}
+      CONTACTSAPI_Redis__ConnectionString: redis:6379,password=${REDIS_PASSWORD}
+    ports:
+      - "127.0.0.1:${CONTACTS_API_PORT:-5050}:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/health/live || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  appointments-api:
+    build:
+      context: .
+      dockerfile: services/appointments-api/Dockerfile
+    container_name: propely-prod-appointments-api
+    restart: unless-stopped
+    mem_limit: 1g
+    cpus: 1.0
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      APPOINTMENTSAPI_ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=propely_appointmentsapi;Username=${POSTGRES_USER:-propely};Password=${POSTGRES_PASSWORD}
+      APPOINTMENTSAPI_RabbitMQ__Host: rabbitmq
+      APPOINTMENTSAPI_RabbitMQ__Port: "5672"
+      APPOINTMENTSAPI_RabbitMQ__Username: ${RABBITMQ_USER:-propely}
+      APPOINTMENTSAPI_RabbitMQ__Password: ${RABBITMQ_PASSWORD}
+      APPOINTMENTSAPI_Redis__ConnectionString: redis:6379,password=${REDIS_PASSWORD}
+    ports:
+      - "127.0.0.1:${APPOINTMENTS_API_PORT:-5060}:8080"
     depends_on:
       postgres:
         condition: service_healthy
@@ -136,6 +274,8 @@ services:
         NEXT_PUBLIC_ORGS_API_URL: ${NEXT_PUBLIC_ORGS_API_URL:?NEXT_PUBLIC_ORGS_API_URL is required}
     container_name: propely-prod-web
     restart: unless-stopped
+    mem_limit: 512m
+    cpus: 0.5
     environment:
       NODE_ENV: production
     ports:

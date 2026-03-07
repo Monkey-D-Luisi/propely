@@ -5,6 +5,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Propely.AiApi.Api.Configuration;
 using Propely.AiApi.Api.Dtos;
 using Propely.AiApi.Application.Actions.Commands.ExecuteAction;
 
@@ -16,7 +17,7 @@ namespace Propely.AiApi.Api.Controllers;
 /// </summary>
 [ApiController]
 [Route("v1/actions")]
-[Authorize]
+[Authorize(Policy = AuthorizationPolicies.RequireAgent)]
 public sealed class ActionsController : ControllerBase
 {
     private readonly IMediator _mediator;

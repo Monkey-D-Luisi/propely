@@ -3,19 +3,10 @@
 
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { apiFetch } from '@/lib/api';
-import type { AuditLog, PagedResponse } from '@/lib/schemas';
+import { useState, useCallback } from 'react';
+import type { AuditLog } from '@/lib/schemas';
 import { AuditLogsResponseSchema } from '@/lib/schemas';
-import type { PaginationState } from '@/hooks/orgs';
-
-const emptyPagination: PaginationState = {
-  pageNumber: 1,
-  totalPages: 0,
-  totalCount: 0,
-  hasPreviousPage: false,
-  hasNextPage: false,
-};
+import { usePaginatedFetch } from '@/hooks/use-fetch';
 
 export type AuditLogFilters = {
   dateFrom?: string;
@@ -26,50 +17,26 @@ export type AuditLogFilters = {
   entityId?: string;
 };
 
+function buildAuditLogsUrl(page: number, pageSize: number, filters: AuditLogFilters): string {
+  const params = new URLSearchParams({
+    page: String(page),
+    pageSize: String(pageSize),
+  });
+  if (filters.dateFrom) params.set('dateFrom', filters.dateFrom);
+  if (filters.dateTo) params.set('dateTo', filters.dateTo);
+  if (filters.userId) params.set('userId', filters.userId);
+  if (filters.action) params.set('action', filters.action);
+  if (filters.entityType) params.set('entityType', filters.entityType);
+  if (filters.entityId) params.set('entityId', filters.entityId);
+  return `/admin/audit-logs?${params}`;
+}
+
 export function useAuditLogs(page = 1, pageSize = 50, filters: AuditLogFilters = {}) {
-  const [logs, setLogs] = useState<AuditLog[]>([]);
-  const [pagination, setPagination] = useState<PaginationState>(emptyPagination);
-  const [isLoading, setLoading] = useState(true);
-  const [error, setError] = useState<unknown>(null);
-
-  const fetcher = useCallback(async (signal?: AbortSignal) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const params = new URLSearchParams({
-        page: String(page),
-        pageSize: String(pageSize),
-      });
-      if (filters.dateFrom) params.set('dateFrom', filters.dateFrom);
-      if (filters.dateTo) params.set('dateTo', filters.dateTo);
-      if (filters.userId) params.set('userId', filters.userId);
-      if (filters.action) params.set('action', filters.action);
-      if (filters.entityType) params.set('entityType', filters.entityType);
-      if (filters.entityId) params.set('entityId', filters.entityId);
-
-      const data = await apiFetch<PagedResponse<AuditLog>>(
-        `/admin/audit-logs?${params}`,
-        { method: 'GET', signal },
-        AuditLogsResponseSchema,
-      );
-      const { items, ...paginationData } = data;
-      setLogs(items);
-      setPagination(paginationData);
-    } catch (e) {
-      if (e instanceof DOMException && e.name === 'AbortError') return;
-      setError(e);
-    } finally {
-      if (!signal?.aborted) setLoading(false);
-    }
-  }, [page, pageSize, filters.dateFrom, filters.dateTo, filters.userId, filters.action, filters.entityType, filters.entityId]);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    void fetcher(controller.signal);
-    return () => { controller.abort(); };
-  }, [fetcher]);
-
-  return { logs, pagination, isLoading, error, refetch: fetcher };
+  const url = buildAuditLogsUrl(page, pageSize, filters);
+  const { items: logs, pagination, isLoading, error, refetch } = usePaginatedFetch<AuditLog>(url, {
+    schema: AuditLogsResponseSchema,
+  });
+  return { logs, pagination, isLoading, error, refetch };
 }
 
 export function useExportAuditLogs() {

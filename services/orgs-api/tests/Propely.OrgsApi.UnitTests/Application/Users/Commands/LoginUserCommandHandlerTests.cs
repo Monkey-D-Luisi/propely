@@ -94,6 +94,77 @@ public sealed class LoginUserCommandHandlerTests
         // Assert
         await act.Should().ThrowAsync<UnauthorizedAccessException>()
             .WithMessage("INVALID_CREDENTIALS");
+        await _unitOfWork.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task Handle_WhenAccountIsLockedOut_ShouldThrowUnauthorizedAccessException()
+    {
+        // Arrange
+        var user = User.Create("test@example.com", "hashed_password", "John Doe");
+
+        // Simulate 5 failed attempts to trigger lockout
+        for (var i = 0; i < User.MaxFailedLoginAttempts; i++)
+        {
+            user.RecordFailedLogin();
+        }
+
+        user.IsLockedOut().Should().BeTrue();
+
+        var command = new LoginUserCommand("test@example.com", "Password123!");
+
+        _userRepository.GetByEmailAsync("test@example.com", Arg.Any<CancellationToken>())
+            .Returns(user);
+
+        // Act
+        var act = () => _handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        await act.Should().ThrowAsync<UnauthorizedAccessException>()
+            .WithMessage("ACCOUNT_LOCKED");
+        _passwordHasher.DidNotReceive().VerifyPassword(Arg.Any<string>(), Arg.Any<string>());
+    }
+
+    [Fact]
+    public async Task Handle_WhenPasswordIsWrong_ShouldIncrementFailedLoginAttempts()
+    {
+        // Arrange
+        var user = User.Create("test@example.com", "hashed_password", "John Doe");
+        var command = new LoginUserCommand("test@example.com", "WrongPassword!");
+
+        _userRepository.GetByEmailAsync("test@example.com", Arg.Any<CancellationToken>())
+            .Returns(user);
+        _passwordHasher.VerifyPassword("WrongPassword!", "hashed_password").Returns(false);
+
+        // Act
+        var act = () => _handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        await act.Should().ThrowAsync<UnauthorizedAccessException>();
+        user.FailedLoginAttempts.Should().Be(1);
+    }
+
+    [Fact]
+    public async Task Handle_WithValidCredentials_ShouldResetFailedLoginAttempts()
+    {
+        // Arrange
+        var user = User.Create("test@example.com", "hashed_password", "John Doe");
+        user.RecordFailedLogin(); // simulate a prior failed attempt
+        user.FailedLoginAttempts.Should().Be(1);
+
+        var command = new LoginUserCommand("test@example.com", "Password123!");
+
+        _userRepository.GetByEmailAsync("test@example.com", Arg.Any<CancellationToken>())
+            .Returns(user);
+        _passwordHasher.VerifyPassword("Password123!", "hashed_password").Returns(true);
+        _jwtTokenService.GenerateToken(user, Arg.Any<IReadOnlyList<Guid>>()).Returns("jwt_token_123");
+
+        // Act
+        await _handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        user.FailedLoginAttempts.Should().Be(0);
+        user.LockoutEndUtc.Should().BeNull();
     }
 
     [Fact]

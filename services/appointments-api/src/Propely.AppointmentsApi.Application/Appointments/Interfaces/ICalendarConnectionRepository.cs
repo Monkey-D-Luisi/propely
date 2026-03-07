@@ -7,7 +7,7 @@ namespace Propely.AppointmentsApi.Application.Appointments.Interfaces;
 
 public interface ICalendarConnectionRepository
 {
-    Task<CalendarConnection?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<CalendarConnection?> GetByIdAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default);
     Task<CalendarConnection?> GetByAgentAndProviderAsync(Guid agentId, Guid tenantId, CalendarProvider provider, CancellationToken cancellationToken = default);
     Task<IReadOnlyList<CalendarConnection>> GetActiveByAgentAsync(Guid agentId, Guid tenantId, CancellationToken cancellationToken = default);
     Task<IReadOnlyList<CalendarConnection>> ListActiveAsync(CancellationToken cancellationToken = default);

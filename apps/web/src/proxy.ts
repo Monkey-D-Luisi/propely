@@ -21,6 +21,9 @@ export default function proxy(request: NextRequest) {
   const nonce = btoa(crypto.randomUUID());
   const orgsApiUrl = process.env.NEXT_PUBLIC_ORGS_API_URL ?? 'http://localhost:5020';
   const aiApiUrl = process.env.NEXT_PUBLIC_AI_API_URL ?? 'http://localhost:5010';
+  const propertiesApiUrl = process.env.NEXT_PUBLIC_PROPERTIES_API_URL ?? 'http://localhost:5030';
+  const contactsApiUrl = process.env.NEXT_PUBLIC_CONTACTS_API_URL ?? 'http://localhost:5050';
+  const appointmentsApiUrl = process.env.NEXT_PUBLIC_APPOINTMENTS_API_URL ?? 'http://localhost:5060';
 
   const cspHeader = [
     `default-src 'self'`,
@@ -28,7 +31,7 @@ export default function proxy(request: NextRequest) {
     `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,
     `img-src 'self' data: blob:`,
     `font-src 'self' https://fonts.gstatic.com`,
-    `connect-src 'self' ${orgsApiUrl} ${aiApiUrl}`,
+    `connect-src 'self' ${orgsApiUrl} ${aiApiUrl} ${propertiesApiUrl} ${contactsApiUrl} ${appointmentsApiUrl}`,
     `frame-src 'self' https://checkout.stripe.com https://billing.stripe.com`,
     `object-src 'none'`,
     `base-uri 'self'`,
@@ -54,6 +57,14 @@ export default function proxy(request: NextRequest) {
   response.headers.set('X-Content-Type-Options', 'nosniff');
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   response.headers.set('X-Frame-Options', 'DENY');
+
+  // HSTS: only in production to avoid locking localhost to HTTPS during development
+  if (process.env.NODE_ENV === 'production') {
+    response.headers.set(
+      'Strict-Transport-Security',
+      'max-age=63072000; includeSubDomains',
+    );
+  }
 
   return response;
 }

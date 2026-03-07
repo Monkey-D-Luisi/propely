@@ -3,9 +3,8 @@
 
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { contactsApiFetch } from '@/lib/api';
-import type { PaginationState } from '@/hooks/orgs';
+import { usePaginatedFetch, type FetcherFn } from '@/hooks/use-fetch';
 
 export type ContactRole = 'Buyer' | 'Seller' | 'Tenant' | 'Landlord' | 'Professional';
 export type ContactSource = 'Portal' | 'WalkIn' | 'Referral' | 'Website' | 'Phone' | 'Other';
@@ -56,57 +55,21 @@ export interface ContactFilters {
   sortDesc?: boolean;
 }
 
-const emptyPagination: PaginationState = {
-  pageNumber: 1,
-  totalPages: 0,
-  totalCount: 0,
-  hasPreviousPage: false,
-  hasNextPage: false,
-};
+function buildContactsUrl(page: number, pageSize: number, filters: ContactFilters): string {
+  const params = new URLSearchParams({
+    page: String(page),
+    pageSize: String(pageSize),
+  });
+  if (filters.search) params.set('search', filters.search);
+  if (filters.role) params.set('role', filters.role);
+  if (filters.sortBy) params.set('sortBy', filters.sortBy);
+  if (filters.sortDesc) params.set('sortDesc', 'true');
+  return `/api/contacts?${params}`;
+}
 
 export function useContacts(page = 1, pageSize = 20, filters: ContactFilters = {}) {
-  const [items, setItems] = useState<ContactListItem[]>([]);
-  const [pagination, setPagination] = useState<PaginationState>(emptyPagination);
-  const [isLoading, setLoading] = useState(true);
-  const [error, setError] = useState<unknown>(null);
-
-  const fetcher = useCallback(async (signal?: AbortSignal) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const params = new URLSearchParams({
-        page: String(page),
-        pageSize: String(pageSize),
-      });
-      if (filters.search) params.set('search', filters.search);
-      if (filters.role) params.set('role', filters.role);
-      if (filters.sortBy) params.set('sortBy', filters.sortBy);
-      if (filters.sortDesc) params.set('sortDesc', 'true');
-
-      const data = await contactsApiFetch<{
-        items: ContactListItem[];
-        pageNumber: number;
-        totalPages: number;
-        totalCount: number;
-        hasPreviousPage: boolean;
-        hasNextPage: boolean;
-      }>(`/api/contacts?${params}`, { method: 'GET', signal });
-      const { items: fetchedItems, ...paginationData } = data;
-      setItems(fetchedItems);
-      setPagination(paginationData);
-    } catch (e) {
-      if (e instanceof DOMException && e.name === 'AbortError') return;
-      setError(e);
-    } finally {
-      if (!signal?.aborted) setLoading(false);
-    }
-  }, [page, pageSize, filters.search, filters.role, filters.sortBy, filters.sortDesc]);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    void fetcher(controller.signal);
-    return () => { controller.abort(); };
-  }, [fetcher]);
-
-  return { items, pagination, isLoading, error, refetch: fetcher };
+  const url = buildContactsUrl(page, pageSize, filters);
+  return usePaginatedFetch<ContactListItem>(url, {
+    fetcher: contactsApiFetch as FetcherFn,
+  });
 }

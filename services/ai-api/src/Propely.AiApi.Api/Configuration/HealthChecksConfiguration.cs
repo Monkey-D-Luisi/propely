@@ -157,6 +157,9 @@ public static class HealthChecksConfiguration
 
         if (!string.IsNullOrEmpty(rabbitHost) && rabbitPort.HasValue)
         {
+            // Register as singleton so the health check reuses a single connection
+            // instead of creating a new one per health check invocation.
+            services.AddSingleton<RabbitMqHealthCheck>();
             healthChecksBuilder.AddCheck<RabbitMqHealthCheck>(
                 "rabbitmq",
                 tags: ["ready", "messaging"]);

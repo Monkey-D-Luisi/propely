@@ -33,7 +33,8 @@ public sealed class PropertyReadRepository : IPropertyReadRepository
         // Full-text search across title and address fields
         if (!string.IsNullOrWhiteSpace(filter.Search))
         {
-            var searchPattern = $"%{filter.Search}%";
+            var escaped = filter.Search.Replace("\\", "\\\\").Replace("%", "\\%").Replace("_", "\\_");
+            var searchPattern = $"%{escaped}%";
             query = query.Where(p =>
                 EF.Functions.ILike(p.Title, searchPattern)
                 || (p.Address != null && p.Address.City != null && EF.Functions.ILike(p.Address.City, searchPattern))
@@ -61,8 +62,11 @@ public sealed class PropertyReadRepository : IPropertyReadRepository
             query = query.Where(p => p.Financials != null && p.Financials.Price <= filter.MaxPrice.Value);
 
         if (!string.IsNullOrWhiteSpace(filter.City))
+        {
+            var escapedCity = filter.City.Replace("\\", "\\\\").Replace("%", "\\%").Replace("_", "\\_");
             query = query.Where(p => p.Address != null && p.Address.City != null
-                && EF.Functions.ILike(p.Address.City, $"%{filter.City}%"));
+                && EF.Functions.ILike(p.Address.City, $"%{escapedCity}%"));
+        }
 
         // Advanced filters: bedrooms, bathrooms, area
         if (filter.MinBedrooms.HasValue)
@@ -125,7 +129,8 @@ public sealed class PropertyReadRepository : IPropertyReadRepository
         // When search is active and no explicit sort, use relevance: title matches first, then address matches
         if (!string.IsNullOrWhiteSpace(search) && string.IsNullOrWhiteSpace(sortBy))
         {
-            var searchPattern = $"%{search}%";
+            var escaped = search.Replace("\\", "\\\\").Replace("%", "\\%").Replace("_", "\\_");
+            var searchPattern = $"%{escaped}%";
             return query.OrderByDescending(p => EF.Functions.ILike(p.Title, searchPattern))
                 .ThenByDescending(p => p.CreatedAtUtc);
         }
@@ -140,7 +145,8 @@ public sealed class PropertyReadRepository : IPropertyReadRepository
             "type" => descending ? query.OrderByDescending(p => p.PropertyType) : query.OrderBy(p => p.PropertyType),
             "created" => descending ? query.OrderByDescending(p => p.CreatedAtUtc) : query.OrderBy(p => p.CreatedAtUtc),
             "relevance" when !string.IsNullOrWhiteSpace(search) =>
-                query.OrderByDescending(p => EF.Functions.ILike(p.Title, $"%{search}%"))
+                query.OrderByDescending(p => EF.Functions.ILike(p.Title,
+                    $"%{search.Replace("\\", "\\\\").Replace("%", "\\%").Replace("_", "\\_")}%"))
                     .ThenByDescending(p => p.CreatedAtUtc),
             _ => query.OrderByDescending(p => p.CreatedAtUtc) // default sort
         };

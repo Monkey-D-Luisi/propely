@@ -90,7 +90,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        service: [ai-api, orgs-api]
+        service: [ai-api, orgs-api, properties-api, contacts-api, appointments-api, publishing-api]
     steps:
       - name: Checkout code
         uses: actions/checkout@v6

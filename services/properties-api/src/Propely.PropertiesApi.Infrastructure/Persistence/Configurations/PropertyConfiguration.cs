@@ -144,8 +144,7 @@ public sealed class PropertyConfiguration : IEntityTypeConfiguration<Property>
             fin.Property(f => f.CatastroReference).HasColumnName("financials_catastro_reference").HasMaxLength(50);
         });
 
-        // Soft-delete query filter
-        builder.HasQueryFilter(p => !p.IsDeleted);
+        // NOTE: Query filter (soft-delete + tenant isolation) is defined in AppDbContext.OnModelCreating
 
         // Indexes
         builder.HasIndex(p => p.TenantId)

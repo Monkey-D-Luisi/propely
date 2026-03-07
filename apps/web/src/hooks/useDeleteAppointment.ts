@@ -5,11 +5,14 @@
 
 import { useCallback } from 'react';
 import { appointmentsApiFetch } from '@/lib/api';
+import { ensureCsrfToken } from '@/lib/csrf';
 
 export function useDeleteAppointment() {
   return useCallback(async (id: string) => {
+    const csrfToken = await ensureCsrfToken();
     return appointmentsApiFetch<void>(`/api/appointments/${id}`, {
       method: 'DELETE',
+      headers: csrfToken ? { 'x-csrf-token': csrfToken } : {},
     });
   }, []);
 }

@@ -43,7 +43,8 @@ public sealed class ContactReadRepository : IContactReadRepository
         // Full-text search across name and email fields
         if (!string.IsNullOrWhiteSpace(filter.Search))
         {
-            var searchPattern = $"%{filter.Search}%";
+            var escaped = filter.Search.Replace("\\", "\\\\").Replace("%", "\\%").Replace("_", "\\_");
+            var searchPattern = $"%{escaped}%";
             query = query.Where(c =>
                 EF.Functions.ILike(c.FirstName, searchPattern)
                 || EF.Functions.ILike(c.LastName, searchPattern)
@@ -107,7 +108,8 @@ public sealed class ContactReadRepository : IContactReadRepository
                     .ThenByDescending(c => c.CreatedAtUtc);
             }
 
-            var searchPattern = $"%{search}%";
+            var escaped = search.Replace("\\", "\\\\").Replace("%", "\\%").Replace("_", "\\_");
+            var searchPattern = $"%{escaped}%";
             return query
                 .OrderByDescending(c => EF.Functions.ILike(c.FirstName, searchPattern)
                     || EF.Functions.ILike(c.LastName, searchPattern))

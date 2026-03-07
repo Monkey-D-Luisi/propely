@@ -34,4 +34,11 @@ public sealed class RedisConfiguration : ICacheSettings
     /// Key prefix for all cache keys.
     /// </summary>
     public string KeyPrefix { get; set; } = "aiapi:";
+
+    /// <summary>
+    /// Whether to validate SSL certificates when connecting to Redis over TLS.
+    /// Defaults to true. Set to false only in Development/Testing environments
+    /// (e.g., when using self-signed certs or Google Memorystore without public CA).
+    /// </summary>
+    public bool SslCertValidation { get; set; } = true;
 }

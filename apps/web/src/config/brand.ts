@@ -3,5 +3,5 @@
 
 export const brand = {
   name: 'Propely',
-  tagline: 'The full-stack SaaS starter kit',
+  tagline: 'AI-powered real estate management',
 } as const;

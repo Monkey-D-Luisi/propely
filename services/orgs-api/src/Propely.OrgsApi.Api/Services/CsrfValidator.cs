@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace Propely.OrgsApi.Api.Services;
@@ -91,12 +92,20 @@ public static class CsrfValidator
         if (!string.IsNullOrEmpty(csrfSecret))
             return csrfSecret;
 
+        // In Production, a dedicated CSRF secret is mandatory -- never fall back to Jwt:Secret.
+        var environment = request.HttpContext.RequestServices.GetRequiredService<IHostEnvironment>();
+        if (environment.IsProduction())
+        {
+            throw new InvalidOperationException(
+                "Csrf:Secret must be configured in Production. Falling back to Jwt:Secret is not allowed in Production environments.");
+        }
+
         if (!_csrfFallbackWarningLogged)
         {
             var logger = request.HttpContext.RequestServices
                 .GetRequiredService<ILoggerFactory>()
                 .CreateLogger(nameof(CsrfValidator));
-            logger.LogWarning("Csrf:Secret is not configured; falling back to Jwt:Secret. Set a dedicated CSRF secret in production.");
+            logger.LogWarning("Csrf:Secret is not configured; falling back to Jwt:Secret. This is only allowed in non-Production environments. Set a dedicated CSRF secret before deploying to Production.");
             _csrfFallbackWarningLogged = true;
         }
 

@@ -49,6 +49,8 @@ jobs:
 
   dotnet-services:
     name: ${{ matrix.service.label }} - Build & Test
+    needs: changes
+    if: needs.changes.outputs.backend == 'true' || github.event_name == 'push'
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     strategy:
       fail-fast: false
@@ -56,7 +58,7 @@ jobs:
         service:
           - { name: ai-api, solution: Propely.AiApi, label: AI API, coverage-threshold: '60' }
           - { name: orgs-api, solution: Propely.OrgsApi, label: Orgs API, coverage-threshold: '60' }
-          - { name: properties-api, solution: Propely.PropertiesApi, label: Properties API, coverage-threshold: '30' }
+          - { name: properties-api, solution: Propely.PropertiesApi, label: Properties API, coverage-threshold: '50' }
           - { name: publishing-api, solution: Propely.PublishingApi, label: Publishing API, coverage-threshold: '60' }
           - { name: contacts-api, solution: Propely.ContactsApi, label: Contacts API, coverage-threshold: '60' }
           - { name: appointments-api, solution: Propely.AppointmentsApi, label: Appointments API, coverage-threshold: '60' }
@@ -334,7 +336,8 @@ jobs:
       - name: Check staleness
         run: |
           if [ "${{ steps.hash.outputs.current }}" != "${{ steps.hash.outputs.stored }}" ]; then
-            echo "::warning::THIRD_PARTY_NOTICES.md may be stale. Dependencies have changed since last generation. Run: ./scripts/generate-third-party-notices.sh"
+            echo "::error::THIRD_PARTY_NOTICES.md is stale. Dependencies have changed since last generation. Run: ./scripts/generate-third-party-notices.sh"
+            exit 1
           else
             echo "Third-party notices are up to date."
           fi

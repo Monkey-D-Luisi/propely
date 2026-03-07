@@ -1,14 +1,12 @@
 // Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 
-'use client';
-
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { TrustedBySection } from '@/components/common/TrustedBySection';
 
-export default function Page() {
-  const t = useTranslations('common');
+export default async function Page() {
+  const t = await getTranslations('common');
 
   return (
     <div className="overflow-hidden pb-0">

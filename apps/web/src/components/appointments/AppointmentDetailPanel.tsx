@@ -7,6 +7,7 @@ import { useEffect, useRef } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { useAppointment } from '@/hooks/useAppointment';
+import { useFocusTrap } from '@/hooks/use-focus-trap';
 import { AppointmentStatusBadge } from './AppointmentStatusBadge';
 import { AppointmentTypeBadge } from './AppointmentTypeBadge';
 import type { AppointmentStatus } from '@/hooks/useAppointments';
@@ -71,6 +72,8 @@ export function AppointmentDetailPanel({
   const panelRef = useRef<HTMLDivElement>(null);
 
   const { appointment, isLoading } = useAppointment(appointmentId);
+
+  useFocusTrap(panelRef);
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {

@@ -30,6 +30,66 @@ updates:
         patterns:
           - "*"
 
+  # NuGet - Properties API
+  - package-ecosystem: nuget
+    directory: /services/properties-api
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - dotnet
+    groups:
+      all-nuget:
+        patterns:
+          - "*"
+
+  # NuGet - Contacts API
+  - package-ecosystem: nuget
+    directory: /services/contacts-api
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - dotnet
+    groups:
+      all-nuget:
+        patterns:
+          - "*"
+
+  # NuGet - Appointments API
+  - package-ecosystem: nuget
+    directory: /services/appointments-api
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - dotnet
+    groups:
+      all-nuget:
+        patterns:
+          - "*"
+
+  # NuGet - Publishing API
+  - package-ecosystem: nuget
+    directory: /services/publishing-api
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - dotnet
+    groups:
+      all-nuget:
+        patterns:
+          - "*"
+
   # npm - Web
   - package-ecosystem: npm
     directory: /apps/web

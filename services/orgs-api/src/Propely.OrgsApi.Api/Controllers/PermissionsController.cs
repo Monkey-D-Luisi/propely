@@ -1,6 +1,7 @@
 // Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 
+using Propely.OrgsApi.Api.Configuration;
 using Propely.OrgsApi.Api.Dtos;
 using Propely.OrgsApi.Api.Extensions;
 using Propely.OrgsApi.Application.Permissions.Commands.RemovePermissionOverride;
@@ -15,7 +16,7 @@ namespace Propely.OrgsApi.Api.Controllers;
 
 [ApiController]
 [Route("api/organizations/{orgId:guid}/permissions")]
-[Authorize]
+[Authorize(Policy = AuthorizationPolicies.RequireOwnerOrAdmin)]
 public sealed class PermissionsController : ControllerBase
 {
     private readonly IMediator _mediator;

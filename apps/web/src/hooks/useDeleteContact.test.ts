@@ -8,6 +8,10 @@ vi.mock('@/lib/api', () => ({
   contactsApiFetch: vi.fn(),
 }));
 
+vi.mock('@/lib/csrf', () => ({
+  ensureCsrfToken: vi.fn().mockResolvedValue('mock-csrf-token'),
+}));
+
 import { contactsApiFetch } from '@/lib/api';
 import { useDeleteContact } from './useDeleteContact';
 
@@ -29,6 +33,7 @@ describe('useDeleteContact', () => {
 
     expect(mockFetch).toHaveBeenCalledWith('/api/contacts/contact-123', {
       method: 'DELETE',
+      headers: { 'x-csrf-token': 'mock-csrf-token' },
     });
   });
 });

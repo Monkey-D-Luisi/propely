@@ -1,12 +1,10 @@
 // Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 
-'use client';
+import { getTranslations } from 'next-intl/server';
 
-import { useTranslations } from 'next-intl';
-
-export default function TermsPage() {
-  const t = useTranslations('legal');
+export default async function TermsPage() {
+  const t = await getTranslations('legal');
 
   const acceptableUseItems = t('terms.acceptableUseItems').split(';');
 

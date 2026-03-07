@@ -5,7 +5,10 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api";
+import { ensureCsrfToken } from "@/lib/csrf";
 import { AUTH_USER_UPDATED_EVENT } from "@/lib/auth-events";
+import { emptyPagination, type PaginationState } from "@/lib/pagination";
+export type { PaginationState } from "@/lib/pagination";
 import {
   InviteRequest,
   InviteResponseSchema,
@@ -20,65 +23,28 @@ import {
   type PagedResponse,
   Role,
 } from "@/lib/schemas";
-
-export type PaginationState = {
-  pageNumber: number;
-  totalPages: number;
-  totalCount: number;
-  hasPreviousPage: boolean;
-  hasNextPage: boolean;
-};
-
-const emptyPagination: PaginationState = {
-  pageNumber: 1,
-  totalPages: 0,
-  totalCount: 0,
-  hasPreviousPage: false,
-  hasNextPage: false,
-};
+import { useFetch } from "@/hooks/use-fetch";
 
 // --- Current user (assumes /auth/me already exists in API)
 export function useCurrentUser() {
-  const [user, setUser] = useState<Me | null>(null);
-  const [isLoading, setLoading] = useState(true);
-  const [error, setError] = useState<unknown>(null);
-
-  const fetchCurrentUser = useCallback(async (signal?: AbortSignal) => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const data = await apiFetch<{ user: Me }>(
-        "/auth/me",
-        { method: "GET", signal },
-        MeResponseSchema,
-      );
-      setUser(data.user);
-    } catch (e) {
-      if (e instanceof DOMException && e.name === "AbortError") return;
-      setError(e);
-      setUser(null);
-    } finally {
-      if (!signal?.aborted) setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    void fetchCurrentUser(controller.signal);
-    return () => { controller.abort(); };
-  }, [fetchCurrentUser]);
+  const { data: user, isLoading, error, refetch } = useFetch<Me>(
+    "/auth/me",
+    {
+      schema: MeResponseSchema,
+      transform: (raw) => (raw as { user: Me }).user,
+    },
+  );
 
   useEffect(() => {
     const onUserUpdated = () => {
-      void fetchCurrentUser();
+      void refetch();
     };
 
     window.addEventListener(AUTH_USER_UPDATED_EVENT, onUserUpdated);
     return () => {
       window.removeEventListener(AUTH_USER_UPDATED_EVENT, onUserUpdated);
     };
-  }, [fetchCurrentUser]);
+  }, [refetch]);
 
   return { user, isLoading, error };
 }
@@ -169,8 +135,10 @@ export function useMembers(orgId: string, page = 1, pageSize = 20, search?: stri
 // --- Create organization
 export function useCreateOrg() {
   return async (name: string) => {
+    const csrfToken = await ensureCsrfToken();
     return apiFetch<{ id: string; name: string }>(`/orgs`, {
       method: "POST",
+      headers: csrfToken ? { "x-csrf-token": csrfToken } : {},
       body: JSON.stringify({ name }),
     });
   };
@@ -179,10 +147,12 @@ export function useCreateOrg() {
 // --- Invite member
 export function useInviteMember(orgId: string) {
   return async (payload: InviteRequest) => {
+    const csrfToken = await ensureCsrfToken();
     return apiFetch(
       `/orgs/${orgId}/invitations`,
       {
         method: "POST",
+        headers: csrfToken ? { "x-csrf-token": csrfToken } : {},
         body: JSON.stringify(payload),
       },
       InviteResponseSchema,
@@ -193,8 +163,10 @@ export function useInviteMember(orgId: string) {
 // --- Update role
 export function useUpdateRole(orgId: string) {
   return async (userId: string, role: Role) => {
+    const csrfToken = await ensureCsrfToken();
     await apiFetch(`/orgs/${orgId}/members/${userId}`, {
       method: "PUT",
+      headers: csrfToken ? { "x-csrf-token": csrfToken } : {},
       body: JSON.stringify({ role }),
     });
   };
@@ -218,8 +190,10 @@ export function useLeaveOrg(orgId: string) {
       if (isLast) return { ok: false, reason: "LAST_OWNER" };
     }
 
+    const csrfToken = await ensureCsrfToken();
     await apiFetch(`/orgs/${orgId}/members/me`, {
       method: "DELETE",
+      headers: csrfToken ? { "x-csrf-token": csrfToken } : {},
     });
     return { ok: true };
   };
@@ -303,10 +277,12 @@ export function useOrg(orgId: string) {
 // --- Update organization
 export function useUpdateOrg(orgId: string) {
   return async (payload: { name: string; description?: string }) => {
+    const csrfToken = await ensureCsrfToken();
     return apiFetch<{ id: string; name: string; description: string | null }>(
       `/orgs/${orgId}`,
       {
         method: "PATCH",
+        headers: csrfToken ? { "x-csrf-token": csrfToken } : {},
         body: JSON.stringify(payload),
       },
     );
@@ -316,8 +292,10 @@ export function useUpdateOrg(orgId: string) {
 // --- Delete organization
 export function useDeleteOrg(orgId: string) {
   return async () => {
+    const csrfToken = await ensureCsrfToken();
     await apiFetch(`/orgs/${orgId}`, {
       method: "DELETE",
+      headers: csrfToken ? { "x-csrf-token": csrfToken } : {},
     });
   };
 }
@@ -325,8 +303,10 @@ export function useDeleteOrg(orgId: string) {
 // --- Remove member from organization
 export function useRemoveMember(orgId: string) {
   return async (userId: string) => {
+    const csrfToken = await ensureCsrfToken();
     await apiFetch(`/orgs/${orgId}/members/${userId}`, {
       method: "DELETE",
+      headers: csrfToken ? { "x-csrf-token": csrfToken } : {},
     });
   };
 }

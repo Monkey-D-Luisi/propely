@@ -4,20 +4,35 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using NSubstitute;
+using Propely.PublishingApi.Application.Common.Interfaces;
+using Propely.PublishingApi.Infrastructure.Caching;
+using Propely.PublishingApi.Infrastructure.Messaging;
 using Propely.PublishingApi.Infrastructure.Persistence;
 
 namespace Propely.PublishingApi.IntegrationTests.Fixtures;
 
 /// <summary>
-/// Minimal test fixture for health endpoint testing.
-/// Uses in-memory database and Testing environment to bypass infrastructure dependencies.
+/// Test fixture for integration testing with in-memory database.
+/// Uses DevScheme authentication to auto-authenticate requests with default user/org claims.
 /// </summary>
 public class TestWebApplicationFactory : WebApplicationFactory<Program>
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Testing");
+
+        builder.ConfigureAppConfiguration((context, config) =>
+        {
+            config.AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                ["Security:AllowAnonymous"] = "true",
+                ["OutboxDispatcher:Enabled"] = "false"
+            });
+        });
 
         builder.ConfigureServices(services =>
         {
@@ -34,6 +49,18 @@ public class TestWebApplicationFactory : WebApplicationFactory<Program>
             {
                 options.UseInMemoryDatabase("TestDb_" + Guid.NewGuid().ToString("N"));
             });
+
+            // Replace RabbitMQ publisher with mock
+            services.RemoveAll<RabbitMqPublisher>();
+            services.RemoveAll<IMessagePublisher>();
+            var mockPublisher = Substitute.For<IMessagePublisher>();
+            services.AddSingleton(mockPublisher);
+
+            // Replace Redis cache service with mock
+            services.RemoveAll<RedisCacheService>();
+            services.RemoveAll<ICacheService>();
+            var mockCacheService = Substitute.For<ICacheService>();
+            services.AddSingleton(mockCacheService);
         });
     }
 }
