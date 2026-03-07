@@ -6,7 +6,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 export default function EditWorkItemLoading() {
   return (
     <div className="flex-1 overflow-y-auto p-8">
-      <div className="mx-auto flex max-w-[1200px] flex-col gap-6">
+      <div className="mx-auto flex max-w-5xl flex-col gap-6">
         {/* Breadcrumb */}
         <Skeleton className="h-4 w-52" />
 

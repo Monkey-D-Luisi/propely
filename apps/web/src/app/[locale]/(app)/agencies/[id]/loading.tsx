@@ -19,7 +19,7 @@ export default function AgencyDetailLoading() {
         {/* Stats cards */}
         <div className="grid gap-4 md:grid-cols-3">
           {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+            <div key={i} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
               <Skeleton className="h-4 w-20" />
               <Skeleton className="mt-2 h-7 w-16" />
             </div>
@@ -27,7 +27,7 @@ export default function AgencyDetailLoading() {
         </div>
 
         {/* Details */}
-        <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
           <Skeleton className="h-5 w-32" />
           <SkeletonText className="mt-4" lines={3} widths={['w-full', 'w-3/4', 'w-1/2']} />
         </div>
