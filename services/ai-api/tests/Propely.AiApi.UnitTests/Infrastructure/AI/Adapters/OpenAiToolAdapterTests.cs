@@ -6,7 +6,7 @@ using OpenAI.Chat;
 using Propely.AiApi.Application.Actions.Tools;
 using Propely.AiApi.Infrastructure.AI.Adapters;
 
-namespace Propely.AiApi.UnitTests.AI.Adapters;
+namespace Propely.AiApi.UnitTests.Infrastructure.AI.Adapters;
 
 public sealed class OpenAiToolAdapterTests
 {

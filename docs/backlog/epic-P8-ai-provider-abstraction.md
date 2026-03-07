@@ -70,10 +70,10 @@ POST /v1/actions/execute
 
 #### In scope
 - Extract all 20 tool definitions from `ToolDefinitions.cs` (OpenAI-coupled `ChatTool.CreateFunctionTool`) into a provider-neutral format
-- Create `ToolSchema` record type: `Name`, `Description`, `ParametersJsonSchema` (raw JSON Schema string), `RequiredParameters` list
+- Create `ToolSchema` record type: `Name`, `Description`, `ParametersJsonSchema` (raw JSON Schema string, including any required parameters), `ActionType`
 - Create `ToolSchemaRegistry` that exposes `IReadOnlyList<ToolSchema> All` and `ToolSchema? GetByName(string name)`
 - Maintain the `ActionType` resolution: `ToolSchemaRegistry.ResolveActionType(string toolName)` (same as current `ToolDefinitions.ResolveActionType`)
-- Create `IToolAdapter` interface: `ConvertToProviderFormat(ToolSchema schema)` returns provider-specific tool object
+- Create `IToolAdapter` interface: `ConvertAll(IReadOnlyList<ToolSchema> schemas)` returns provider-specific tool objects
 - Create `OpenAiToolAdapter : IToolAdapter` that converts `ToolSchema` → `ChatTool.CreateFunctionTool`
 - Ensure all 20 JSON Schemas are identical to current definitions (bit-for-bit parameter compatibility)
 - Remove old `ToolDefinitions.cs` after migration
@@ -84,12 +84,12 @@ POST /v1/actions/execute
 - Moving tool schemas to external files (keep as embedded C# strings for now — simpler, no file I/O)
 
 ### Acceptance Criteria
-- [ ] `ToolSchemaRegistry` exposes all 20 tool schemas with correct names, descriptions, and JSON Schemas
-- [ ] `ToolSchemaRegistry.ResolveActionType` returns correct `ActionType` for all 20 function names
-- [ ] `OpenAiToolAdapter` converts all 20 schemas into `ChatTool` objects identical to the current `ToolDefinitions.All`
-- [ ] `ToolDefinitions.cs` is deleted — no references to `ChatTool.CreateFunctionTool` outside the adapter
-- [ ] All existing unit and integration tests pass without modification (behavioral equivalence)
-- [ ] No OpenAI-specific types in Application layer (only in Infrastructure adapter)
+- [x] `ToolSchemaRegistry` exposes all 20 tool schemas with correct names, descriptions, and JSON Schemas
+- [x] `ToolSchemaRegistry.ResolveActionType` returns correct `ActionType` for all 20 function names
+- [x] `OpenAiToolAdapter` converts all 20 schemas into `ChatTool` objects identical to the current `ToolDefinitions.All`
+- [x] `ToolDefinitions.cs` is deleted — no references to `ChatTool.CreateFunctionTool` outside the adapter
+- [x] All existing unit and integration tests pass without modification (behavioral equivalence)
+- [x] No OpenAI-specific types in Application layer (only in Infrastructure adapter)
 
 ### Implementation Steps
 1. Create `ToolSchema` record in Application layer: `Propely.AiApi.Application.Actions.Tools.ToolSchema`

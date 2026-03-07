@@ -21,8 +21,8 @@ namespace Propely.AiApi.Infrastructure.AI;
 public sealed class OpenAiIntentClassifier : IIntentClassifier
 {
     private readonly ChatClient? _chatClient;
+    private readonly IReadOnlyList<ChatTool> _providerTools;
     private readonly IToolSchemaRegistry _toolSchemaRegistry;
-    private readonly OpenAiToolAdapter _toolAdapter;
     private readonly ILogger<OpenAiIntentClassifier> _logger;
 
     private const string SystemPrompt = """
@@ -96,7 +96,7 @@ public sealed class OpenAiIntentClassifier : IIntentClassifier
         ILogger<OpenAiIntentClassifier> logger)
     {
         _toolSchemaRegistry = toolSchemaRegistry;
-        _toolAdapter = toolAdapter;
+        _providerTools = toolAdapter.ConvertAll(toolSchemaRegistry.All).Cast<ChatTool>().ToList();
         _logger = logger;
         var apiKey = options.Value.ApiKey;
         var modelId = options.Value.ModelId;
@@ -116,10 +116,9 @@ public sealed class OpenAiIntentClassifier : IIntentClassifier
         }
 
         var chatOptions = new ChatCompletionOptions();
-        var providerTools = _toolAdapter.ConvertAll(_toolSchemaRegistry.All);
-        foreach (var tool in providerTools)
+        foreach (var tool in _providerTools)
         {
-            chatOptions.Tools.Add((ChatTool)tool);
+            chatOptions.Tools.Add(tool);
         }
 
         var messages = new List<ChatMessage>

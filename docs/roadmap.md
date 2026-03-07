@@ -803,8 +803,8 @@ The AI action engine (P3) depends on service SDKs being available. The recommend
 ### Task 8.3 — OpenAI Classifier Adapter Refactor
 - **Status:** PENDING
 - **Dependencies:** 8.1, 8.2
-- **Scope:** Refactor `OpenAiIntentClassifier` to use `IToolSchemaRegistry` + `OpenAiToolAdapter` via DI injection. Add keyed DI for multi-provider support preparation. No OpenAI types in Application layer.
-- **TDD:** Adapter injection tests, provider DI resolution tests.
+- **Scope:** Add keyed DI for multi-provider support preparation (classifier DI injection was completed in 8.1). Add `AiProvider` configuration option. No OpenAI types in Application layer.
+- **TDD:** Provider key DI resolution tests.
 
 ### Task 8.4 — MCP Server Endpoint
 - **Status:** PENDING
