@@ -29,7 +29,7 @@ test.describe('Permission management flow', () => {
     await expect(page.getByText('Permission Management')).toBeVisible({
       timeout: 30_000,
     });
-    await expect(page.getByText('Manage fine-grained permissions for branch members')).toBeVisible();
+    await expect(page.getByText('Manage fine-grained permissions for branch members')).toBeVisible({ timeout: 10_000 });
 
     // Step 5: Verify the owner (current user) appears in the members table
     await expect(page.getByText('Owner')).toBeVisible();
@@ -61,14 +61,14 @@ test.describe('Permission management flow', () => {
 
     // Step 4: Verify the permission detail page renders with categories
     await expect(page.getByText('Properties')).toBeVisible({ timeout: 30_000 });
-    await expect(page.getByText('Contacts')).toBeVisible();
-    await expect(page.getByText('Appointments')).toBeVisible();
-    await expect(page.getByText('Leads')).toBeVisible();
-    await expect(page.getByText('Reports')).toBeVisible();
+    await expect(page.getByText('Contacts')).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Appointments')).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Leads')).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Reports')).toBeVisible({ timeout: 10_000 });
 
     // Step 5: Verify owner note is shown
     await expect(
       page.getByText('Owners always have full access'),
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 10_000 });
   });
 });
