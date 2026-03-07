@@ -264,7 +264,6 @@ public sealed class ActionRouterTests
     }
 
     [Theory]
-    [InlineData(ActionType.CreateLead)]
     [InlineData(ActionType.BookViewing)]
     [InlineData(ActionType.QueryAppointments)]
     [InlineData(ActionType.CancelAppointment)]

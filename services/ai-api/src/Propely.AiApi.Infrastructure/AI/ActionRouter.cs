@@ -3,6 +3,7 @@
 
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Propely.AiApi.Application.Actions.Commands.ContactActions;
 using Propely.AiApi.Application.Actions.Commands.Content;
 using Propely.AiApi.Application.Actions.Commands.Operations;
 using Propely.AiApi.Application.Actions.Commands.PropertyActions;
@@ -76,6 +77,18 @@ public sealed class ActionRouter : IActionRouter
             ActionType.GenerateCopy => await _mediator.Send(
                 new GenerateCopyActionCommand(intent.Parameters, tenantId, agentId), ct),
 
+            // Contact & Lead actions — dispatched to MediatR handlers
+            ActionType.CreateLead => await _mediator.Send(
+                new CreateLeadActionCommand(intent.Parameters, tenantId, agentId), ct),
+            ActionType.CreateContact => await _mediator.Send(
+                new CreateContactActionCommand(intent.Parameters, tenantId, agentId), ct),
+            ActionType.QualifyLead => await _mediator.Send(
+                new QualifyLeadActionCommand(intent.Parameters, tenantId, agentId), ct),
+            ActionType.ConvertLead => await _mediator.Send(
+                new ConvertLeadActionCommand(intent.Parameters, tenantId, agentId), ct),
+            ActionType.QueryLeads => await _mediator.Send(
+                new QueryLeadsActionCommand(intent.Parameters, tenantId, agentId), ct),
+
             // All other action types — placeholder until subsequent tasks implement them
             _ => ActionResult.Ok(
                 data: new { intent.Parameters },
@@ -87,11 +100,6 @@ public sealed class ActionRouter : IActionRouter
 
     private static string GetPlaceholderMessage(ActionType actionType) => actionType switch
     {
-        ActionType.CreateLead => "I understood you want to create a lead. This action will be available soon.",
-        ActionType.CreateContact => "I understood you want to create a contact. This action will be available soon.",
-        ActionType.QualifyLead => "I understood you want to qualify a lead. This action will be available soon.",
-        ActionType.ConvertLead => "I understood you want to convert a lead. This action will be available soon.",
-        ActionType.QueryLeads => "I understood you want to search leads. This action will be available soon.",
         ActionType.BookViewing => "I understood you want to book a viewing. This action will be available soon.",
         ActionType.QueryAppointments => "I understood you want to search appointments. This action will be available soon.",
         ActionType.CancelAppointment => "I understood you want to cancel an appointment. This action will be available soon.",

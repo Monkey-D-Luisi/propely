@@ -93,7 +93,7 @@ User Input (text or voice audio)
 | 3.1 | Intent Classifier & Action Router | DONE | 0.4 |
 | 3.2 | Property Actions via Natural Language | DONE | 3.1, 2.6 |
 | 3.3 | AI Content Generation | DONE | 3.1 |
-| 3.4 | Contact & Lead Actions via Natural Language | BLOCKED | 3.1, 4.5 |
+| 3.4 | Contact & Lead Actions via Natural Language | IN_PROGRESS | 3.1, 4.5 |
 | 3.5 | Operation Actions via Natural Language | DONE | 3.2 |
 | 3.6 | Appointment Actions via Natural Language | BLOCKED | 3.1, 5.8 |
 | 3.7 | Voice Input (Speech-to-Text) | DONE | 3.1 |
@@ -437,7 +437,7 @@ Write `ExtractedPropertyDto` mapping tests first. Write handler tests with known
 
 ## Task 3.4 -- Contact & Lead Actions via Natural Language
 
-**Status:** BLOCKED
+**Status:** IN_PROGRESS
 **Dependencies:** 3.1 (action engine core), 4.5 (ContactsApi SDK client)
 
 ### Goal
