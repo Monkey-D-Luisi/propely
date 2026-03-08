@@ -113,6 +113,7 @@ services:
       - ./services/properties-api/src/Propely.PropertiesApi.Client:/properties-api/src/Propely.PropertiesApi.Client
       - ./services/contacts-api/src/Propely.ContactsApi.Client:/contacts-api/src/Propely.ContactsApi.Client
       - ./services/appointments-api/src/Propely.AppointmentsApi.Client:/appointments-api/src/Propely.AppointmentsApi.Client
+      - ./services/shared/Propely.Shared.Http:/shared/Propely.Shared.Http
     ports:
       - "127.0.0.1:5010:5010"
     depends_on:

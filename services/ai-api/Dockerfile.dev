@@ -23,6 +23,9 @@ COPY client-stubs/Propely.PropertiesApi.Client.csproj /properties-api/src/Propel
 COPY client-stubs/Propely.ContactsApi.Client.csproj /contacts-api/src/Propely.ContactsApi.Client/Propely.ContactsApi.Client.csproj
 COPY client-stubs/Propely.AppointmentsApi.Client.csproj /appointments-api/src/Propely.AppointmentsApi.Client/Propely.AppointmentsApi.Client.csproj
 
+# Shared project stub referenced by all SDK client stubs
+COPY client-stubs/Propely.Shared.Http.csproj /shared/Propely.Shared.Http/Propely.Shared.Http.csproj
+
 RUN dotnet restore src/Propely.AiApi.Api/Propely.AiApi.Api.csproj
 
 COPY . .

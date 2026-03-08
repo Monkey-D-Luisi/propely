@@ -21,7 +21,7 @@ Deduplicated the `TenantDelegatingHandler` class from 5 identical copies (one pe
   - Consequences / risks: None — this is standard monorepo practice
 
 ## Implementation Notes
-- Key changes: Created `Propely.Shared.Http` project in `services/shared/` containing the canonical `TenantDelegatingHandler`. Updated all 5 SDK clients to reference this shared project via `ProjectReference`. Updated 7 test files to use `using Propely.Shared.Http;` instead of the old service-specific namespaces. Deleted 5 duplicate handler files.
+- Key changes: Created `Propely.Shared.Http` project in `services/shared/` containing the canonical `TenantDelegatingHandler`. Updated all 5 SDK clients to reference this shared project via `ProjectReference`. Updated 6 test files to use `using Propely.Shared.Http;` instead of the old service-specific namespaces. Deleted 5 duplicate handler files.
 - Edge cases handled: The orgs-api copy had slightly different cosmetic style (missing XML docs, extra inline comment) — the canonical version uses the fully-documented variant (same as ai-api, properties-api, contacts-api, appointments-api).
 - Known limitations: N/A
 
