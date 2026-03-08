@@ -41,3 +41,5 @@ public sealed record CompleteAppointmentApiRequest
 {
     public string? Notes { get; init; }
 }
+
+public sealed record CountUpcomingApiResponse(int Count);

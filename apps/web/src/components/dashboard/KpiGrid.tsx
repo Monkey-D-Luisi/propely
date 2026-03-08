@@ -14,8 +14,6 @@ type KpiCardProps = {
 };
 
 export function KpiCard({ icon, value, label, accentColor, iconBg }: KpiCardProps) {
-  const t = useTranslations('dashboard');
-
   return (
     <div
       className={`rounded-xl bg-white p-5 shadow-sm border-l-4 ${accentColor}`}
