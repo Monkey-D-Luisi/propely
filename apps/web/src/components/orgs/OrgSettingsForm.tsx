@@ -159,7 +159,7 @@ export function OrgSettingsForm({ orgId }: OrgSettingsFormProps) {
               type="button"
               onClick={methods.handleSubmit(onSubmit)}
               disabled={methods.formState.isSubmitting}
-              className="rounded-lg h-9 px-4 bg-primary-600 hover:bg-primary-600/90 text-white text-sm font-medium shadow-sm transition-colors disabled:opacity-60"
+              className="rounded-lg h-9 px-4 bg-primary-600 hover:bg-primary-600/90 text-white text-sm font-medium shadow-sm transition-colors disabled:opacity-60 focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
             >
               {methods.formState.isSubmitting ? t('settings.saving') : t('settings.save')}
             </button>

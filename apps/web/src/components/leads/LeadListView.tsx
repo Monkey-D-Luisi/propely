@@ -71,7 +71,7 @@ export function LeadListView({ items, isLoading, onViewDetails, onChangeStatus, 
                       onChange={(e) => {
                         if (e.target.value) onChangeStatus(item.id, e.target.value as LeadStatus);
                       }}
-                      className="rounded-md border border-slate-200 px-2 py-1 text-xs text-slate-600 transition focus:border-transparent focus:ring-2 focus:ring-primary-600"
+                      className="rounded-lg border border-slate-200 px-2 py-1 text-xs text-slate-600 transition focus:border-transparent focus:ring-2 focus:ring-primary-600"
                       aria-label={t('card.changeStatus')}
                     >
                       <option value="">{t('card.changeStatus')}</option>

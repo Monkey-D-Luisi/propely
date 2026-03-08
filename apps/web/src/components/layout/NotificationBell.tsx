@@ -59,7 +59,7 @@ export function NotificationBell() {
         onClick={toggle}
         aria-expanded={isOpen}
         aria-haspopup="true"
-        className="relative rounded-md p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
+        className="relative rounded-lg p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
         aria-label={t('bellLabel')}
       >
         <svg

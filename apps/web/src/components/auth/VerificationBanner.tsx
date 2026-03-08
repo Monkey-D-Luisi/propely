@@ -71,7 +71,7 @@ export function VerificationBanner({ show }: VerificationBannerProps) {
           type="button"
           onClick={() => void onResend()}
           disabled={state === 'sending'}
-          className="inline-flex items-center justify-center rounded-md border border-amber-300 bg-white px-3 py-1.5 text-xs font-medium text-amber-900 transition hover:bg-amber-100 disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex items-center justify-center rounded-lg border border-amber-300 bg-white px-3 py-1.5 text-xs font-medium text-amber-900 transition hover:bg-amber-100 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {state === 'sending' ? t('verificationBanner.resendSending') : t('verificationBanner.resendAction')}
         </button>
