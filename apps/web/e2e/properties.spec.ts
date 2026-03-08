@@ -6,7 +6,7 @@ import { mockAuthenticatedSession, mockOrg } from './helpers/mock-session.helper
 
 // Mock property data matching the PropertyListItem schema
 const mockPropertyListItem = {
-  id: '00000000-0000-0000-0000-000000000100',
+  id: 'a0000000-0000-4000-a000-000000000100',
   title: 'Modern Apartment in Madrid',
   propertyType: 'Apartment',
   operationType: 'Sale',
@@ -16,13 +16,13 @@ const mockPropertyListItem = {
   builtArea: 120,
   bedrooms: 3,
   bathrooms: 2,
-  agentId: '00000000-0000-0000-0000-000000000001',
+  agentId: 'a0000000-0000-4000-a000-000000000001',
   createdAtUtc: '2026-01-15T10:00:00Z',
   updatedAtUtc: null,
 };
 
 const mockPropertyListItem2 = {
-  id: '00000000-0000-0000-0000-000000000101',
+  id: 'a0000000-0000-4000-a000-000000000101',
   title: 'Beach House in Valencia',
   propertyType: 'House',
   operationType: 'Rent',
@@ -32,20 +32,20 @@ const mockPropertyListItem2 = {
   builtArea: 200,
   bedrooms: 4,
   bathrooms: 3,
-  agentId: '00000000-0000-0000-0000-000000000001',
+  agentId: 'a0000000-0000-4000-a000-000000000001',
   createdAtUtc: '2026-02-20T14:30:00Z',
   updatedAtUtc: null,
 };
 
 // Full property detail matching the Property schema
 const mockPropertyDetail = {
-  id: '00000000-0000-0000-0000-000000000100',
+  id: 'a0000000-0000-4000-a000-000000000100',
   title: 'Modern Apartment in Madrid',
   propertyType: 'Apartment',
   operationType: 'Sale',
   status: 'Active',
   tenantId: mockOrg.id,
-  agentId: '00000000-0000-0000-0000-000000000001',
+  agentId: 'a0000000-0000-4000-a000-000000000001',
   agencyId: null,
   description: { en: 'A beautiful modern apartment in the heart of Madrid.', es: 'Un hermoso apartamento moderno en el coraz\u00f3n de Madrid.' },
   address: {

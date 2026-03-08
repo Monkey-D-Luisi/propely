@@ -5,7 +5,7 @@ import type { Page } from '@playwright/test';
 
 // Default mock user returned by /auth/me
 export const mockUser = {
-  id: '00000000-0000-0000-0000-000000000001',
+  id: 'a0000000-0000-4000-a000-000000000001',
   email: 'e2e-mock@test.local',
   name: 'E2E Mock User',
   emailVerified: true,
@@ -14,7 +14,7 @@ export const mockUser = {
 
 // Default mock org returned by /orgs/mine
 export const mockOrg = {
-  id: '00000000-0000-0000-0000-000000000010',
+  id: 'a0000000-0000-4000-a000-000000000010',
   name: 'E2E Test Agency',
   description: 'Mock org for E2E tests',
   role: 'Owner',

@@ -6,7 +6,7 @@ import { mockAuthenticatedSession } from './helpers/mock-session.helper';
 
 // Mock contact data matching the ContactListItem interface
 const mockContactListItem1 = {
-  id: '00000000-0000-0000-0000-000000000200',
+  id: 'a0000000-0000-4000-a000-000000000200',
   firstName: 'Maria',
   lastName: 'Garcia',
   email: 'maria.garcia@example.com',
@@ -17,7 +17,7 @@ const mockContactListItem1 = {
 };
 
 const mockContactListItem2 = {
-  id: '00000000-0000-0000-0000-000000000201',
+  id: 'a0000000-0000-4000-a000-000000000201',
   firstName: 'Carlos',
   lastName: 'Rodriguez',
   email: 'carlos.rodriguez@example.com',
@@ -28,7 +28,7 @@ const mockContactListItem2 = {
 };
 
 const mockContactListItem3 = {
-  id: '00000000-0000-0000-0000-000000000202',
+  id: 'a0000000-0000-4000-a000-000000000202',
   firstName: 'Elena',
   lastName: 'Martinez',
   email: 'elena.martinez@example.com',
@@ -40,7 +40,7 @@ const mockContactListItem3 = {
 
 // Full contact detail matching the Contact interface
 const mockContactDetail = {
-  id: '00000000-0000-0000-0000-000000000200',
+  id: 'a0000000-0000-4000-a000-000000000200',
   firstName: 'Maria',
   lastName: 'Garcia',
   email: 'maria.garcia@example.com',
@@ -50,8 +50,8 @@ const mockContactDetail = {
   notes: 'Interested in apartments in central Madrid.',
   preferredLanguage: 'es',
   source: 'Website',
-  assignedAgentId: '00000000-0000-0000-0000-000000000001',
-  tenantId: '00000000-0000-0000-0000-000000000010',
+  assignedAgentId: 'a0000000-0000-4000-a000-000000000001',
+  tenantId: 'a0000000-0000-4000-a000-000000000010',
   roles: ['Buyer'],
   propertyInterests: [],
   createdAtUtc: '2026-01-10T09:00:00Z',
@@ -64,22 +64,6 @@ test.describe('Contacts list page (mocked API)', () => {
   });
 
   test('renders contacts list with mocked data', async ({ page }) => {
-    // Track which mock routes are actually hit and any backend requests
-    const mockHits: string[] = [];
-    page.on('request', (req) => {
-      const u = req.url();
-      if (u.includes(':5020') || u.includes(':5050') || u.includes('login'))
-        mockHits.push(`>> ${req.method()} ${u}`);
-    });
-    page.on('response', (res) => {
-      const u = res.url();
-      if (u.includes(':5020') || u.includes(':5050'))
-        mockHits.push(`<< ${res.status()} ${u}`);
-    });
-    page.on('requestfailed', (req) => {
-      mockHits.push(`!! FAILED ${req.method()} ${req.url()} ${req.failure()?.errorText}`);
-    });
-
     // Mock contacts list endpoint
     await page.route(/\/api\/contacts\?/, async (route) => {
       await route.fulfill({
@@ -97,13 +81,6 @@ test.describe('Contacts list page (mocked API)', () => {
     });
 
     await page.goto('/en/contacts');
-
-    // Wait and dump diagnostics
-    await page.waitForTimeout(5000);
-    console.log('=== CONTACTS MOCK DIAGNOSTICS ===');
-    console.log('Current URL:', page.url());
-    for (const line of mockHits) console.log(line);
-    console.log('=== END ===');
 
     // Page heading should be visible
     await expect(page.getByRole('heading', { name: 'Contacts' })).toBeVisible({ timeout: 15_000 });
@@ -197,7 +174,7 @@ test.describe('Contact detail page (mocked API)', () => {
   });
 
   test('contact detail page shows error for non-existent contact', async ({ page }) => {
-    const fakeId = '00000000-0000-0000-0000-999999999999';
+    const fakeId = 'a0000000-0000-4000-a000-999999999999';
 
     // Mock the contact endpoint to return 404
     await page.route(new RegExp(`/api/contacts/${fakeId}$`), async (route) => {
