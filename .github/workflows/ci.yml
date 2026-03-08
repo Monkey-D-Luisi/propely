@@ -299,9 +299,9 @@ jobs:
               name="${svc%%:*}"
               port="${svc##*:}"
               if [ "$name" = "web" ]; then
-                url="http://localhost:${port}/en"
+                url="http://127.0.0.1:${port}/en"
               else
-                url="http://localhost:${port}/health/ready"
+                url="http://127.0.0.1:${port}/health/ready"
               fi
               if curl -sf --connect-timeout 2 --max-time 5 "$url" > /dev/null 2>&1; then
                 status_line="$status_line $name:OK"
@@ -326,6 +326,9 @@ jobs:
       - name: Run E2E tests
         working-directory: apps/web
         run: npx playwright test
+        env:
+          # Use 127.0.0.1 to avoid IPv6 resolution issues with Docker port bindings
+          PLAYWRIGHT_BASE_URL: http://127.0.0.1:3000
 
       - name: Upload Playwright report
         uses: actions/upload-artifact@v7

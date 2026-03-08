@@ -12,7 +12,7 @@ test.describe('Marketing pages', () => {
 
     // CTA buttons should be present
     await expect(page.getByRole('link', { name: /get started/i }).first()).toBeVisible();
-    await expect(page.getByRole('link', { name: /demo|pricing/i })).toBeVisible();
+    await expect(page.getByRole('link', { name: /demo|pricing/i }).first()).toBeVisible();
 
     // Feature cards section exists
     await expect(page.locator('h3').first()).toBeVisible();

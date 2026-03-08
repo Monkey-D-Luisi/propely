@@ -4,8 +4,6 @@
 import { test, expect } from '@playwright/test';
 import { mockAuthenticatedSession } from './helpers/mock-session.helper';
 
-const CONTACTS_API_BASE = process.env.NEXT_PUBLIC_CONTACTS_API_URL ?? 'http://localhost:5050';
-
 // Mock contact data matching the ContactListItem interface
 const mockContactListItem1 = {
   id: '00000000-0000-0000-0000-000000000200',
@@ -67,7 +65,7 @@ test.describe('Contacts list page (mocked API)', () => {
 
   test('renders contacts list with mocked data', async ({ page }) => {
     // Mock contacts list endpoint
-    await page.route(`${CONTACTS_API_BASE}/api/contacts?*`, async (route) => {
+    await page.route(/\/api\/contacts\?/, async (route) => {
       await route.fulfill({
         status: 200,
         contentType: 'application/json',
@@ -94,7 +92,7 @@ test.describe('Contacts list page (mocked API)', () => {
   });
 
   test('shows empty state when no contacts exist', async ({ page }) => {
-    await page.route(`${CONTACTS_API_BASE}/api/contacts?*`, async (route) => {
+    await page.route(/\/api\/contacts\?/, async (route) => {
       await route.fulfill({
         status: 200,
         contentType: 'application/json',
@@ -119,7 +117,7 @@ test.describe('Contacts list page (mocked API)', () => {
   });
 
   test('new contact button toggles the creation form', async ({ page }) => {
-    await page.route(`${CONTACTS_API_BASE}/api/contacts?*`, async (route) => {
+    await page.route(/\/api\/contacts\?/, async (route) => {
       await route.fulfill({
         status: 200,
         contentType: 'application/json',
@@ -158,7 +156,7 @@ test.describe('Contact detail page (mocked API)', () => {
     const contactId = mockContactDetail.id;
 
     // Mock single contact endpoint
-    await page.route(`${CONTACTS_API_BASE}/api/contacts/${contactId}`, async (route) => {
+    await page.route(new RegExp(`/api/contacts/${contactId}$`), async (route) => {
       await route.fulfill({
         status: 200,
         contentType: 'application/json',
@@ -179,7 +177,7 @@ test.describe('Contact detail page (mocked API)', () => {
     const fakeId = '00000000-0000-0000-0000-999999999999';
 
     // Mock the contact endpoint to return 404
-    await page.route(`${CONTACTS_API_BASE}/api/contacts/${fakeId}`, async (route) => {
+    await page.route(new RegExp(`/api/contacts/${fakeId}$`), async (route) => {
       await route.fulfill({
         status: 404,
         contentType: 'application/json',

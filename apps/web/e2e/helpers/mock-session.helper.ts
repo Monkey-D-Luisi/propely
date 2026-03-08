@@ -25,13 +25,12 @@ export const mockOrg = {
  * Mocks the /auth/me, /auth/csrf, and /orgs/mine endpoints so that
  * dashboard pages render without needing a real backend.
  *
- * The orgs-api base URL defaults to localhost:5020.
+ * Uses regex patterns to match requests regardless of whether the app
+ * uses localhost or 127.0.0.1 (CI uses 127.0.0.1 to avoid IPv6 issues).
  */
 export async function mockAuthenticatedSession(page: Page): Promise<void> {
-  const orgsApiBase = process.env.NEXT_PUBLIC_ORGS_API_URL ?? 'http://localhost:5020';
-
   // Mock /auth/me -> return authenticated user
-  await page.route(`${orgsApiBase}/auth/me`, async (route) => {
+  await page.route(/\/auth\/me$/, async (route) => {
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -40,7 +39,7 @@ export async function mockAuthenticatedSession(page: Page): Promise<void> {
   });
 
   // Mock /auth/csrf -> return a dummy CSRF token
-  await page.route(`${orgsApiBase}/auth/csrf`, async (route) => {
+  await page.route(/\/auth\/csrf$/, async (route) => {
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -49,7 +48,7 @@ export async function mockAuthenticatedSession(page: Page): Promise<void> {
   });
 
   // Mock /orgs/mine -> return a single org
-  await page.route(`${orgsApiBase}/orgs/mine*`, async (route) => {
+  await page.route(/\/orgs\/mine/, async (route) => {
     await route.fulfill({
       status: 200,
       contentType: 'application/json',

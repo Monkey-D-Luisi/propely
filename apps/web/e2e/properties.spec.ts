@@ -4,8 +4,6 @@
 import { test, expect } from '@playwright/test';
 import { mockAuthenticatedSession, mockOrg } from './helpers/mock-session.helper';
 
-const PROPERTIES_API_BASE = process.env.NEXT_PUBLIC_PROPERTIES_API_URL ?? 'http://localhost:5030';
-
 // Mock property data matching the PropertyListItem schema
 const mockPropertyListItem = {
   id: '00000000-0000-0000-0000-000000000100',
@@ -95,7 +93,7 @@ test.describe('Properties list page (mocked API)', () => {
 
   test('renders properties list with mocked data', async ({ page }) => {
     // Mock properties list endpoint
-    await page.route(`${PROPERTIES_API_BASE}/api/properties?*`, async (route) => {
+    await page.route(/\/api\/properties\?/, async (route) => {
       await route.fulfill({
         status: 200,
         contentType: 'application/json',
@@ -121,7 +119,7 @@ test.describe('Properties list page (mocked API)', () => {
   });
 
   test('shows empty state when no properties exist', async ({ page }) => {
-    await page.route(`${PROPERTIES_API_BASE}/api/properties?*`, async (route) => {
+    await page.route(/\/api\/properties\?/, async (route) => {
       await route.fulfill({
         status: 200,
         contentType: 'application/json',
@@ -146,7 +144,7 @@ test.describe('Properties list page (mocked API)', () => {
   });
 
   test('new property link navigates to creation form', async ({ page }) => {
-    await page.route(`${PROPERTIES_API_BASE}/api/properties?*`, async (route) => {
+    await page.route(/\/api\/properties\?/, async (route) => {
       await route.fulfill({
         status: 200,
         contentType: 'application/json',
@@ -200,7 +198,7 @@ test.describe('Property detail page (mocked API)', () => {
     const propertyId = mockPropertyDetail.id;
 
     // Mock single property endpoint
-    await page.route(`${PROPERTIES_API_BASE}/api/properties/${propertyId}`, async (route) => {
+    await page.route(new RegExp(`/api/properties/${propertyId}$`), async (route) => {
       await route.fulfill({
         status: 200,
         contentType: 'application/json',
@@ -209,7 +207,7 @@ test.describe('Property detail page (mocked API)', () => {
     });
 
     // Mock media endpoint (empty)
-    await page.route(`${PROPERTIES_API_BASE}/api/properties/${propertyId}/media`, async (route) => {
+    await page.route(new RegExp(`/api/properties/${propertyId}/media`), async (route) => {
       await route.fulfill({
         status: 200,
         contentType: 'application/json',
