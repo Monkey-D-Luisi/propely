@@ -23,7 +23,7 @@ export function useExecuteAction() {
   const [result, setResult] = useState<ActionResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const execute = useCallback(async (text: string) => {
+  const execute = useCallback(async (text: string, sessionId?: string) => {
     setIsLoading(true);
     setError(null);
     setResult(null);
@@ -32,7 +32,7 @@ export function useExecuteAction() {
       const data = await aiApiFetch<ActionResult>('/v1/actions/execute', {
         method: 'POST',
         headers: csrfToken ? { 'x-csrf-token': csrfToken } : {},
-        body: JSON.stringify({ text }),
+        body: JSON.stringify({ text, sessionId }),
       });
       setResult(data);
       return data;

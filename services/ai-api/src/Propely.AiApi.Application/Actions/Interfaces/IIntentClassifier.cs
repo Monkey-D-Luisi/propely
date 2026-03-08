@@ -1,6 +1,7 @@
 // Copyright (c) 2026 Propely. All rights reserved.
 // Licensed under the Proprietary Software License. See LICENSE.
 
+using Propely.AiApi.Application.Actions.Models;
 using Propely.AiApi.Domain.Actions;
 
 namespace Propely.AiApi.Application.Actions.Interfaces;
@@ -11,5 +12,5 @@ namespace Propely.AiApi.Application.Actions.Interfaces;
 /// </summary>
 public interface IIntentClassifier
 {
-    Task<ClassifiedIntent> ClassifyAsync(string text, CancellationToken ct = default);
+    Task<ClassifiedIntent> ClassifyAsync(string text, IReadOnlyList<ConversationExchange>? history = null, CancellationToken ct = default);
 }

@@ -68,7 +68,7 @@ public sealed class ActionsController : ControllerBase
             return Forbid();
         }
 
-        var command = new ExecuteActionCommand(request.Text, orgId, userId);
+        var command = new ExecuteActionCommand(request.Text, orgId, userId, request.SessionId);
         var result = await _mediator.Send(command, ct);
 
         var dto = new ActionResultDto(

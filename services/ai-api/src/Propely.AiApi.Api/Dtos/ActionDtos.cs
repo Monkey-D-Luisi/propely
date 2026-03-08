@@ -6,7 +6,7 @@ namespace Propely.AiApi.Api.Dtos;
 /// <summary>
 /// Request to execute an AI action from natural language text.
 /// </summary>
-public sealed record ExecuteActionRequest(string Text);
+public sealed record ExecuteActionRequest(string Text, string? SessionId = null);
 
 /// <summary>
 /// Response containing the result of an AI action execution.

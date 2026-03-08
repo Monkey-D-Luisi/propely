@@ -22,6 +22,7 @@ export function CommandBar() {
     close,
     recentCommands,
     addRecentCommand,
+    sessionId,
   } = useCommandBar();
   const { execute, confirm, isLoading, result, error, reset } = useExecuteAction();
   const { executeVoice, isLoading: isVoiceLoading } = useExecuteVoiceAction();
@@ -33,16 +34,16 @@ export function CommandBar() {
     async (text: string) => {
       lastCommandRef.current = text;
       addRecentCommand(text);
-      await execute(text);
+      await execute(text, sessionId ?? undefined);
     },
-    [execute, addRecentCommand],
+    [execute, addRecentCommand, sessionId],
   );
 
   const handleRetry = useCallback(() => {
     if (lastCommandRef.current) {
-      void execute(lastCommandRef.current);
+      void execute(lastCommandRef.current, sessionId ?? undefined);
     }
-  }, [execute]);
+  }, [execute, sessionId]);
 
   const handleConfirm = useCallback(() => {
     if (result?.confirmationId) {
@@ -72,16 +73,16 @@ export function CommandBar() {
 
   const handleAudioReady = useCallback(
     async (blob: Blob) => {
-      const voiceResult = await executeVoice(blob);
+      const voiceResult = await executeVoice(blob, undefined, sessionId ?? undefined);
       if (voiceResult?.transcribedText) {
         setTranscribedText(voiceResult.transcribedText);
         // Auto-submit the transcribed text as a command
         addRecentCommand(voiceResult.transcribedText);
         lastCommandRef.current = voiceResult.transcribedText;
-        await execute(voiceResult.transcribedText);
+        await execute(voiceResult.transcribedText, sessionId ?? undefined);
       }
     },
-    [executeVoice, execute, addRecentCommand],
+    [executeVoice, execute, addRecentCommand, sessionId],
   );
 
   // Close on Escape
