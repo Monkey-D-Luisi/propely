@@ -139,8 +139,8 @@ test.describe('Properties list page (mocked API)', () => {
     // Wait for page to load and show empty state
     await expect(page.getByRole('heading', { name: 'Properties', exact: true })).toBeVisible({ timeout: 15_000 });
 
-    // The "New property" button should still be visible
-    await expect(page.getByRole('link', { name: /new property/i })).toBeVisible({ timeout: 10_000 });
+    // The "New property" button should still be visible (use .first() to avoid sidebar duplicate)
+    await expect(page.locator('main').getByRole('link', { name: /new property/i }).first()).toBeVisible({ timeout: 10_000 });
   });
 
   test('new property link navigates to creation form', async ({ page }) => {
@@ -163,8 +163,8 @@ test.describe('Properties list page (mocked API)', () => {
 
     await expect(page.getByRole('heading', { name: 'Properties', exact: true })).toBeVisible({ timeout: 15_000 });
 
-    // Click "New property" link
-    const newPropertyLink = page.getByRole('link', { name: /new property/i });
+    // Click "New property" link (scope to main content to avoid sidebar duplicate)
+    const newPropertyLink = page.locator('main').getByRole('link', { name: /new property/i }).first();
     await expect(newPropertyLink).toBeVisible({ timeout: 10_000 });
     await newPropertyLink.click();
 
