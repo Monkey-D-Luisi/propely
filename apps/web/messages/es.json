@@ -1417,5 +1417,9 @@
     "newLead": "Nuevo lead",
     "scheduleAppointment": "Programar cita",
     "noData": "Sin datos disponibles"
+  },
+  "suggestions": {
+    "title": "Sugerencias",
+    "allCaughtUp": "¡Todo al día! No hay sugerencias en este momento."
   }
 }
