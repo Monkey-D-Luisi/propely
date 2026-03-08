@@ -6,7 +6,6 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Propely.AiApi.Application.Actions.Commands.Content;
 using Propely.AiApi.Application.Actions.Dtos;
-using Propely.AiApi.Application.Actions.Helpers;
 using Propely.AiApi.Application.Common.Interfaces;
 using Propely.AiApi.Domain.Actions;
 
@@ -70,7 +69,7 @@ public sealed class ExtractFromPhotosActionHandler : IRequestHandler<ExtractFrom
             "Handling ExtractFromPhotos action for tenant {TenantId} by agent {AgentId}",
             request.TenantId, request.AgentId);
 
-        var imageUrls = ParameterExtractor.GetStringList(request.Parameters, "image_urls");
+        var imageUrls = request.Parameters.ImageUrls;
 
         if (imageUrls == null || imageUrls.Count == 0)
         {

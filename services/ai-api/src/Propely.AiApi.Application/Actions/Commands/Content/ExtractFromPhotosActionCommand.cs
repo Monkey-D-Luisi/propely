@@ -2,6 +2,7 @@
 // Licensed under the Proprietary Software License. See LICENSE.
 
 using MediatR;
+using Propely.AiApi.Application.Actions.Parameters;
 using Propely.AiApi.Domain.Actions;
 
 namespace Propely.AiApi.Application.Actions.Commands.Content;
@@ -11,6 +12,6 @@ namespace Propely.AiApi.Application.Actions.Commands.Content;
 /// Parameters should contain "image_urls" key with an array of image URLs (max 10).
 /// </summary>
 public sealed record ExtractFromPhotosActionCommand(
-    Dictionary<string, object?> Parameters,
+    ExtractFromPhotosParameters Parameters,
     Guid TenantId,
     Guid AgentId) : IRequest<ActionResult>;

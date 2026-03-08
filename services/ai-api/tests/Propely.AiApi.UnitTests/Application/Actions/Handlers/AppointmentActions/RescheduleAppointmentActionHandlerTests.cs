@@ -7,6 +7,7 @@ using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using Propely.AiApi.Application.Actions.Commands.AppointmentActions;
 using Propely.AiApi.Application.Actions.Handlers.AppointmentActions;
+using Propely.AiApi.Application.Actions.Parameters;
 using Propely.AiApi.Domain.Actions;
 using Propely.AppointmentsApi.Client;
 using Propely.AppointmentsApi.Client.Models;
@@ -33,11 +34,10 @@ public sealed class RescheduleAppointmentActionHandlerTests
         // Arrange
         var appointmentId = Guid.NewGuid();
         var propertyId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["appointment_id"] = appointmentId.ToString(),
-            ["new_start_time"] = "2026-03-20T14:00:00"
-        };
+        var parameters = new RescheduleAppointmentParameters(
+            AppointmentId: appointmentId,
+            NewStartTime: new DateTime(2026, 3, 20, 14, 0, 0),
+            NewEndTime: null);
         var command = new RescheduleAppointmentActionCommand(parameters, TenantId, AgentId);
 
         var existingAppointment = new AppointmentResponse
@@ -86,10 +86,10 @@ public sealed class RescheduleAppointmentActionHandlerTests
     public async Task Handle_WithMissingAppointmentId_ShouldReturnFailure()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["new_start_time"] = "2026-03-20T14:00:00"
-        };
+        var parameters = new RescheduleAppointmentParameters(
+            AppointmentId: null,
+            NewStartTime: new DateTime(2026, 3, 20, 14, 0, 0),
+            NewEndTime: null);
         var command = new RescheduleAppointmentActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -105,10 +105,10 @@ public sealed class RescheduleAppointmentActionHandlerTests
     public async Task Handle_WithMissingNewStartTime_ShouldReturnFailure()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["appointment_id"] = Guid.NewGuid().ToString()
-        };
+        var parameters = new RescheduleAppointmentParameters(
+            AppointmentId: Guid.NewGuid(),
+            NewStartTime: null,
+            NewEndTime: null);
         var command = new RescheduleAppointmentActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -123,12 +123,11 @@ public sealed class RescheduleAppointmentActionHandlerTests
     [Fact]
     public async Task Handle_WithInvalidNewStartTime_ShouldReturnFailure()
     {
-        // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["appointment_id"] = Guid.NewGuid().ToString(),
-            ["new_start_time"] = "not-a-date"
-        };
+        // Arrange — DateTime? is null when not parseable; handler should treat null as missing
+        var parameters = new RescheduleAppointmentParameters(
+            AppointmentId: Guid.NewGuid(),
+            NewStartTime: null,
+            NewEndTime: null);
         var command = new RescheduleAppointmentActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -145,11 +144,10 @@ public sealed class RescheduleAppointmentActionHandlerTests
     {
         // Arrange
         var appointmentId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["appointment_id"] = appointmentId.ToString(),
-            ["new_start_time"] = "2026-03-20T14:00:00"
-        };
+        var parameters = new RescheduleAppointmentParameters(
+            AppointmentId: appointmentId,
+            NewStartTime: new DateTime(2026, 3, 20, 14, 0, 0),
+            NewEndTime: null);
         var command = new RescheduleAppointmentActionCommand(parameters, TenantId, AgentId);
 
         // Original is 1 hour duration
@@ -191,12 +189,10 @@ public sealed class RescheduleAppointmentActionHandlerTests
     {
         // Arrange
         var appointmentId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["appointment_id"] = appointmentId.ToString(),
-            ["new_start_time"] = "2026-03-20T14:00:00",
-            ["new_end_time"] = "2026-03-20T13:00:00"
-        };
+        var parameters = new RescheduleAppointmentParameters(
+            AppointmentId: appointmentId,
+            NewStartTime: new DateTime(2026, 3, 20, 14, 0, 0),
+            NewEndTime: new DateTime(2026, 3, 20, 13, 0, 0));
         var command = new RescheduleAppointmentActionCommand(parameters, TenantId, AgentId);
 
         var existing = new AppointmentResponse
@@ -226,11 +222,10 @@ public sealed class RescheduleAppointmentActionHandlerTests
     {
         // Arrange
         var appointmentId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["appointment_id"] = appointmentId.ToString(),
-            ["new_start_time"] = "2026-03-20T14:00:00"
-        };
+        var parameters = new RescheduleAppointmentParameters(
+            AppointmentId: appointmentId,
+            NewStartTime: new DateTime(2026, 3, 20, 14, 0, 0),
+            NewEndTime: null);
         var command = new RescheduleAppointmentActionCommand(parameters, TenantId, AgentId);
 
         var existing = new AppointmentResponse
@@ -272,11 +267,10 @@ public sealed class RescheduleAppointmentActionHandlerTests
     {
         // Arrange
         var appointmentId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["appointment_id"] = appointmentId.ToString(),
-            ["new_start_time"] = "2026-03-20T14:00:00"
-        };
+        var parameters = new RescheduleAppointmentParameters(
+            AppointmentId: appointmentId,
+            NewStartTime: new DateTime(2026, 3, 20, 14, 0, 0),
+            NewEndTime: null);
         var command = new RescheduleAppointmentActionCommand(parameters, TenantId, AgentId);
 
         _appointmentsClient.GetAppointmentByIdAsync(appointmentId, Arg.Any<CancellationToken>())
@@ -296,11 +290,10 @@ public sealed class RescheduleAppointmentActionHandlerTests
     {
         // Arrange
         var appointmentId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["appointment_id"] = appointmentId.ToString(),
-            ["new_start_time"] = "2026-03-20T14:00:00"
-        };
+        var parameters = new RescheduleAppointmentParameters(
+            AppointmentId: appointmentId,
+            NewStartTime: new DateTime(2026, 3, 20, 14, 0, 0),
+            NewEndTime: null);
         var command = new RescheduleAppointmentActionCommand(parameters, TenantId, AgentId);
 
         _appointmentsClient.GetAppointmentByIdAsync(appointmentId, Arg.Any<CancellationToken>())

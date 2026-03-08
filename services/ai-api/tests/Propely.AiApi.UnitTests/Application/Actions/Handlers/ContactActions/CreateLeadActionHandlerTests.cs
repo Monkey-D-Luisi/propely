@@ -7,6 +7,7 @@ using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using Propely.AiApi.Application.Actions.Commands.ContactActions;
 using Propely.AiApi.Application.Actions.Handlers.ContactActions;
+using Propely.AiApi.Application.Actions.Parameters;
 using Propely.AiApi.Domain.Actions;
 using Propely.ContactsApi.Client;
 using Propely.ContactsApi.Client.Models;
@@ -32,13 +33,13 @@ public sealed class CreateLeadActionHandlerTests
     {
         // Arrange
         var propertyId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["name"] = "Maria Garcia",
-            ["email"] = "maria@example.com",
-            ["phone"] = "650123456",
-            ["property_id"] = propertyId.ToString()
-        };
+        var parameters = new CreateLeadParameters(
+            Name: "Maria Garcia",
+            Email: "maria@example.com",
+            Phone: "650123456",
+            Message: null,
+            Source: null,
+            PropertyId: propertyId);
         var command = new CreateLeadActionCommand(parameters, TenantId, AgentId);
 
         var createdLead = new LeadResponse
@@ -75,11 +76,13 @@ public sealed class CreateLeadActionHandlerTests
     public async Task Handle_WithMissingName_ShouldReturnFailure()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["email"] = "test@example.com",
-            ["property_id"] = Guid.NewGuid().ToString()
-        };
+        var parameters = new CreateLeadParameters(
+            Name: null,
+            Email: "test@example.com",
+            Phone: null,
+            Message: null,
+            Source: null,
+            PropertyId: Guid.NewGuid());
         var command = new CreateLeadActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -95,11 +98,13 @@ public sealed class CreateLeadActionHandlerTests
     public async Task Handle_WithMissingEmail_ShouldReturnFailure()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["name"] = "Test Lead",
-            ["property_id"] = Guid.NewGuid().ToString()
-        };
+        var parameters = new CreateLeadParameters(
+            Name: "Test Lead",
+            Email: null,
+            Phone: null,
+            Message: null,
+            Source: null,
+            PropertyId: Guid.NewGuid());
         var command = new CreateLeadActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -115,11 +120,13 @@ public sealed class CreateLeadActionHandlerTests
     public async Task Handle_WithMissingPropertyId_ShouldReturnFailure()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["name"] = "Test Lead",
-            ["email"] = "test@example.com"
-        };
+        var parameters = new CreateLeadParameters(
+            Name: "Test Lead",
+            Email: "test@example.com",
+            Phone: null,
+            Message: null,
+            Source: null,
+            PropertyId: null);
         var command = new CreateLeadActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -135,12 +142,13 @@ public sealed class CreateLeadActionHandlerTests
     public async Task Handle_WhenSdkThrows_ShouldReturnFailureGracefully()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["name"] = "Test Lead",
-            ["email"] = "test@example.com",
-            ["property_id"] = Guid.NewGuid().ToString()
-        };
+        var parameters = new CreateLeadParameters(
+            Name: "Test Lead",
+            Email: "test@example.com",
+            Phone: null,
+            Message: null,
+            Source: null,
+            PropertyId: Guid.NewGuid());
         var command = new CreateLeadActionCommand(parameters, TenantId, AgentId);
 
         _leadsClient.CreateLeadAsync(Arg.Any<CreateLeadClientRequest>(), Arg.Any<CancellationToken>())
@@ -159,12 +167,13 @@ public sealed class CreateLeadActionHandlerTests
     public async Task Handle_ShouldSetSourceToNaturalLanguage()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["name"] = "Test",
-            ["email"] = "test@example.com",
-            ["property_id"] = Guid.NewGuid().ToString()
-        };
+        var parameters = new CreateLeadParameters(
+            Name: "Test",
+            Email: "test@example.com",
+            Phone: null,
+            Message: null,
+            Source: null,
+            PropertyId: Guid.NewGuid());
         var command = new CreateLeadActionCommand(parameters, TenantId, AgentId);
 
         _leadsClient.CreateLeadAsync(Arg.Any<CreateLeadClientRequest>(), Arg.Any<CancellationToken>())

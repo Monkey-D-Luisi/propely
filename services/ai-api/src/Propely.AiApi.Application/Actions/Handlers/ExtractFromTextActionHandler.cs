@@ -6,7 +6,6 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Propely.AiApi.Application.Actions.Commands.Content;
 using Propely.AiApi.Application.Actions.Dtos;
-using Propely.AiApi.Application.Actions.Helpers;
 using Propely.AiApi.Application.Common.Interfaces;
 using Propely.AiApi.Domain.Actions;
 
@@ -73,7 +72,7 @@ public sealed class ExtractFromTextActionHandler : IRequestHandler<ExtractFromTe
             "Handling ExtractFromText action for tenant {TenantId} by agent {AgentId}",
             request.TenantId, request.AgentId);
 
-        var text = ParameterExtractor.GetString(request.Parameters, "text");
+        var text = request.Parameters.Text;
 
         if (string.IsNullOrWhiteSpace(text))
         {

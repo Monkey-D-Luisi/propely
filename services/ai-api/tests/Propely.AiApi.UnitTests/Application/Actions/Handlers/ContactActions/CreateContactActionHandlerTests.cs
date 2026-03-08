@@ -7,6 +7,7 @@ using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using Propely.AiApi.Application.Actions.Commands.ContactActions;
 using Propely.AiApi.Application.Actions.Handlers.ContactActions;
+using Propely.AiApi.Application.Actions.Parameters;
 using Propely.AiApi.Domain.Actions;
 using Propely.ContactsApi.Client;
 using Propely.ContactsApi.Client.Models;
@@ -31,14 +32,15 @@ public sealed class CreateContactActionHandlerTests
     public async Task Handle_WithValidParameters_ShouldCreateContactViaSDK()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["first_name"] = "Juan",
-            ["last_name"] = "Lopez",
-            ["email"] = "juan@example.com",
-            ["phone"] = "650123456",
-            ["role"] = "Buyer"
-        };
+        var parameters = new CreateContactParameters(
+            FirstName: "Juan",
+            LastName: "Lopez",
+            Email: "juan@example.com",
+            Phone: "650123456",
+            Role: "Buyer",
+            Company: null,
+            Notes: null,
+            Source: null);
         var command = new CreateContactActionCommand(parameters, TenantId, AgentId);
 
         var createdContact = new ContactResponse
@@ -73,11 +75,15 @@ public sealed class CreateContactActionHandlerTests
     [Fact]
     public async Task Handle_WithMissingFirstName_ShouldReturnFailure()
     {
-        var parameters = new Dictionary<string, object?>
-        {
-            ["last_name"] = "Lopez",
-            ["email"] = "test@example.com"
-        };
+        var parameters = new CreateContactParameters(
+            FirstName: null,
+            LastName: "Lopez",
+            Email: "test@example.com",
+            Phone: null,
+            Role: null,
+            Company: null,
+            Notes: null,
+            Source: null);
         var command = new CreateContactActionCommand(parameters, TenantId, AgentId);
 
         var result = await _handler.Handle(command, CancellationToken.None);
@@ -89,11 +95,15 @@ public sealed class CreateContactActionHandlerTests
     [Fact]
     public async Task Handle_WithMissingLastName_ShouldReturnFailure()
     {
-        var parameters = new Dictionary<string, object?>
-        {
-            ["first_name"] = "Juan",
-            ["email"] = "test@example.com"
-        };
+        var parameters = new CreateContactParameters(
+            FirstName: "Juan",
+            LastName: null,
+            Email: "test@example.com",
+            Phone: null,
+            Role: null,
+            Company: null,
+            Notes: null,
+            Source: null);
         var command = new CreateContactActionCommand(parameters, TenantId, AgentId);
 
         var result = await _handler.Handle(command, CancellationToken.None);
@@ -105,11 +115,15 @@ public sealed class CreateContactActionHandlerTests
     [Fact]
     public async Task Handle_WithMissingEmail_ShouldReturnFailure()
     {
-        var parameters = new Dictionary<string, object?>
-        {
-            ["first_name"] = "Juan",
-            ["last_name"] = "Lopez"
-        };
+        var parameters = new CreateContactParameters(
+            FirstName: "Juan",
+            LastName: "Lopez",
+            Email: null,
+            Phone: null,
+            Role: null,
+            Company: null,
+            Notes: null,
+            Source: null);
         var command = new CreateContactActionCommand(parameters, TenantId, AgentId);
 
         var result = await _handler.Handle(command, CancellationToken.None);
@@ -121,12 +135,15 @@ public sealed class CreateContactActionHandlerTests
     [Fact]
     public async Task Handle_WithNoRole_ShouldDefaultToBuyer()
     {
-        var parameters = new Dictionary<string, object?>
-        {
-            ["first_name"] = "Juan",
-            ["last_name"] = "Lopez",
-            ["email"] = "juan@example.com"
-        };
+        var parameters = new CreateContactParameters(
+            FirstName: "Juan",
+            LastName: "Lopez",
+            Email: "juan@example.com",
+            Phone: null,
+            Role: null,
+            Company: null,
+            Notes: null,
+            Source: null);
         var command = new CreateContactActionCommand(parameters, TenantId, AgentId);
 
         _contactsClient.CreateContactAsync(Arg.Any<CreateContactClientRequest>(), Arg.Any<CancellationToken>())
@@ -146,13 +163,15 @@ public sealed class CreateContactActionHandlerTests
     [InlineData("propietario", "Landlord")]
     public async Task Handle_WithSpanishRole_ShouldNormalizeToEnglish(string spanishRole, string expectedRole)
     {
-        var parameters = new Dictionary<string, object?>
-        {
-            ["first_name"] = "Juan",
-            ["last_name"] = "Lopez",
-            ["email"] = "juan@example.com",
-            ["role"] = spanishRole
-        };
+        var parameters = new CreateContactParameters(
+            FirstName: "Juan",
+            LastName: "Lopez",
+            Email: "juan@example.com",
+            Phone: null,
+            Role: spanishRole,
+            Company: null,
+            Notes: null,
+            Source: null);
         var command = new CreateContactActionCommand(parameters, TenantId, AgentId);
 
         _contactsClient.CreateContactAsync(Arg.Any<CreateContactClientRequest>(), Arg.Any<CancellationToken>())
@@ -168,12 +187,15 @@ public sealed class CreateContactActionHandlerTests
     [Fact]
     public async Task Handle_WhenSdkThrows_ShouldReturnFailureGracefully()
     {
-        var parameters = new Dictionary<string, object?>
-        {
-            ["first_name"] = "Juan",
-            ["last_name"] = "Lopez",
-            ["email"] = "juan@example.com"
-        };
+        var parameters = new CreateContactParameters(
+            FirstName: "Juan",
+            LastName: "Lopez",
+            Email: "juan@example.com",
+            Phone: null,
+            Role: null,
+            Company: null,
+            Notes: null,
+            Source: null);
         var command = new CreateContactActionCommand(parameters, TenantId, AgentId);
 
         _contactsClient.CreateContactAsync(Arg.Any<CreateContactClientRequest>(), Arg.Any<CancellationToken>())

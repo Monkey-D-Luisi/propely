@@ -4,7 +4,6 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Propely.AiApi.Application.Actions.Commands.ContactActions;
-using Propely.AiApi.Application.Actions.Helpers;
 using Propely.AiApi.Domain.Actions;
 using Propely.ContactsApi.Client;
 using Propely.ContactsApi.Client.Models;
@@ -34,10 +33,9 @@ public sealed class ConvertLeadActionHandler : IRequestHandler<ConvertLeadAction
             "Handling ConvertLead action for tenant {TenantId} by agent {AgentId}",
             request.TenantId, request.AgentId);
 
-        var parameters = request.Parameters;
-        var leadId = ParameterExtractor.GetGuid(parameters, "lead_id");
-        var role = ParameterExtractor.GetString(parameters, "role");
-        var notes = ParameterExtractor.GetString(parameters, "notes");
+        var leadId = request.Parameters.LeadId;
+        var role = request.Parameters.Role;
+        var notes = request.Parameters.Notes;
 
         if (!leadId.HasValue)
         {

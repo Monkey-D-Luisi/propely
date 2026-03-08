@@ -9,24 +9,26 @@ using Propely.AiApi.Application.Actions.Commands.Content;
 using Propely.AiApi.Application.Actions.Commands.Operations;
 using Propely.AiApi.Application.Actions.Commands.PropertyActions;
 using Propely.AiApi.Application.Actions.Interfaces;
+using Propely.AiApi.Application.Actions.Parameters;
 using Propely.AiApi.Domain.Actions;
 
 namespace Propely.AiApi.Infrastructure.AI;
 
 /// <summary>
 /// Routes classified intents to the appropriate action handler via MediatR.
-/// Property action types and operation action types are dispatched to their
-/// respective MediatR command handlers.
-/// Remaining action types return "not yet implemented" placeholders.
+/// Binds untyped parameter dictionaries to strongly-typed parameter records
+/// before dispatching to handlers.
 /// </summary>
 public sealed class ActionRouter : IActionRouter
 {
     private readonly IMediator _mediator;
+    private readonly IParameterBinder _binder;
     private readonly ILogger<ActionRouter> _logger;
 
-    public ActionRouter(IMediator mediator, ILogger<ActionRouter> logger)
+    public ActionRouter(IMediator mediator, IParameterBinder binder, ILogger<ActionRouter> logger)
     {
         _mediator = mediator;
+        _binder = binder;
         _logger = logger;
     }
 
@@ -50,57 +52,57 @@ public sealed class ActionRouter : IActionRouter
 
         return intent.ActionType switch
         {
-            // Property actions — dispatched to MediatR handlers
+            // Property actions
             ActionType.CreateProperty => await _mediator.Send(
-                new CreatePropertyActionCommand(intent.Parameters, tenantId, agentId), ct),
+                new CreatePropertyActionCommand(_binder.Bind<CreatePropertyParameters>(intent.Parameters), tenantId, agentId), ct),
             ActionType.QueryProperties => await _mediator.Send(
-                new QueryPropertiesActionCommand(intent.Parameters, tenantId, agentId), ct),
+                new QueryPropertiesActionCommand(_binder.Bind<QueryPropertiesParameters>(intent.Parameters), tenantId, agentId), ct),
             ActionType.UpdateProperty => await _mediator.Send(
-                new UpdatePropertyActionCommand(intent.Parameters, tenantId, agentId), ct),
+                new UpdatePropertyActionCommand(_binder.Bind<UpdatePropertyParameters>(intent.Parameters), tenantId, agentId), ct),
             ActionType.ChangePropertyStatus => await _mediator.Send(
-                new ChangePropertyStatusActionCommand(intent.Parameters, tenantId, agentId), ct),
+                new ChangePropertyStatusActionCommand(_binder.Bind<ChangePropertyStatusParameters>(intent.Parameters), tenantId, agentId), ct),
 
-            // Operation actions — dispatched to MediatR handlers
+            // Operation actions
             ActionType.ReserveProperty => await _mediator.Send(
-                new ReservePropertyActionCommand(intent.Parameters, tenantId, agentId), ct),
+                new ReservePropertyActionCommand(_binder.Bind<ReservePropertyParameters>(intent.Parameters), tenantId, agentId), ct),
             ActionType.CloseOperation => await _mediator.Send(
-                new CloseOperationActionCommand(intent.Parameters, tenantId, agentId), ct),
+                new CloseOperationActionCommand(_binder.Bind<CloseOperationParameters>(intent.Parameters), tenantId, agentId), ct),
             ActionType.ArchiveProperty => await _mediator.Send(
-                new ArchivePropertyActionCommand(intent.Parameters, tenantId, agentId), ct),
+                new ArchivePropertyActionCommand(_binder.Bind<ArchivePropertyParameters>(intent.Parameters), tenantId, agentId), ct),
             ActionType.ReactivateProperty => await _mediator.Send(
-                new ReactivatePropertyActionCommand(intent.Parameters, tenantId, agentId), ct),
+                new ReactivatePropertyActionCommand(_binder.Bind<ReactivatePropertyParameters>(intent.Parameters), tenantId, agentId), ct),
 
-            // Content / AI generation actions — dispatched to MediatR handlers
+            // Content / AI generation actions
             ActionType.ExtractFromText => await _mediator.Send(
-                new ExtractFromTextActionCommand(intent.Parameters, tenantId, agentId), ct),
+                new ExtractFromTextActionCommand(_binder.Bind<ExtractFromTextParameters>(intent.Parameters), tenantId, agentId), ct),
             ActionType.ExtractFromPhotos => await _mediator.Send(
-                new ExtractFromPhotosActionCommand(intent.Parameters, tenantId, agentId), ct),
+                new ExtractFromPhotosActionCommand(_binder.Bind<ExtractFromPhotosParameters>(intent.Parameters), tenantId, agentId), ct),
             ActionType.GenerateCopy => await _mediator.Send(
-                new GenerateCopyActionCommand(intent.Parameters, tenantId, agentId), ct),
+                new GenerateCopyActionCommand(_binder.Bind<GenerateCopyParameters>(intent.Parameters), tenantId, agentId), ct),
 
-            // Contact & Lead actions — dispatched to MediatR handlers
+            // Contact & Lead actions
             ActionType.CreateLead => await _mediator.Send(
-                new CreateLeadActionCommand(intent.Parameters, tenantId, agentId), ct),
+                new CreateLeadActionCommand(_binder.Bind<CreateLeadParameters>(intent.Parameters), tenantId, agentId), ct),
             ActionType.CreateContact => await _mediator.Send(
-                new CreateContactActionCommand(intent.Parameters, tenantId, agentId), ct),
+                new CreateContactActionCommand(_binder.Bind<CreateContactParameters>(intent.Parameters), tenantId, agentId), ct),
             ActionType.QualifyLead => await _mediator.Send(
-                new QualifyLeadActionCommand(intent.Parameters, tenantId, agentId), ct),
+                new QualifyLeadActionCommand(_binder.Bind<QualifyLeadParameters>(intent.Parameters), tenantId, agentId), ct),
             ActionType.ConvertLead => await _mediator.Send(
-                new ConvertLeadActionCommand(intent.Parameters, tenantId, agentId), ct),
+                new ConvertLeadActionCommand(_binder.Bind<ConvertLeadParameters>(intent.Parameters), tenantId, agentId), ct),
             ActionType.QueryLeads => await _mediator.Send(
-                new QueryLeadsActionCommand(intent.Parameters, tenantId, agentId), ct),
+                new QueryLeadsActionCommand(_binder.Bind<QueryLeadsParameters>(intent.Parameters), tenantId, agentId), ct),
 
-            // Appointment actions — dispatched to MediatR handlers
+            // Appointment actions
             ActionType.BookViewing => await _mediator.Send(
-                new BookViewingActionCommand(intent.Parameters, tenantId, agentId), ct),
+                new BookViewingActionCommand(_binder.Bind<BookViewingParameters>(intent.Parameters), tenantId, agentId), ct),
             ActionType.QueryAppointments => await _mediator.Send(
-                new QueryAppointmentsActionCommand(intent.Parameters, tenantId, agentId), ct),
+                new QueryAppointmentsActionCommand(_binder.Bind<QueryAppointmentsParameters>(intent.Parameters), tenantId, agentId), ct),
             ActionType.CancelAppointment => await _mediator.Send(
-                new CancelAppointmentActionCommand(intent.Parameters, tenantId, agentId), ct),
+                new CancelAppointmentActionCommand(_binder.Bind<CancelAppointmentParameters>(intent.Parameters), tenantId, agentId), ct),
             ActionType.RescheduleAppointment => await _mediator.Send(
-                new RescheduleAppointmentActionCommand(intent.Parameters, tenantId, agentId), ct),
+                new RescheduleAppointmentActionCommand(_binder.Bind<RescheduleAppointmentParameters>(intent.Parameters), tenantId, agentId), ct),
 
-            // All other action types — placeholder until subsequent tasks implement them
+            // All other action types — placeholder
             _ => ActionResult.Ok(
                 data: new { intent.Parameters },
                 message: "Action understood but not yet implemented.",

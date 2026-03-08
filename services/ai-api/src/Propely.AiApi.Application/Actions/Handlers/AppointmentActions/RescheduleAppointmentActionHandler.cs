@@ -4,7 +4,6 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Propely.AiApi.Application.Actions.Commands.AppointmentActions;
-using Propely.AiApi.Application.Actions.Helpers;
 using Propely.AiApi.Domain.Actions;
 using Propely.AppointmentsApi.Client;
 using Propely.AppointmentsApi.Client.Models;
@@ -34,10 +33,9 @@ public sealed class RescheduleAppointmentActionHandler : IRequestHandler<Resched
             "Handling RescheduleAppointment action for tenant {TenantId} by agent {AgentId}",
             request.TenantId, request.AgentId);
 
-        var parameters = request.Parameters;
-        var appointmentId = ParameterExtractor.GetGuid(parameters, "appointment_id");
-        var newStartTimeUtcParsed = ParameterExtractor.GetDateTimeUtc(parameters, "new_start_time");
-        var newEndTimeUtcParsed = ParameterExtractor.GetDateTimeUtc(parameters, "new_end_time");
+        var appointmentId = request.Parameters.AppointmentId;
+        var newStartTimeUtcParsed = request.Parameters.NewStartTime;
+        var newEndTimeUtcParsed = request.Parameters.NewEndTime;
 
         if (!appointmentId.HasValue)
         {

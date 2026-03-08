@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Propely.AiApi.Application.Actions.Commands.PropertyActions;
 using Propely.AiApi.Application.Actions.Handlers;
+using Propely.AiApi.Application.Actions.Parameters;
 using Propely.AiApi.Domain.Actions;
 
 namespace Propely.AiApi.UnitTests.Application.Actions.Handlers;
@@ -26,16 +27,15 @@ public sealed class CreatePropertyActionHandlerTests
     public async Task Handle_WhenValidParameters_ShouldReturnSuccess()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_type"] = "apartment",
-            ["operation_type"] = "Sale",
-            ["bedrooms"] = 3,
-            ["bathrooms"] = 2,
-            ["price"] = 250000m,
-            ["city"] = "Malaga",
-            ["description"] = "Beautiful apartment in the center"
-        };
+        var parameters = new CreatePropertyParameters(
+            Title: null,
+            PropertyType: "apartment",
+            OperationType: "Sale",
+            Bedrooms: 3,
+            Bathrooms: 2,
+            Price: 250000m,
+            City: "Malaga",
+            Description: "Beautiful apartment in the center");
         var command = new CreatePropertyActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -53,11 +53,15 @@ public sealed class CreatePropertyActionHandlerTests
     public async Task Handle_WhenMissingPropertyType_ShouldReturnFailure()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["bedrooms"] = 3,
-            ["city"] = "Madrid"
-        };
+        var parameters = new CreatePropertyParameters(
+            Title: null,
+            PropertyType: null,
+            OperationType: null,
+            Bedrooms: 3,
+            Bathrooms: null,
+            Price: null,
+            City: "Madrid",
+            Description: null);
         var command = new CreatePropertyActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -74,10 +78,15 @@ public sealed class CreatePropertyActionHandlerTests
     public async Task Handle_WhenMinimalParameters_ShouldReturnSuccessWithDefaults()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_type"] = "villa"
-        };
+        var parameters = new CreatePropertyParameters(
+            Title: null,
+            PropertyType: "villa",
+            OperationType: null,
+            Bedrooms: null,
+            Bathrooms: null,
+            Price: null,
+            City: null,
+            Description: null);
         var command = new CreatePropertyActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -93,15 +102,15 @@ public sealed class CreatePropertyActionHandlerTests
     public async Task Handle_WhenValidParameters_ShouldBuildCorrectMessage()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_type"] = "house",
-            ["operation_type"] = "Rent",
-            ["bedrooms"] = 4,
-            ["bathrooms"] = 3,
-            ["price"] = 1500m,
-            ["city"] = "Barcelona"
-        };
+        var parameters = new CreatePropertyParameters(
+            Title: null,
+            PropertyType: "house",
+            OperationType: "Rent",
+            Bedrooms: 4,
+            Bathrooms: 3,
+            Price: 1500m,
+            City: "Barcelona",
+            Description: null);
         var command = new CreatePropertyActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -121,12 +130,15 @@ public sealed class CreatePropertyActionHandlerTests
     public async Task Handle_WhenValidParameters_ShouldIncludeStructuredData()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_type"] = "apartment",
-            ["price"] = 200000m,
-            ["city"] = "Valencia"
-        };
+        var parameters = new CreatePropertyParameters(
+            Title: null,
+            PropertyType: "apartment",
+            OperationType: null,
+            Bedrooms: null,
+            Bathrooms: null,
+            Price: 200000m,
+            City: "Valencia",
+            Description: null);
         var command = new CreatePropertyActionCommand(parameters, TenantId, AgentId);
 
         // Act

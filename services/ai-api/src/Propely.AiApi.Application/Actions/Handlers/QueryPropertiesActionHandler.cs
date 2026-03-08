@@ -5,7 +5,6 @@ using System.Globalization;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Propely.AiApi.Application.Actions.Commands.PropertyActions;
-using Propely.AiApi.Application.Actions.Helpers;
 using Propely.AiApi.Domain.Actions;
 using Propely.PropertiesApi.Client;
 using Propely.PropertiesApi.Client.Dtos;
@@ -36,15 +35,13 @@ public sealed class QueryPropertiesActionHandler : IRequestHandler<QueryProperti
             "Handling QueryProperties action for tenant {TenantId} by agent {AgentId}",
             request.TenantId, request.AgentId);
 
-        var parameters = request.Parameters;
-
-        var propertyType = ParameterExtractor.GetString(parameters, "property_type");
-        var operationType = ParameterExtractor.GetString(parameters, "operation_type");
-        var status = ParameterExtractor.GetString(parameters, "status");
-        var city = ParameterExtractor.GetString(parameters, "city");
-        var minPrice = ParameterExtractor.GetDecimal(parameters, "min_price");
-        var maxPrice = ParameterExtractor.GetDecimal(parameters, "max_price");
-        var minBedrooms = ParameterExtractor.GetInt(parameters, "min_bedrooms");
+        var propertyType = request.Parameters.PropertyType;
+        var operationType = request.Parameters.OperationType;
+        var status = request.Parameters.Status;
+        var city = request.Parameters.City;
+        var minPrice = request.Parameters.MinPrice;
+        var maxPrice = request.Parameters.MaxPrice;
+        var minBedrooms = request.Parameters.MinBedrooms;
 
         PagedResult<PropertyListItemResponse> result;
         try

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Propely.AiApi.Application.Actions.Commands.Operations;
 using Propely.AiApi.Application.Actions.Handlers.Operations;
+using Propely.AiApi.Application.Actions.Parameters;
 using Propely.AiApi.Domain.Actions;
 
 namespace Propely.AiApi.UnitTests.Application.Actions.Handlers.Operations;
@@ -27,11 +28,10 @@ public sealed class CloseOperationActionHandlerTests
     {
         // Arrange
         var propertyId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_id"] = propertyId.ToString(),
-            ["operation_type"] = "sale"
-        };
+        var parameters = new CloseOperationParameters(
+            PropertyId: propertyId,
+            Reference: null,
+            OperationType: "sale");
         var command = new CloseOperationActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -51,11 +51,10 @@ public sealed class CloseOperationActionHandlerTests
     {
         // Arrange
         var propertyId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_id"] = propertyId.ToString(),
-            ["operation_type"] = "rent"
-        };
+        var parameters = new CloseOperationParameters(
+            PropertyId: propertyId,
+            Reference: null,
+            OperationType: "rent");
         var command = new CloseOperationActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -74,11 +73,10 @@ public sealed class CloseOperationActionHandlerTests
     public async Task Handle_WhenUsingReference_ShouldReturnSuccess()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["reference"] = "AP-2024-001",
-            ["operation_type"] = "sale"
-        };
+        var parameters = new CloseOperationParameters(
+            PropertyId: null,
+            Reference: "AP-2024-001",
+            OperationType: "sale");
         var command = new CloseOperationActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -95,10 +93,10 @@ public sealed class CloseOperationActionHandlerTests
     {
         // Arrange
         var propertyId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_id"] = propertyId.ToString()
-        };
+        var parameters = new CloseOperationParameters(
+            PropertyId: propertyId,
+            Reference: null,
+            OperationType: null);
         var command = new CloseOperationActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -116,10 +114,10 @@ public sealed class CloseOperationActionHandlerTests
     public async Task Handle_WhenMissingPropertyIdentifier_ShouldReturnFailure()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["operation_type"] = "sale"
-        };
+        var parameters = new CloseOperationParameters(
+            PropertyId: null,
+            Reference: null,
+            OperationType: "sale");
         var command = new CloseOperationActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -137,11 +135,10 @@ public sealed class CloseOperationActionHandlerTests
     {
         // Arrange
         var propertyId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_id"] = propertyId.ToString(),
-            ["operation_type"] = "transfer"
-        };
+        var parameters = new CloseOperationParameters(
+            PropertyId: propertyId,
+            Reference: null,
+            OperationType: "transfer");
         var command = new CloseOperationActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -161,11 +158,10 @@ public sealed class CloseOperationActionHandlerTests
     {
         // Arrange
         var propertyId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_id"] = propertyId.ToString(),
-            ["operation_type"] = "rent"
-        };
+        var parameters = new CloseOperationParameters(
+            PropertyId: propertyId,
+            Reference: null,
+            OperationType: "rent");
         var command = new CloseOperationActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -194,11 +190,10 @@ public sealed class CloseOperationActionHandlerTests
     {
         // Arrange
         var propertyId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_id"] = propertyId.ToString(),
-            ["operation_type"] = operationType
-        };
+        var parameters = new CloseOperationParameters(
+            PropertyId: propertyId,
+            Reference: null,
+            OperationType: operationType);
         var command = new CloseOperationActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -214,7 +209,10 @@ public sealed class CloseOperationActionHandlerTests
     public async Task Handle_WhenEmptyParameters_ShouldReturnFailure()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>();
+        var parameters = new CloseOperationParameters(
+            PropertyId: null,
+            Reference: null,
+            OperationType: null);
         var command = new CloseOperationActionCommand(parameters, TenantId, AgentId);
 
         // Act

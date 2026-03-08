@@ -8,6 +8,7 @@ using NSubstitute.ExceptionExtensions;
 using Propely.AiApi.Application.Actions.Commands.Content;
 using Propely.AiApi.Application.Actions.Dtos;
 using Propely.AiApi.Application.Actions.Handlers;
+using Propely.AiApi.Application.Actions.Parameters;
 using Propely.AiApi.Application.Common.Interfaces;
 using Propely.AiApi.Domain.Actions;
 
@@ -36,7 +37,7 @@ public sealed class ExtractFromPhotosActionHandlerTests
             "https://example.com/photo1.jpg",
             "https://example.com/photo2.jpg"
         };
-        var parameters = new Dictionary<string, object?> { ["image_urls"] = imageUrls };
+        var parameters = new ExtractFromPhotosParameters(ImageUrls: imageUrls);
         var command = new ExtractFromPhotosActionCommand(parameters, TenantId, AgentId);
 
         var aiResponse = """
@@ -71,7 +72,7 @@ public sealed class ExtractFromPhotosActionHandlerTests
     public async Task Handle_WhenMissingImageUrls_ShouldReturnFailure()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>();
+        var parameters = new ExtractFromPhotosParameters(ImageUrls: null);
         var command = new ExtractFromPhotosActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -88,7 +89,7 @@ public sealed class ExtractFromPhotosActionHandlerTests
     public async Task Handle_WhenEmptyImageUrls_ShouldReturnFailure()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?> { ["image_urls"] = new List<string>() };
+        var parameters = new ExtractFromPhotosParameters(ImageUrls: new List<string>());
         var command = new ExtractFromPhotosActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -107,7 +108,7 @@ public sealed class ExtractFromPhotosActionHandlerTests
         var imageUrls = Enumerable.Range(1, 11)
             .Select(i => $"https://example.com/photo{i}.jpg")
             .ToList();
-        var parameters = new Dictionary<string, object?> { ["image_urls"] = imageUrls };
+        var parameters = new ExtractFromPhotosParameters(ImageUrls: imageUrls);
         var command = new ExtractFromPhotosActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -127,7 +128,7 @@ public sealed class ExtractFromPhotosActionHandlerTests
         var imageUrls = Enumerable.Range(1, 10)
             .Select(i => $"https://example.com/photo{i}.jpg")
             .ToList();
-        var parameters = new Dictionary<string, object?> { ["image_urls"] = imageUrls };
+        var parameters = new ExtractFromPhotosParameters(ImageUrls: imageUrls);
         var command = new ExtractFromPhotosActionCommand(parameters, TenantId, AgentId);
 
         var aiResponse = """{ "property_type": { "value": "house", "confidence": 0.8 } }""";
@@ -148,7 +149,7 @@ public sealed class ExtractFromPhotosActionHandlerTests
     {
         // Arrange
         var imageUrls = new List<string> { "https://example.com/photo1.jpg" };
-        var parameters = new Dictionary<string, object?> { ["image_urls"] = imageUrls };
+        var parameters = new ExtractFromPhotosParameters(ImageUrls: imageUrls);
         var command = new ExtractFromPhotosActionCommand(parameters, TenantId, AgentId);
 
         _openAiService.AnalyzeImagesAsync(
@@ -168,7 +169,7 @@ public sealed class ExtractFromPhotosActionHandlerTests
     {
         // Arrange
         var imageUrls = new List<string> { "https://example.com/photo1.jpg" };
-        var parameters = new Dictionary<string, object?> { ["image_urls"] = imageUrls };
+        var parameters = new ExtractFromPhotosParameters(ImageUrls: imageUrls);
         var command = new ExtractFromPhotosActionCommand(parameters, TenantId, AgentId);
 
         _openAiService.AnalyzeImagesAsync(
@@ -194,7 +195,7 @@ public sealed class ExtractFromPhotosActionHandlerTests
             "https://example.com/photo2.jpg",
             "https://example.com/photo3.jpg"
         };
-        var parameters = new Dictionary<string, object?> { ["image_urls"] = imageUrls };
+        var parameters = new ExtractFromPhotosParameters(ImageUrls: imageUrls);
         var command = new ExtractFromPhotosActionCommand(parameters, TenantId, AgentId);
 
         var aiResponse = """{ "property_type": { "value": "villa", "confidence": 0.9 } }""";
@@ -218,7 +219,7 @@ public sealed class ExtractFromPhotosActionHandlerTests
     {
         // Arrange
         var imageUrls = new List<string> { "https://example.com/photo1.jpg" };
-        var parameters = new Dictionary<string, object?> { ["image_urls"] = imageUrls };
+        var parameters = new ExtractFromPhotosParameters(ImageUrls: imageUrls);
         var command = new ExtractFromPhotosActionCommand(parameters, TenantId, AgentId);
 
         var aiResponse = """

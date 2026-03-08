@@ -54,7 +54,7 @@ POST /v1/actions/execute
 | # | Title | Status | Dependencies | Estimated Effort |
 |---|---|---|---|---|
 | 8.1 | Provider-Neutral Tool Schema Registry | DONE | 3.1 (DONE) | Medium |
-| 8.2 | Typed Action Parameter Records | PENDING | 8.1 | Medium |
+| 8.2 | Typed Action Parameter Records | DONE | 8.1 | Medium |
 | 8.3 | OpenAI Classifier Adapter Refactor | PENDING | 8.1, 8.2 | Small |
 | 8.4 | MCP Server Endpoint | PENDING | 8.1 | Medium-Large |
 | 8.5 | Shared TenantDelegatingHandler Package | PENDING | — | Small |
@@ -140,7 +140,7 @@ Red-Green-Refactor: Write failing tests for `ToolSchemaRegistry` and `OpenAiTool
 
 ## Task 8.2 — Typed Action Parameter Records
 
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 8.1
 
 ### Scope

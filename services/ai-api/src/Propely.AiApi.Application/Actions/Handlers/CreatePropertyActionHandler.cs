@@ -5,7 +5,6 @@ using System.Globalization;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Propely.AiApi.Application.Actions.Commands.PropertyActions;
-using Propely.AiApi.Application.Actions.Helpers;
 using Propely.AiApi.Domain.Actions;
 
 namespace Propely.AiApi.Application.Actions.Handlers;
@@ -32,16 +31,14 @@ public sealed class CreatePropertyActionHandler : IRequestHandler<CreateProperty
             "Handling CreateProperty action for tenant {TenantId} by agent {AgentId}",
             request.TenantId, request.AgentId);
 
-        var parameters = request.Parameters;
-
-        var title = ParameterExtractor.GetString(parameters, "title");
-        var propertyType = ParameterExtractor.GetString(parameters, "property_type");
-        var operationType = ParameterExtractor.GetString(parameters, "operation_type");
-        var bedrooms = ParameterExtractor.GetInt(parameters, "bedrooms");
-        var bathrooms = ParameterExtractor.GetInt(parameters, "bathrooms");
-        var price = ParameterExtractor.GetDecimal(parameters, "price");
-        var city = ParameterExtractor.GetString(parameters, "city");
-        var description = ParameterExtractor.GetString(parameters, "description");
+        var title = request.Parameters.Title;
+        var propertyType = request.Parameters.PropertyType;
+        var operationType = request.Parameters.OperationType;
+        var bedrooms = request.Parameters.Bedrooms;
+        var bathrooms = request.Parameters.Bathrooms;
+        var price = request.Parameters.Price;
+        var city = request.Parameters.City;
+        var description = request.Parameters.Description;
 
         // Validate minimum required fields
         if (string.IsNullOrWhiteSpace(propertyType))

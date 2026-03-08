@@ -6,7 +6,6 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Propely.AiApi.Application.Actions.Commands.Content;
 using Propely.AiApi.Application.Actions.Dtos;
-using Propely.AiApi.Application.Actions.Helpers;
 using Propely.AiApi.Application.Common.Interfaces;
 using Propely.AiApi.Domain.Actions;
 
@@ -38,9 +37,9 @@ public sealed class GenerateCopyActionHandler : IRequestHandler<GenerateCopyActi
             "Handling GenerateCopy action for tenant {TenantId} by agent {AgentId}",
             request.TenantId, request.AgentId);
 
-        var propertyData = ParameterExtractor.GetString(request.Parameters, "property_data");
-        var tone = ParameterExtractor.GetString(request.Parameters, "tone")?.ToLowerInvariant() ?? DefaultTone;
-        var languages = ParameterExtractor.GetStringList(request.Parameters, "languages");
+        var propertyData = request.Parameters.PropertyData;
+        var tone = request.Parameters.Tone?.ToLowerInvariant() ?? DefaultTone;
+        var languages = request.Parameters.Languages;
 
         if (string.IsNullOrWhiteSpace(propertyData))
         {

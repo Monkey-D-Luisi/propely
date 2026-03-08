@@ -2,6 +2,7 @@
 // Licensed under the Proprietary Software License. See LICENSE.
 
 using MediatR;
+using Propely.AiApi.Application.Actions.Parameters;
 using Propely.AiApi.Domain.Actions;
 
 namespace Propely.AiApi.Application.Actions.Commands.AppointmentActions;
@@ -10,6 +11,6 @@ namespace Propely.AiApi.Application.Actions.Commands.AppointmentActions;
 /// Command to query/search appointments via natural language action.
 /// </summary>
 public sealed record QueryAppointmentsActionCommand(
-    Dictionary<string, object?> Parameters,
+    QueryAppointmentsParameters Parameters,
     Guid TenantId,
     Guid AgentId) : IRequest<ActionResult>;

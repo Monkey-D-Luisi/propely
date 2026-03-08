@@ -7,6 +7,7 @@ using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using Propely.AiApi.Application.Actions.Commands.AppointmentActions;
 using Propely.AiApi.Application.Actions.Handlers.AppointmentActions;
+using Propely.AiApi.Application.Actions.Parameters;
 using Propely.AiApi.Domain.Actions;
 using Propely.AppointmentsApi.Client;
 using Propely.AppointmentsApi.Client.Models;
@@ -32,11 +33,9 @@ public sealed class CancelAppointmentActionHandlerTests
     {
         // Arrange
         var appointmentId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["appointment_id"] = appointmentId.ToString(),
-            ["reason"] = "Client requested cancellation"
-        };
+        var parameters = new CancelAppointmentParameters(
+            AppointmentId: appointmentId,
+            Reason: "Client requested cancellation");
         var command = new CancelAppointmentActionCommand(parameters, TenantId, AgentId);
 
         var cancelledAppointment = new AppointmentResponse
@@ -71,10 +70,9 @@ public sealed class CancelAppointmentActionHandlerTests
     public async Task Handle_WithMissingAppointmentId_ShouldReturnFailure()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["reason"] = "No longer needed"
-        };
+        var parameters = new CancelAppointmentParameters(
+            AppointmentId: null,
+            Reason: "No longer needed");
         var command = new CancelAppointmentActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -91,10 +89,9 @@ public sealed class CancelAppointmentActionHandlerTests
     {
         // Arrange
         var appointmentId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["appointment_id"] = appointmentId.ToString()
-        };
+        var parameters = new CancelAppointmentParameters(
+            AppointmentId: appointmentId,
+            Reason: null);
         var command = new CancelAppointmentActionCommand(parameters, TenantId, AgentId);
 
         _appointmentsClient.CancelAppointmentAsync(

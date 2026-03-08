@@ -7,6 +7,7 @@ using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using Propely.AiApi.Application.Actions.Commands.PropertyActions;
 using Propely.AiApi.Application.Actions.Handlers;
+using Propely.AiApi.Application.Actions.Parameters;
 using Propely.AiApi.Domain.Actions;
 using Propely.PropertiesApi.Client;
 using Propely.PropertiesApi.Client.Dtos;
@@ -31,11 +32,14 @@ public sealed class QueryPropertiesActionHandlerTests
     public async Task Handle_WhenPropertiesFound_ShouldReturnSuccessWithSummary()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_type"] = "apartment",
-            ["city"] = "Malaga"
-        };
+        var parameters = new QueryPropertiesParameters(
+            PropertyType: "apartment",
+            OperationType: null,
+            Status: null,
+            City: "Malaga",
+            MinPrice: null,
+            MaxPrice: null,
+            MinBedrooms: null);
         var command = new QueryPropertiesActionCommand(parameters, TenantId, AgentId);
 
         var properties = new List<PropertyListItemResponse>
@@ -81,10 +85,14 @@ public sealed class QueryPropertiesActionHandlerTests
     public async Task Handle_WhenNoPropertiesFound_ShouldReturnSuccessWithEmptyMessage()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["city"] = "Timbuktu"
-        };
+        var parameters = new QueryPropertiesParameters(
+            PropertyType: null,
+            OperationType: null,
+            Status: null,
+            City: "Timbuktu",
+            MinPrice: null,
+            MaxPrice: null,
+            MinBedrooms: null);
         var command = new QueryPropertiesActionCommand(parameters, TenantId, AgentId);
 
         _propertiesClient.ListAsync(
@@ -123,15 +131,14 @@ public sealed class QueryPropertiesActionHandlerTests
     public async Task Handle_WhenSdkCallsWithCorrectFilters_ShouldPassParametersToClient()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_type"] = "villa",
-            ["operation_type"] = "Sale",
-            ["status"] = "Active",
-            ["city"] = "Marbella",
-            ["min_price"] = 500000m,
-            ["max_price"] = 1000000m
-        };
+        var parameters = new QueryPropertiesParameters(
+            PropertyType: "villa",
+            OperationType: "Sale",
+            Status: "Active",
+            City: "Marbella",
+            MinPrice: 500000m,
+            MaxPrice: 1000000m,
+            MinBedrooms: null);
         var command = new QueryPropertiesActionCommand(parameters, TenantId, AgentId);
 
         _propertiesClient.ListAsync(
@@ -182,7 +189,14 @@ public sealed class QueryPropertiesActionHandlerTests
     public async Task Handle_WhenSdkThrows_ShouldReturnFailureGracefully()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?> { ["city"] = "Madrid" };
+        var parameters = new QueryPropertiesParameters(
+            PropertyType: null,
+            OperationType: null,
+            Status: null,
+            City: "Madrid",
+            MinPrice: null,
+            MaxPrice: null,
+            MinBedrooms: null);
         var command = new QueryPropertiesActionCommand(parameters, TenantId, AgentId);
 
         _propertiesClient.ListAsync(
@@ -213,10 +227,14 @@ public sealed class QueryPropertiesActionHandlerTests
     public async Task Handle_WhenResultsContainSummary_ShouldBuildHumanReadableMessage()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_type"] = "house"
-        };
+        var parameters = new QueryPropertiesParameters(
+            PropertyType: "house",
+            OperationType: null,
+            Status: null,
+            City: null,
+            MinPrice: null,
+            MaxPrice: null,
+            MinBedrooms: null);
         var command = new QueryPropertiesActionCommand(parameters, TenantId, AgentId);
 
         var properties = new List<PropertyListItemResponse>

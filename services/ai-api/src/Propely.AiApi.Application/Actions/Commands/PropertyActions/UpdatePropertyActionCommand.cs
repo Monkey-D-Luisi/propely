@@ -2,6 +2,7 @@
 // Licensed under the Proprietary Software License. See LICENSE.
 
 using MediatR;
+using Propely.AiApi.Application.Actions.Parameters;
 using Propely.AiApi.Domain.Actions;
 
 namespace Propely.AiApi.Application.Actions.Commands.PropertyActions;
@@ -11,6 +12,6 @@ namespace Propely.AiApi.Application.Actions.Commands.PropertyActions;
 /// Parameters contain the property identifier and the fields to update.
 /// </summary>
 public sealed record UpdatePropertyActionCommand(
-    Dictionary<string, object?> Parameters,
+    UpdatePropertyParameters Parameters,
     Guid TenantId,
     Guid AgentId) : IRequest<ActionResult>;

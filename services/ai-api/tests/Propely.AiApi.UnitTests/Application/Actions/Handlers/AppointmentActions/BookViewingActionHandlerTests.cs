@@ -7,6 +7,7 @@ using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using Propely.AiApi.Application.Actions.Commands.AppointmentActions;
 using Propely.AiApi.Application.Actions.Handlers.AppointmentActions;
+using Propely.AiApi.Application.Actions.Parameters;
 using Propely.AiApi.Domain.Actions;
 using Propely.AppointmentsApi.Client;
 using Propely.AppointmentsApi.Client.Models;
@@ -33,14 +34,14 @@ public sealed class BookViewingActionHandlerTests
         // Arrange
         var propertyId = Guid.NewGuid();
         var contactId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_id"] = propertyId.ToString(),
-            ["contact_id"] = contactId.ToString(),
-            ["start_time"] = "2026-03-15T10:00:00",
-            ["title"] = "Viewing at Calle Mayor",
-            ["location"] = "Calle Mayor 5, Madrid"
-        };
+        var parameters = new BookViewingParameters(
+            PropertyId: propertyId,
+            ContactId: contactId,
+            StartTime: new DateTime(2026, 3, 15, 10, 0, 0),
+            EndTime: null,
+            Title: "Viewing at Calle Mayor",
+            Location: "Calle Mayor 5, Madrid",
+            Notes: null);
         var command = new BookViewingActionCommand(parameters, TenantId, AgentId);
 
         var createdAppointment = new AppointmentResponse
@@ -77,10 +78,14 @@ public sealed class BookViewingActionHandlerTests
     public async Task Handle_WithMissingPropertyId_ShouldReturnFailure()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["start_time"] = "2026-03-15T10:00:00"
-        };
+        var parameters = new BookViewingParameters(
+            PropertyId: null,
+            ContactId: null,
+            StartTime: new DateTime(2026, 3, 15, 10, 0, 0),
+            EndTime: null,
+            Title: null,
+            Location: null,
+            Notes: null);
         var command = new BookViewingActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -96,10 +101,14 @@ public sealed class BookViewingActionHandlerTests
     public async Task Handle_WithMissingStartTime_ShouldReturnFailure()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_id"] = Guid.NewGuid().ToString()
-        };
+        var parameters = new BookViewingParameters(
+            PropertyId: Guid.NewGuid(),
+            ContactId: null,
+            StartTime: null,
+            EndTime: null,
+            Title: null,
+            Location: null,
+            Notes: null);
         var command = new BookViewingActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -114,12 +123,15 @@ public sealed class BookViewingActionHandlerTests
     [Fact]
     public async Task Handle_WithInvalidStartTime_ShouldReturnFailure()
     {
-        // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_id"] = Guid.NewGuid().ToString(),
-            ["start_time"] = "not-a-date"
-        };
+        // Arrange — DateTime? is null when not parseable; handler should treat null as missing
+        var parameters = new BookViewingParameters(
+            PropertyId: Guid.NewGuid(),
+            ContactId: null,
+            StartTime: null,
+            EndTime: null,
+            Title: null,
+            Location: null,
+            Notes: null);
         var command = new BookViewingActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -135,11 +147,14 @@ public sealed class BookViewingActionHandlerTests
     public async Task Handle_WithoutTitle_ShouldDefaultToPropertyViewing()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_id"] = Guid.NewGuid().ToString(),
-            ["start_time"] = "2026-03-15T10:00:00"
-        };
+        var parameters = new BookViewingParameters(
+            PropertyId: Guid.NewGuid(),
+            ContactId: null,
+            StartTime: new DateTime(2026, 3, 15, 10, 0, 0),
+            EndTime: null,
+            Title: null,
+            Location: null,
+            Notes: null);
         var command = new BookViewingActionCommand(parameters, TenantId, AgentId);
 
         _appointmentsClient.CreateAppointmentAsync(Arg.Any<CreateAppointmentClientRequest>(), Arg.Any<CancellationToken>())
@@ -165,11 +180,14 @@ public sealed class BookViewingActionHandlerTests
     public async Task Handle_WithoutEndTime_ShouldDefault30Minutes()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_id"] = Guid.NewGuid().ToString(),
-            ["start_time"] = "2026-03-15T10:00:00"
-        };
+        var parameters = new BookViewingParameters(
+            PropertyId: Guid.NewGuid(),
+            ContactId: null,
+            StartTime: new DateTime(2026, 3, 15, 10, 0, 0),
+            EndTime: null,
+            Title: null,
+            Location: null,
+            Notes: null);
         var command = new BookViewingActionCommand(parameters, TenantId, AgentId);
 
         _appointmentsClient.CreateAppointmentAsync(Arg.Any<CreateAppointmentClientRequest>(), Arg.Any<CancellationToken>())
@@ -197,11 +215,14 @@ public sealed class BookViewingActionHandlerTests
     public async Task Handle_WhenSdkThrows_ShouldReturnFailureGracefully()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_id"] = Guid.NewGuid().ToString(),
-            ["start_time"] = "2026-03-15T10:00:00"
-        };
+        var parameters = new BookViewingParameters(
+            PropertyId: Guid.NewGuid(),
+            ContactId: null,
+            StartTime: new DateTime(2026, 3, 15, 10, 0, 0),
+            EndTime: null,
+            Title: null,
+            Location: null,
+            Notes: null);
         var command = new BookViewingActionCommand(parameters, TenantId, AgentId);
 
         _appointmentsClient.CreateAppointmentAsync(Arg.Any<CreateAppointmentClientRequest>(), Arg.Any<CancellationToken>())
