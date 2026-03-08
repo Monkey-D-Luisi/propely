@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace Propely.AiApi.Application.Suggestions.Rules;
 
 /// <summary>
-/// Orchestrates all suggestion rules and returns aggregated, deduplicated results.
+/// Orchestrates all suggestion rules and returns aggregated results ordered by priority.
 /// </summary>
 public sealed class SuggestionEngine
 {

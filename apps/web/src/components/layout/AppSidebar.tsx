@@ -9,7 +9,7 @@ import { useCurrentUser } from '@/hooks/orgs';
 import { useActiveOrg } from '@/hooks/use-active-org';
 
 const navItems = [
-  { href: '/', icon: 'dashboard', labelKey: 'dashboard' },
+  { href: '/dashboard', icon: 'dashboard', labelKey: 'dashboard' },
   { href: '/properties', icon: 'apartment', labelKey: 'properties' },
   { href: '/contacts', icon: 'group', labelKey: 'contacts' },
   { href: '/leads', icon: 'trending_up', labelKey: 'leads' },
@@ -45,9 +45,7 @@ export function AppSidebar() {
           {/* Navigation */}
           <nav className="flex flex-col gap-1">
             {navItems.map((item) => {
-              const isActive = item.href === '/'
-                ? pathname === '/'
-                : pathname.startsWith(item.href);
+              const isActive = pathname.startsWith(item.href);
               return (
                 <Link
                   key={item.href}

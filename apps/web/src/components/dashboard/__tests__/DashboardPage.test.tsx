@@ -3,7 +3,7 @@
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderWithProviders, screen } from '@test/utils';
-import DashboardPage from '@/app/[locale]/(dashboard)/page';
+import DashboardPage from '@/app/[locale]/(dashboard)/dashboard/page';
 
 vi.mock('@/hooks/use-dashboard', () => ({
   useDashboard: vi.fn(),

@@ -158,12 +158,23 @@ public sealed class ExecuteActionCommandHandler : IRequestHandler<ExecuteActionC
     {
         if (!relevantActions.Contains(currentAction)) return null;
 
-        if (data.TryGetValue(primaryKey, out var val) && val is string s && Guid.TryParse(s, out var guid))
+        if (TryParseGuidValue(data, primaryKey, out var guid))
             return guid;
 
-        if (data.TryGetValue(fallbackKey, out val) && val is string s2 && Guid.TryParse(s2, out guid))
+        if (TryParseGuidValue(data, fallbackKey, out guid))
             return guid;
 
         return null;
+    }
+
+    private static bool TryParseGuidValue(IDictionary<string, object?> data, string key, out Guid result)
+    {
+        result = Guid.Empty;
+        if (!data.TryGetValue(key, out var val) || val is null) return false;
+
+        if (val is Guid g) { result = g; return true; }
+        if (val is string s && Guid.TryParse(s, out var parsed)) { result = parsed; return true; }
+
+        return false;
     }
 }

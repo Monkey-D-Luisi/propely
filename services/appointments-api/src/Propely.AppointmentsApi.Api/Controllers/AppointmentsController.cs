@@ -97,7 +97,7 @@ public sealed class AppointmentsController : ControllerBase
 
         var query = new CountUpcomingAppointmentsQuery(tenantId.Value, days);
         var result = await _mediator.Send(query, cancellationToken);
-        return Ok(new { count = result });
+        return Ok(new CountUpcomingApiResponse(result));
     }
 
     [HttpGet]

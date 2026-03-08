@@ -3,7 +3,6 @@
 
 using FluentAssertions;
 using NSubstitute;
-using NSubstitute.ExceptionExtensions;
 using Propely.AiApi.Domain.Suggestions;
 using Propely.AiApi.Application.Suggestions.Rules;
 using Propely.ContactsApi.Client;
