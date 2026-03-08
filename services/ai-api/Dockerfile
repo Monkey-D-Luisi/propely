@@ -17,6 +17,9 @@ COPY services/properties-api/src/Propely.PropertiesApi.Client/Propely.Properties
 COPY services/contacts-api/src/Propely.ContactsApi.Client/Propely.ContactsApi.Client.csproj services/contacts-api/src/Propely.ContactsApi.Client/
 COPY services/appointments-api/src/Propely.AppointmentsApi.Client/Propely.AppointmentsApi.Client.csproj services/appointments-api/src/Propely.AppointmentsApi.Client/
 
+# Shared project referenced by all SDK clients
+COPY services/shared/Propely.Shared.Http/Propely.Shared.Http.csproj services/shared/Propely.Shared.Http/
+
 RUN dotnet restore services/ai-api/src/Propely.AiApi.Api/Propely.AiApi.Api.csproj
 
 # Stage 2: Build and publish
@@ -27,6 +30,7 @@ COPY services/ai-api/src/ services/ai-api/src/
 COPY services/properties-api/src/Propely.PropertiesApi.Client/ services/properties-api/src/Propely.PropertiesApi.Client/
 COPY services/contacts-api/src/Propely.ContactsApi.Client/ services/contacts-api/src/Propely.ContactsApi.Client/
 COPY services/appointments-api/src/Propely.AppointmentsApi.Client/ services/appointments-api/src/Propely.AppointmentsApi.Client/
+COPY services/shared/Propely.Shared.Http/ services/shared/Propely.Shared.Http/
 
 RUN dotnet publish services/ai-api/src/Propely.AiApi.Api/Propely.AiApi.Api.csproj \
     -c Release \
