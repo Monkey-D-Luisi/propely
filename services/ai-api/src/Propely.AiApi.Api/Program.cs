@@ -81,8 +81,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 // MCP Streamable HTTP endpoint for AI tool interoperability
-// Sits behind the same auth middleware as REST endpoints
-app.MapMcp("/mcp");
+app.MapMcp("/mcp")
+    .RequireAuthorization();
 
 app.Run();
 

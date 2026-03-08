@@ -91,7 +91,7 @@ public sealed class McpToolHandlerTests
     }
 
     [Fact]
-    public async Task HandleToolCallAsync_WithJsonElementArguments_ShouldNormalizeToDict()
+    public async Task HandleToolCallAsync_WithJsonElementArguments_ShouldForwardToRouter()
     {
         // Arrange — simulate what MCP SDK sends (JsonElement values)
         var jsonDoc = JsonDocument.Parse("""{"title":"A flat","price":250000}""");

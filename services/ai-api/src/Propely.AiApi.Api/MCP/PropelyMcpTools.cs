@@ -354,8 +354,15 @@ public static class PropelyMcpTools
         var orgIdClaim = user.FindFirst("org_id")?.Value;
         var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-        var tenantId = Guid.TryParse(orgIdClaim, out var t) ? t : Guid.Empty;
-        var agentId = Guid.TryParse(userIdClaim, out var a) ? a : Guid.Empty;
+        if (string.IsNullOrWhiteSpace(orgIdClaim) || !Guid.TryParse(orgIdClaim, out var tenantId))
+        {
+            throw new InvalidOperationException("Missing or invalid org_id claim for MCP tool invocation.");
+        }
+
+        if (string.IsNullOrWhiteSpace(userIdClaim) || !Guid.TryParse(userIdClaim, out var agentId))
+        {
+            throw new InvalidOperationException("Missing or invalid NameIdentifier claim for MCP tool invocation.");
+        }
 
         return (tenantId, agentId);
     }
