@@ -4,7 +4,6 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Propely.AiApi.Application.Actions.Commands.PropertyActions;
-using Propely.AiApi.Application.Actions.Helpers;
 using Propely.AiApi.Domain.Actions;
 
 namespace Propely.AiApi.Application.Actions.Handlers;
@@ -31,12 +30,10 @@ public sealed class UpdatePropertyActionHandler : IRequestHandler<UpdateProperty
             "Handling UpdateProperty action for tenant {TenantId} by agent {AgentId}",
             request.TenantId, request.AgentId);
 
-        var parameters = request.Parameters;
-
-        var propertyId = ParameterExtractor.GetGuid(parameters, "property_id");
-        var reference = ParameterExtractor.GetString(parameters, "reference");
-        var field = ParameterExtractor.GetString(parameters, "field");
-        var value = ParameterExtractor.GetString(parameters, "value");
+        var propertyId = request.Parameters.PropertyId;
+        var reference = request.Parameters.Reference;
+        var field = request.Parameters.Field;
+        var value = request.Parameters.Value;
 
         // Validate that we have some identifier for the property
         if (!propertyId.HasValue && string.IsNullOrWhiteSpace(reference))
@@ -50,37 +47,10 @@ public sealed class UpdatePropertyActionHandler : IRequestHandler<UpdateProperty
         // Validate that we have something to update
         if (string.IsNullOrWhiteSpace(field) && string.IsNullOrWhiteSpace(value))
         {
-            // Check if there are any other parameters that look like field updates
-            var updateFields = parameters
-                .Where(p => p.Key is not ("property_id" or "reference"))
-                .Where(p => p.Value is not null)
-                .ToDictionary(p => p.Key, p => p.Value);
-
-            if (updateFields.Count == 0)
-            {
-                return Task.FromResult(ActionResult.Fail(
-                    ["No update fields specified. Please specify what to change."],
-                    ActionType.UpdateProperty,
-                    "I need to know what to update. Could you specify the field and new value?"));
-            }
-
-            // Build structured update data from all non-identifier parameters
-            var updateData = new Dictionary<string, object?>
-            {
-                ["propertyId"] = propertyId,
-                ["reference"] = reference,
-                ["updates"] = updateFields,
-                ["agentId"] = request.AgentId,
-                ["tenantId"] = request.TenantId
-            };
-
-            var fieldNames = string.Join(", ", updateFields.Keys);
-            var message = $"I'll update {fieldNames} for property {propertyId?.ToString() ?? reference}.";
-
-            return Task.FromResult(ActionResult.Ok(
-                data: updateData,
-                message: message,
-                type: ActionType.UpdateProperty));
+            return Task.FromResult(ActionResult.Fail(
+                ["No update fields specified. Please specify what to change."],
+                ActionType.UpdateProperty,
+                "I need to know what to update. Could you specify the field and new value?"));
         }
 
         // Single field update

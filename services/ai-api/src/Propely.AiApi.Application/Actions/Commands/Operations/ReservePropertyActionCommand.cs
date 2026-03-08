@@ -2,6 +2,7 @@
 // Licensed under the Proprietary Software License. See LICENSE.
 
 using MediatR;
+using Propely.AiApi.Application.Actions.Parameters;
 using Propely.AiApi.Domain.Actions;
 
 namespace Propely.AiApi.Application.Actions.Commands.Operations;
@@ -11,6 +12,6 @@ namespace Propely.AiApi.Application.Actions.Commands.Operations;
 /// Parameters contain the property identifier and optional contact name.
 /// </summary>
 public sealed record ReservePropertyActionCommand(
-    Dictionary<string, object?> Parameters,
+    ReservePropertyParameters Parameters,
     Guid TenantId,
     Guid AgentId) : IRequest<ActionResult>;

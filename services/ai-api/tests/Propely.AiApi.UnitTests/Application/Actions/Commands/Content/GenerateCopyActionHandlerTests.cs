@@ -8,6 +8,7 @@ using NSubstitute.ExceptionExtensions;
 using Propely.AiApi.Application.Actions.Commands.Content;
 using Propely.AiApi.Application.Actions.Dtos;
 using Propely.AiApi.Application.Actions.Handlers;
+using Propely.AiApi.Application.Actions.Parameters;
 using Propely.AiApi.Application.Common.Interfaces;
 using Propely.AiApi.Domain.Actions;
 
@@ -31,12 +32,10 @@ public sealed class GenerateCopyActionHandlerTests
     public async Task Handle_WhenValidParameters_ShouldCallOpenAiAndReturnCopy()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_data"] = "3-bedroom apartment in Malaga, 120 sqm, sea views, 250,000 EUR",
-            ["tone"] = "professional",
-            ["languages"] = new List<string> { "es", "en" }
-        };
+        var parameters = new GenerateCopyParameters(
+            PropertyData: "3-bedroom apartment in Malaga, 120 sqm, sea views, 250,000 EUR",
+            Tone: "professional",
+            Languages: new List<string> { "es", "en" });
         var command = new GenerateCopyActionCommand(parameters, TenantId, AgentId);
 
         var aiResponse = """
@@ -72,10 +71,10 @@ public sealed class GenerateCopyActionHandlerTests
     public async Task Handle_WhenMissingPropertyData_ShouldReturnFailure()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["tone"] = "professional"
-        };
+        var parameters = new GenerateCopyParameters(
+            PropertyData: null,
+            Tone: "professional",
+            Languages: null);
         var command = new GenerateCopyActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -92,10 +91,10 @@ public sealed class GenerateCopyActionHandlerTests
     public async Task Handle_WhenNoToneProvided_ShouldDefaultToProfessional()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_data"] = "2-bedroom house in Barcelona"
-        };
+        var parameters = new GenerateCopyParameters(
+            PropertyData: "2-bedroom house in Barcelona",
+            Tone: null,
+            Languages: null);
         var command = new GenerateCopyActionCommand(parameters, TenantId, AgentId);
 
         var aiResponse = """
@@ -128,11 +127,10 @@ public sealed class GenerateCopyActionHandlerTests
     public async Task Handle_WhenInvalidTone_ShouldReturnFailure()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_data"] = "A nice apartment",
-            ["tone"] = "aggressive"
-        };
+        var parameters = new GenerateCopyParameters(
+            PropertyData: "A nice apartment",
+            Tone: "aggressive",
+            Languages: null);
         var command = new GenerateCopyActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -149,10 +147,10 @@ public sealed class GenerateCopyActionHandlerTests
     public async Task Handle_WhenNoLanguagesProvided_ShouldRequestAllLanguages()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_data"] = "Luxury villa with pool in Marbella"
-        };
+        var parameters = new GenerateCopyParameters(
+            PropertyData: "Luxury villa with pool in Marbella",
+            Tone: null,
+            Languages: null);
         var command = new GenerateCopyActionCommand(parameters, TenantId, AgentId);
 
         var aiResponse = """
@@ -187,11 +185,10 @@ public sealed class GenerateCopyActionHandlerTests
     public async Task Handle_WhenSpecificLanguagesProvided_ShouldRequestOnlyThoseLanguages()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_data"] = "A nice apartment in Valencia",
-            ["languages"] = new List<string> { "es", "en" }
-        };
+        var parameters = new GenerateCopyParameters(
+            PropertyData: "A nice apartment in Valencia",
+            Tone: null,
+            Languages: new List<string> { "es", "en" });
         var command = new GenerateCopyActionCommand(parameters, TenantId, AgentId);
 
         var aiResponse = """
@@ -226,11 +223,10 @@ public sealed class GenerateCopyActionHandlerTests
     public async Task Handle_WhenValidTone_ShouldAcceptIt(string tone)
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_data"] = "3-bedroom villa in Marbella",
-            ["tone"] = tone
-        };
+        var parameters = new GenerateCopyParameters(
+            PropertyData: "3-bedroom villa in Marbella",
+            Tone: tone,
+            Languages: null);
         var command = new GenerateCopyActionCommand(parameters, TenantId, AgentId);
 
         var aiResponse = $$"""
@@ -255,10 +251,10 @@ public sealed class GenerateCopyActionHandlerTests
     public async Task Handle_WhenOpenAiReturnsEmptyResponse_ShouldReturnFailure()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_data"] = "A nice apartment"
-        };
+        var parameters = new GenerateCopyParameters(
+            PropertyData: "A nice apartment",
+            Tone: null,
+            Languages: null);
         var command = new GenerateCopyActionCommand(parameters, TenantId, AgentId);
 
         _openAiService.GenerateWithJsonResponseAsync(
@@ -277,10 +273,10 @@ public sealed class GenerateCopyActionHandlerTests
     public async Task Handle_WhenOpenAiThrows_ShouldReturnFailure()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_data"] = "A nice apartment"
-        };
+        var parameters = new GenerateCopyParameters(
+            PropertyData: "A nice apartment",
+            Tone: null,
+            Languages: null);
         var command = new GenerateCopyActionCommand(parameters, TenantId, AgentId);
 
         _openAiService.GenerateWithJsonResponseAsync(
@@ -300,11 +296,10 @@ public sealed class GenerateCopyActionHandlerTests
     public async Task Handle_ShouldIncludeToneInSystemPrompt()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_data"] = "Exclusive penthouse in Madrid",
-            ["tone"] = "luxury"
-        };
+        var parameters = new GenerateCopyParameters(
+            PropertyData: "Exclusive penthouse in Madrid",
+            Tone: "luxury",
+            Languages: null);
         var command = new GenerateCopyActionCommand(parameters, TenantId, AgentId);
 
         var aiResponse = """

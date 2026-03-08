@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Propely.AiApi.Application.Actions.Commands.Operations;
 using Propely.AiApi.Application.Actions.Handlers.Operations;
+using Propely.AiApi.Application.Actions.Parameters;
 using Propely.AiApi.Domain.Actions;
 
 namespace Propely.AiApi.UnitTests.Application.Actions.Handlers.Operations;
@@ -27,11 +28,10 @@ public sealed class ReservePropertyActionHandlerTests
     {
         // Arrange
         var propertyId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_id"] = propertyId.ToString(),
-            ["contact_name"] = "Maria Garcia"
-        };
+        var parameters = new ReservePropertyParameters(
+            PropertyId: propertyId,
+            Reference: null,
+            ContactName: "Maria Garcia");
         var command = new ReservePropertyActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -48,11 +48,10 @@ public sealed class ReservePropertyActionHandlerTests
     public async Task Handle_WhenReferenceAndContactName_ShouldReturnSuccess()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["reference"] = "AP-2024-001",
-            ["contact_name"] = "Carlos Lopez"
-        };
+        var parameters = new ReservePropertyParameters(
+            PropertyId: null,
+            Reference: "AP-2024-001",
+            ContactName: "Carlos Lopez");
         var command = new ReservePropertyActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -70,10 +69,10 @@ public sealed class ReservePropertyActionHandlerTests
     {
         // Arrange
         var propertyId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_id"] = propertyId.ToString()
-        };
+        var parameters = new ReservePropertyParameters(
+            PropertyId: propertyId,
+            Reference: null,
+            ContactName: null);
         var command = new ReservePropertyActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -90,10 +89,10 @@ public sealed class ReservePropertyActionHandlerTests
     public async Task Handle_WhenMissingPropertyIdentifier_ShouldReturnFailure()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["contact_name"] = "Maria Garcia"
-        };
+        var parameters = new ReservePropertyParameters(
+            PropertyId: null,
+            Reference: null,
+            ContactName: "Maria Garcia");
         var command = new ReservePropertyActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -111,11 +110,10 @@ public sealed class ReservePropertyActionHandlerTests
     {
         // Arrange
         var propertyId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_id"] = propertyId.ToString(),
-            ["contact_name"] = "Maria Garcia"
-        };
+        var parameters = new ReservePropertyParameters(
+            PropertyId: propertyId,
+            Reference: null,
+            ContactName: "Maria Garcia");
         var command = new ReservePropertyActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -136,7 +134,10 @@ public sealed class ReservePropertyActionHandlerTests
     public async Task Handle_WhenEmptyParameters_ShouldReturnFailure()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>();
+        var parameters = new ReservePropertyParameters(
+            PropertyId: null,
+            Reference: null,
+            ContactName: null);
         var command = new ReservePropertyActionCommand(parameters, TenantId, AgentId);
 
         // Act

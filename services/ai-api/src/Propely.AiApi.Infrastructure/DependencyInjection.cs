@@ -81,9 +81,10 @@ public static class DependencyInjection
         // Voice Transcription Service (OpenAI Audio API)
         services.AddScoped<IVoiceTranscriptionService, OpenAiVoiceTranscriptionService>();
 
-        // AI Action Engine (Tool Schema Registry, Adapter, Intent Classifier, Action Router)
+        // AI Action Engine (Tool Schema Registry, Adapter, Intent Classifier, Action Router, Parameter Binder)
         services.AddSingleton<IToolSchemaRegistry, ToolSchemaRegistry>();
         services.AddSingleton<OpenAiToolAdapter>();
+        services.AddSingleton<IParameterBinder, DefaultParameterBinder>();
         services.AddScoped<IIntentClassifier, OpenAiIntentClassifier>();
         services.AddScoped<IActionRouter, ActionRouter>();
 

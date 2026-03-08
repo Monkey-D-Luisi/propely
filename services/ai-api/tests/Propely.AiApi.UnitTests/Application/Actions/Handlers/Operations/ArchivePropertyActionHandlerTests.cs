@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Propely.AiApi.Application.Actions.Commands.Operations;
 using Propely.AiApi.Application.Actions.Handlers.Operations;
+using Propely.AiApi.Application.Actions.Parameters;
 using Propely.AiApi.Domain.Actions;
 
 namespace Propely.AiApi.UnitTests.Application.Actions.Handlers.Operations;
@@ -27,10 +28,9 @@ public sealed class ArchivePropertyActionHandlerTests
     {
         // Arrange
         var propertyId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_id"] = propertyId.ToString()
-        };
+        var parameters = new ArchivePropertyParameters(
+            PropertyId: propertyId,
+            Reference: null);
         var command = new ArchivePropertyActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -47,10 +47,9 @@ public sealed class ArchivePropertyActionHandlerTests
     public async Task Handle_WhenReferenceProvided_ShouldReturnSuccess()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["reference"] = "AP-2024-015"
-        };
+        var parameters = new ArchivePropertyParameters(
+            PropertyId: null,
+            Reference: "AP-2024-015");
         var command = new ArchivePropertyActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -66,7 +65,9 @@ public sealed class ArchivePropertyActionHandlerTests
     public async Task Handle_WhenMissingPropertyIdentifier_ShouldReturnFailure()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>();
+        var parameters = new ArchivePropertyParameters(
+            PropertyId: null,
+            Reference: null);
         var command = new ArchivePropertyActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -84,10 +85,9 @@ public sealed class ArchivePropertyActionHandlerTests
     {
         // Arrange
         var propertyId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_id"] = propertyId.ToString()
-        };
+        var parameters = new ArchivePropertyParameters(
+            PropertyId: propertyId,
+            Reference: null);
         var command = new ArchivePropertyActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -108,11 +108,9 @@ public sealed class ArchivePropertyActionHandlerTests
     {
         // Arrange
         var propertyId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_id"] = propertyId.ToString(),
-            ["reference"] = "AP-2024-015"
-        };
+        var parameters = new ArchivePropertyParameters(
+            PropertyId: propertyId,
+            Reference: "AP-2024-015");
         var command = new ArchivePropertyActionCommand(parameters, TenantId, AgentId);
 
         // Act

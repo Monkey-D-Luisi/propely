@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Propely.AiApi.Application.Actions.Commands.PropertyActions;
 using Propely.AiApi.Application.Actions.Handlers;
+using Propely.AiApi.Application.Actions.Parameters;
 using Propely.AiApi.Domain.Actions;
 
 namespace Propely.AiApi.UnitTests.Application.Actions.Handlers;
@@ -27,12 +28,11 @@ public sealed class UpdatePropertyActionHandlerTests
     {
         // Arrange
         var propertyId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_id"] = propertyId.ToString(),
-            ["field"] = "price",
-            ["value"] = "300000"
-        };
+        var parameters = new UpdatePropertyParameters(
+            PropertyId: propertyId,
+            Reference: null,
+            Field: "price",
+            Value: "300000");
         var command = new UpdatePropertyActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -49,11 +49,11 @@ public sealed class UpdatePropertyActionHandlerTests
     public async Task Handle_WhenMissingPropertyIdentifier_ShouldReturnFailure()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["field"] = "price",
-            ["value"] = "300000"
-        };
+        var parameters = new UpdatePropertyParameters(
+            PropertyId: null,
+            Reference: null,
+            Field: "price",
+            Value: "300000");
         var command = new UpdatePropertyActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -70,12 +70,11 @@ public sealed class UpdatePropertyActionHandlerTests
     public async Task Handle_WhenUsingReference_ShouldReturnSuccess()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["reference"] = "PROP-001",
-            ["field"] = "city",
-            ["value"] = "Barcelona"
-        };
+        var parameters = new UpdatePropertyParameters(
+            PropertyId: null,
+            Reference: "PROP-001",
+            Field: "city",
+            Value: "Barcelona");
         var command = new UpdatePropertyActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -89,16 +88,15 @@ public sealed class UpdatePropertyActionHandlerTests
     }
 
     [Fact]
-    public async Task Handle_WhenMultipleFieldUpdates_ShouldReturnSuccess()
+    public async Task Handle_WhenFieldAndValueProvided_ShouldReturnSuccessWithDetails()
     {
         // Arrange
         var propertyId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_id"] = propertyId.ToString(),
-            ["price"] = 350000m,
-            ["bedrooms"] = 4
-        };
+        var parameters = new UpdatePropertyParameters(
+            PropertyId: propertyId,
+            Reference: null,
+            Field: "price",
+            Value: "350000");
         var command = new UpdatePropertyActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -108,7 +106,7 @@ public sealed class UpdatePropertyActionHandlerTests
         result.Success.Should().BeTrue();
         result.ActionType.Should().Be(ActionType.UpdateProperty);
         result.Message.Should().Contain("price");
-        result.Message.Should().Contain("bedrooms");
+        result.Message.Should().Contain("350000");
     }
 
     [Fact]
@@ -116,10 +114,11 @@ public sealed class UpdatePropertyActionHandlerTests
     {
         // Arrange
         var propertyId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_id"] = propertyId.ToString()
-        };
+        var parameters = new UpdatePropertyParameters(
+            PropertyId: propertyId,
+            Reference: null,
+            Field: null,
+            Value: null);
         var command = new UpdatePropertyActionCommand(parameters, TenantId, AgentId);
 
         // Act

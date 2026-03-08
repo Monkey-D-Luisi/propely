@@ -2,6 +2,7 @@
 // Licensed under the Proprietary Software License. See LICENSE.
 
 using MediatR;
+using Propely.AiApi.Application.Actions.Parameters;
 using Propely.AiApi.Domain.Actions;
 
 namespace Propely.AiApi.Application.Actions.Commands.Content;
@@ -12,6 +13,6 @@ namespace Propely.AiApi.Application.Actions.Commands.Content;
 /// "tone" (professional/luxury/casual/concise), and "languages" (array of language codes).
 /// </summary>
 public sealed record GenerateCopyActionCommand(
-    Dictionary<string, object?> Parameters,
+    GenerateCopyParameters Parameters,
     Guid TenantId,
     Guid AgentId) : IRequest<ActionResult>;

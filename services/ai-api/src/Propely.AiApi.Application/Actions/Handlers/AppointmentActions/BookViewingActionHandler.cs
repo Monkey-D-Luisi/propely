@@ -4,7 +4,6 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Propely.AiApi.Application.Actions.Commands.AppointmentActions;
-using Propely.AiApi.Application.Actions.Helpers;
 using Propely.AiApi.Domain.Actions;
 using Propely.AppointmentsApi.Client;
 using Propely.AppointmentsApi.Client.Models;
@@ -36,15 +35,13 @@ public sealed class BookViewingActionHandler : IRequestHandler<BookViewingAction
             "Handling BookViewing action for tenant {TenantId} by agent {AgentId}",
             request.TenantId, request.AgentId);
 
-        var parameters = request.Parameters;
-
-        var propertyId = ParameterExtractor.GetGuid(parameters, "property_id");
-        var contactId = ParameterExtractor.GetGuid(parameters, "contact_id");
-        var startTimeUtcParsed = ParameterExtractor.GetDateTimeUtc(parameters, "start_time");
-        var endTimeUtcParsed = ParameterExtractor.GetDateTimeUtc(parameters, "end_time");
-        var title = ParameterExtractor.GetString(parameters, "title");
-        var location = ParameterExtractor.GetString(parameters, "location");
-        var notes = ParameterExtractor.GetString(parameters, "notes");
+        var propertyId = request.Parameters.PropertyId;
+        var contactId = request.Parameters.ContactId;
+        var startTimeUtcParsed = request.Parameters.StartTime;
+        var endTimeUtcParsed = request.Parameters.EndTime;
+        var title = request.Parameters.Title;
+        var location = request.Parameters.Location;
+        var notes = request.Parameters.Notes;
 
         if (!propertyId.HasValue)
         {

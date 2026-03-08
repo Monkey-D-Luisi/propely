@@ -4,7 +4,6 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Propely.AiApi.Application.Actions.Commands.ContactActions;
-using Propely.AiApi.Application.Actions.Helpers;
 using Propely.AiApi.Domain.Actions;
 using Propely.ContactsApi.Client;
 using Propely.ContactsApi.Client.Models;
@@ -34,11 +33,9 @@ public sealed class QueryLeadsActionHandler : IRequestHandler<QueryLeadsActionCo
             "Handling QueryLeads action for tenant {TenantId} by agent {AgentId}",
             request.TenantId, request.AgentId);
 
-        var parameters = request.Parameters;
-
-        var status = ParameterExtractor.GetString(parameters, "status");
-        var propertyId = ParameterExtractor.GetGuid(parameters, "property_id");
-        var search = ParameterExtractor.GetString(parameters, "search");
+        var status = request.Parameters.Status;
+        var propertyId = request.Parameters.PropertyId;
+        var search = request.Parameters.Search;
 
         LeadListResponse result;
         try

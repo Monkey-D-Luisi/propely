@@ -7,6 +7,7 @@ using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using Propely.AiApi.Application.Actions.Commands.ContactActions;
 using Propely.AiApi.Application.Actions.Handlers.ContactActions;
+using Propely.AiApi.Application.Actions.Parameters;
 using Propely.AiApi.Domain.Actions;
 using Propely.ContactsApi.Client;
 using Propely.ContactsApi.Client.Models;
@@ -31,7 +32,7 @@ public sealed class QualifyLeadActionHandlerTests
     public async Task Handle_WithValidLeadId_ShouldChangeStatusToQualified()
     {
         var leadId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?> { ["lead_id"] = leadId.ToString() };
+        var parameters = new QualifyLeadParameters(LeadId: leadId);
         var command = new QualifyLeadActionCommand(parameters, TenantId, AgentId);
 
         _leadsClient.ChangeLeadStatusAsync(leadId, Arg.Any<ChangeStatusClientRequest>(), Arg.Any<CancellationToken>())
@@ -52,7 +53,7 @@ public sealed class QualifyLeadActionHandlerTests
     [Fact]
     public async Task Handle_WithMissingLeadId_ShouldReturnFailure()
     {
-        var parameters = new Dictionary<string, object?>();
+        var parameters = new QualifyLeadParameters(LeadId: null);
         var command = new QualifyLeadActionCommand(parameters, TenantId, AgentId);
 
         var result = await _handler.Handle(command, CancellationToken.None);
@@ -65,7 +66,7 @@ public sealed class QualifyLeadActionHandlerTests
     public async Task Handle_WhenSdkThrows_ShouldReturnFailureGracefully()
     {
         var leadId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?> { ["lead_id"] = leadId.ToString() };
+        var parameters = new QualifyLeadParameters(LeadId: leadId);
         var command = new QualifyLeadActionCommand(parameters, TenantId, AgentId);
 
         _leadsClient.ChangeLeadStatusAsync(leadId, Arg.Any<ChangeStatusClientRequest>(), Arg.Any<CancellationToken>())

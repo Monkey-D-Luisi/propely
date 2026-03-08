@@ -4,7 +4,6 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Propely.AiApi.Application.Actions.Commands.PropertyActions;
-using Propely.AiApi.Application.Actions.Helpers;
 using Propely.AiApi.Domain.Actions;
 
 namespace Propely.AiApi.Application.Actions.Handlers;
@@ -36,11 +35,9 @@ public sealed class ChangePropertyStatusActionHandler : IRequestHandler<ChangePr
             "Handling ChangePropertyStatus action for tenant {TenantId} by agent {AgentId}",
             request.TenantId, request.AgentId);
 
-        var parameters = request.Parameters;
-
-        var propertyId = ParameterExtractor.GetGuid(parameters, "property_id");
-        var reference = ParameterExtractor.GetString(parameters, "reference");
-        var targetStatus = ParameterExtractor.GetString(parameters, "status");
+        var propertyId = request.Parameters.PropertyId;
+        var reference = request.Parameters.Reference;
+        var targetStatus = request.Parameters.Status;
 
         // Validate property identifier
         if (!propertyId.HasValue && string.IsNullOrWhiteSpace(reference))

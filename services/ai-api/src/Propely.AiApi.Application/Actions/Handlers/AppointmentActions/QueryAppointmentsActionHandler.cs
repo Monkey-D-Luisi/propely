@@ -4,7 +4,6 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Propely.AiApi.Application.Actions.Commands.AppointmentActions;
-using Propely.AiApi.Application.Actions.Helpers;
 using Propely.AiApi.Domain.Actions;
 using Propely.AppointmentsApi.Client;
 using Propely.AppointmentsApi.Client.Models;
@@ -34,13 +33,11 @@ public sealed class QueryAppointmentsActionHandler : IRequestHandler<QueryAppoin
             "Handling QueryAppointments action for tenant {TenantId} by agent {AgentId}",
             request.TenantId, request.AgentId);
 
-        var parameters = request.Parameters;
-
-        var status = ParameterExtractor.GetString(parameters, "status");
-        var type = ParameterExtractor.GetString(parameters, "type");
-        var propertyId = ParameterExtractor.GetGuid(parameters, "property_id");
-        var fromUtc = ParameterExtractor.GetDateTimeUtc(parameters, "from_date");
-        var toUtc = ParameterExtractor.GetDateTimeUtc(parameters, "to_date");
+        var status = request.Parameters.Status;
+        var type = request.Parameters.Type;
+        var propertyId = request.Parameters.PropertyId;
+        var fromUtc = request.Parameters.FromDate;
+        var toUtc = request.Parameters.ToDate;
 
         AppointmentListResponse result;
         try

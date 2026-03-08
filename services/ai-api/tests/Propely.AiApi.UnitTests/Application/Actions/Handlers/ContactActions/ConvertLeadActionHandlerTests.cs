@@ -7,6 +7,7 @@ using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using Propely.AiApi.Application.Actions.Commands.ContactActions;
 using Propely.AiApi.Application.Actions.Handlers.ContactActions;
+using Propely.AiApi.Application.Actions.Parameters;
 using Propely.AiApi.Domain.Actions;
 using Propely.ContactsApi.Client;
 using Propely.ContactsApi.Client.Models;
@@ -32,7 +33,10 @@ public sealed class ConvertLeadActionHandlerTests
     {
         var leadId = Guid.NewGuid();
         var contactId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?> { ["lead_id"] = leadId.ToString() };
+        var parameters = new ConvertLeadParameters(
+            LeadId: leadId,
+            Role: null,
+            Notes: null);
         var command = new ConvertLeadActionCommand(parameters, TenantId, AgentId);
 
         _leadsClient.ConvertLeadAsync(leadId, Arg.Any<ConvertLeadClientRequest>(), Arg.Any<CancellationToken>())
@@ -59,11 +63,10 @@ public sealed class ConvertLeadActionHandlerTests
     public async Task Handle_WithCustomRole_ShouldPassRoleToSDK()
     {
         var leadId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["lead_id"] = leadId.ToString(),
-            ["role"] = "Seller"
-        };
+        var parameters = new ConvertLeadParameters(
+            LeadId: leadId,
+            Role: "Seller",
+            Notes: null);
         var command = new ConvertLeadActionCommand(parameters, TenantId, AgentId);
 
         _leadsClient.ConvertLeadAsync(leadId, Arg.Any<ConvertLeadClientRequest>(), Arg.Any<CancellationToken>())
@@ -86,7 +89,10 @@ public sealed class ConvertLeadActionHandlerTests
     public async Task Handle_WhenExistingContact_ShouldIndicateExisting()
     {
         var leadId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?> { ["lead_id"] = leadId.ToString() };
+        var parameters = new ConvertLeadParameters(
+            LeadId: leadId,
+            Role: null,
+            Notes: null);
         var command = new ConvertLeadActionCommand(parameters, TenantId, AgentId);
 
         _leadsClient.ConvertLeadAsync(leadId, Arg.Any<ConvertLeadClientRequest>(), Arg.Any<CancellationToken>())
@@ -106,7 +112,10 @@ public sealed class ConvertLeadActionHandlerTests
     [Fact]
     public async Task Handle_WithMissingLeadId_ShouldReturnFailure()
     {
-        var parameters = new Dictionary<string, object?>();
+        var parameters = new ConvertLeadParameters(
+            LeadId: null,
+            Role: null,
+            Notes: null);
         var command = new ConvertLeadActionCommand(parameters, TenantId, AgentId);
 
         var result = await _handler.Handle(command, CancellationToken.None);
@@ -119,7 +128,10 @@ public sealed class ConvertLeadActionHandlerTests
     public async Task Handle_WhenSdkThrows_ShouldReturnFailureGracefully()
     {
         var leadId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?> { ["lead_id"] = leadId.ToString() };
+        var parameters = new ConvertLeadParameters(
+            LeadId: leadId,
+            Role: null,
+            Notes: null);
         var command = new ConvertLeadActionCommand(parameters, TenantId, AgentId);
 
         _leadsClient.ConvertLeadAsync(leadId, Arg.Any<ConvertLeadClientRequest>(), Arg.Any<CancellationToken>())

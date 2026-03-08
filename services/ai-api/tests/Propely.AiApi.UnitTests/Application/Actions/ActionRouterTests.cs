@@ -9,6 +9,7 @@ using Propely.AiApi.Application.Actions.Commands.AppointmentActions;
 using Propely.AiApi.Application.Actions.Commands.Content;
 using Propely.AiApi.Application.Actions.Commands.Operations;
 using Propely.AiApi.Application.Actions.Commands.PropertyActions;
+using Propely.AiApi.Application.Actions.Interfaces;
 using Propely.AiApi.Domain.Actions;
 using Propely.AiApi.Infrastructure.AI;
 
@@ -17,13 +18,15 @@ namespace Propely.AiApi.UnitTests.Application.Actions;
 public sealed class ActionRouterTests
 {
     private readonly IMediator _mediator;
+    private readonly IParameterBinder _binder;
     private readonly ActionRouter _router;
 
     public ActionRouterTests()
     {
         _mediator = Substitute.For<IMediator>();
+        _binder = new DefaultParameterBinder();
         var logger = Substitute.For<ILogger<ActionRouter>>();
-        _router = new ActionRouter(_mediator, logger);
+        _router = new ActionRouter(_mediator, _binder, logger);
     }
 
     [Fact]
@@ -73,7 +76,7 @@ public sealed class ActionRouterTests
         result.ActionType.Should().Be(ActionType.CreateProperty);
         await _mediator.Received(1).Send(
             Arg.Is<CreatePropertyActionCommand>(c =>
-                c.Parameters == parameters && c.TenantId == tenantId && c.AgentId == agentId),
+                c.TenantId == tenantId && c.AgentId == agentId),
             Arg.Any<CancellationToken>());
     }
 
@@ -102,7 +105,7 @@ public sealed class ActionRouterTests
         result.ActionType.Should().Be(ActionType.QueryProperties);
         await _mediator.Received(1).Send(
             Arg.Is<QueryPropertiesActionCommand>(c =>
-                c.Parameters == parameters && c.TenantId == tenantId && c.AgentId == agentId),
+                c.TenantId == tenantId && c.AgentId == agentId),
             Arg.Any<CancellationToken>());
     }
 
@@ -136,7 +139,7 @@ public sealed class ActionRouterTests
         result.ActionType.Should().Be(ActionType.UpdateProperty);
         await _mediator.Received(1).Send(
             Arg.Is<UpdatePropertyActionCommand>(c =>
-                c.Parameters == parameters && c.TenantId == tenantId && c.AgentId == agentId),
+                c.TenantId == tenantId && c.AgentId == agentId),
             Arg.Any<CancellationToken>());
     }
 
@@ -169,7 +172,7 @@ public sealed class ActionRouterTests
         result.ActionType.Should().Be(ActionType.ChangePropertyStatus);
         await _mediator.Received(1).Send(
             Arg.Is<ChangePropertyStatusActionCommand>(c =>
-                c.Parameters == parameters && c.TenantId == tenantId && c.AgentId == agentId),
+                c.TenantId == tenantId && c.AgentId == agentId),
             Arg.Any<CancellationToken>());
     }
 
@@ -198,7 +201,7 @@ public sealed class ActionRouterTests
         result.ActionType.Should().Be(ActionType.ExtractFromText);
         await _mediator.Received(1).Send(
             Arg.Is<ExtractFromTextActionCommand>(c =>
-                c.Parameters == parameters && c.TenantId == tenantId && c.AgentId == agentId),
+                c.TenantId == tenantId && c.AgentId == agentId),
             Arg.Any<CancellationToken>());
     }
 
@@ -227,7 +230,7 @@ public sealed class ActionRouterTests
         result.ActionType.Should().Be(ActionType.ExtractFromPhotos);
         await _mediator.Received(1).Send(
             Arg.Is<ExtractFromPhotosActionCommand>(c =>
-                c.Parameters == parameters && c.TenantId == tenantId && c.AgentId == agentId),
+                c.TenantId == tenantId && c.AgentId == agentId),
             Arg.Any<CancellationToken>());
     }
 
@@ -260,7 +263,7 @@ public sealed class ActionRouterTests
         result.ActionType.Should().Be(ActionType.GenerateCopy);
         await _mediator.Received(1).Send(
             Arg.Is<GenerateCopyActionCommand>(c =>
-                c.Parameters == parameters && c.TenantId == tenantId && c.AgentId == agentId),
+                c.TenantId == tenantId && c.AgentId == agentId),
             Arg.Any<CancellationToken>());
     }
 
@@ -293,7 +296,7 @@ public sealed class ActionRouterTests
         result.ActionType.Should().Be(ActionType.BookViewing);
         await _mediator.Received(1).Send(
             Arg.Is<BookViewingActionCommand>(c =>
-                c.Parameters == parameters && c.TenantId == tenantId && c.AgentId == agentId),
+                c.TenantId == tenantId && c.AgentId == agentId),
             Arg.Any<CancellationToken>());
     }
 
@@ -325,7 +328,7 @@ public sealed class ActionRouterTests
         result.ActionType.Should().Be(ActionType.CancelAppointment);
         await _mediator.Received(1).Send(
             Arg.Is<CancelAppointmentActionCommand>(c =>
-                c.Parameters == parameters && c.TenantId == tenantId && c.AgentId == agentId),
+                c.TenantId == tenantId && c.AgentId == agentId),
             Arg.Any<CancellationToken>());
     }
 }

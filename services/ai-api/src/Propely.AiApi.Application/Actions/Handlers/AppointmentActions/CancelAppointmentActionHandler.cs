@@ -4,7 +4,6 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Propely.AiApi.Application.Actions.Commands.AppointmentActions;
-using Propely.AiApi.Application.Actions.Helpers;
 using Propely.AiApi.Domain.Actions;
 using Propely.AppointmentsApi.Client;
 using Propely.AppointmentsApi.Client.Models;
@@ -34,9 +33,8 @@ public sealed class CancelAppointmentActionHandler : IRequestHandler<CancelAppoi
             "Handling CancelAppointment action for tenant {TenantId} by agent {AgentId}",
             request.TenantId, request.AgentId);
 
-        var parameters = request.Parameters;
-        var appointmentId = ParameterExtractor.GetGuid(parameters, "appointment_id");
-        var reason = ParameterExtractor.GetString(parameters, "reason");
+        var appointmentId = request.Parameters.AppointmentId;
+        var reason = request.Parameters.Reason;
 
         if (!appointmentId.HasValue)
         {

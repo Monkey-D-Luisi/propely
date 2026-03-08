@@ -4,7 +4,6 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Propely.AiApi.Application.Actions.Commands.Operations;
-using Propely.AiApi.Application.Actions.Helpers;
 using Propely.AiApi.Domain.Actions;
 
 namespace Propely.AiApi.Application.Actions.Handlers.Operations;
@@ -29,10 +28,8 @@ public sealed class ArchivePropertyActionHandler : IRequestHandler<ArchiveProper
             "Handling ArchiveProperty action for tenant {TenantId} by agent {AgentId}",
             request.TenantId, request.AgentId);
 
-        var parameters = request.Parameters;
-
-        var propertyId = ParameterExtractor.GetGuid(parameters, "property_id");
-        var reference = ParameterExtractor.GetString(parameters, "reference");
+        var propertyId = request.Parameters.PropertyId;
+        var reference = request.Parameters.Reference;
 
         // Validate property identifier
         if (!propertyId.HasValue && string.IsNullOrWhiteSpace(reference))

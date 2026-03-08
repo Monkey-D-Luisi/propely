@@ -7,6 +7,7 @@ using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using Propely.AiApi.Application.Actions.Commands.AppointmentActions;
 using Propely.AiApi.Application.Actions.Handlers.AppointmentActions;
+using Propely.AiApi.Application.Actions.Parameters;
 using Propely.AiApi.Domain.Actions;
 using Propely.AppointmentsApi.Client;
 using Propely.AppointmentsApi.Client.Models;
@@ -31,11 +32,12 @@ public sealed class QueryAppointmentsActionHandlerTests
     public async Task Handle_WithResults_ShouldReturnAppointmentsSummary()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["status"] = "Scheduled",
-            ["from_date"] = "2026-03-01"
-        };
+        var parameters = new QueryAppointmentsParameters(
+            Status: "Scheduled",
+            Type: null,
+            PropertyId: null,
+            FromDate: new DateTime(2026, 3, 1),
+            ToDate: null);
         var command = new QueryAppointmentsActionCommand(parameters, TenantId, AgentId);
 
         var response = new AppointmentListResponse
@@ -78,10 +80,12 @@ public sealed class QueryAppointmentsActionHandlerTests
     public async Task Handle_WithNoResults_ShouldReturnEmptyMessage()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["status"] = "Completed"
-        };
+        var parameters = new QueryAppointmentsParameters(
+            Status: "Completed",
+            Type: null,
+            PropertyId: null,
+            FromDate: null,
+            ToDate: null);
         var command = new QueryAppointmentsActionCommand(parameters, TenantId, AgentId);
 
         _appointmentsClient.GetAppointmentsAsync(
@@ -110,7 +114,12 @@ public sealed class QueryAppointmentsActionHandlerTests
     public async Task Handle_WhenSdkThrows_ShouldReturnFailureGracefully()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>();
+        var parameters = new QueryAppointmentsParameters(
+            Status: null,
+            Type: null,
+            PropertyId: null,
+            FromDate: null,
+            ToDate: null);
         var command = new QueryAppointmentsActionCommand(parameters, TenantId, AgentId);
 
         _appointmentsClient.GetAppointmentsAsync(
@@ -133,7 +142,12 @@ public sealed class QueryAppointmentsActionHandlerTests
     public async Task Handle_WithMoreResultsThanShown_ShouldIndicatePagination()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>();
+        var parameters = new QueryAppointmentsParameters(
+            Status: null,
+            Type: null,
+            PropertyId: null,
+            FromDate: null,
+            ToDate: null);
         var command = new QueryAppointmentsActionCommand(parameters, TenantId, AgentId);
 
         var items = Enumerable.Range(1, 5).Select(i => new AppointmentResponse

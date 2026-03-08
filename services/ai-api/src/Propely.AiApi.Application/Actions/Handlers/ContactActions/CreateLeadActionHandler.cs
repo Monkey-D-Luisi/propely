@@ -4,7 +4,6 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Propely.AiApi.Application.Actions.Commands.ContactActions;
-using Propely.AiApi.Application.Actions.Helpers;
 using Propely.AiApi.Domain.Actions;
 using Propely.ContactsApi.Client;
 using Propely.ContactsApi.Client.Models;
@@ -34,14 +33,12 @@ public sealed class CreateLeadActionHandler : IRequestHandler<CreateLeadActionCo
             "Handling CreateLead action for tenant {TenantId} by agent {AgentId}",
             request.TenantId, request.AgentId);
 
-        var parameters = request.Parameters;
-
-        var name = ParameterExtractor.GetString(parameters, "name");
-        var email = ParameterExtractor.GetString(parameters, "email");
-        var phone = ParameterExtractor.GetString(parameters, "phone");
-        var message = ParameterExtractor.GetString(parameters, "message");
-        var source = ParameterExtractor.GetString(parameters, "source");
-        var propertyId = ParameterExtractor.GetGuid(parameters, "property_id");
+        var name = request.Parameters.Name;
+        var email = request.Parameters.Email;
+        var phone = request.Parameters.Phone;
+        var message = request.Parameters.Message;
+        var source = request.Parameters.Source;
+        var propertyId = request.Parameters.PropertyId;
 
         if (string.IsNullOrWhiteSpace(name))
         {

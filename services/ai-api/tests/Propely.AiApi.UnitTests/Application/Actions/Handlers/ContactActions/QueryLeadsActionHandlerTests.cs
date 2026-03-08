@@ -7,6 +7,7 @@ using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using Propely.AiApi.Application.Actions.Commands.ContactActions;
 using Propely.AiApi.Application.Actions.Handlers.ContactActions;
+using Propely.AiApi.Application.Actions.Parameters;
 using Propely.AiApi.Domain.Actions;
 using Propely.ContactsApi.Client;
 using Propely.ContactsApi.Client.Models;
@@ -30,7 +31,10 @@ public sealed class QueryLeadsActionHandlerTests
     [Fact]
     public async Task Handle_WhenLeadsFound_ShouldReturnSuccessWithSummary()
     {
-        var parameters = new Dictionary<string, object?> { ["status"] = "New" };
+        var parameters = new QueryLeadsParameters(
+            Status: "New",
+            PropertyId: null,
+            Search: null);
         var command = new QueryLeadsActionCommand(parameters, TenantId, AgentId);
 
         var leads = new List<LeadResponse>
@@ -64,7 +68,10 @@ public sealed class QueryLeadsActionHandlerTests
     [Fact]
     public async Task Handle_WhenNoLeadsFound_ShouldReturnNoResultsMessage()
     {
-        var parameters = new Dictionary<string, object?> { ["status"] = "Converted" };
+        var parameters = new QueryLeadsParameters(
+            Status: "Converted",
+            PropertyId: null,
+            Search: null);
         var command = new QueryLeadsActionCommand(parameters, TenantId, AgentId);
 
         _leadsClient.GetLeadsAsync(
@@ -90,12 +97,10 @@ public sealed class QueryLeadsActionHandlerTests
     public async Task Handle_ShouldPassFiltersToSDK()
     {
         var propertyId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["status"] = "New",
-            ["property_id"] = propertyId.ToString(),
-            ["search"] = "Garcia"
-        };
+        var parameters = new QueryLeadsParameters(
+            Status: "New",
+            PropertyId: propertyId,
+            Search: "Garcia");
         var command = new QueryLeadsActionCommand(parameters, TenantId, AgentId);
 
         _leadsClient.GetLeadsAsync(
@@ -124,7 +129,10 @@ public sealed class QueryLeadsActionHandlerTests
     [Fact]
     public async Task Handle_WhenSdkThrows_ShouldReturnFailureGracefully()
     {
-        var parameters = new Dictionary<string, object?> { ["status"] = "New" };
+        var parameters = new QueryLeadsParameters(
+            Status: "New",
+            PropertyId: null,
+            Search: null);
         var command = new QueryLeadsActionCommand(parameters, TenantId, AgentId);
 
         _leadsClient.GetLeadsAsync(

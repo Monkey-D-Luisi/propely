@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Propely.AiApi.Application.Actions.Commands.PropertyActions;
 using Propely.AiApi.Application.Actions.Handlers;
+using Propely.AiApi.Application.Actions.Parameters;
 using Propely.AiApi.Domain.Actions;
 
 namespace Propely.AiApi.UnitTests.Application.Actions.Handlers;
@@ -27,11 +28,10 @@ public sealed class ChangePropertyStatusActionHandlerTests
     {
         // Arrange
         var propertyId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_id"] = propertyId.ToString(),
-            ["status"] = "Active"
-        };
+        var parameters = new ChangePropertyStatusParameters(
+            PropertyId: propertyId,
+            Reference: null,
+            Status: "Active");
         var command = new ChangePropertyStatusActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -47,10 +47,10 @@ public sealed class ChangePropertyStatusActionHandlerTests
     public async Task Handle_WhenMissingPropertyIdentifier_ShouldReturnFailure()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["status"] = "Active"
-        };
+        var parameters = new ChangePropertyStatusParameters(
+            PropertyId: null,
+            Reference: null,
+            Status: "Active");
         var command = new ChangePropertyStatusActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -68,10 +68,10 @@ public sealed class ChangePropertyStatusActionHandlerTests
     {
         // Arrange
         var propertyId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_id"] = propertyId.ToString()
-        };
+        var parameters = new ChangePropertyStatusParameters(
+            PropertyId: propertyId,
+            Reference: null,
+            Status: null);
         var command = new ChangePropertyStatusActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -89,11 +89,10 @@ public sealed class ChangePropertyStatusActionHandlerTests
     {
         // Arrange
         var propertyId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_id"] = propertyId.ToString(),
-            ["status"] = "InvalidStatus"
-        };
+        var parameters = new ChangePropertyStatusParameters(
+            PropertyId: propertyId,
+            Reference: null,
+            Status: "InvalidStatus");
         var command = new ChangePropertyStatusActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -119,11 +118,10 @@ public sealed class ChangePropertyStatusActionHandlerTests
     {
         // Arrange
         var propertyId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_id"] = propertyId.ToString(),
-            ["status"] = validStatus
-        };
+        var parameters = new ChangePropertyStatusParameters(
+            PropertyId: propertyId,
+            Reference: null,
+            Status: validStatus);
         var command = new ChangePropertyStatusActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -139,11 +137,10 @@ public sealed class ChangePropertyStatusActionHandlerTests
     public async Task Handle_WhenUsingReference_ShouldReturnSuccess()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>
-        {
-            ["reference"] = "PROP-042",
-            ["status"] = "Sold"
-        };
+        var parameters = new ChangePropertyStatusParameters(
+            PropertyId: null,
+            Reference: "PROP-042",
+            Status: "Sold");
         var command = new ChangePropertyStatusActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -161,11 +158,10 @@ public sealed class ChangePropertyStatusActionHandlerTests
     {
         // Arrange
         var propertyId = Guid.NewGuid();
-        var parameters = new Dictionary<string, object?>
-        {
-            ["property_id"] = propertyId.ToString(),
-            ["status"] = "Reserved"
-        };
+        var parameters = new ChangePropertyStatusParameters(
+            PropertyId: propertyId,
+            Reference: null,
+            Status: "Reserved");
         var command = new ChangePropertyStatusActionCommand(parameters, TenantId, AgentId);
 
         // Act

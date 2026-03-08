@@ -8,6 +8,7 @@ using NSubstitute.ExceptionExtensions;
 using Propely.AiApi.Application.Actions.Commands.Content;
 using Propely.AiApi.Application.Actions.Dtos;
 using Propely.AiApi.Application.Actions.Handlers;
+using Propely.AiApi.Application.Actions.Parameters;
 using Propely.AiApi.Application.Common.Interfaces;
 using Propely.AiApi.Domain.Actions;
 
@@ -32,7 +33,7 @@ public sealed class ExtractFromTextActionHandlerTests
     {
         // Arrange
         var inputText = "Beautiful 3-bedroom apartment in Malaga for sale at 250,000 EUR with 2 bathrooms and a terrace.";
-        var parameters = new Dictionary<string, object?> { ["text"] = inputText };
+        var parameters = new ExtractFromTextParameters(Text: inputText);
         var command = new ExtractFromTextActionCommand(parameters, TenantId, AgentId);
 
         var aiResponse = """
@@ -72,7 +73,7 @@ public sealed class ExtractFromTextActionHandlerTests
     public async Task Handle_WhenMissingText_ShouldReturnFailure()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?>();
+        var parameters = new ExtractFromTextParameters(Text: null);
         var command = new ExtractFromTextActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -89,7 +90,7 @@ public sealed class ExtractFromTextActionHandlerTests
     public async Task Handle_WhenEmptyText_ShouldReturnFailure()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?> { ["text"] = "   " };
+        var parameters = new ExtractFromTextParameters(Text: "   ");
         var command = new ExtractFromTextActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -106,7 +107,7 @@ public sealed class ExtractFromTextActionHandlerTests
     {
         // Arrange
         var longText = new string('a', 10001);
-        var parameters = new Dictionary<string, object?> { ["text"] = longText };
+        var parameters = new ExtractFromTextParameters(Text: longText);
         var command = new ExtractFromTextActionCommand(parameters, TenantId, AgentId);
 
         // Act
@@ -124,7 +125,7 @@ public sealed class ExtractFromTextActionHandlerTests
     {
         // Arrange
         var maxText = new string('a', 10000);
-        var parameters = new Dictionary<string, object?> { ["text"] = maxText };
+        var parameters = new ExtractFromTextParameters(Text: maxText);
         var command = new ExtractFromTextActionCommand(parameters, TenantId, AgentId);
 
         var aiResponse = """{ "property_type": { "value": "apartment", "confidence": 0.5 } }""";
@@ -144,7 +145,7 @@ public sealed class ExtractFromTextActionHandlerTests
     public async Task Handle_WhenOpenAiReturnsEmptyResponse_ShouldReturnFailure()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?> { ["text"] = "Some property text" };
+        var parameters = new ExtractFromTextParameters(Text: "Some property text");
         var command = new ExtractFromTextActionCommand(parameters, TenantId, AgentId);
 
         _openAiService.GenerateWithJsonResponseAsync(
@@ -163,7 +164,7 @@ public sealed class ExtractFromTextActionHandlerTests
     public async Task Handle_WhenOpenAiThrows_ShouldReturnFailure()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?> { ["text"] = "Some property text" };
+        var parameters = new ExtractFromTextParameters(Text: "Some property text");
         var command = new ExtractFromTextActionCommand(parameters, TenantId, AgentId);
 
         _openAiService.GenerateWithJsonResponseAsync(
@@ -183,7 +184,7 @@ public sealed class ExtractFromTextActionHandlerTests
     public async Task Handle_WhenPartialResponse_ShouldReturnAvailableFields()
     {
         // Arrange
-        var parameters = new Dictionary<string, object?> { ["text"] = "A villa in Barcelona" };
+        var parameters = new ExtractFromTextParameters(Text: "A villa in Barcelona");
         var command = new ExtractFromTextActionCommand(parameters, TenantId, AgentId);
 
         var aiResponse = """
@@ -214,7 +215,7 @@ public sealed class ExtractFromTextActionHandlerTests
     {
         // Arrange
         var inputText = "A small studio apartment in Madrid";
-        var parameters = new Dictionary<string, object?> { ["text"] = inputText };
+        var parameters = new ExtractFromTextParameters(Text: inputText);
         var command = new ExtractFromTextActionCommand(parameters, TenantId, AgentId);
 
         var aiResponse = """{ "property_type": { "value": "studio", "confidence": 0.9 } }""";
