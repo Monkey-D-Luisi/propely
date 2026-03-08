@@ -57,7 +57,7 @@ POST /v1/actions/execute
 | 8.2 | Typed Action Parameter Records | DONE | 8.1 | Medium |
 | 8.3 | OpenAI Classifier Adapter Refactor | DONE | 8.1, 8.2 | Small |
 | 8.4 | MCP Server Endpoint | DONE | 8.1 | Medium-Large |
-| 8.5 | Shared TenantDelegatingHandler Package | PENDING | — | Small |
+| 8.5 | Shared TenantDelegatingHandler Package | DONE | — | Small |
 
 ---
 
@@ -386,7 +386,7 @@ Start with integration test: MCP client → tools/list → verify 20 tools retur
 
 ## Task 8.5 — Shared TenantDelegatingHandler Package
 
-- **Status:** PENDING
+- **Status:** IN_PROGRESS
 - **Dependencies:** None (independent, can be done in parallel)
 
 ### Scope

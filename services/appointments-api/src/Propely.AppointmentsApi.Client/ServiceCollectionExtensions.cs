@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Http.Resilience;
 using Polly;
+using Propely.Shared.Http;
 using Refit;
 
 namespace Propely.AppointmentsApi.Client;

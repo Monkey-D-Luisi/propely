@@ -4,6 +4,7 @@
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Propely.PropertiesApi.Client;
+using Propely.Shared.Http;
 
 namespace Propely.PropertiesApi.UnitTests.Client;
 

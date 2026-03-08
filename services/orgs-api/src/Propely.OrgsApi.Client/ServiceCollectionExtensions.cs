@@ -8,6 +8,7 @@ using Microsoft.Extensions.Http.Resilience;
 using Polly;
 using Propely.OrgsApi.Client.Agencies;
 using Propely.OrgsApi.Client.Permissions;
+using Propely.Shared.Http;
 using Refit;
 
 namespace Propely.OrgsApi.Client;

@@ -5,6 +5,7 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Propely.AiApi.Client;
 using Propely.AiApi.Client.Configuration;
+using Propely.Shared.Http;
 
 namespace Propely.AiApi.UnitTests.Client;
 
