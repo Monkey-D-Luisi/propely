@@ -1421,5 +1421,20 @@
         "endDateRequired": "End date is required"
       }
     }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back, {name}",
+    "activeListings": "Active Listings",
+    "openLeads": "Open Leads",
+    "upcomingAppointments": "Upcoming Appointments",
+    "convertedThisMonth": "Converted This Month",
+    "propertiesByStatus": "Properties by Status",
+    "leadsByStatus": "Leads by Status",
+    "quickActions": "Quick Actions",
+    "newProperty": "New Property",
+    "newLead": "New Lead",
+    "scheduleAppointment": "Schedule Appointment",
+    "noData": "No data available"
   }
 }

@@ -1402,5 +1402,20 @@
         "endDateRequired": "La fecha de fin es obligatoria"
       }
     }
+  },
+  "dashboard": {
+    "title": "Panel",
+    "welcome": "Bienvenido de nuevo, {name}",
+    "activeListings": "Anuncios activos",
+    "openLeads": "Leads abiertos",
+    "upcomingAppointments": "Citas próximas",
+    "convertedThisMonth": "Convertidos este mes",
+    "propertiesByStatus": "Propiedades por estado",
+    "leadsByStatus": "Leads por estado",
+    "quickActions": "Acciones rápidas",
+    "newProperty": "Nueva propiedad",
+    "newLead": "Nuevo lead",
+    "scheduleAppointment": "Programar cita",
+    "noData": "Sin datos disponibles"
   }
 }
