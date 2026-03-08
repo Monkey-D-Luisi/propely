@@ -703,7 +703,7 @@ Coverage targets:
 - **TDD:** Unit tests for suggestion rules. Integration tests for end-to-end suggestion pipeline.
 
 ### Task 7.4 — Stitch Design Refinement Pass
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 7.1
 - **Scope:** Full Stitch design audit of all screens. Generate updated designs. Pixel-perfect alignment pass. Ensure consistent design language across all pages.
 - **TDD:** Visual regression tests.
