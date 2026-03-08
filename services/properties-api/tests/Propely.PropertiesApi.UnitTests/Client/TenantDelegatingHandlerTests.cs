@@ -5,7 +5,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
-using Propely.PropertiesApi.Client;
+using Propely.Shared.Http;
 
 namespace Propely.PropertiesApi.UnitTests.Client;
 

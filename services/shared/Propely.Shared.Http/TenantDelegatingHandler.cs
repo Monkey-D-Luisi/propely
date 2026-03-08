@@ -4,7 +4,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace Propely.ContactsApi.Client;
+namespace Propely.Shared.Http;
 
 /// <summary>
 /// HTTP message handler that propagates the tenant ID (X-Org-Id) header
