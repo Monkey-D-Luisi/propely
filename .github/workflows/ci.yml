@@ -290,28 +290,37 @@ jobs:
       - name: Wait for services to be healthy
         run: |
           echo "Waiting for services to be ready..."
-          for i in $(seq 1 90); do
-            ai_ok=$(curl -sf http://localhost:5010/health/ready || echo "fail")
-            orgs_ok=$(curl -sf http://localhost:5020/health/ready || echo "fail")
-            props_ok=$(curl -sf http://localhost:5030/health/ready || echo "fail")
-            pub_ok=$(curl -sf http://localhost:15040/health/ready || echo "fail")
-            contacts_ok=$(curl -sf http://localhost:5050/health/ready || echo "fail")
-            appts_ok=$(curl -sf http://localhost:5060/health/ready || echo "fail")
-            web_ok=$(curl -sf http://localhost:3000/en || echo "fail")
-            if [ "$ai_ok" != "fail" ] && [ "$orgs_ok" != "fail" ] && \
-               [ "$props_ok" != "fail" ] && [ "$pub_ok" != "fail" ] && \
-               [ "$contacts_ok" != "fail" ] && [ "$appts_ok" != "fail" ] && \
-               [ "$web_ok" != "fail" ]; then
+          SERVICES="ai-api:5010 orgs-api:5020 properties-api:5030 publishing-api:15040 contacts-api:5050 appointments-api:5060 web:3000"
+          for i in $(seq 1 60); do
+            all_ok=true
+            status_line=""
+            for svc in $SERVICES; do
+              name="${svc%%:*}"
+              port="${svc##*:}"
+              if [ "$name" = "web" ]; then
+                url="http://localhost:${port}/en"
+              else
+                url="http://localhost:${port}/health/ready"
+              fi
+              if curl -sf --connect-timeout 2 --max-time 5 "$url" > /dev/null 2>&1; then
+                status_line="$status_line $name:OK"
+              else
+                status_line="$status_line $name:FAIL"
+                all_ok=false
+              fi
+            done
+            echo "Attempt $i/60:$status_line"
+            if [ "$all_ok" = "true" ]; then
               echo "All services are ready."
               exit 0
             fi
-            echo "Attempt $i/90: waiting 5s..."
             sleep 5
           done
-          echo "::error::Services did not become ready within 7.5 minutes"
-          docker compose -f docker-compose.yml -f docker-compose.ci.yml --profile apps logs
+          echo "::error::Services did not become ready within 5 minutes"
+          docker compose -f docker-compose.yml -f docker-compose.ci.yml --profile apps ps
+          docker compose -f docker-compose.yml -f docker-compose.ci.yml --profile apps logs --tail=30
           exit 1
-        timeout-minutes: 10
+        timeout-minutes: 8
 
       - name: Run E2E tests
         working-directory: apps/web
