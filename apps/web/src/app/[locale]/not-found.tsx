@@ -34,7 +34,7 @@ export default function NotFound() {
       <div className="flex flex-col sm:flex-row gap-4 w-full max-w-[480px] px-4 justify-center">
         <Link
           href="/"
-          className="flex-1 min-w-[140px] flex items-center justify-center gap-2 h-12 px-6 rounded-xl bg-primary-600 text-white font-semibold text-sm hover:bg-primary-600/90 focus:ring-4 focus:ring-primary-600/20 outline-none transition"
+          className="flex-1 min-w-[140px] flex items-center justify-center gap-2 h-12 px-6 rounded-xl bg-primary-600 text-white font-semibold text-sm hover:bg-primary-600/90 focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 outline-none transition"
         >
           <span className="material-symbols-outlined text-[20px]" aria-hidden="true">home</span>
           {t('goHome')}
@@ -42,7 +42,7 @@ export default function NotFound() {
         <button
           type="button"
           onClick={() => history.back()}
-          className="flex-1 min-w-[140px] flex items-center justify-center gap-2 h-12 px-6 rounded-xl bg-white text-slate-900 border border-slate-200 font-semibold text-sm hover:bg-slate-50 focus:ring-4 focus:ring-slate-200 outline-none transition"
+          className="flex-1 min-w-[140px] flex items-center justify-center gap-2 h-12 px-6 rounded-xl bg-white text-slate-900 border border-slate-200 font-semibold text-sm hover:bg-slate-50 focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 outline-none transition"
         >
           <span className="material-symbols-outlined text-[20px]" aria-hidden="true">arrow_back</span>
           {t('goBack')}

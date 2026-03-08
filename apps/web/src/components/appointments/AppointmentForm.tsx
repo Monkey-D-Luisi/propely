@@ -275,14 +275,14 @@ export function AppointmentForm({
         <button
           type="button"
           onClick={onCancel}
-          className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+          className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
         >
           {t('form.cancel')}
         </button>
         <button
           type="submit"
           disabled={isSubmitting}
-          className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-primary-600/90 active:scale-[0.98] disabled:opacity-50"
+          className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-primary-600/90 active:scale-[0.98] disabled:opacity-50 focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
         >
           {isSubmitting ? '...' : submitLabel}
         </button>

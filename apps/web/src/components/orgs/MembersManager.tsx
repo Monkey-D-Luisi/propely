@@ -330,7 +330,7 @@ function RemoveConfirmDialog({
         <div className="mt-6 flex justify-end gap-3">
           <button
             type="button"
-            className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50"
+            className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50 focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
             onClick={() => {
               if (!isRemoving) onCancel();
             }}
@@ -339,7 +339,7 @@ function RemoveConfirmDialog({
           </button>
           <button
             type="button"
-            className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-60"
+            className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-60 focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
             onClick={onConfirm}
             disabled={isRemoving}
           >

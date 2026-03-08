@@ -17,7 +17,7 @@ export function ViewToggle({ view, onViewChange }: ViewToggleProps) {
         aria-checked={view === 'table'}
         aria-label="Table view"
         onClick={() => onViewChange('table')}
-        className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
+        className={`rounded-lg px-3 py-1.5 text-sm font-medium transition ${
           view === 'table'
             ? 'bg-primary-600 text-white shadow-sm'
             : 'text-slate-500 hover:text-slate-700'
@@ -31,7 +31,7 @@ export function ViewToggle({ view, onViewChange }: ViewToggleProps) {
         aria-checked={view === 'card'}
         aria-label="Card view"
         onClick={() => onViewChange('card')}
-        className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
+        className={`rounded-lg px-3 py-1.5 text-sm font-medium transition ${
           view === 'card'
             ? 'bg-primary-600 text-white shadow-sm'
             : 'text-slate-500 hover:text-slate-700'

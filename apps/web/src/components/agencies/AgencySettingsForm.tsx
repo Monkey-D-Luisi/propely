@@ -52,7 +52,7 @@ export function AgencySettingsForm({ agencyId }: AgencySettingsFormProps) {
       <main className="flex-1 w-full max-w-[1024px] mx-auto px-6 lg:px-8 py-8">
         <Skeleton className="mb-2 h-9 w-48" />
         <Skeleton className="mb-8 h-4 w-64" />
-        <div className="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm">
+        <div className="space-y-6 rounded-xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm">
           <Skeleton className="h-10 w-full" />
           <Skeleton className="h-10 w-full" />
           <Skeleton className="h-10 w-32" />
@@ -132,7 +132,7 @@ export function AgencySettingsForm({ agencyId }: AgencySettingsFormProps) {
 
       <div className="space-y-8">
         {/* Basic Info Card */}
-        <section className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <section className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
           <FormProvider {...methods}>
             <form noValidate onSubmit={methods.handleSubmit(onSubmit)}>
               <div className="p-6 md:p-8">
@@ -180,14 +180,14 @@ export function AgencySettingsForm({ agencyId }: AgencySettingsFormProps) {
                   <button
                     type="button"
                     onClick={() => methods.reset()}
-                    className="px-5 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-200 transition-colors"
+                    className="px-5 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-200 transition-colors focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
                   >
                     {tCommon('discard')}
                   </button>
                   <button
                     type="submit"
                     disabled={methods.formState.isSubmitting}
-                    className="px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-primary-600 hover:bg-primary-600/90 transition-colors shadow-sm flex items-center gap-2 disabled:opacity-50"
+                    className="px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-primary-600 hover:bg-primary-600/90 transition-colors shadow-sm flex items-center gap-2 disabled:opacity-50 focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
                   >
                     <span className="material-symbols-outlined text-[18px]" aria-hidden="true">save</span>
                     {methods.formState.isSubmitting ? t('settings.savingButton') : t('settings.saveButton')}
@@ -200,7 +200,7 @@ export function AgencySettingsForm({ agencyId }: AgencySettingsFormProps) {
 
         {/* Danger Zone */}
         {isOwner && (
-          <section className="bg-red-50 rounded-2xl border border-red-200 p-6 md:p-8">
+          <section className="bg-red-50 rounded-xl border border-red-200 p-6 md:p-8">
             <div className="flex items-start gap-4 mb-6">
               <div className="bg-red-100 p-2 rounded-lg text-red-600">
                 <span className="material-symbols-outlined text-[24px]" aria-hidden="true">warning</span>
@@ -223,6 +223,7 @@ export function AgencySettingsForm({ agencyId }: AgencySettingsFormProps) {
                     type="text"
                     value={deleteConfirm}
                     onChange={(e) => setDeleteConfirm(e.target.value)}
+                    aria-label="Type agency name to confirm deletion"
                     className="mt-2 w-full sm:w-64 rounded-xl border-slate-300 bg-white text-slate-900 focus:ring-red-500 focus:border-red-500 shadow-sm h-11 px-4 placeholder:text-slate-400"
                     placeholder={agency.name}
                   />
