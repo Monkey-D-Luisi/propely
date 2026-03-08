@@ -11,6 +11,7 @@ public interface ILeadReadRepository
     Task<Lead?> GetByIdAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default);
     Task<PagedResult<Lead>> ListAsync(LeadListFilter filter, CancellationToken cancellationToken = default);
     Task<bool> ExistsByEmailAndPropertyAsync(string email, Guid propertyId, Guid tenantId, CancellationToken cancellationToken = default);
+    Task<Dictionary<LeadStatus, int>> CountByStatusAsync(Guid tenantId, CancellationToken cancellationToken = default);
 }
 
 public sealed class LeadListFilter
