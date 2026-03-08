@@ -6,6 +6,9 @@ import MyOrgsPage from '../page';
 import { ApiError } from '@/lib/api';
 import { renderWithProviders, screen, waitFor } from '@test/utils';
 
+vi.mock('@/hooks/useRequireAuth', () => ({
+  useRequireAuth: vi.fn(),
+}));
 vi.mock('@/hooks/orgs', () => ({
   useMyOrgs: vi.fn(),
   useCreateOrg: vi.fn(),
@@ -17,12 +20,15 @@ vi.mock('@/i18n/navigation', () => ({
 }));
 
 import { useMyOrgs, useCreateOrg } from '@/hooks/orgs';
+import { useRequireAuth } from '@/hooks/useRequireAuth';
 
 const mockUseMyOrgs = vi.mocked(useMyOrgs);
 const mockUseCreateOrg = vi.mocked(useCreateOrg);
+const mockUseRequireAuth = vi.mocked(useRequireAuth);
 
 beforeEach(() => {
   vi.resetAllMocks();
+  mockUseRequireAuth.mockReturnValue({ user: { id: '1', email: 'test@test.com' } as never, isLoading: false });
   mockUseMyOrgs.mockReturnValue({
     orgs: [],
     pagination: { page: 1, pageSize: 20, totalCount: 0, totalPages: 0 },
