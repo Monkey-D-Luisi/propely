@@ -17,7 +17,7 @@ export const mockOrg = {
   id: 'a0000000-0000-4000-a000-000000000010',
   name: 'E2E Test Agency',
   description: 'Mock org for E2E tests',
-  role: 'Owner',
+  role: 'owner',
 };
 
 /**

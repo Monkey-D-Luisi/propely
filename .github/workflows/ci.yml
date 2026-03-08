@@ -232,6 +232,8 @@ jobs:
             echo "PUBLISHINGAPI_Jwt__Secret=$CI_JWT_SECRET"
             echo "CONTACTSAPI_Jwt__Secret=$CI_JWT_SECRET"
             echo "APPOINTMENTSAPI_Jwt__Secret=$CI_JWT_SECRET"
+            # MailHog is a plain-text SMTP server — disable TLS to prevent handshake failures
+            echo "ORGSAPI_Smtp__EnableSsl=false"
           } >> .env
 
       - name: Free ports used by E2E stack
