@@ -10,6 +10,7 @@ import { KpiGrid } from '@/components/dashboard/KpiGrid';
 import { StatusPieChart } from '@/components/dashboard/charts/StatusPieChart';
 import { StatusBarChart } from '@/components/dashboard/charts/StatusBarChart';
 import { QuickActions } from '@/components/dashboard/QuickActions';
+import { SuggestionFeed } from '@/components/suggestions/SuggestionFeed';
 
 function sumValues(data: Record<string, number> | undefined, keys: string[]): number {
   if (!data) return 0;
@@ -74,6 +75,10 @@ export default function DashboardPage() {
             data={leads?.byStatus ?? {}}
             title={t('leadsByStatus')}
           />
+        </div>
+
+        <div className="mt-6">
+          <SuggestionFeed />
         </div>
 
         <div className="mt-6">

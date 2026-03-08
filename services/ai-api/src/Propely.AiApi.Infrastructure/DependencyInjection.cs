@@ -5,6 +5,8 @@ using Propely.AiApi.Application.Actions.Interfaces;
 using Propely.AiApi.Application.Actions.Models;
 using Propely.AiApi.Application.Actions.Tools;
 using Propely.AiApi.Application.Common.Interfaces;
+using Propely.AiApi.Application.Suggestions.Interfaces;
+using Propely.AiApi.Application.Suggestions.Rules;
 using Propely.AiApi.Application.WorkItems.Interfaces;
 using Propely.AiApi.Infrastructure.AI;
 using Propely.AiApi.Infrastructure.AI.Adapters;
@@ -88,6 +90,14 @@ public static class DependencyInjection
         // Conversation Context (Redis-backed session storage for multi-turn conversations)
         services.Configure<ConversationContextOptions>(configuration.GetSection(ConversationContextOptions.SectionName));
         services.AddScoped<IConversationContext, RedisConversationContext>();
+
+        // Proactive Suggestion Engine (rule-based business suggestions)
+        services.AddScoped<ISuggestionRule, StaleLeadsRule>();
+        services.AddScoped<ISuggestionRule, DraftPropertyRule>();
+        services.AddScoped<ISuggestionRule, EmptyCalendarRule>();
+        services.AddScoped<ISuggestionRule, LowConversionRule>();
+        services.AddScoped<ISuggestionRule, GroupedViewingRule>();
+        services.AddScoped<SuggestionEngine>();
 
         // Properties API SDK Client (cross-service communication)
         services.AddPropertiesApiClient(options =>
