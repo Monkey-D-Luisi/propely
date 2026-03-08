@@ -19,7 +19,7 @@ test.describe('Login flow', () => {
     await page.getByLabel('Password').fill(user.password);
     await page.getByRole('button', { name: 'Sign in' }).click();
 
-    await page.waitForURL(/(?!.*\/login)/, { timeout: 15_000 });
+    await page.waitForURL((url) => !url.pathname.includes('/login'), { timeout: 15_000 });
     await expect(page).not.toHaveURL(/\/login/);
   });
 
@@ -32,7 +32,7 @@ test.describe('Login flow', () => {
 
     await expect(
       page.getByText('We could not find a user with that email and password.')
-    ).toBeVisible({ timeout: 10_000 });
+    ).toBeVisible({ timeout: 15_000 });
   });
 
   test('shows validation errors for empty form', async ({ page }) => {

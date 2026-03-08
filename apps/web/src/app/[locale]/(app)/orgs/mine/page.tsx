@@ -16,8 +16,10 @@ import { useMyOrgs, useCreateOrg } from '@/hooks/orgs';
 import { isApiError } from '@/lib/api';
 import { RoleBadge } from '@/components/orgs/RoleBadge';
 import { createOrgFormSchema, type CreateOrgFormData } from '@/lib/schemas';
+import { useRequireAuth } from '@/hooks/useRequireAuth';
 
 export default function MyOrgsPage() {
+  const { isLoading: authLoading } = useRequireAuth();
   const t = useTranslations('orgs');
   const tCommon = useTranslations('common');
   const [page, setPage] = useState(1);
@@ -52,7 +54,7 @@ export default function MyOrgsPage() {
     }
   };
 
-  if (isLoading) {
+  if (authLoading || isLoading) {
     return (
       <div className="w-full max-w-7xl mx-auto px-6 py-8 md:px-10 md:py-12">
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

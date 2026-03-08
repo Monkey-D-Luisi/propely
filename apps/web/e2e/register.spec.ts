@@ -16,7 +16,7 @@ test.describe('Registration flow', () => {
 
     await page.getByRole('button', { name: 'Create account' }).click();
 
-    await page.waitForURL(/(?!.*\/register)/, { timeout: 15_000 });
+    await page.waitForURL((url) => !url.pathname.includes('/register'), { timeout: 15_000 });
     await expect(page).not.toHaveURL(/\/register/);
   });
 

@@ -19,7 +19,7 @@ async function registerUser(page: Page, user: TestUser): Promise<void> {
   await page.getByLabel('Password', { exact: true }).fill(user.password);
   await page.getByLabel('Confirm password').fill(user.password);
   await page.getByRole('button', { name: 'Create account' }).click();
-  await page.waitForURL(/(?!.*\/register)/, { timeout: 15_000 });
+  await page.waitForURL((url) => !url.pathname.includes('/register'), { timeout: 15_000 });
   await page.waitForLoadState('networkidle');
 }
 

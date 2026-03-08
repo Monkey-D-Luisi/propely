@@ -113,7 +113,7 @@ test.describe('Properties list page (mocked API)', () => {
     await page.goto('/en/properties');
 
     // Page heading should be visible
-    await expect(page.locator('h1')).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByRole('heading', { name: 'Properties' })).toBeVisible({ timeout: 15_000 });
 
     // Property data should appear in the table/cards
     await expect(page.getByText('Modern Apartment in Madrid')).toBeVisible({ timeout: 10_000 });
@@ -139,7 +139,7 @@ test.describe('Properties list page (mocked API)', () => {
     await page.goto('/en/properties');
 
     // Wait for page to load and show empty state
-    await expect(page.locator('h1')).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByRole('heading', { name: 'Properties' })).toBeVisible({ timeout: 15_000 });
 
     // The "New property" button should still be visible
     await expect(page.getByRole('link', { name: /new property/i })).toBeVisible({ timeout: 10_000 });
@@ -163,7 +163,7 @@ test.describe('Properties list page (mocked API)', () => {
 
     await page.goto('/en/properties');
 
-    await expect(page.locator('h1')).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByRole('heading', { name: 'Properties' })).toBeVisible({ timeout: 15_000 });
 
     // Click "New property" link
     const newPropertyLink = page.getByRole('link', { name: /new property/i });
@@ -187,7 +187,7 @@ test.describe('Property creation form (mocked API)', () => {
     await expect(page.getByRole('link', { name: 'Properties' })).toBeVisible({ timeout: 15_000 });
 
     // Page heading for new property form
-    await expect(page.locator('h1')).toBeVisible();
+    await expect(page.getByRole('heading', { name: /create property/i })).toBeVisible();
   });
 });
 
@@ -219,10 +219,10 @@ test.describe('Property detail page (mocked API)', () => {
 
     await page.goto(`/en/properties/${propertyId}`);
 
-    // Property title should appear
-    await expect(page.getByText('Modern Apartment in Madrid')).toBeVisible({ timeout: 15_000 });
+    // Property title should appear (use testid to avoid matching breadcrumb)
+    await expect(page.getByTestId('property-title')).toContainText('Modern Apartment in Madrid', { timeout: 15_000 });
 
     // Address info should be visible
-    await expect(page.getByText('Madrid')).toBeVisible();
+    await expect(page.getByTestId('property-detail')).toContainText('Madrid');
   });
 });

@@ -85,7 +85,7 @@ test.describe('Contacts list page (mocked API)', () => {
     await page.goto('/en/contacts');
 
     // Page heading should be visible
-    await expect(page.locator('h1')).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByRole('heading', { name: 'Contacts' })).toBeVisible({ timeout: 15_000 });
 
     // Contact names should be displayed
     await expect(page.getByText('Maria')).toBeVisible({ timeout: 10_000 });
@@ -112,7 +112,7 @@ test.describe('Contacts list page (mocked API)', () => {
     await page.goto('/en/contacts');
 
     // Wait for page to load
-    await expect(page.locator('h1')).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByRole('heading', { name: 'Contacts' })).toBeVisible({ timeout: 15_000 });
 
     // The "New contact" button should be visible
     await expect(page.getByRole('button', { name: /new contact/i })).toBeVisible({ timeout: 10_000 });
@@ -136,7 +136,7 @@ test.describe('Contacts list page (mocked API)', () => {
 
     await page.goto('/en/contacts');
 
-    await expect(page.locator('h1')).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByRole('heading', { name: 'Contacts' })).toBeVisible({ timeout: 15_000 });
 
     // Click "New contact" button to toggle the form
     const newContactBtn = page.getByRole('button', { name: /new contact/i });
@@ -168,9 +168,8 @@ test.describe('Contact detail page (mocked API)', () => {
 
     await page.goto(`/en/contacts/${contactId}`);
 
-    // Contact name should appear
-    await expect(page.getByText('Maria')).toBeVisible({ timeout: 15_000 });
-    await expect(page.getByText('Garcia')).toBeVisible();
+    // Contact name should appear (use testid to avoid matching breadcrumb)
+    await expect(page.getByTestId('contact-name')).toContainText('Maria Garcia', { timeout: 15_000 });
 
     // Email should be visible
     await expect(page.getByText('maria.garcia@example.com')).toBeVisible();

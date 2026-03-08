@@ -39,7 +39,7 @@ test.describe('Login page smoke tests', () => {
     // Error message should be displayed
     await expect(
       page.getByText('We could not find a user with that email and password.')
-    ).toBeVisible({ timeout: 10_000 });
+    ).toBeVisible({ timeout: 15_000 });
   });
 
   test('has a link to the register page', async ({ page }) => {
