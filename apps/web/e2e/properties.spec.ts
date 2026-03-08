@@ -111,7 +111,7 @@ test.describe('Properties list page (mocked API)', () => {
     await page.goto('/en/properties');
 
     // Page heading should be visible
-    await expect(page.getByRole('heading', { name: 'Properties' })).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByRole('heading', { name: 'Properties', exact: true })).toBeVisible({ timeout: 15_000 });
 
     // Property data should appear in the table/cards
     await expect(page.getByText('Modern Apartment in Madrid')).toBeVisible({ timeout: 10_000 });
@@ -137,7 +137,7 @@ test.describe('Properties list page (mocked API)', () => {
     await page.goto('/en/properties');
 
     // Wait for page to load and show empty state
-    await expect(page.getByRole('heading', { name: 'Properties' })).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByRole('heading', { name: 'Properties', exact: true })).toBeVisible({ timeout: 15_000 });
 
     // The "New property" button should still be visible
     await expect(page.getByRole('link', { name: /new property/i })).toBeVisible({ timeout: 10_000 });
@@ -161,7 +161,7 @@ test.describe('Properties list page (mocked API)', () => {
 
     await page.goto('/en/properties');
 
-    await expect(page.getByRole('heading', { name: 'Properties' })).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByRole('heading', { name: 'Properties', exact: true })).toBeVisible({ timeout: 15_000 });
 
     // Click "New property" link
     const newPropertyLink = page.getByRole('link', { name: /new property/i });
@@ -182,7 +182,7 @@ test.describe('Property creation form (mocked API)', () => {
     await page.goto('/en/properties/new');
 
     // Breadcrumb should show "Properties" link
-    await expect(page.getByRole('link', { name: 'Properties' })).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByRole('link', { name: 'Properties', exact: true })).toBeVisible({ timeout: 15_000 });
 
     // Page heading for new property form
     await expect(page.getByRole('heading', { name: /create property/i })).toBeVisible();

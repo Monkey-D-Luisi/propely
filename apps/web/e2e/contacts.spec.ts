@@ -83,12 +83,12 @@ test.describe('Contacts list page (mocked API)', () => {
     await page.goto('/en/contacts');
 
     // Page heading should be visible
-    await expect(page.getByRole('heading', { name: 'Contacts' })).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByRole('heading', { name: 'Contacts', exact: true })).toBeVisible({ timeout: 15_000 });
 
     // Contact names should be displayed
-    await expect(page.getByText('Maria')).toBeVisible({ timeout: 10_000 });
-    await expect(page.getByText('Carlos')).toBeVisible();
-    await expect(page.getByText('Elena')).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Maria Garcia' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByRole('link', { name: 'Carlos Rodriguez' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Elena Martinez' })).toBeVisible();
   });
 
   test('shows empty state when no contacts exist', async ({ page }) => {
@@ -110,7 +110,7 @@ test.describe('Contacts list page (mocked API)', () => {
     await page.goto('/en/contacts');
 
     // Wait for page to load
-    await expect(page.getByRole('heading', { name: 'Contacts' })).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByRole('heading', { name: 'Contacts', exact: true })).toBeVisible({ timeout: 15_000 });
 
     // The "New contact" button should be visible
     await expect(page.getByRole('button', { name: /new contact/i })).toBeVisible({ timeout: 10_000 });
@@ -134,7 +134,7 @@ test.describe('Contacts list page (mocked API)', () => {
 
     await page.goto('/en/contacts');
 
-    await expect(page.getByRole('heading', { name: 'Contacts' })).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByRole('heading', { name: 'Contacts', exact: true })).toBeVisible({ timeout: 15_000 });
 
     // Click "New contact" button to toggle the form
     const newContactBtn = page.getByRole('button', { name: /new contact/i });
