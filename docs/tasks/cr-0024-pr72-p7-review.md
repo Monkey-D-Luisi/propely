@@ -3,7 +3,8 @@
 ## Metadata
 | Field | Value |
 |-------|-------|
-| PR | [#72](https://github.com/Monkey-D-Luisi/propely/pull/72) |
+| Status | **DONE** |
+| PR | [#72](https://github.com/Monkey-D-Luisi/propely/pull/72) (merged) |
 | Branch | `feat/p7-intelligence-analytics` → `main` |
 | Reviewers | gemini-code-assist[bot], copilot-pull-request-reviewer[bot] |
 | Files changed | 98 (+3774 / -85) |
