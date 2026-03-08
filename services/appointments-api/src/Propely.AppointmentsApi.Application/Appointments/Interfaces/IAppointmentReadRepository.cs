@@ -10,6 +10,8 @@ public interface IAppointmentReadRepository
 {
     Task<Appointment?> GetByIdAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default);
     Task<PagedResult<Appointment>> ListAsync(AppointmentListFilter filter, CancellationToken cancellationToken = default);
+    Task<Dictionary<AppointmentStatus, int>> CountByStatusAsync(Guid tenantId, CancellationToken cancellationToken = default);
+    Task<int> CountUpcomingAsync(Guid tenantId, int days, CancellationToken cancellationToken = default);
 }
 
 public sealed class AppointmentListFilter

@@ -15,6 +15,8 @@ using Propely.AppointmentsApi.Application.Appointments.Commands.MarkNoShowAppoin
 using Propely.AppointmentsApi.Application.Appointments.Commands.UpdateAppointment;
 using Propely.AppointmentsApi.Application.Appointments.Queries.GetAppointmentById;
 using Propely.AppointmentsApi.Application.Appointments.Queries.ListAppointments;
+using Propely.AppointmentsApi.Application.Appointments.Queries.CountAppointmentsByStatus;
+using Propely.AppointmentsApi.Application.Appointments.Queries.CountUpcomingAppointments;
 using Propely.AppointmentsApi.Domain.Appointments;
 
 namespace Propely.AppointmentsApi.Api.Controllers;
@@ -72,6 +74,30 @@ public sealed class AppointmentsController : ControllerBase
         var result = await _mediator.Send(query, cancellationToken);
 
         return result is null ? NotFound() : Ok(result);
+    }
+
+    [HttpGet("count-by-status")]
+    [Authorize(Policy = "RequireViewer")]
+    public async Task<IActionResult> CountByStatus(CancellationToken cancellationToken)
+    {
+        var tenantId = this.GetTenantId();
+        if (tenantId is null) return Unauthorized();
+
+        var query = new CountAppointmentsByStatusQuery(tenantId.Value);
+        var result = await _mediator.Send(query, cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpGet("count-upcoming")]
+    [Authorize(Policy = "RequireViewer")]
+    public async Task<IActionResult> CountUpcoming([FromQuery] int days = 7, CancellationToken cancellationToken = default)
+    {
+        var tenantId = this.GetTenantId();
+        if (tenantId is null) return Unauthorized();
+
+        var query = new CountUpcomingAppointmentsQuery(tenantId.Value, days);
+        var result = await _mediator.Send(query, cancellationToken);
+        return Ok(new { count = result });
     }
 
     [HttpGet]

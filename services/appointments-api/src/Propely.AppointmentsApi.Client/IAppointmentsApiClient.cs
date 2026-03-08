@@ -55,6 +55,23 @@ public interface IAppointmentsApiClient
     Task<AppointmentResponse> GetAppointmentByIdAsync(Guid id, CancellationToken ct = default);
 
     /// <summary>
+    /// Gets the count of appointments grouped by status.
+    /// </summary>
+    /// <param name="ct">Cancellation token.</param>
+    /// <returns>A dictionary of status names to their counts.</returns>
+    [Get("/api/appointments/count-by-status")]
+    Task<Dictionary<string, int>> CountByStatusAsync(CancellationToken ct = default);
+
+    /// <summary>
+    /// Gets the count of upcoming appointments within the specified number of days.
+    /// </summary>
+    /// <param name="days">Number of days to look ahead (default 7).</param>
+    /// <param name="ct">Cancellation token.</param>
+    /// <returns>An object containing the count.</returns>
+    [Get("/api/appointments/count-upcoming")]
+    Task<CountUpcomingResponse> CountUpcomingAsync([Query] int days = 7, CancellationToken ct = default);
+
+    /// <summary>
     /// Creates a new appointment.
     /// </summary>
     /// <param name="request">The appointment creation request.</param>

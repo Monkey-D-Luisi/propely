@@ -47,6 +47,14 @@ public interface ILeadsApiClient
     Task<LeadResponse> GetLeadByIdAsync(Guid id, CancellationToken ct = default);
 
     /// <summary>
+    /// Gets the count of leads grouped by status.
+    /// </summary>
+    /// <param name="ct">Cancellation token.</param>
+    /// <returns>A dictionary of status names to their counts.</returns>
+    [Get("/api/leads/count-by-status")]
+    Task<Dictionary<string, int>> CountByStatusAsync(CancellationToken ct = default);
+
+    /// <summary>
     /// Creates a new lead.
     /// </summary>
     /// <param name="request">The lead creation request.</param>

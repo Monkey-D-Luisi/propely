@@ -99,6 +99,32 @@ public sealed class AppointmentReadRepository : IAppointmentReadRepository
         return new PagedResult<Appointment>(items, totalCount, filter.Page, filter.PageSize);
     }
 
+    public async Task<Dictionary<AppointmentStatus, int>> CountByStatusAsync(Guid tenantId, CancellationToken cancellationToken = default)
+    {
+        return await _context.Appointments
+            .AsNoTracking()
+            .Where(a => a.TenantId == tenantId)
+            .GroupBy(a => a.Status)
+            .ToDictionaryAsync(
+                g => g.Key,
+                g => g.Count(),
+                cancellationToken);
+    }
+
+    public async Task<int> CountUpcomingAsync(Guid tenantId, int days, CancellationToken cancellationToken = default)
+    {
+        var now = DateTime.UtcNow;
+        var horizon = now.AddDays(days);
+
+        return await _context.Appointments
+            .AsNoTracking()
+            .Where(a => a.TenantId == tenantId
+                && a.StartTimeUtc >= now
+                && a.StartTimeUtc <= horizon
+                && (a.Status == AppointmentStatus.Scheduled || a.Status == AppointmentStatus.Confirmed))
+            .CountAsync(cancellationToken);
+    }
+
     private static IQueryable<Appointment> ApplySorting(IQueryable<Appointment> query, string? sortBy, bool descending, string? search = null)
     {
         // When search is active and no explicit sort, use relevance: title matches first

@@ -14,6 +14,7 @@ using Propely.ContactsApi.Application.Leads.Commands.DeleteLead;
 using Propely.ContactsApi.Application.Leads.Dtos;
 using Propely.ContactsApi.Application.Leads.Queries.GetLeadById;
 using Propely.ContactsApi.Application.Leads.Queries.ListLeads;
+using Propely.ContactsApi.Application.Leads.Queries.CountLeadsByStatus;
 using Propely.ContactsApi.Domain.Leads;
 
 namespace Propely.ContactsApi.Api.Controllers;
@@ -65,6 +66,18 @@ public sealed class LeadsController : ControllerBase
         var result = await _mediator.Send(query, cancellationToken);
 
         return result is null ? NotFound() : Ok(result);
+    }
+
+    [HttpGet("count-by-status")]
+    [Authorize(Policy = "RequireViewer")]
+    public async Task<IActionResult> CountByStatus(CancellationToken cancellationToken)
+    {
+        var tenantId = this.GetTenantId();
+        if (tenantId is null) return Unauthorized();
+
+        var query = new CountLeadsByStatusQuery(tenantId.Value);
+        var result = await _mediator.Send(query, cancellationToken);
+        return Ok(result);
     }
 
     [HttpGet]

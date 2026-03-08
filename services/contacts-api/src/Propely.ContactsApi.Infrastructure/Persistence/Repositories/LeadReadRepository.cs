@@ -74,6 +74,18 @@ public sealed class LeadReadRepository : ILeadReadRepository
                 && l.TenantId == tenantId, cancellationToken);
     }
 
+    public async Task<Dictionary<LeadStatus, int>> CountByStatusAsync(Guid tenantId, CancellationToken cancellationToken = default)
+    {
+        return await _context.Leads
+            .AsNoTracking()
+            .Where(l => l.TenantId == tenantId)
+            .GroupBy(l => l.Status)
+            .ToDictionaryAsync(
+                g => g.Key,
+                g => g.Count(),
+                cancellationToken);
+    }
+
     private static IQueryable<Lead> ApplySorting(IQueryable<Lead> query, string? sortBy, bool descending, string? search = null)
     {
         // When search is active and no explicit sort, use relevance: name matches first
