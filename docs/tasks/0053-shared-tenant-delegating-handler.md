@@ -3,7 +3,7 @@
 ## Metadata
 - ID: 0053
 - Type: Standard
-- Status: TODO
+- Status: DONE
 - Owner: Agent
 - Created: 2026-03-08
 - Related docs:
@@ -108,9 +108,9 @@ All 5 NuGet SDK clients (ai-api, orgs-api, properties-api, contacts-api, appoint
 Revert the commit — restore individual handler files and remove shared project reference.
 
 ## Definition of Done Checklist
-- [ ] Acceptance criteria met
-- [ ] Build passes
-- [ ] Tests added/updated and pass
-- [ ] Formatting/analyzers pass
-- [ ] No secrets committed
-- [ ] Walkthrough updated
+- [x] Acceptance criteria met
+- [x] Build passes
+- [x] Tests added/updated and pass
+- [x] Formatting/analyzers pass
+- [x] No secrets committed
+- [x] Walkthrough updated

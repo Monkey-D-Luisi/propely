@@ -386,7 +386,7 @@ Start with integration test: MCP client → tools/list → verify 20 tools retur
 
 ## Task 8.5 — Shared TenantDelegatingHandler Package
 
-- **Status:** IN_PROGRESS
+- **Status:** DONE
 - **Dependencies:** None (independent, can be done in parallel)
 
 ### Scope
@@ -403,11 +403,11 @@ Start with integration test: MCP client → tools/list → verify 20 tools retur
 - Publishing as a real NuGet package (use ProjectReference in monorepo)
 
 ### Acceptance Criteria
-- [ ] Single `TenantDelegatingHandler` in shared package
-- [ ] All 5 SDK clients reference the shared package
-- [ ] No duplicate `TenantDelegatingHandler` files remain in any Client project
-- [ ] All existing tests pass — behavioral equivalence
-- [ ] Docker build succeeds with the new project reference
+- [x] Single `TenantDelegatingHandler` in shared package
+- [x] All 5 SDK clients reference the shared package
+- [x] No duplicate `TenantDelegatingHandler` files remain in any Client project
+- [x] All existing tests pass — behavioral equivalence
+- [x] Docker build succeeds with the new project reference
 
 ### Implementation Steps
 1. Create `services/shared/Propely.Shared.Http/` project
