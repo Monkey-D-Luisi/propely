@@ -10,4 +10,4 @@ namespace Propely.AiApi.Application.Actions.Commands.ExecuteAction;
 /// Command to execute an AI action from natural language text input.
 /// Orchestrates intent classification, routing, and action execution.
 /// </summary>
-public sealed record ExecuteActionCommand(string Text, Guid TenantId, Guid AgentId) : IRequest<ActionResult>;
+public sealed record ExecuteActionCommand(string Text, Guid TenantId, Guid AgentId, string? SessionId = null) : IRequest<ActionResult>;

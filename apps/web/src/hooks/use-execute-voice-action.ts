@@ -30,7 +30,7 @@ export interface VoiceExecuteResult {
 }
 
 export interface UseExecuteVoiceActionReturn {
-  executeVoice: (audioBlob: Blob, language?: string) => Promise<VoiceExecuteResult | null>;
+  executeVoice: (audioBlob: Blob, language?: string, sessionId?: string) => Promise<VoiceExecuteResult | null>;
   isLoading: boolean;
   result: VoiceExecuteResult | null;
   error: string | null;
@@ -39,11 +39,15 @@ export interface UseExecuteVoiceActionReturn {
 async function postVoice(
   audioBlob: Blob,
   language?: string,
+  sessionId?: string,
 ): Promise<VoiceExecuteResult> {
   const formData = new FormData();
   formData.append('audio', audioBlob, 'recording.webm');
   if (language) {
     formData.append('language', language);
+  }
+  if (sessionId) {
+    formData.append('sessionId', sessionId);
   }
 
   const headers: Record<string, string> = {};
@@ -110,13 +114,14 @@ export function useExecuteVoiceAction(): UseExecuteVoiceActionReturn {
     async (
       audioBlob: Blob,
       language?: string,
+      sessionId?: string,
     ): Promise<VoiceExecuteResult | null> => {
       setIsLoading(true);
       setError(null);
       setResult(null);
 
       try {
-        const response = await postVoice(audioBlob, language);
+        const response = await postVoice(audioBlob, language, sessionId);
         setResult(response);
         return response;
       } catch {

@@ -34,6 +34,7 @@ const defaultCommandBarState = {
   recentCommands: [] as string[],
   addRecentCommand: vi.fn(),
   openedWithKeyboard: { current: false },
+  sessionId: null as string | null,
 };
 
 const defaultExecuteActionState = {
@@ -122,7 +123,7 @@ describe('CommandBar', () => {
     const input = screen.getByPlaceholderText('Type a command...');
     await user.type(input, 'create a property{Enter}');
 
-    expect(executeFn).toHaveBeenCalledWith('create a property');
+    expect(executeFn).toHaveBeenCalledWith('create a property', undefined);
     expect(addRecentCommand).toHaveBeenCalledWith('create a property');
   });
 

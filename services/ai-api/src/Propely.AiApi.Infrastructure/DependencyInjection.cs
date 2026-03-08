@@ -2,6 +2,7 @@
 // Licensed under the Proprietary Software License. See LICENSE.
 
 using Propely.AiApi.Application.Actions.Interfaces;
+using Propely.AiApi.Application.Actions.Models;
 using Propely.AiApi.Application.Actions.Tools;
 using Propely.AiApi.Application.Common.Interfaces;
 using Propely.AiApi.Application.WorkItems.Interfaces;
@@ -83,6 +84,10 @@ public static class DependencyInjection
         services.AddSingleton<OpenAiToolAdapter>();
         services.AddScoped<IIntentClassifier, OpenAiIntentClassifier>();
         services.AddScoped<IActionRouter, ActionRouter>();
+
+        // Conversation Context (Redis-backed session storage for multi-turn conversations)
+        services.Configure<ConversationContextOptions>(configuration.GetSection(ConversationContextOptions.SectionName));
+        services.AddScoped<IConversationContext, RedisConversationContext>();
 
         // Properties API SDK Client (cross-service communication)
         services.AddPropertiesApiClient(options =>

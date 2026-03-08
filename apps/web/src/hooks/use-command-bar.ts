@@ -11,18 +11,27 @@ export function useCommandBar() {
   const [isOpen, setIsOpen] = useState(false);
   const [recentCommands, setRecentCommands] = useState<string[]>([]);
   const openedWithKeyboard = useRef(false);
+  const [sessionId, setSessionId] = useState<string | null>(null);
 
   const open = useCallback(() => {
     setIsOpen(true);
+    setSessionId((prev) => prev ?? crypto.randomUUID());
   }, []);
 
   const close = useCallback(() => {
     setIsOpen(false);
     openedWithKeyboard.current = false;
+    setSessionId(null);
   }, []);
 
   const toggle = useCallback(() => {
-    setIsOpen((prev) => !prev);
+    setIsOpen((prev) => {
+      if (!prev) {
+        // Opening — generate a session ID if we don't have one
+        setSessionId((s) => s ?? crypto.randomUUID());
+      }
+      return !prev;
+    });
   }, []);
 
   const addRecentCommand = useCallback((command: string) => {
@@ -55,5 +64,6 @@ export function useCommandBar() {
     recentCommands,
     addRecentCommand,
     openedWithKeyboard,
+    sessionId,
   };
 }

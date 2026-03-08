@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OpenAI.Chat;
 using Propely.AiApi.Application.Actions.Interfaces;
+using Propely.AiApi.Application.Actions.Models;
 using Propely.AiApi.Application.Actions.Tools;
 using Propely.AiApi.Domain.Actions;
 using Propely.AiApi.Infrastructure.AI.Adapters;
@@ -107,7 +108,7 @@ public sealed class OpenAiIntentClassifier : IIntentClassifier
         }
     }
 
-    public async Task<ClassifiedIntent> ClassifyAsync(string text, CancellationToken ct = default)
+    public async Task<ClassifiedIntent> ClassifyAsync(string text, IReadOnlyList<ConversationExchange>? history = null, CancellationToken ct = default)
     {
         if (_chatClient is null)
         {
@@ -121,11 +122,19 @@ public sealed class OpenAiIntentClassifier : IIntentClassifier
             chatOptions.Tools.Add(tool);
         }
 
-        var messages = new List<ChatMessage>
+        var messages = new List<ChatMessage> { new SystemChatMessage(SystemPrompt) };
+
+        // Insert conversation history as prior user/assistant message pairs
+        if (history is { Count: > 0 })
         {
-            new SystemChatMessage(SystemPrompt),
-            new UserChatMessage(text)
-        };
+            foreach (var exchange in history)
+            {
+                messages.Add(new UserChatMessage(exchange.UserText));
+                messages.Add(new AssistantChatMessage(exchange.ResultMessage));
+            }
+        }
+
+        messages.Add(new UserChatMessage(text));
 
         ChatCompletion completion;
         try

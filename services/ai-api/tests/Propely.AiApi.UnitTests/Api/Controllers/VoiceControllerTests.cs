@@ -222,7 +222,7 @@ public sealed class VoiceControllerTests
     public async Task Execute_WhenAudioFileIsNull_ShouldReturnBadRequest()
     {
         // Act
-        var result = await _controller.Execute(null!, null, CancellationToken.None);
+        var result = await _controller.Execute(null!, null, null, CancellationToken.None);
 
         // Assert
         result.Should().BeAssignableTo<ObjectResult>();
@@ -237,7 +237,7 @@ public sealed class VoiceControllerTests
         var file = CreateMockFormFile("test.pdf", "application/pdf", 1024);
 
         // Act
-        var result = await _controller.Execute(file, null, CancellationToken.None);
+        var result = await _controller.Execute(file, null, null, CancellationToken.None);
 
         // Assert
         result.Should().BeAssignableTo<ObjectResult>();
@@ -252,7 +252,7 @@ public sealed class VoiceControllerTests
         var file = CreateMockFormFile("test.wav", "audio/wav", 30 * 1024 * 1024);
 
         // Act
-        var result = await _controller.Execute(file, null, CancellationToken.None);
+        var result = await _controller.Execute(file, null, null, CancellationToken.None);
 
         // Assert
         result.Should().BeAssignableTo<ObjectResult>();
@@ -270,7 +270,7 @@ public sealed class VoiceControllerTests
             .Returns(new TranscriptionResult("", "en", 500));
 
         // Act
-        var result = await _controller.Execute(file, null, CancellationToken.None);
+        var result = await _controller.Execute(file, null, null, CancellationToken.None);
 
         // Assert
         result.Should().BeOfType<OkObjectResult>();
@@ -300,7 +300,7 @@ public sealed class VoiceControllerTests
             .Returns(actionResult);
 
         // Act
-        var result = await _controller.Execute(file, null, CancellationToken.None);
+        var result = await _controller.Execute(file, null, null, CancellationToken.None);
 
         // Assert
         result.Should().BeOfType<OkObjectResult>();
@@ -340,7 +340,7 @@ public sealed class VoiceControllerTests
             .Returns(actionResult);
 
         // Act
-        var result = await _controller.Execute(file, null, CancellationToken.None);
+        var result = await _controller.Execute(file, null, null, CancellationToken.None);
 
         // Assert
         result.Should().BeOfType<OkObjectResult>();
@@ -359,7 +359,7 @@ public sealed class VoiceControllerTests
         var file = CreateMockFormFile("test.wav", "audio/wav", 1024);
 
         // Act
-        var result = await _controller.Execute(file, null, CancellationToken.None);
+        var result = await _controller.Execute(file, null, null, CancellationToken.None);
 
         // Assert
         result.Should().BeOfType<UnauthorizedResult>();
@@ -373,7 +373,7 @@ public sealed class VoiceControllerTests
         var file = CreateMockFormFile("test.wav", "audio/wav", 1024);
 
         // Act
-        var result = await _controller.Execute(file, null, CancellationToken.None);
+        var result = await _controller.Execute(file, null, null, CancellationToken.None);
 
         // Assert
         result.Should().BeOfType<ForbidResult>();
@@ -392,7 +392,7 @@ public sealed class VoiceControllerTests
             .Returns(DomainActionResult.Ok(null, "Listed properties", ActionType.QueryProperties));
 
         // Act
-        var result = await _controller.Execute(file, "en", CancellationToken.None);
+        var result = await _controller.Execute(file, "en", null, CancellationToken.None);
 
         // Assert
         result.Should().BeOfType<OkObjectResult>();

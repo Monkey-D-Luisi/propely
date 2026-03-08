@@ -681,7 +681,7 @@ Coverage targets:
 - **TDD:** Component tests. API tests for analytics endpoints.
 
 ### Task 7.2 — Conversation Context & Memory
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 3.1
 - **Scope:** Session-scoped conversation context for the AI action engine:
   - Remember entities referenced in previous commands ("the apartment" → last mentioned property)

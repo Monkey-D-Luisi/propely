@@ -125,6 +125,7 @@ public sealed class VoiceController : ControllerBase
     public async Task<IActionResult> Execute(
         [FromForm] IFormFile audio,
         [FromForm] string? language,
+        [FromForm] string? sessionId,
         CancellationToken ct)
     {
         var validationError = ValidateAudioFile(audio);
@@ -163,7 +164,7 @@ public sealed class VoiceController : ControllerBase
         }
 
         // Step 2: Execute the transcribed text as an action
-        var command = new ExecuteActionCommand(transcription.Text, orgId, userId);
+        var command = new ExecuteActionCommand(transcription.Text, orgId, userId, sessionId);
         var actionResult = await _mediator.Send(command, ct);
 
         var actionDto = new ActionResultDto(
