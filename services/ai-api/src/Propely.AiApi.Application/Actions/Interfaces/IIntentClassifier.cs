@@ -8,7 +8,7 @@ namespace Propely.AiApi.Application.Actions.Interfaces;
 
 /// <summary>
 /// Classifies user natural language input into a structured intent with action type and parameters.
-/// Uses OpenAI function calling to determine which action the user wants to perform.
+/// Provider-agnostic interface — implementations may use OpenAI, Claude, Gemini, or other LLMs.
 /// </summary>
 public interface IIntentClassifier
 {
