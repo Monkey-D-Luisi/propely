@@ -86,7 +86,13 @@ public static class DependencyInjection
         services.AddSingleton<IToolSchemaRegistry, ToolSchemaRegistry>();
         services.AddSingleton<OpenAiToolAdapter>();
         services.AddSingleton<IParameterBinder, DefaultParameterBinder>();
-        services.AddScoped<IIntentClassifier, OpenAiIntentClassifier>();
+
+        // Intent Classifier — keyed DI for multi-provider support
+        services.AddKeyedScoped<IIntentClassifier, OpenAiIntentClassifier>("OpenAI");
+        var aiProvider = configuration["AiProvider"] ?? "OpenAI";
+        services.AddScoped<IIntentClassifier>(sp =>
+            sp.GetRequiredKeyedService<IIntentClassifier>(aiProvider));
+
         services.AddScoped<IActionRouter, ActionRouter>();
         services.AddScoped<McpToolHandler>();
 
