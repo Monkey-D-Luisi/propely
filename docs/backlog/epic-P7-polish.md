@@ -22,7 +22,7 @@ Finalize Propely for production launch by building actionable dashboards, AI con
 |---|---|---|---|
 | 7.1 | Dashboard & Analytics | DONE | 2.3, 4.3, 5.2 |
 | 7.2 | Conversation Context & Memory | DONE | 3.1 |
-| 7.3 | Proactive AI Suggestions | PENDING | 3.1, 4.3 |
+| 7.3 | Proactive AI Suggestions | DONE | 3.1, 4.3 |
 | 7.4 | Stitch Design Refinement Pass | PENDING | 7.1 |
 
 ---
@@ -218,7 +218,7 @@ Write `PronounResolver` tests first (all pronoun types, edge cases). Write conte
 
 ## Task 7.3 -- Proactive AI Suggestions
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** 3.1 (AI Action Engine core), 4.3 (Contacts & Leads API)
 
 ### Goal
