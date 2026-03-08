@@ -22,6 +22,7 @@ Propely is a multi-tenant, AI-powered real estate management SaaS. The platform'
 | Command | Action |
 |---------|--------|
 | `next task` | Read `.agent/rules/autonomous-workflow.md`, execute |
+| `next epic` | Read `.agent/rules/epic-workflow.md`, execute |
 | `code review` | Read `.agent/rules/code-review-workflow.md`, execute |
 | `fast track: <X>` | Read `.agent/rules/fast-track-workflow.md`, execute |
 | `pr` | Read `.agent/rules/pr-workflow.md`, execute |
