@@ -10,6 +10,7 @@ using Propely.AiApi.Application.Suggestions.Rules;
 using Propely.AiApi.Application.WorkItems.Interfaces;
 using Propely.AiApi.Infrastructure.AI;
 using Propely.AiApi.Infrastructure.AI.Adapters;
+using Propely.AiApi.Infrastructure.MCP;
 using Propely.AiApi.Infrastructure.Caching;
 using Propely.AiApi.Infrastructure.Caching.Configuration;
 using Propely.AiApi.Infrastructure.Messaging;
@@ -87,6 +88,7 @@ public static class DependencyInjection
         services.AddSingleton<IParameterBinder, DefaultParameterBinder>();
         services.AddScoped<IIntentClassifier, OpenAiIntentClassifier>();
         services.AddScoped<IActionRouter, ActionRouter>();
+        services.AddScoped<McpToolHandler>();
 
         // Conversation Context (Redis-backed session storage for multi-turn conversations)
         services.Configure<ConversationContextOptions>(configuration.GetSection(ConversationContextOptions.SectionName));

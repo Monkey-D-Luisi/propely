@@ -23,6 +23,12 @@ builder.Services.AddInfrastructureServices(builder.Configuration, builder.Enviro
 // Add Api Services (Auth, Telemetry, etc.)
 builder.Services.AddApiServices(builder.Configuration, builder.Environment);
 
+// Add MCP (Model Context Protocol) server for AI tool interoperability
+builder.Services
+    .AddMcpServer()
+    .WithHttpTransport()
+    .WithToolsFromAssembly();
+
 var app = builder.Build();
 
 // Apply pending EF Core migrations (with advisory lock for concurrency safety)
@@ -73,6 +79,10 @@ app.UseAuthentication();
 app.UseOrgContext();
 app.UseAuthorization();
 app.MapControllers();
+
+// MCP Streamable HTTP endpoint for AI tool interoperability
+// Sits behind the same auth middleware as REST endpoints
+app.MapMcp("/mcp");
 
 app.Run();
 
