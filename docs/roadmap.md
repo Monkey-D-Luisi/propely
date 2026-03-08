@@ -813,7 +813,7 @@ The AI action engine (P3) depends on service SDKs being available. The recommend
 - **TDD:** Integration tests for tools/list, tools/call, auth enforcement, behavioral equivalence with REST.
 
 ### Task 8.5 — Shared TenantDelegatingHandler Package
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** None
 - **Scope:** Create `Propely.Shared.Http` package with single `TenantDelegatingHandler`. Update all 5 SDK clients to reference shared package. Delete 5 duplicate files.
 - **TDD:** Existing tests verify behavioral equivalence.
