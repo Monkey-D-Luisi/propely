@@ -64,6 +64,22 @@ test.describe('Contacts list page (mocked API)', () => {
   });
 
   test('renders contacts list with mocked data', async ({ page }) => {
+    // Track which mock routes are actually hit and any backend requests
+    const mockHits: string[] = [];
+    page.on('request', (req) => {
+      const u = req.url();
+      if (u.includes(':5020') || u.includes(':5050') || u.includes('login'))
+        mockHits.push(`>> ${req.method()} ${u}`);
+    });
+    page.on('response', (res) => {
+      const u = res.url();
+      if (u.includes(':5020') || u.includes(':5050'))
+        mockHits.push(`<< ${res.status()} ${u}`);
+    });
+    page.on('requestfailed', (req) => {
+      mockHits.push(`!! FAILED ${req.method()} ${req.url()} ${req.failure()?.errorText}`);
+    });
+
     // Mock contacts list endpoint
     await page.route(/\/api\/contacts\?/, async (route) => {
       await route.fulfill({
@@ -81,6 +97,13 @@ test.describe('Contacts list page (mocked API)', () => {
     });
 
     await page.goto('/en/contacts');
+
+    // Wait and dump diagnostics
+    await page.waitForTimeout(5000);
+    console.log('=== CONTACTS MOCK DIAGNOSTICS ===');
+    console.log('Current URL:', page.url());
+    for (const line of mockHits) console.log(line);
+    console.log('=== END ===');
 
     // Page heading should be visible
     await expect(page.getByRole('heading', { name: 'Contacts' })).toBeVisible({ timeout: 15_000 });
