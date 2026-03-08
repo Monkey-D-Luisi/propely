@@ -32,29 +32,9 @@ test.describe('Login page smoke tests', () => {
   test('shows error message for invalid credentials', async ({ page }) => {
     await page.goto('/en/login');
 
-    // --- DEBUG: capture network activity ---
-    const netLog: string[] = [];
-    page.on('request', (req) => {
-      if (!req.url().includes('_next/static') && !req.url().includes('fonts.g'))
-        netLog.push(`>> ${req.method()} ${req.url()}`);
-    });
-    page.on('response', (res) => {
-      if (!res.url().includes('_next/static') && !res.url().includes('fonts.g'))
-        netLog.push(`<< ${res.status()} ${res.url()}`);
-    });
-    page.on('requestfailed', (req) => {
-      netLog.push(`!! FAILED ${req.method()} ${req.url()} ${req.failure()?.errorText}`);
-    });
-
     await page.getByLabel('Email').fill('nonexistent@test.local');
     await page.getByLabel('Password').fill('WrongPassword123!');
     await page.getByRole('button', { name: 'Sign in' }).click();
-
-    // Wait for the error to appear (either expected or unexpected)
-    await page.waitForTimeout(5000);
-    console.log('=== AUTH NET LOG ===');
-    for (const line of netLog) console.log(line);
-    console.log('=== END AUTH NET LOG ===');
 
     // Error message should be displayed
     await expect(

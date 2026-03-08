@@ -221,6 +221,18 @@ jobs:
           # (.env.example uses "changeme" but .env.docker uses "propely_dev_password")
           sed -i 's/POSTGRES_PASSWORD=changeme/POSTGRES_PASSWORD=propely_dev_password/' .env
           sed -i 's/REDIS_PASSWORD=changeme/REDIS_PASSWORD=propely_dev_password/' .env
+          # CI runs production Dockerfiles (ASPNETCORE_ENVIRONMENT defaults to Production).
+          # Production mode requires explicit JWT and CSRF secrets — uncomment and set them.
+          CI_JWT_SECRET="ci-e2e-test-secret-key-that-is-at-least-32-bytes-long-for-hmac-sha256"
+          {
+            echo "AIAPI_Jwt__Secret=$CI_JWT_SECRET"
+            echo "ORGSAPI_Jwt__Secret=$CI_JWT_SECRET"
+            echo "ORGSAPI_Csrf__Secret=$CI_JWT_SECRET"
+            echo "PROPERTIESAPI_Jwt__Secret=$CI_JWT_SECRET"
+            echo "PUBLISHINGAPI_Jwt__Secret=$CI_JWT_SECRET"
+            echo "CONTACTSAPI_Jwt__Secret=$CI_JWT_SECRET"
+            echo "APPOINTMENTSAPI_Jwt__Secret=$CI_JWT_SECRET"
+          } >> .env
 
       - name: Free ports used by E2E stack
         run: |
@@ -345,6 +357,14 @@ jobs:
           name: e2e-results
           path: apps/web/e2e-results/
           retention-days: 7
+
+      - name: Dump service logs on failure
+        if: failure()
+        run: |
+          echo "=== orgs-api logs ==="
+          docker compose -f docker-compose.yml -f docker-compose.ci.yml logs --tail=50 orgs-api 2>/dev/null || true
+          echo "=== web logs ==="
+          docker compose -f docker-compose.yml -f docker-compose.ci.yml logs --tail=50 web 2>/dev/null || true
 
       - name: Stop services
         if: always()
