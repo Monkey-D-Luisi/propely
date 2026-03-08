@@ -30,7 +30,7 @@ Enable real estate agents to schedule and manage appointments (property viewings
 
 ## Task 5.1 -- Appointment Domain Model
 
-**Status:** PENDING
+**Status:** DONE
 **Dependencies:** None
 
 ### Scope

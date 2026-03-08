@@ -267,7 +267,7 @@ Coverage targets:
 - **TDD:** Contract tests verifying SDK matches API behavior.
 
 ### Task 1.6 — Frontend: Agency Management
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 1.2
 - **Scope:**
   1. Use case definition for agency management screens
@@ -276,7 +276,7 @@ Coverage targets:
 - **TDD:** Component tests for agency screens. E2E test for agency creation flow.
 
 ### Task 1.7 — Frontend: Permission Management UI
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 1.4, 1.6
 - **Scope:**
   1. Use case definition for permission management screens
@@ -291,7 +291,7 @@ Coverage targets:
 **Goal:** Build the core domain — property management with full CRUD, lifecycle, media, multilingual descriptions, and JSON Forms. The property model includes fields informed by portal schemas (Kyero, SpainHouses, Thribee) to ensure compatibility if publication is enabled later.
 
 ### Task 2.1 — Property Domain Model
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 0.3
 - **Scope:** Define `Property` aggregate root with:
   - Enums: `PropertyType` (Apartment, House, Villa, Penthouse, Studio, Commercial, Land, Garage, StorageRoom, Building, Office), `OperationType` (Sale, Rent, SaleOrRent, Transfer, Vacation), `PropertyStatus` (Draft, Active, Reserved, Sold, Rented, Archived), `EnergyRating` (A-G + Exempt), `Orientation` (N/NE/E/SE/S/SW/W/NW)
@@ -304,19 +304,19 @@ Coverage targets:
 - **TDD:** Exhaustive unit tests for state transitions, invariants, validation.
 
 ### Task 2.2 — Property Persistence & Repository
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 2.1
 - **Scope:** EF Core DbContext, entity configurations (owned types for value objects), migrations, repository implementations, query specifications for filtering/sorting/pagination.
 - **TDD:** Integration tests with Testcontainers PostgreSQL.
 
 ### Task 2.3 — Property CRUD API
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 2.2, 1.5
 - **Scope:** CQRS commands and queries: CreateProperty, UpdateProperty, DeleteProperty (soft), ChangePropertyStatus, AssignAgent, ListProperties (paginated, filtered, sorted), GetPropertyById. Authorization via orgs-api SDK (agent sees own, admin/owner sees all, viewer reads only).
 - **TDD:** Integration tests for every endpoint + authorization scenarios (agent owns, agent doesn't own, admin, viewer).
 
 ### Task 2.4 — Property JSON Schema & Validation
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 2.1
 - **Scope:**
   1. Define JSON Schema for property data entry (all fields from 2.1)
@@ -327,7 +327,7 @@ Coverage targets:
 - **TDD:** Component tests for custom renderers. Schema validation tests.
 
 ### Task 2.5 — Property Media Management
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 2.2
 - **Scope:**
   - `PropertyMedia` entity: id, propertyId, type (Photo, FloorPlan, Document, Video, VirtualTour), url, thumbnailUrl, sortOrder, caption, mimeType, sizeBytes
@@ -338,13 +338,13 @@ Coverage targets:
 - **TDD:** Unit tests for media validation. Integration tests for upload/download. Mock storage for unit tests.
 
 ### Task 2.6 — Properties-API NuGet SDK Client
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 2.3, 0.4
 - **Scope:** Create `Propely.PropertiesApi.Client` with Refit interfaces: get property by ID, list properties (filtered), get property media. Used by ai-api, contacts-api, appointments-api.
 - **TDD:** Contract tests.
 
 ### Task 2.7 — Frontend: Property List
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 2.3
 - **Scope:**
   1. Use case definition: list properties (filter by status, type, operation, agent), paginated grid/list views
@@ -353,7 +353,7 @@ Coverage targets:
 - **TDD:** Component tests. E2E test for list navigation.
 
 ### Task 2.8 — Frontend: Property Create & Edit Form
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 2.3, 2.4
 - **Scope:**
   1. Use case definition: create property (JSON Forms wizard), edit property
@@ -362,7 +362,7 @@ Coverage targets:
 - **TDD:** Component tests for form steps. Integration test for full creation flow.
 
 ### Task 2.9 — Frontend: Property Detail View
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 2.3, 2.5
 - **Scope:**
   1. Use case definition: view property detail with gallery, map, descriptions, status actions
@@ -371,7 +371,7 @@ Coverage targets:
 - **TDD:** Component tests. E2E test for detail navigation.
 
 ### Task 2.10 — Property Search & Advanced Filters
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 2.3
 - **Scope:** Full-text search, advanced filtering (price range, area range, features), saved filters, sorting options. Query specifications for complex filter combinations.
 - **TDD:** Integration tests for search scenarios. Component tests for filter UI.
@@ -417,7 +417,7 @@ Coverage targets:
 - **TDD:** Unit tests with mocked OpenAI. Prompt regression test suite (20+ cases).
 
 ### Task 3.4 — Contact & Lead Actions via Natural Language
-- **Status:** BLOCKED
+- **Status:** DONE
 - **Dependencies:** 3.1, 4.5
 - **Scope:** Action handlers for contacts and leads:
   - `CreateLeadAction` — "new lead from Maria Garcia for the apartment on Calle Mayor"
@@ -440,7 +440,7 @@ Coverage targets:
 - **TDD:** Unit tests for operation handlers. Entity resolution tests with fuzzy matching.
 
 ### Task 3.6 — Appointment Actions via Natural Language
-- **Status:** BLOCKED
+- **Status:** DONE
 - **Dependencies:** 3.1, 5.8
 - **Scope:** Action handlers for appointments:
   - `BookViewingAction` — "book a viewing for the Malaga villa with Maria Garcia next Tuesday at 10am"
@@ -475,7 +475,7 @@ Coverage targets:
 - **TDD:** DI registration tests. Polly policy tests.
 
 ### Task 3.9 — Prompt Engineering & Spanish RE Vocabulary
-- **Status:** BLOCKED
+- **Status:** DONE
 - **Dependencies:** 3.2, 3.3, 3.4
 - **Scope:** Systematic prompt tuning for the Spanish real estate domain:
   - Property type vocabulary: piso, adosado, chalet, atico, bajo, duplex, finca, cortijo, local, oficina, nave, solar, garaje
@@ -523,7 +523,7 @@ Coverage targets:
 **Goal:** Build the contacts domain with dual-role contacts, lead management, and property linkage. NL actions for contacts/leads are handled in P3.4.
 
 ### Task 4.1 — Contact Domain Model
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 0.3
 - **Scope:** Define `Contact` aggregate root:
   - Fields: name, email, phone, secondaryPhone, address, preferredLanguage, source (Portal, WalkIn, Referral, Website, Phone, Other), notes
@@ -536,7 +536,7 @@ Coverage targets:
 - **TDD:** Unit tests for contact creation, role management, property interest linkage.
 
 ### Task 4.2 — Lead Domain Model
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 4.1, 2.1
 - **Scope:** Define `Lead` entity:
   - Fields: name, email, phone, message, source, sourcePortal, sourceUrl, propertyId (REQUIRED — leads always link to a property), status (New, Contacted, Qualified, Converted, Lost), assignedAgentId, convertedContactId (nullable)
@@ -546,25 +546,25 @@ Coverage targets:
 - **TDD:** Unit tests for lead state machine, deduplication rules, conversion logic.
 
 ### Task 4.3 — Contacts & Leads Persistence & API
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 4.1, 4.2
 - **Scope:** EF Core setup for contacts-api. CRUD endpoints for contacts and leads. Lead assignment (manual + auto-assign to property agent). Contact search/filter. Lead pipeline view (grouped by status). Authorization: agent sees own, admin sees all.
 - **TDD:** Integration tests for all endpoints + authorization.
 
 ### Task 4.4 — Lead Conversion Flow
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 4.3
 - **Scope:** When a lead is converted: create Contact (or link to existing by email), copy lead data, maintain lead→contact relationship. If contact already exists, merge data (don't duplicate). Emit `LeadConvertedV1` event.
 - **TDD:** Unit tests for conversion logic. Integration tests for merge scenarios.
 
 ### Task 4.5 — Contacts-API NuGet SDK Client
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 4.3
 - **Scope:** `Propely.ContactsApi.Client` with Refit interfaces: get contact, list contacts, get leads for property, create lead. Used by ai-api for NL lead actions.
 - **TDD:** Contract tests.
 
 ### Task 4.6 — Frontend: Contacts List & Detail
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 4.3, 1.6
 - **Scope:**
   1. Use case definition: list contacts, filter by role/source/agent, view contact detail with property interests and communication history
@@ -573,7 +573,7 @@ Coverage targets:
 - **TDD:** Component tests. E2E test for list → detail.
 
 ### Task 4.7 — Frontend: Lead Pipeline
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 4.3, 4.6
 - **Scope:**
   1. Use case definition: view leads by status (kanban or list), assign lead, convert lead, mark lost
@@ -795,19 +795,19 @@ The AI action engine (P3) depends on service SDKs being available. The recommend
 - **TDD:** Unit tests for all 20 schemas, ActionType resolution, adapter output equivalence.
 
 ### Task 8.2 — Typed Action Parameter Records
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 8.1
 - **Scope:** Replace `Dictionary<string,object?>` + `ParameterExtractor` with 20 typed parameter records (one per action). Create `IParameterBinder` for type-safe conversion. Refactor all 19 action handlers to use typed properties. Delete `ParameterExtractor.cs`.
 - **TDD:** Binder type conversion tests, handler refactor with behavioral equivalence.
 
 ### Task 8.3 — OpenAI Classifier Adapter Refactor
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 8.1, 8.2
 - **Scope:** Add keyed DI for multi-provider support preparation (classifier DI injection was completed in 8.1). Add `AiProvider` configuration option. No OpenAI types in Application layer.
 - **TDD:** Provider key DI resolution tests.
 
 ### Task 8.4 — MCP Server Endpoint
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 8.1
 - **Scope:** Add `ModelContextProtocol` NuGet package to ai-api. Mount MCP Streamable HTTP endpoint at `/mcp`. Register 20 tools from `IToolSchemaRegistry`. Route `tools/call` through `ActionRouter`. Enforce auth + tenant isolation.
 - **TDD:** Integration tests for tools/list, tools/call, auth enforcement, behavioral equivalence with REST.
