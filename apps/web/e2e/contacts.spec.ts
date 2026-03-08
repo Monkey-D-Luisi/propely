@@ -64,15 +64,8 @@ test.describe('Contacts list page (mocked API)', () => {
   });
 
   test('renders contacts list with mocked data', async ({ page }) => {
-    // --- DEBUG: Log all outgoing requests and console output ---
-    const requestLog: string[] = [];
-    page.on('request', (req) => requestLog.push(`>> ${req.method()} ${req.url()}`));
-    page.on('console', (msg) => requestLog.push(`[console.${msg.type()}] ${msg.text()}`));
-    page.on('pageerror', (err) => requestLog.push(`[pageerror] ${err.message}`));
-
     // Mock contacts list endpoint
     await page.route(/\/api\/contacts\?/, async (route) => {
-      requestLog.push(`[MOCK HIT] contacts list: ${route.request().url()}`);
       await route.fulfill({
         status: 200,
         contentType: 'application/json',
@@ -88,13 +81,6 @@ test.describe('Contacts list page (mocked API)', () => {
     });
 
     await page.goto('/en/contacts');
-
-    // --- DEBUG: Wait a moment and dump all logs ---
-    await page.waitForTimeout(5000);
-    console.log('=== REQUEST LOG ===');
-    for (const line of requestLog) console.log(line);
-    console.log('=== END LOG ===');
-    console.log('=== CURRENT URL ===', page.url());
 
     // Page heading should be visible
     await expect(page.getByRole('heading', { name: 'Contacts' })).toBeVisible({ timeout: 15_000 });

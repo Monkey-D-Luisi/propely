@@ -31,7 +31,6 @@ export const mockOrg = {
 export async function mockAuthenticatedSession(page: Page): Promise<void> {
   // Mock /auth/me -> return authenticated user
   await page.route(/\/auth\/me$/, async (route) => {
-    console.log(`[MOCK] /auth/me intercepted: ${route.request().url()}`);
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -41,7 +40,6 @@ export async function mockAuthenticatedSession(page: Page): Promise<void> {
 
   // Mock /auth/csrf -> return a dummy CSRF token
   await page.route(/\/auth\/csrf$/, async (route) => {
-    console.log(`[MOCK] /auth/csrf intercepted: ${route.request().url()}`);
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -49,9 +47,17 @@ export async function mockAuthenticatedSession(page: Page): Promise<void> {
     });
   });
 
+  // Mock /auth/refresh -> return a refreshed token
+  await page.route(/\/auth\/refresh$/, async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ accessToken: 'mock-access-token-for-e2e' }),
+    });
+  });
+
   // Mock /orgs/mine -> return a single org
   await page.route(/\/orgs\/mine/, async (route) => {
-    console.log(`[MOCK] /orgs/mine intercepted: ${route.request().url()}`);
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -63,6 +69,15 @@ export async function mockAuthenticatedSession(page: Page): Promise<void> {
         hasPreviousPage: false,
         hasNextPage: false,
       }),
+    });
+  });
+
+  // Mock /feature-flags -> return empty flags
+  await page.route(/\/feature-flags$/, async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ flags: [] }),
     });
   });
 }
