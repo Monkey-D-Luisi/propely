@@ -672,7 +672,7 @@ Coverage targets:
 **Goal:** Dashboard, analytics, AI conversation intelligence, and platform polish.
 
 ### Task 7.1 — Dashboard & Analytics
-- **Status:** PENDING
+- **Status:** DONE
 - **Dependencies:** 2.3, 4.3, 5.2
 - **Scope:**
   1. Use case definition: agent dashboard (my properties by status, my leads, upcoming appointments), admin dashboard (branch metrics, agent performance)
