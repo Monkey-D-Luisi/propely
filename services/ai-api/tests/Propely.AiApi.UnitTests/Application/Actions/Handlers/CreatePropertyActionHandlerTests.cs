@@ -33,6 +33,7 @@ public sealed class CreatePropertyActionHandlerTests
             OperationType: "Sale",
             Bedrooms: 3,
             Bathrooms: 2,
+            AreaM2: null,
             Price: 250000m,
             City: "Malaga",
             Description: "Beautiful apartment in the center");
@@ -59,6 +60,7 @@ public sealed class CreatePropertyActionHandlerTests
             OperationType: null,
             Bedrooms: 3,
             Bathrooms: null,
+            AreaM2: null,
             Price: null,
             City: "Madrid",
             Description: null);
@@ -84,6 +86,7 @@ public sealed class CreatePropertyActionHandlerTests
             OperationType: null,
             Bedrooms: null,
             Bathrooms: null,
+            AreaM2: null,
             Price: null,
             City: null,
             Description: null);
@@ -108,6 +111,7 @@ public sealed class CreatePropertyActionHandlerTests
             OperationType: "Rent",
             Bedrooms: 4,
             Bathrooms: 3,
+            AreaM2: null,
             Price: 1500m,
             City: "Barcelona",
             Description: null);
@@ -136,6 +140,7 @@ public sealed class CreatePropertyActionHandlerTests
             OperationType: null,
             Bedrooms: null,
             Bathrooms: null,
+            AreaM2: null,
             Price: 200000m,
             City: "Valencia",
             Description: null);
@@ -153,5 +158,36 @@ public sealed class CreatePropertyActionHandlerTests
         data["price"].Should().Be(200000m);
         data["agentId"].Should().Be(AgentId);
         data["tenantId"].Should().Be(TenantId);
+    }
+
+    [Fact]
+    public async Task Handle_WhenAreaM2Provided_ShouldIncludeInDataAndMessage()
+    {
+        // Arrange — matches the voice command "Inmueble de dos habitaciones, un baño, 50 m2 por 131000"
+        var parameters = new CreatePropertyParameters(
+            Title: null,
+            PropertyType: "apartment",
+            OperationType: null,
+            Bedrooms: 2,
+            Bathrooms: 1,
+            AreaM2: 50m,
+            Price: 131000m,
+            City: null,
+            Description: null);
+        var command = new CreatePropertyActionCommand(parameters, TenantId, AgentId);
+
+        // Act
+        var result = await _handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        result.Success.Should().BeTrue();
+        result.Message.Should().Contain("50 m²");
+        result.Message.Should().Contain("131,000 EUR");
+
+        var data = result.Data as Dictionary<string, object?>;
+        data.Should().NotBeNull();
+        data!["areaM2"].Should().Be(50m);
+        data["bedrooms"].Should().Be(2);
+        data["bathrooms"].Should().Be(1);
     }
 }

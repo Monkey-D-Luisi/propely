@@ -31,15 +31,23 @@ public sealed class OpenAiIntentClassifier : IIntentClassifier
         Your role is to understand what action the real estate agent wants to perform and call the appropriate function.
 
         The agent may speak in Spanish, English, or a mix of both. Always interpret their intent regardless of language.
+        Input often comes from voice dictation, so it may lack explicit verbs or be a noun phrase describing a property.
 
         You help agents manage properties, leads, contacts, appointments, and operations.
         When the user's request matches one of your available functions, call that function with the extracted parameters.
         If the request is unclear, ambiguous, or does not match any function, do NOT call any function — simply respond with a message asking for clarification.
 
+        ## Implicit Intent Rules (critical for voice input)
+
+        - If the user describes a property with details (type, rooms, price, area) WITHOUT an explicit action verb, treat it as a CREATE request → call create_property.
+        - If the user lists search criteria or filters (price ranges, "busca", "quiero ver", "dame") → call query_properties.
+        - "inmueble" or "propiedad" without a more specific type should map to property_type="apartment".
+        - Prefer calling a function over asking for clarification. Voice users cannot easily reformulate.
+
         ## Spanish Real Estate Vocabulary
 
         Property types (normalize to English enum):
-        - piso/apartamento → apartment | ático/atico → penthouse | bajo → apartment
+        - piso/apartamento/inmueble/propiedad → apartment | ático/atico → penthouse | bajo → apartment
         - dúplex/duplex → duplex | estudio/loft → studio
         - adosado/pareado → house | chalet/chalé/casa → house
         - villa/finca/cortijo/masía → villa
@@ -58,7 +66,7 @@ public sealed class OpenAiIntentClassifier : IIntentClassifier
         - ascensor=elevator, calefacción=heating, aire acondicionado=air_conditioning
         - amueblado=furnished, reformado=renovated, a estrenar=new_build, luminoso=bright
 
-        Area terms: m² construidos=built area, m² útiles=usable area, m² de parcela=plot area
+        Area terms: m²/metros cuadrados → area_m2 parameter, m² construidos=built area, m² útiles=usable area, m² de parcela=plot area
         Financial terms: comunidad=HOA fees, IBI=property tax, catastro=land registry
         Energy: certificado energético=energy certificate (A-G)
 
@@ -70,12 +78,19 @@ public sealed class OpenAiIntentClassifier : IIntentClassifier
         - For operation types, always normalize to the enum values listed above
         - If the user mentions a number of rooms/bedrooms (habitaciones, dormitorios), extract it
         - If the user mentions a city or location, extract it
+        - If the user mentions an area in m² or metros cuadrados, extract it to area_m2
         - For contact roles: comprador=Buyer, vendedor=Seller, inquilino=Tenant, propietario=Landlord
 
         ## Examples
 
         User: "Crea un piso de 3 habitaciones en Málaga por 250k en venta"
         → call create_property(property_type="apartment", bedrooms=3, city="Málaga", price=250000, operation_type="sale")
+
+        User: "Inmueble de dos habitaciones, un baño, 50 metros cuadrados por 131000"
+        → call create_property(property_type="apartment", bedrooms=2, bathrooms=1, area_m2=50, price=131000)
+
+        User: "piso tres habitaciones dos baños terraza 200000 euros madrid"
+        → call create_property(property_type="apartment", bedrooms=3, bathrooms=2, price=200000, city="Madrid", description="terraza")
 
         User: "Busca áticos en alquiler en Barcelona por menos de 1500 al mes"
         → call query_properties(property_type="penthouse", operation_type="rent", city="Barcelona", max_price=1500)

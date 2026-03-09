@@ -220,6 +220,7 @@ public sealed class DefaultParameterBinderTests
             ["operation_type"] = "Sale",
             ["bedrooms"] = 4,
             ["bathrooms"] = 3,
+            ["area_m2"] = 200m,
             ["price"] = 500000m,
             ["city"] = "Marbella",
             ["description"] = "Stunning villa with sea views"
@@ -232,6 +233,7 @@ public sealed class DefaultParameterBinderTests
         result.OperationType.Should().Be("Sale");
         result.Bedrooms.Should().Be(4);
         result.Bathrooms.Should().Be(3);
+        result.AreaM2.Should().Be(200m);
         result.Price.Should().Be(500000m);
         result.City.Should().Be("Marbella");
         result.Description.Should().Be("Stunning villa with sea views");
