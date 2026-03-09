@@ -2,7 +2,12 @@
 // Licensed under the Proprietary Software License. See LICENSE.
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import type React from 'react';
+import { render } from '@testing-library/react';
 import { renderWithProviders, screen } from '@test/utils';
+import { NextIntlClientProvider } from 'next-intl';
+import { ToastProvider } from '@/components/ui/toast';
+import messages from '../../../../messages/en.json';
 import { VoiceMicButton } from '@/components/command-bar/VoiceMicButton';
 
 // Mock the hooks
@@ -168,7 +173,28 @@ describe('VoiceMicButton', () => {
     expect(button.className).toContain('ring-red-500');
   });
 
-  it('calls onAudioReady when audioBlob becomes available', () => {
+  it('calls onAudioReady exactly once when audioBlob becomes available and state is processing', () => {
+    const onAudioReady = vi.fn();
+    const resetVoice = vi.fn();
+    const blob = new Blob(['audio'], { type: 'audio/webm' });
+
+    mockUseVoiceInput.mockReturnValue({
+      ...defaultVoiceInput,
+      state: 'processing',
+      audioBlob: blob,
+      resetVoice,
+    });
+
+    renderWithProviders(
+      <VoiceMicButton onAudioReady={onAudioReady} />,
+    );
+
+    expect(onAudioReady).toHaveBeenCalledTimes(1);
+    expect(onAudioReady).toHaveBeenCalledWith(blob);
+    expect(resetVoice).toHaveBeenCalledTimes(1);
+  });
+
+  it('does NOT call onAudioReady when isProcessing is true (parent already processing)', () => {
     const onAudioReady = vi.fn();
     const blob = new Blob(['audio'], { type: 'audio/webm' });
 
@@ -179,10 +205,58 @@ describe('VoiceMicButton', () => {
     });
 
     renderWithProviders(
-      <VoiceMicButton onAudioReady={onAudioReady} />,
+      <VoiceMicButton onAudioReady={onAudioReady} isProcessing />,
     );
 
-    // onAudioReady is called via queueMicrotask, verify the blob is present
-    expect(mockUseVoiceInput).toHaveBeenCalled();
+    expect(onAudioReady).not.toHaveBeenCalled();
+  });
+
+  it('does NOT re-call onAudioReady after isProcessing toggles if blob was cleared', () => {
+    const onAudioReady = vi.fn();
+    const resetVoice = vi.fn();
+    const blob = new Blob(['audio'], { type: 'audio/webm' });
+
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <NextIntlClientProvider locale="en" messages={messages}>
+        <ToastProvider>{children}</ToastProvider>
+      </NextIntlClientProvider>
+    );
+
+    // Initial render: blob ready, not processing → should hand off
+    mockUseVoiceInput.mockReturnValue({
+      ...defaultVoiceInput,
+      state: 'processing',
+      audioBlob: blob,
+      resetVoice,
+    });
+
+    const { rerender } = render(
+      <VoiceMicButton onAudioReady={onAudioReady} isProcessing={false} />,
+      { wrapper },
+    );
+
+    expect(onAudioReady).toHaveBeenCalledTimes(1);
+    onAudioReady.mockClear();
+
+    // Parent starts processing: isProcessing becomes true, blob cleared by resetVoice
+    mockUseVoiceInput.mockReturnValue({
+      ...defaultVoiceInput,
+      state: 'idle',
+      audioBlob: null,
+      resetVoice,
+    });
+
+    rerender(
+      <VoiceMicButton onAudioReady={onAudioReady} isProcessing />,
+    );
+
+    expect(onAudioReady).not.toHaveBeenCalled();
+
+    // Parent finishes processing: isProcessing goes back to false
+    rerender(
+      <VoiceMicButton onAudioReady={onAudioReady} isProcessing={false} />,
+    );
+
+    expect(onAudioReady).not.toHaveBeenCalled();
   });
 });

@@ -3,7 +3,7 @@
 
 'use client';
 
-import { useState, useRef, useCallback, useEffect, type ReactNode } from 'react';
+import { useState, useRef, useCallback, type ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
 
 export interface CommandInputProps {
@@ -12,8 +12,6 @@ export interface CommandInputProps {
   disabled?: boolean;
   /** Optional slot rendered between the input and submit button (e.g. voice mic). */
   trailingSlot?: ReactNode;
-  /** When set externally, overrides the input value (e.g. from voice transcription). */
-  externalValue?: string;
 }
 
 export function CommandInput({
@@ -21,19 +19,10 @@ export function CommandInput({
   isLoading,
   disabled = false,
   trailingSlot,
-  externalValue,
 }: CommandInputProps) {
   const t = useTranslations('commandBar');
   const [value, setValue] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
-
-  // Sync external value when set by voice transcription
-  useEffect(() => {
-    if (externalValue !== undefined && externalValue !== '') {
-      // Schedule state update for next microtask to avoid synchronous setState in effect
-      queueMicrotask(() => setValue(externalValue));
-    }
-  }, [externalValue]);
 
   const handleSubmit = useCallback(() => {
     const trimmed = value.trim();

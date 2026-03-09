@@ -53,16 +53,14 @@ export function VoiceMicButton({
   // the same audioBlob twice (StrictMode runs effects twice in dev).
   const handedOffRef = useRef(false);
 
-  // Notify parent when audio blob is ready
+  // Hand off audio blob exactly once per recording cycle.
+  // handedOffRef prevents StrictMode double-fire; resetVoice() clears audioBlob.
   useEffect(() => {
     if (audioBlob && onAudioReady && state === 'processing' && !isProcessing && !handedOffRef.current) {
       handedOffRef.current = true;
       onAudioReady(audioBlob);
-      // Reset voice input state so the mic button returns to idle
-      // after the parent starts processing the audio
       resetVoice();
     }
-    // Reset guard when blob is cleared (new recording cycle)
     if (!audioBlob) {
       handedOffRef.current = false;
     }
