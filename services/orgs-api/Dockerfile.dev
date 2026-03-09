@@ -20,4 +20,4 @@ EXPOSE 5020
 ENV ASPNETCORE_ENVIRONMENT=Development
 ENV ASPNETCORE_URLS=http://+:5020
 
-ENTRYPOINT ["dotnet", "watch", "run", "--project", "src/Propely.OrgsApi.Api", "--no-launch-profile"]
+ENTRYPOINT ["dotnet", "watch", "run", "--non-interactive", "--project", "src/Propely.OrgsApi.Api", "--no-launch-profile"]
