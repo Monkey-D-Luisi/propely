@@ -37,6 +37,7 @@ export function VoiceMicButton({
     state,
     startRecording,
     stopRecording,
+    resetVoice,
     audioBlob,
     error,
     permissionDenied,
@@ -52,8 +53,11 @@ export function VoiceMicButton({
   useEffect(() => {
     if (audioBlob && onAudioReady && state === 'processing' && !isProcessing) {
       onAudioReady(audioBlob);
+      // Reset voice input state so the mic button returns to idle
+      // after the parent starts processing the audio
+      resetVoice();
     }
-  }, [audioBlob, onAudioReady, state, isProcessing]);
+  }, [audioBlob, onAudioReady, state, isProcessing, resetVoice]);
 
   const handleClick = async () => {
     if (effectiveState === 'recording') {

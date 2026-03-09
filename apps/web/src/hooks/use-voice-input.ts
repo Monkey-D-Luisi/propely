@@ -15,6 +15,7 @@ export interface UseVoiceInputReturn {
   state: VoiceInputState;
   startRecording: () => Promise<void>;
   stopRecording: () => void;
+  resetVoice: () => void;
   audioBlob: Blob | null;
   error: string | null;
   permissionDenied: boolean;
@@ -145,10 +146,20 @@ export function useVoiceInput(): UseVoiceInputReturn {
     }
   }, []);
 
+  const resetVoice = useCallback(() => {
+    cleanup();
+    setAudioBlob(null);
+    setError(null);
+    setPermissionDenied(false);
+    setMediaStream(null);
+    setState('idle');
+  }, [cleanup]);
+
   return {
     state,
     startRecording,
     stopRecording,
+    resetVoice,
     audioBlob,
     error,
     permissionDenied,

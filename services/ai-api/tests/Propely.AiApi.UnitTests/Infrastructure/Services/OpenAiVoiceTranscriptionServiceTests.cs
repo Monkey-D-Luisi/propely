@@ -96,7 +96,7 @@ public sealed class OpenAiVoiceTranscriptionServiceTests
         var options = Options.Create(new OpenAiOptions
         {
             ApiKey = "sk-test-key-12345",
-            TranscriptionModelId = "gpt-4o-mini-transcription"
+            TranscriptionModelId = "gpt-4o-mini-transcribe"
         });
 
         // Act — should not throw; AudioClient will be created
@@ -113,7 +113,7 @@ public sealed class OpenAiVoiceTranscriptionServiceTests
         var options = Options.Create(new OpenAiOptions
         {
             ApiKey = "sk-test-key-12345",
-            TranscriptionModelId = "whisper-1"
+            TranscriptionModelId = "gpt-4o-mini-transcribe"
         });
 
         // Act
@@ -124,13 +124,13 @@ public sealed class OpenAiVoiceTranscriptionServiceTests
     }
 
     [Fact]
-    public void OpenAiOptions_DefaultTranscriptionModelId_ShouldBeGpt4oMiniTranscription()
+    public void OpenAiOptions_DefaultTranscriptionModelId_ShouldBeGpt4oMiniTranscribe()
     {
         // Arrange & Act
         var options = new OpenAiOptions();
 
         // Assert
-        options.TranscriptionModelId.Should().Be("gpt-4o-mini-transcription");
+        options.TranscriptionModelId.Should().Be("gpt-4o-mini-transcribe");
     }
 
     [Fact]

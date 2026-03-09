@@ -24,8 +24,8 @@ export function CommandBar() {
     addRecentCommand,
     sessionId,
   } = useCommandBar();
-  const { execute, confirm, isLoading, result, error, reset } = useExecuteAction();
-  const { executeVoice, isLoading: isVoiceLoading } = useExecuteVoiceAction();
+  const { execute, confirm, isLoading, result, error, reset, setResult } = useExecuteAction();
+  const { executeVoice, isLoading: isVoiceLoading, error: voiceError } = useExecuteVoiceAction();
   const dialogRef = useRef<HTMLDivElement>(null);
   const lastCommandRef = useRef<string>('');
   const [transcribedText, setTranscribedText] = useState<string | undefined>(undefined);
@@ -76,13 +76,21 @@ export function CommandBar() {
       const voiceResult = await executeVoice(blob, undefined, sessionId ?? undefined);
       if (voiceResult?.transcribedText) {
         setTranscribedText(voiceResult.transcribedText);
-        // Auto-submit the transcribed text as a command
         addRecentCommand(voiceResult.transcribedText);
         lastCommandRef.current = voiceResult.transcribedText;
-        await execute(voiceResult.transcribedText, sessionId ?? undefined);
+        // Voice endpoint already executed the action — use its result directly
+        if (voiceResult.action) {
+          setResult({
+            success: voiceResult.action.success,
+            message: voiceResult.action.message,
+            actionType: voiceResult.action.actionType,
+            errors: voiceResult.action.errors,
+            confidence: voiceResult.action.confidence,
+          });
+        }
       }
     },
-    [executeVoice, execute, addRecentCommand, sessionId],
+    [executeVoice, addRecentCommand, sessionId, setResult],
   );
 
   // Close on Escape
@@ -104,9 +112,10 @@ export function CommandBar() {
 
   if (!isOpen) return null;
 
-  const showConfirmation = result?.needsConfirmation && !error;
-  const showResult = (result && !result.needsConfirmation) || error || isLoading;
-  const showHistory = !result && !error && !isLoading && recentCommands.length > 0;
+  const effectiveError = error || (voiceError ? t(`voice.${voiceError}` as 'voice.transcriptionFailed') : null);
+  const showConfirmation = result?.needsConfirmation && !effectiveError;
+  const showResult = (result && !result.needsConfirmation) || effectiveError || isLoading;
+  const showHistory = !result && !effectiveError && !isLoading && !isVoiceLoading && recentCommands.length > 0;
 
   return (
     <div
@@ -141,8 +150,8 @@ export function CommandBar() {
             {showResult && (
               <CommandResult
                 result={result}
-                error={error}
-                isLoading={isLoading}
+                error={effectiveError}
+                isLoading={isLoading || isVoiceLoading}
                 onRetry={handleRetry}
               />
             )}

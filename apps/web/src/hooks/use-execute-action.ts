@@ -72,5 +72,5 @@ export function useExecuteAction() {
     setError(null);
   }, []);
 
-  return { execute, confirm, isLoading, result, error, reset };
+  return { execute, confirm, isLoading, result, error, reset, setResult };
 }

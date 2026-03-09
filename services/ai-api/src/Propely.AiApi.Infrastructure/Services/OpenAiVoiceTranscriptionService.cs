@@ -64,7 +64,7 @@ public class OpenAiVoiceTranscriptionService : IVoiceTranscriptionService
                 options.Language = languageHint;
             }
 
-            options.ResponseFormat = AudioTranscriptionFormat.Verbose;
+            options.ResponseFormat = AudioTranscriptionFormat.Simple;
 
             _logger.LogInformation("Transcribing audio file {FileName} with language hint {Language}",
                 fileName, languageHint ?? "auto");

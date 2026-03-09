@@ -27,6 +27,7 @@ const defaultVoiceInput = {
   state: 'idle' as const,
   startRecording: vi.fn(),
   stopRecording: vi.fn(),
+  resetVoice: vi.fn(),
   audioBlob: null,
   error: null,
   permissionDenied: false,
