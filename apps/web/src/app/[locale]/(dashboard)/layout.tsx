@@ -3,14 +3,16 @@
 
 import type { ReactNode } from 'react';
 import { AppSidebar } from '@/components/layout/AppSidebar';
+import { AiFloatingButton } from '@/components/layout/AiFloatingButton';
 
 export default function DashboardGroupLayout({ children }: { children: ReactNode }) {
   return (
     <div className="h-dvh flex overflow-hidden">
       <AppSidebar />
-      <main className="flex-1 flex flex-col h-full overflow-hidden">
+      <main className="flex-1 flex flex-col h-full overflow-y-auto bg-surface">
         {children}
       </main>
+      <AiFloatingButton />
     </div>
   );
 }

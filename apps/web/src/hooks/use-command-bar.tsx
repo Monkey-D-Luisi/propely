@@ -3,11 +3,24 @@
 
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback, useRef, type ReactNode } from 'react';
 
 const MAX_RECENT_COMMANDS = 10;
 
-export function useCommandBar() {
+interface CommandBarContextValue {
+  isOpen: boolean;
+  open: () => void;
+  close: () => void;
+  toggle: () => void;
+  recentCommands: string[];
+  addRecentCommand: (command: string) => void;
+  openedWithKeyboard: React.RefObject<boolean>;
+  sessionId: string | null;
+}
+
+const CommandBarContext = createContext<CommandBarContextValue | null>(null);
+
+export function CommandBarProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [recentCommands, setRecentCommands] = useState<string[]>([]);
   const openedWithKeyboard = useRef(false);
@@ -27,7 +40,6 @@ export function useCommandBar() {
   const toggle = useCallback(() => {
     setIsOpen((prev) => {
       if (!prev) {
-        // Opening — generate a session ID if we don't have one
         setSessionId((s) => s ?? crypto.randomUUID());
       }
       return !prev;
@@ -56,14 +68,26 @@ export function useCommandBar() {
     };
   }, [toggle]);
 
-  return {
-    isOpen,
-    open,
-    close,
-    toggle,
-    recentCommands,
-    addRecentCommand,
-    openedWithKeyboard,
-    sessionId,
-  };
+  return (
+    <CommandBarContext.Provider value={{
+      isOpen,
+      open,
+      close,
+      toggle,
+      recentCommands,
+      addRecentCommand,
+      openedWithKeyboard,
+      sessionId,
+    }}>
+      {children}
+    </CommandBarContext.Provider>
+  );
+}
+
+export function useCommandBar() {
+  const ctx = useContext(CommandBarContext);
+  if (!ctx) {
+    throw new Error('useCommandBar must be used within a CommandBarProvider');
+  }
+  return ctx;
 }

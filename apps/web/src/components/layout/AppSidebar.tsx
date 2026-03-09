@@ -8,6 +8,7 @@ import { Link, usePathname } from '@/i18n/navigation';
 import { useCallback, useState } from 'react';
 import { useCurrentUser } from '@/hooks/orgs';
 import { useActiveOrg } from '@/hooks/use-active-org';
+import { useCommandBar } from '@/hooks/use-command-bar';
 import { apiFetch } from '@/lib/api';
 import { clearAccessToken } from '@/lib/token-store';
 import { ensureCsrfToken } from '@/lib/csrf';
@@ -25,11 +26,13 @@ const navItems = [
 
 export function AppSidebar() {
   const t = useTranslations('common');
+  const tCmd = useTranslations('commandBar');
   const tAuth = useTranslations('auth');
   const { toast } = useToast();
   const pathname = usePathname();
   const { user } = useCurrentUser();
   const { activeOrg } = useActiveOrg();
+  const { open: openCommandBar } = useCommandBar();
   const [isProcessing, setProcessing] = useState(false);
 
   const handleLogout = useCallback(async () => {
@@ -94,6 +97,19 @@ export function AppSidebar() {
               );
             })}
           </nav>
+
+          {/* AI Assistant */}
+          <button
+            type="button"
+            onClick={openCommandBar}
+            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-primary-600/10 hover:text-primary-600 transition-colors group"
+          >
+            <span className="material-symbols-outlined text-[20px] group-hover:text-primary-600">auto_awesome</span>
+            <span className="text-sm font-medium flex-1 text-left">{tCmd('aiAssistant')}</span>
+            <kbd className="hidden sm:inline-flex items-center gap-0.5 rounded border border-slate-200 bg-slate-50 px-1.5 py-0.5 text-[10px] font-medium text-slate-400">
+              Ctrl+K
+            </kbd>
+          </button>
         </div>
 
         {/* Bottom Actions */}

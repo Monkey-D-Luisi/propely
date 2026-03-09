@@ -966,6 +966,7 @@
     "recentCommands": "Recent commands",
     "noRecentCommands": "No recent commands",
     "openShortcut": "Ctrl+K",
+    "aiAssistant": "AI Assistant",
     "close": "Close",
     "needsConfirmation": "Please confirm",
     "noSpeechDetected": "No speech detected",
