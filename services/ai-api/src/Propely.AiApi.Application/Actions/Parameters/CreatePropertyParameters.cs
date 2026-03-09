@@ -12,7 +12,6 @@ public sealed record CreatePropertyParameters(
     string? OperationType,
     int? Bedrooms,
     int? Bathrooms,
-    decimal? AreaM2,
     decimal? Price,
     string? City,
     string? Description) : IActionParameters;

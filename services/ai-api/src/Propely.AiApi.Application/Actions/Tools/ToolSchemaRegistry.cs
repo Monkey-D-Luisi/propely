@@ -35,20 +35,19 @@ public sealed class ToolSchemaRegistry : IToolSchemaRegistry
 
         new ToolSchema(
             Name: "create_property",
-            Description: "Create a new real estate property listing with the provided details. Also use this when the user describes a property without an explicit verb — treat it as an implicit create request.",
+            Description: "Create a new real estate property listing with the provided details.",
             ParametersJsonSchema: """
             {
                 "type": "object",
                 "properties": {
                     "title": { "type": "string", "description": "Title or name of the property listing" },
-                    "property_type": { "type": "string", "enum": ["apartment", "house", "villa", "studio", "penthouse", "duplex", "commercial", "land", "garage", "storage"], "description": "Type of property (piso/inmueble/propiedad=apartment, chalet/casa=house, ático=penthouse, estudio/loft=studio, finca/cortijo=villa, local/oficina/nave=commercial, solar/terreno=land, garaje=garage, trastero=storage)" },
+                    "property_type": { "type": "string", "enum": ["apartment", "house", "villa", "studio", "penthouse", "duplex", "commercial", "land", "garage", "storage"], "description": "Type of property (piso=apartment, chalet/casa=house, ático=penthouse, estudio/loft=studio, finca/cortijo=villa, local/oficina/nave=commercial, solar/terreno=land, garaje=garage, trastero=storage)" },
                     "operation_type": { "type": "string", "enum": ["sale", "rent", "transfer"], "description": "Whether the property is for sale, rent, or transfer (venta/compra=sale, alquiler=rent, traspaso=transfer)" },
                     "bedrooms": { "type": "integer", "description": "Number of bedrooms (habitaciones, dormitorios)" },
-                    "bathrooms": { "type": "integer", "description": "Number of bathrooms (baños)" },
-                    "area_m2": { "type": "number", "description": "Area in square meters (metros cuadrados, m²)" },
+                    "bathrooms": { "type": "integer", "description": "Number of bathrooms" },
                     "price": { "type": "number", "description": "Price in EUR" },
                     "city": { "type": "string", "description": "City where the property is located" },
-                    "description": { "type": "string", "description": "Detailed description of the property including features like terraza, piscina, etc." }
+                    "description": { "type": "string", "description": "Detailed description of the property" }
                 },
                 "required": []
             }

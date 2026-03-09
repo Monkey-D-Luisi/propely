@@ -36,7 +36,6 @@ public sealed class CreatePropertyActionHandler : IRequestHandler<CreateProperty
         var operationType = request.Parameters.OperationType;
         var bedrooms = request.Parameters.Bedrooms;
         var bathrooms = request.Parameters.Bathrooms;
-        var areaM2 = request.Parameters.AreaM2;
         var price = request.Parameters.Price;
         var city = request.Parameters.City;
         var description = request.Parameters.Description;
@@ -58,7 +57,6 @@ public sealed class CreatePropertyActionHandler : IRequestHandler<CreateProperty
             ["title"] = title ?? $"{propertyType} in {city ?? "unspecified location"}",
             ["bedrooms"] = bedrooms,
             ["bathrooms"] = bathrooms,
-            ["areaM2"] = areaM2,
             ["price"] = price,
             ["city"] = city,
             ["description"] = description,
@@ -83,9 +81,6 @@ public sealed class CreatePropertyActionHandler : IRequestHandler<CreateProperty
 
         if (bathrooms.HasValue)
             messageParts.Add($"{bathrooms} bathroom{(bathrooms > 1 ? "s" : "")}");
-
-        if (areaM2.HasValue)
-            messageParts.Add(string.Format(CultureInfo.InvariantCulture, "{0:N0} m²", areaM2.Value));
 
         if (price.HasValue)
             messageParts.Add(string.Format(CultureInfo.InvariantCulture, "priced at {0:N0} EUR", price.Value));
