@@ -248,7 +248,7 @@ describe('LoginForm', () => {
     renderWithProviders(<LoginForm />);
 
     await waitFor(() => {
-      expect(replace).toHaveBeenCalledWith('/');
+      expect(replace).toHaveBeenCalledWith('/dashboard');
     });
   });
 
