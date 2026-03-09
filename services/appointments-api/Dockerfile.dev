@@ -15,9 +15,9 @@ RUN dotnet restore src/Propely.AppointmentsApi.Api/Propely.AppointmentsApi.Api.c
 
 COPY . .
 
-EXPOSE 5060
+EXPOSE 5070
 
 ENV ASPNETCORE_ENVIRONMENT=Development
-ENV ASPNETCORE_URLS=http://+:5060
+ENV ASPNETCORE_URLS=http://+:5070
 
 ENTRYPOINT ["dotnet", "watch", "run", "--project", "src/Propely.AppointmentsApi.Api", "--no-launch-profile"]

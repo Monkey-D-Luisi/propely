@@ -31,7 +31,9 @@ export function AppTopHeader() {
   const { user, isLoading } = useCurrentUser();
   const [isProcessing, setProcessing] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const userMenuRef = useRef<HTMLDivElement>(null);
 
   const handleLogout = useCallback(async () => {
     setProcessing(true);
@@ -51,22 +53,23 @@ export function AppTopHeader() {
   }, [toast, tAuth]);
 
   useEffect(() => {
-    if (!mobileMenuOpen) return;
+    if (!mobileMenuOpen && !userMenuOpen) return;
     const handleClickOutside = (event: MouseEvent) => {
       if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node)) setMobileMenuOpen(false);
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) setUserMenuOpen(false);
     };
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setMobileMenuOpen(false);
+      if (event.key === 'Escape') { setMobileMenuOpen(false); setUserMenuOpen(false); }
     };
     document.addEventListener('mousedown', handleClickOutside);
     document.addEventListener('keydown', handleEscape);
     return () => { document.removeEventListener('mousedown', handleClickOutside); document.removeEventListener('keydown', handleEscape); };
-  }, [mobileMenuOpen]);
+  }, [mobileMenuOpen, userMenuOpen]);
 
   return (
     <header ref={mobileMenuRef} className="flex items-center justify-between whitespace-nowrap border-b border-slate-200 bg-white px-10 py-3 sticky top-0 z-10">
       <div className="flex items-center gap-8">
-        <Link href="/" className="flex items-center gap-4 text-primary-600">
+        <Link href="/dashboard" className="flex items-center gap-4 text-primary-600">
           <DiamondLogo />
           <h2 className="text-xl font-bold leading-tight tracking-tight text-slate-900">{t('appName')}</h2>
         </Link>
@@ -102,12 +105,53 @@ export function AppTopHeader() {
                 <span className="truncate">{t('addProperty')}</span>
               </Link>
               <NotificationBell />
-              <Link
-                href="/profile"
-                className="bg-primary-600 text-white rounded-full size-10 flex items-center justify-center text-sm font-bold"
-              >
-                {(user.name || user.email || '?').charAt(0).toUpperCase()}
-              </Link>
+              {/* User avatar with dropdown */}
+              <div className="relative" ref={userMenuRef}>
+                <button
+                  type="button"
+                  onClick={() => setUserMenuOpen((prev) => !prev)}
+                  aria-expanded={userMenuOpen}
+                  aria-haspopup="true"
+                  className="bg-primary-600 text-white rounded-full size-10 flex items-center justify-center text-sm font-bold cursor-pointer hover:bg-primary-600/90 transition-colors focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
+                >
+                  {(user.name || user.email || '?').charAt(0).toUpperCase()}
+                </button>
+                {userMenuOpen && (
+                  <div className="absolute right-0 top-full mt-2 w-48 rounded-xl border border-slate-200 bg-white py-1 shadow-lg z-50">
+                    <div className="px-4 py-2 border-b border-slate-100">
+                      <p className="text-sm font-medium text-slate-900 truncate">{user.name || user.email}</p>
+                      <p className="text-xs text-slate-500 truncate">{user.email}</p>
+                    </div>
+                    <Link
+                      href="/profile"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
+                    >
+                      <span className="material-symbols-outlined text-[18px]">person</span>
+                      {t('profile')}
+                    </Link>
+                    <Link
+                      href="/orgs/mine"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
+                    >
+                      <span className="material-symbols-outlined text-[18px]">business</span>
+                      {t('organizations')}
+                    </Link>
+                    <div className="border-t border-slate-100 mt-1 pt-1">
+                      <button
+                        type="button"
+                        onClick={() => { setUserMenuOpen(false); void handleLogout(); }}
+                        disabled={isProcessing}
+                        className="flex w-full items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                      >
+                        <span className="material-symbols-outlined text-[18px]">logout</span>
+                        {isProcessing ? t('signingOut') : t('signOut')}
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
               {/* Mobile hamburger */}
               <button
                 type="button"

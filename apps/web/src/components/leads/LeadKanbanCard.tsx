@@ -13,7 +13,13 @@ interface LeadKanbanCardProps {
   onViewDetails: (id: string) => void;
 }
 
-const ALL_STATUSES: LeadStatus[] = ['New', 'Contacted', 'Qualified', 'Converted', 'Lost'];
+const VALID_TRANSITIONS: Record<LeadStatus, LeadStatus[]> = {
+  New: ['Contacted', 'Lost'],
+  Contacted: ['Qualified', 'Lost'],
+  Qualified: ['Converted', 'Lost'],
+  Converted: [],
+  Lost: [],
+};
 
 function daysSinceCreation(createdAtUtc: string): number {
   const now = new Date();
@@ -26,7 +32,7 @@ export function LeadKanbanCard({ lead, onChangeStatus, onViewDetails }: LeadKanb
   const days = daysSinceCreation(lead.createdAtUtc);
   const daysText = days === 0 ? t('card.today') : t('card.daysAgo', { count: days });
 
-  const availableStatuses = ALL_STATUSES.filter((s) => s !== lead.status);
+  const availableStatuses = VALID_TRANSITIONS[lead.status] ?? [];
 
   return (
     <div
@@ -58,19 +64,21 @@ export function LeadKanbanCard({ lead, onChangeStatus, onViewDetails }: LeadKanb
       )}
       <div className="mt-3 flex items-center justify-between border-t border-slate-100 pt-3">
         <span className="text-xs text-slate-400">{daysText}</span>
-        <select
-          value=""
-          onChange={(e) => {
-            if (e.target.value) onChangeStatus(lead.id, e.target.value as LeadStatus);
-          }}
-          className="rounded-lg border border-slate-200 px-2 py-1 text-xs text-slate-600 transition focus:border-transparent focus:ring-2 focus:ring-primary-600"
-          aria-label={t('card.changeStatus')}
-        >
-          <option value="">{t('card.changeStatus')}</option>
-          {availableStatuses.map((s) => (
-            <option key={s} value={s}>{t(`status.${s}`)}</option>
-          ))}
-        </select>
+        {availableStatuses.length > 0 && (
+          <select
+            value=""
+            onChange={(e) => {
+              if (e.target.value) onChangeStatus(lead.id, e.target.value as LeadStatus);
+            }}
+            className="rounded-lg border border-slate-200 px-2 py-1 text-xs text-slate-600 transition focus:border-transparent focus:ring-2 focus:ring-primary-600"
+            aria-label={t('card.changeStatus')}
+          >
+            <option value="">{t('card.changeStatus')}</option>
+            {availableStatuses.map((s) => (
+              <option key={s} value={s}>{t(`status.${s}`)}</option>
+            ))}
+          </select>
+        )}
       </div>
     </div>
   );

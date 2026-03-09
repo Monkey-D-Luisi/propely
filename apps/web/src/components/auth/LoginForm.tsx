@@ -51,7 +51,7 @@ export function LoginForm() {
 
   const nextParam = useMemo(() => {
     const raw = searchParams.get('next');
-    if (!raw) return '/';
+    if (!raw) return '/dashboard';
 
     let decoded: string;
     try {
@@ -63,7 +63,7 @@ export function LoginForm() {
     if (decoded.startsWith('/') && !decoded.startsWith('//')) {
       return decoded;
     }
-    return '/';
+    return '/dashboard';
   }, [searchParams]);
 
   const forceReauth = useMemo(() => searchParams.get('reauth') === '1', [searchParams]);

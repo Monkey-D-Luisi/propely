@@ -21,7 +21,13 @@ function formatDate(dateStr: string | null | undefined, locale: string): string 
   return new Intl.DateTimeFormat(locale, { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(dateStr));
 }
 
-const ALL_STATUSES: LeadStatus[] = ['New', 'Contacted', 'Qualified', 'Converted', 'Lost'];
+const VALID_TRANSITIONS: Record<LeadStatus, LeadStatus[]> = {
+  New: ['Contacted', 'Lost'],
+  Contacted: ['Qualified', 'Lost'],
+  Qualified: ['Converted', 'Lost'],
+  Converted: [],
+  Lost: [],
+};
 
 export function LeadListView({ items, isLoading, onViewDetails, onChangeStatus, onConvert }: LeadListViewProps) {
   const t = useTranslations('leads');
@@ -46,7 +52,7 @@ export function LeadListView({ items, isLoading, onViewDetails, onChangeStatus, 
         </thead>
         <tbody className="divide-y divide-slate-100">
           {items.map((item) => {
-            const availableStatuses = ALL_STATUSES.filter((s) => s !== item.status);
+            const availableStatuses = VALID_TRANSITIONS[item.status] ?? [];
             return (
               <tr key={item.id} className="transition hover:bg-slate-50/50">
                 <td className="px-4 py-3">
@@ -66,19 +72,21 @@ export function LeadListView({ items, isLoading, onViewDetails, onChangeStatus, 
                 <td className="px-4 py-3 text-slate-500">{formatDate(item.createdAtUtc, locale)}</td>
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-1">
-                    <select
-                      value=""
-                      onChange={(e) => {
-                        if (e.target.value) onChangeStatus(item.id, e.target.value as LeadStatus);
-                      }}
-                      className="rounded-lg border border-slate-200 px-2 py-1 text-xs text-slate-600 transition focus:border-transparent focus:ring-2 focus:ring-primary-600"
-                      aria-label={t('card.changeStatus')}
-                    >
-                      <option value="">{t('card.changeStatus')}</option>
-                      {availableStatuses.map((s) => (
-                        <option key={s} value={s}>{t(`status.${s}`)}</option>
-                      ))}
-                    </select>
+                    {availableStatuses.length > 0 && (
+                      <select
+                        value=""
+                        onChange={(e) => {
+                          if (e.target.value) onChangeStatus(item.id, e.target.value as LeadStatus);
+                        }}
+                        className="rounded-lg border border-slate-200 px-2 py-1 text-xs text-slate-600 transition focus:border-transparent focus:ring-2 focus:ring-primary-600"
+                        aria-label={t('card.changeStatus')}
+                      >
+                        <option value="">{t('card.changeStatus')}</option>
+                        {availableStatuses.map((s) => (
+                          <option key={s} value={s}>{t(`status.${s}`)}</option>
+                        ))}
+                      </select>
+                    )}
                     {/* Only Qualified leads can be converted — domain invariant */}
                     {item.status === 'Qualified' && (
                       <button

@@ -26,5 +26,5 @@ if (Test-Path $envFile) {
     }
 }
 
-Write-Host "Starting Appointments API on http://localhost:5060..." -ForegroundColor Cyan
+Write-Host "Starting Appointments API on http://localhost:5070..." -ForegroundColor Cyan
 dotnet run --project $ApiProject

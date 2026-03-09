@@ -20,5 +20,5 @@ if [ -f "$ENV_FILE" ]; then
     done < "$ENV_FILE"
 fi
 
-echo "Starting Appointments API on http://localhost:5060..."
+echo "Starting Appointments API on http://localhost:5070..."
 dotnet run --project "$API_PROJECT"

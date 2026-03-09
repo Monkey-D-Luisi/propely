@@ -5,8 +5,14 @@
 
 import { useTranslations } from 'next-intl';
 import { Link, usePathname } from '@/i18n/navigation';
+import { useCallback, useState } from 'react';
 import { useCurrentUser } from '@/hooks/orgs';
 import { useActiveOrg } from '@/hooks/use-active-org';
+import { apiFetch } from '@/lib/api';
+import { clearAccessToken } from '@/lib/token-store';
+import { ensureCsrfToken } from '@/lib/csrf';
+import { useToast } from '@/components/ui/toast';
+import { LanguageSwitcher } from './LanguageSwitcher';
 
 const navItems = [
   { href: '/dashboard', icon: 'dashboard', labelKey: 'dashboard' },
@@ -19,9 +25,30 @@ const navItems = [
 
 export function AppSidebar() {
   const t = useTranslations('common');
+  const tAuth = useTranslations('auth');
+  const { toast } = useToast();
   const pathname = usePathname();
   const { user } = useCurrentUser();
   const { activeOrg } = useActiveOrg();
+  const [isProcessing, setProcessing] = useState(false);
+
+  const handleLogout = useCallback(async () => {
+    setProcessing(true);
+    try {
+      const csrfToken = await ensureCsrfToken();
+      if (!csrfToken) {
+        toast({ title: tAuth('signOutError.title'), description: tAuth('signOutError.refreshAndRetry'), variant: 'destructive' });
+        return;
+      }
+      await apiFetch('/auth/logout', { method: 'POST', headers: { 'x-csrf-token': csrfToken }, body: JSON.stringify({}) });
+      clearAccessToken();
+      window.location.href = '/login';
+    } catch {
+      toast({ title: tAuth('signOutError.title'), description: tAuth('signOutError.tryAgainLater'), variant: 'destructive' });
+    } finally {
+      setProcessing(false);
+    }
+  }, [toast, tAuth]);
 
   return (
     <aside className="w-64 bg-white border-r border-slate-200 flex flex-col h-full flex-shrink-0">
@@ -29,7 +56,7 @@ export function AppSidebar() {
         <div className="flex flex-col gap-6">
           {/* Branding */}
           <div className="flex items-center gap-3 px-2">
-            <Link href="/" className="flex items-center gap-3">
+            <Link href="/dashboard" className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-primary-600/20 flex items-center justify-center text-primary-600 font-bold">
                 P
               </div>
@@ -80,13 +107,42 @@ export function AppSidebar() {
           </Link>
           <div className="flex flex-col gap-1">
             {user && (
-              <Link
-                href="/profile"
-                className="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 transition-colors"
-              >
-                <span className="material-symbols-outlined text-[20px]">person</span>
-                <span className="text-sm font-medium truncate">{user.name || user.email}</span>
-              </Link>
+              <>
+                <Link
+                  href="/orgs/mine"
+                  className={
+                    pathname.startsWith('/orgs')
+                      ? 'flex items-center gap-3 px-3 py-2 rounded-lg bg-primary-600/10 text-primary-600 transition-colors'
+                      : 'flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 transition-colors'
+                  }
+                >
+                  <span className="material-symbols-outlined text-[20px]">business</span>
+                  <span className="text-sm font-medium">{t('organizations')}</span>
+                </Link>
+                <Link
+                  href="/profile"
+                  className={
+                    pathname.startsWith('/profile')
+                      ? 'flex items-center gap-3 px-3 py-2 rounded-lg bg-primary-600/10 text-primary-600 transition-colors'
+                      : 'flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 transition-colors'
+                  }
+                >
+                  <span className="material-symbols-outlined text-[20px]">person</span>
+                  <span className="text-sm font-medium truncate">{user.name || user.email}</span>
+                </Link>
+                <div className="flex items-center gap-2 px-3 py-2">
+                  <LanguageSwitcher />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => void handleLogout()}
+                  disabled={isProcessing}
+                  className="flex items-center gap-3 px-3 py-2 rounded-lg text-red-600 hover:bg-red-50 transition-colors"
+                >
+                  <span className="material-symbols-outlined text-[20px]">logout</span>
+                  <span className="text-sm font-medium">{isProcessing ? t('signingOut') : t('signOut')}</span>
+                </button>
+              </>
             )}
           </div>
         </div>

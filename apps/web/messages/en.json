@@ -70,6 +70,8 @@
     "appointments": "Appointments",
     "dashboard": "Dashboard",
     "search": "Search",
+    "profile": "Profile",
+    "organizations": "Organizations",
     "newProperty": "New Property",
     "addProperty": "Add Property",
     "getStarted": "Get Started",

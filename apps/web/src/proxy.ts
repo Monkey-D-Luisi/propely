@@ -23,7 +23,7 @@ export default function proxy(request: NextRequest) {
   const aiApiUrl = process.env.NEXT_PUBLIC_AI_API_URL ?? 'http://localhost:5010';
   const propertiesApiUrl = process.env.NEXT_PUBLIC_PROPERTIES_API_URL ?? 'http://localhost:5030';
   const contactsApiUrl = process.env.NEXT_PUBLIC_CONTACTS_API_URL ?? 'http://localhost:5050';
-  const appointmentsApiUrl = process.env.NEXT_PUBLIC_APPOINTMENTS_API_URL ?? 'http://localhost:5060';
+  const appointmentsApiUrl = process.env.NEXT_PUBLIC_APPOINTMENTS_API_URL ?? 'http://localhost:5070';
 
   const cspHeader = [
     `default-src 'self'`,
