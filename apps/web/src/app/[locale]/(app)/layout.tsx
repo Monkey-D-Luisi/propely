@@ -9,7 +9,7 @@ export default function AppGroupLayout({ children }: { children: ReactNode }) {
   return (
     <div className="h-dvh flex overflow-hidden">
       <AppSidebar />
-      <main className="flex-1 flex flex-col h-full overflow-y-auto bg-surface">
+      <main className="flex-1 flex flex-col h-full overflow-y-auto bg-surface pt-14 md:pt-0">
         {children}
       </main>
       <AiFloatingButton />
