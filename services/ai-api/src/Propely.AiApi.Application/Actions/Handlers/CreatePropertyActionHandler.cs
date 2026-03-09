@@ -6,32 +6,34 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Propely.AiApi.Application.Actions.Commands.PropertyActions;
 using Propely.AiApi.Domain.Actions;
+using Propely.PropertiesApi.Client;
+using Propely.PropertiesApi.Client.Dtos;
 
 namespace Propely.AiApi.Application.Actions.Handlers;
 
 /// <summary>
-/// Handles the CreatePropertyActionCommand by extracting property parameters
-/// and returning structured data for property creation.
-/// Since the Properties SDK is currently read-only, this handler extracts and validates
-/// parameters and returns them as structured data. Write support will be added
-/// when the SDK is extended with create endpoints.
+/// Handles the CreatePropertyActionCommand by mapping AI-extracted parameters
+/// to a Properties API create request and persisting the property.
 /// </summary>
 public sealed class CreatePropertyActionHandler : IRequestHandler<CreatePropertyActionCommand, ActionResult>
 {
+    private readonly IPropertiesApiClient _propertiesClient;
     private readonly ILogger<CreatePropertyActionHandler> _logger;
 
-    public CreatePropertyActionHandler(ILogger<CreatePropertyActionHandler> logger)
+    public CreatePropertyActionHandler(
+        IPropertiesApiClient propertiesClient,
+        ILogger<CreatePropertyActionHandler> logger)
     {
+        _propertiesClient = propertiesClient;
         _logger = logger;
     }
 
-    public Task<ActionResult> Handle(CreatePropertyActionCommand request, CancellationToken cancellationToken)
+    public async Task<ActionResult> Handle(CreatePropertyActionCommand request, CancellationToken cancellationToken)
     {
         _logger.LogInformation(
             "Handling CreateProperty action for tenant {TenantId} by agent {AgentId}",
             request.TenantId, request.AgentId);
 
-        var title = request.Parameters.Title;
         var propertyType = request.Parameters.PropertyType;
         var operationType = request.Parameters.OperationType;
         var bedrooms = request.Parameters.Bedrooms;
@@ -43,57 +45,99 @@ public sealed class CreatePropertyActionHandler : IRequestHandler<CreateProperty
         // Validate minimum required fields
         if (string.IsNullOrWhiteSpace(propertyType))
         {
-            return Task.FromResult(ActionResult.Fail(
+            return ActionResult.Fail(
                 ["Property type is required. Please specify the type (e.g., apartment, house, villa)."],
                 ActionType.CreateProperty,
-                "I need to know the property type to create a listing. Could you specify if it's an apartment, house, villa, or another type?"));
+                "I need to know the property type to create a listing. Could you specify if it's an apartment, house, villa, or another type?");
         }
 
-        // Build structured property data
-        var propertyData = new Dictionary<string, object?>
+        // Normalize enum values to PascalCase for the Properties API
+        var normalizedType = ToPascalCase(propertyType);
+        var normalizedOperation = ToPascalCase(operationType ?? "sale");
+        var title = request.Parameters.Title
+            ?? $"{normalizedType} in {city ?? "unspecified location"}";
+
+        var createRequest = new CreatePropertyRequest
         {
-            ["propertyType"] = propertyType,
-            ["operationType"] = operationType ?? "Sale",
-            ["title"] = title ?? $"{propertyType} in {city ?? "unspecified location"}",
-            ["bedrooms"] = bedrooms,
-            ["bathrooms"] = bathrooms,
-            ["price"] = price,
-            ["city"] = city,
-            ["description"] = description,
-            ["agentId"] = request.AgentId,
-            ["tenantId"] = request.TenantId
+            Title = title,
+            PropertyType = normalizedType,
+            OperationType = normalizedOperation,
+            Description = description is not null
+                ? new CreateLocalizedTextRequest { Es = description }
+                : null,
+            Address = city is not null
+                ? new CreateAddressRequest { City = city }
+                : null,
+            Features = (bedrooms.HasValue || bathrooms.HasValue)
+                ? new CreatePropertyFeaturesRequest { Bedrooms = bedrooms, Bathrooms = bathrooms }
+                : null,
+            Financials = price.HasValue
+                ? new CreatePropertyFinancialsRequest { Price = price }
+                : null
         };
+
+        PropertyResponse created;
+        try
+        {
+            created = await _propertiesClient.CreateAsync(createRequest, cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to create property via Properties API for tenant {TenantId}", request.TenantId);
+            return ActionResult.Fail(
+                ["Failed to save the property. Please try again."],
+                ActionType.CreateProperty,
+                "I understood your request but couldn't save the property right now. Please try again.");
+        }
 
         // Build human-readable confirmation message
-        var messageParts = new List<string>
-        {
-            $"I'll create a {propertyType}"
-        };
-
-        if (!string.IsNullOrWhiteSpace(operationType))
-            messageParts[0] += $" for {operationType.ToLowerInvariant()}";
-
-        if (!string.IsNullOrWhiteSpace(city))
-            messageParts.Add($"located in {city}");
-
-        if (bedrooms.HasValue)
-            messageParts.Add($"with {bedrooms} bedroom{(bedrooms > 1 ? "s" : "")}");
-
-        if (bathrooms.HasValue)
-            messageParts.Add($"{bathrooms} bathroom{(bathrooms > 1 ? "s" : "")}");
-
-        if (price.HasValue)
-            messageParts.Add(string.Format(CultureInfo.InvariantCulture, "priced at {0:N0} EUR", price.Value));
-
-        var message = string.Join(", ", messageParts) + ".";
+        var message = BuildConfirmationMessage(normalizedType, normalizedOperation, city, bedrooms, bathrooms, price);
 
         _logger.LogInformation(
-            "CreateProperty action prepared: {PropertyType} in {City} for tenant {TenantId}",
-            propertyType, city ?? "unspecified", request.TenantId);
+            "CreateProperty action completed: {PropertyId} ({PropertyType}) in {City} for tenant {TenantId}",
+            created.Id, normalizedType, city ?? "unspecified", request.TenantId);
 
-        return Task.FromResult(ActionResult.Ok(
-            data: propertyData,
+        var responseData = new Dictionary<string, object?>
+        {
+            ["id"] = created.Id,
+            ["propertyType"] = created.PropertyType,
+            ["operationType"] = created.OperationType,
+            ["title"] = created.Title,
+            ["status"] = created.Status,
+            ["agentId"] = created.AgentId,
+            ["tenantId"] = created.TenantId
+        };
+
+        return ActionResult.Ok(
+            data: responseData,
             message: message,
-            type: ActionType.CreateProperty));
+            type: ActionType.CreateProperty);
+    }
+
+    private static string BuildConfirmationMessage(
+        string propertyType, string operationType, string? city,
+        int? bedrooms, int? bathrooms, decimal? price)
+    {
+        var parts = new List<string> { $"Created a {propertyType.ToLowerInvariant()} for {operationType.ToLowerInvariant()}" };
+
+        if (!string.IsNullOrWhiteSpace(city))
+            parts.Add($"in {city}");
+
+        if (bedrooms.HasValue)
+            parts.Add($"with {bedrooms} bedroom{(bedrooms > 1 ? "s" : "")}");
+
+        if (bathrooms.HasValue)
+            parts.Add($"{bathrooms} bathroom{(bathrooms > 1 ? "s" : "")}");
+
+        if (price.HasValue)
+            parts.Add(string.Format(CultureInfo.InvariantCulture, "priced at {0:N0} EUR", price.Value));
+
+        return string.Join(", ", parts) + ".";
+    }
+
+    private static string ToPascalCase(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value)) return value;
+        return char.ToUpperInvariant(value[0]) + value[1..].ToLowerInvariant();
     }
 }

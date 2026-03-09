@@ -8,10 +8,19 @@ namespace Propely.PropertiesApi.Client;
 
 /// <summary>
 /// Refit-based typed HTTP client for the Propely Properties API.
-/// Provides read-only access to property data for cross-service communication.
+/// Provides access to property data for cross-service communication.
 /// </summary>
 public interface IPropertiesApiClient
 {
+    /// <summary>
+    /// Creates a new property listing.
+    /// </summary>
+    /// <param name="request">The property creation request.</param>
+    /// <param name="ct">Cancellation token.</param>
+    /// <returns>The created property details.</returns>
+    [Post("/api/properties")]
+    Task<PropertyResponse> CreateAsync([Body] CreatePropertyRequest request, CancellationToken ct = default);
+
     /// <summary>
     /// Gets a property by its unique identifier.
     /// </summary>
