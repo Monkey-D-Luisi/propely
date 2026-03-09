@@ -6,6 +6,7 @@ using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using Propely.AiApi.Api.Controllers;
@@ -31,7 +32,7 @@ public sealed class VoiceControllerTests
     {
         _transcriptionService = Substitute.For<IVoiceTranscriptionService>();
         _mediator = Substitute.For<IMediator>();
-        _controller = new VoiceController(_transcriptionService, _mediator);
+        _controller = new VoiceController(_transcriptionService, _mediator, NullLogger<VoiceController>.Instance);
         SetupAuthenticatedUser(_controller);
     }
 
@@ -488,11 +489,14 @@ public sealed class VoiceControllerTests
 
     private static IFormFile CreateMockFormFile(string fileName, string contentType, long length)
     {
+        // Use unique content per call to avoid the server-side deduplication guard
+        var buffer = new byte[Math.Min(length, 1024)];
+        Random.Shared.NextBytes(buffer);
         var file = Substitute.For<IFormFile>();
         file.FileName.Returns(fileName);
         file.ContentType.Returns(contentType);
         file.Length.Returns(length);
-        file.OpenReadStream().Returns(new MemoryStream(new byte[Math.Min(length, 1024)]));
+        file.OpenReadStream().Returns(_ => new MemoryStream(buffer));
         return file;
     }
 

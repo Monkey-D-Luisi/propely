@@ -30,7 +30,13 @@ export interface VoiceExecuteResult {
 }
 
 export interface UseExecuteVoiceActionReturn {
-  executeVoice: (audioBlob: Blob, language?: string, sessionId?: string) => Promise<VoiceExecuteResult | null>;
+  executeVoice: (
+    audioBlob: Blob,
+    language?: string,
+    sessionId?: string,
+    /** Called with the result *before* isLoading is set to false, avoiding render gaps. */
+    onResult?: (result: VoiceExecuteResult) => void,
+  ) => Promise<VoiceExecuteResult | null>;
   isLoading: boolean;
   result: VoiceExecuteResult | null;
   error: string | null;
@@ -115,6 +121,7 @@ export function useExecuteVoiceAction(): UseExecuteVoiceActionReturn {
       audioBlob: Blob,
       language?: string,
       sessionId?: string,
+      onResult?: (result: VoiceExecuteResult) => void,
     ): Promise<VoiceExecuteResult | null> => {
       setIsLoading(true);
       setError(null);
@@ -123,6 +130,9 @@ export function useExecuteVoiceAction(): UseExecuteVoiceActionReturn {
       try {
         const response = await postVoice(audioBlob, language, sessionId);
         setResult(response);
+        // Call onResult before finally clears isLoading — both setState calls
+        // batch in the same render, preventing a flash of empty state.
+        onResult?.(response);
         return response;
       } catch {
         setError('transcriptionFailed');

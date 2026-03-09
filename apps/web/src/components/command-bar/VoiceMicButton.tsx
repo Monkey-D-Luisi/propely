@@ -3,7 +3,7 @@
 
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import { useVoiceInput, type VoiceInputState } from '@/hooks/use-voice-input';
 import { useAudioWaveform } from '@/hooks/use-audio-waveform';
@@ -49,13 +49,22 @@ export function VoiceMicButton({
   const effectiveState: VoiceInputState =
     isProcessing ? 'processing' : state;
 
+  // Guard ref prevents React StrictMode double-fire from handing off
+  // the same audioBlob twice (StrictMode runs effects twice in dev).
+  const handedOffRef = useRef(false);
+
   // Notify parent when audio blob is ready
   useEffect(() => {
-    if (audioBlob && onAudioReady && state === 'processing' && !isProcessing) {
+    if (audioBlob && onAudioReady && state === 'processing' && !isProcessing && !handedOffRef.current) {
+      handedOffRef.current = true;
       onAudioReady(audioBlob);
       // Reset voice input state so the mic button returns to idle
       // after the parent starts processing the audio
       resetVoice();
+    }
+    // Reset guard when blob is cleared (new recording cycle)
+    if (!audioBlob) {
+      handedOffRef.current = false;
     }
   }, [audioBlob, onAudioReady, state, isProcessing, resetVoice]);
 

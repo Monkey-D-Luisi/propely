@@ -44,11 +44,14 @@ const defaultExecuteActionState = {
   result: null,
   error: null,
   reset: vi.fn(),
+  setResult: vi.fn(),
 };
 
 const defaultExecuteVoiceActionState = {
   executeVoice: vi.fn().mockResolvedValue(null),
   isLoading: false,
+  result: null,
+  error: null,
 };
 
 beforeEach(() => {

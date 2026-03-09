@@ -3,7 +3,7 @@
 
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { Command } from 'cmdk';
 import { useTranslations } from 'next-intl';
 import { useCommandBar } from '@/hooks/use-command-bar';
@@ -28,7 +28,6 @@ export function CommandBar() {
   const { executeVoice, isLoading: isVoiceLoading, error: voiceError } = useExecuteVoiceAction();
   const dialogRef = useRef<HTMLDivElement>(null);
   const lastCommandRef = useRef<string>('');
-  const [transcribedText, setTranscribedText] = useState<string | undefined>(undefined);
 
   const handleSubmit = useCallback(
     async (text: string) => {
@@ -73,22 +72,21 @@ export function CommandBar() {
 
   const handleAudioReady = useCallback(
     async (blob: Blob) => {
-      const voiceResult = await executeVoice(blob, undefined, sessionId ?? undefined);
-      if (voiceResult?.transcribedText) {
-        setTranscribedText(voiceResult.transcribedText);
-        addRecentCommand(voiceResult.transcribedText);
-        lastCommandRef.current = voiceResult.transcribedText;
-        // Voice endpoint already executed the action — use its result directly
-        if (voiceResult.action) {
-          setResult({
-            success: voiceResult.action.success,
-            message: voiceResult.action.message,
-            actionType: voiceResult.action.actionType,
-            errors: voiceResult.action.errors,
-            confidence: voiceResult.action.confidence,
-          });
+      await executeVoice(blob, undefined, sessionId ?? undefined, (vr) => {
+        if (vr.transcribedText) {
+          addRecentCommand(vr.transcribedText);
+          lastCommandRef.current = vr.transcribedText;
+          if (vr.action) {
+            setResult({
+              success: vr.action.success,
+              message: vr.action.message,
+              actionType: vr.action.actionType,
+              errors: vr.action.errors,
+              confidence: vr.action.confidence,
+            });
+          }
         }
-      }
+      });
     },
     [executeVoice, addRecentCommand, sessionId, setResult],
   );
@@ -136,8 +134,7 @@ export function CommandBar() {
           <CommandInput
             onSubmit={handleSubmit}
             isLoading={isLoading || isVoiceLoading}
-            disabled={!!showConfirmation}
-            externalValue={transcribedText}
+            disabled={!!showConfirmation || !!result}
             trailingSlot={
               <VoiceMicButton
                 onAudioReady={handleAudioReady}
