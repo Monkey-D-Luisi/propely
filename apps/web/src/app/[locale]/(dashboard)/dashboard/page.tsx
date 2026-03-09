@@ -4,8 +4,10 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
 import { useDashboard } from '@/hooks/use-dashboard';
 import { useCurrentUser } from '@/hooks/orgs';
+import { useCommandBar } from '@/hooks/use-command-bar';
 import { KpiGrid } from '@/components/dashboard/KpiGrid';
 import { StatusPieChart } from '@/components/dashboard/charts/StatusPieChart';
 import { StatusBarChart } from '@/components/dashboard/charts/StatusBarChart';
@@ -17,15 +19,25 @@ function sumValues(data: Record<string, number> | undefined, keys: string[]): nu
   return keys.reduce((sum, key) => sum + (data[key] ?? 0), 0);
 }
 
+function totalValues(data: Record<string, number> | undefined): number {
+  if (!data) return 0;
+  return Object.values(data).reduce((sum, v) => sum + v, 0);
+}
+
 export default function DashboardPage() {
   const t = useTranslations('dashboard');
   const { user } = useCurrentUser();
+  const { open: openCommandBar } = useCommandBar();
   const { properties, leads, appointments, isLoading } = useDashboard();
 
   const activeListings = properties?.byStatus?.['Active'] ?? 0;
   const openLeads = sumValues(leads?.byStatus, ['New', 'Contacted', 'Qualified']);
   const upcomingAppointments = appointments?.upcoming ?? 0;
   const convertedThisMonth = leads?.byStatus?.['Converted'] ?? 0;
+
+  const totalProperties = totalValues(properties?.byStatus);
+  const totalLeads = totalValues(leads?.byStatus);
+  const isEmpty = !isLoading && totalProperties === 0 && totalLeads === 0 && upcomingAppointments === 0;
 
   if (isLoading) {
     return (
@@ -59,23 +71,66 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        <KpiGrid
-          activeListings={activeListings}
-          openLeads={openLeads}
-          upcomingAppointments={upcomingAppointments}
-          convertedThisMonth={convertedThisMonth}
-        />
+        {isEmpty ? (
+          /* Zero-state onboarding */
+          <div className="rounded-xl border border-slate-200 bg-white p-8 text-center shadow-sm">
+            <span className="material-symbols-outlined text-[56px] text-primary-600">rocket_launch</span>
+            <h2 className="mt-4 text-xl font-semibold text-slate-900">{t('getStartedTitle')}</h2>
+            <p className="mx-auto mt-2 max-w-md text-sm text-slate-500">{t('getStartedSubtitle')}</p>
 
-        <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
-          <StatusPieChart
-            data={properties?.byStatus ?? {}}
-            title={t('propertiesByStatus')}
-          />
-          <StatusBarChart
-            data={leads?.byStatus ?? {}}
-            title={t('leadsByStatus')}
-          />
-        </div>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+              <Link
+                href="/properties/new"
+                className="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition-all hover:bg-primary-600/90 active:scale-[0.98]"
+              >
+                <span className="material-symbols-outlined text-[18px]">add_home</span>
+                {t('getStartedAddProperty')}
+              </Link>
+              <button
+                type="button"
+                onClick={openCommandBar}
+                className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition-all hover:bg-slate-50 active:scale-[0.98]"
+              >
+                <span className="material-symbols-outlined text-[18px]">auto_awesome</span>
+                {t('getStartedTryAi')}
+              </button>
+            </div>
+
+            <div className="mx-auto mt-8 max-w-xs">
+              <div className="flex flex-col gap-3 text-left">
+                {(['getStartedStep1', 'getStartedStep2', 'getStartedStep3'] as const).map((key, i) => (
+                  <div key={key} className="flex items-center gap-3">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary-600/10 text-xs font-semibold text-primary-600">
+                      {i + 1}
+                    </span>
+                    <span className="text-sm text-slate-600">{t(key)}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          /* Normal dashboard with data */
+          <>
+            <KpiGrid
+              activeListings={activeListings}
+              openLeads={openLeads}
+              upcomingAppointments={upcomingAppointments}
+              convertedThisMonth={convertedThisMonth}
+            />
+
+            <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
+              <StatusPieChart
+                data={properties?.byStatus ?? {}}
+                title={t('propertiesByStatus')}
+              />
+              <StatusBarChart
+                data={leads?.byStatus ?? {}}
+                title={t('leadsByStatus')}
+              />
+            </div>
+          </>
+        )}
 
         <div className="mt-6">
           <SuggestionFeed />

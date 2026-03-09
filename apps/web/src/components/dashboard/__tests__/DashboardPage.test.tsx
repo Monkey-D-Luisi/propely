@@ -13,6 +13,25 @@ vi.mock('@/hooks/orgs', () => ({
   useCurrentUser: vi.fn(),
 }));
 
+vi.mock('@/hooks/use-command-bar', () => ({
+  useCommandBar: vi.fn(() => ({
+    open: vi.fn(),
+    close: vi.fn(),
+    toggle: vi.fn(),
+    isOpen: false,
+    recentCommands: [],
+    addRecentCommand: vi.fn(),
+    openedWithKeyboard: { current: false },
+    sessionId: null,
+  })),
+}));
+
+vi.mock('@/i18n/navigation', () => ({
+  Link: ({ children, ...props }: { children: React.ReactNode; href: string; [key: string]: unknown }) => <a {...props}>{children}</a>,
+  usePathname: vi.fn(() => '/dashboard'),
+  useRouter: vi.fn(() => ({ push: vi.fn(), replace: vi.fn() })),
+}));
+
 import { useDashboard } from '@/hooks/use-dashboard';
 import { useCurrentUser } from '@/hooks/orgs';
 
@@ -92,7 +111,7 @@ describe('DashboardPage', () => {
     expect(screen.queryAllByTestId('kpi-card')).toHaveLength(0);
   });
 
-  it('handles null data gracefully', () => {
+  it('handles null data gracefully — shows get-started zero state', () => {
     mockUseDashboard.mockReturnValue({
       properties: null,
       leads: null,
@@ -103,7 +122,9 @@ describe('DashboardPage', () => {
 
     renderWithProviders(<DashboardPage />);
 
-    // Should render with zero values
-    expect(screen.getAllByTestId('kpi-card')).toHaveLength(4);
+    // With all-zero data, should show the onboarding zero-state
+    expect(screen.getByText('Welcome to Propely!')).toBeInTheDocument();
+    expect(screen.getByText('Add your first property')).toBeInTheDocument();
+    expect(screen.getByText('Try AI Assistant')).toBeInTheDocument();
   });
 });

@@ -1439,7 +1439,14 @@
     "newProperty": "New Property",
     "newLead": "New Lead",
     "scheduleAppointment": "Schedule Appointment",
-    "noData": "No data available"
+    "noData": "No data available",
+    "getStartedTitle": "Welcome to Propely!",
+    "getStartedSubtitle": "Get started by adding your first property, or try the AI assistant to do it with a simple command.",
+    "getStartedAddProperty": "Add your first property",
+    "getStartedTryAi": "Try AI Assistant",
+    "getStartedStep1": "Add a property",
+    "getStartedStep2": "Create a lead",
+    "getStartedStep3": "Schedule an appointment"
   },
   "suggestions": {
     "title": "Suggestions",

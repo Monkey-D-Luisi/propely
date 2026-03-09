@@ -1420,7 +1420,14 @@
     "newProperty": "Nueva propiedad",
     "newLead": "Nuevo lead",
     "scheduleAppointment": "Programar cita",
-    "noData": "Sin datos disponibles"
+    "noData": "Sin datos disponibles",
+    "getStartedTitle": "¡Bienvenido a Propely!",
+    "getStartedSubtitle": "Empieza añadiendo tu primera propiedad, o prueba el asistente IA para hacerlo con un simple comando.",
+    "getStartedAddProperty": "Añadir tu primera propiedad",
+    "getStartedTryAi": "Probar Asistente IA",
+    "getStartedStep1": "Añade una propiedad",
+    "getStartedStep2": "Crea un lead",
+    "getStartedStep3": "Agenda una cita"
   },
   "suggestions": {
     "title": "Sugerencias",
