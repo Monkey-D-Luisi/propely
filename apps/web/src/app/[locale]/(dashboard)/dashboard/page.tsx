@@ -30,7 +30,7 @@ export default function DashboardPage() {
   if (isLoading) {
     return (
       <div className="flex-1 overflow-y-auto bg-surface p-6 lg:p-8">
-        <div className="mx-auto max-w-4xl">
+        <div className="mx-auto max-w-6xl">
           <div className="mb-6">
             <div className="h-8 w-48 animate-pulse rounded-lg bg-slate-200" />
             <div className="mt-2 h-5 w-64 animate-pulse rounded-lg bg-slate-100" />
@@ -51,7 +51,7 @@ export default function DashboardPage() {
 
   return (
     <div className="flex-1 overflow-y-auto bg-surface p-6 lg:p-8">
-      <div className="mx-auto max-w-4xl">
+      <div className="mx-auto max-w-6xl">
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-slate-900">{t('title')}</h1>
           <p className="mt-1 text-slate-500">

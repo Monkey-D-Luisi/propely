@@ -56,7 +56,7 @@ export default function MyOrgsPage() {
 
   if (authLoading || isLoading) {
     return (
-      <div className="w-full max-w-7xl mx-auto px-6 py-8 md:px-10 md:py-12">
+      <div className="w-full max-w-6xl mx-auto px-6 py-8 md:px-10 md:py-12">
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <Skeleton className="h-9 w-48" />
           <Skeleton className="h-10 w-52 rounded-lg" />
@@ -86,7 +86,7 @@ export default function MyOrgsPage() {
   }
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-6 py-8 md:px-10 md:py-12">
+    <div className="w-full max-w-6xl mx-auto px-6 py-8 md:px-10 md:py-12">
       {/* Section Header */}
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
         <h1 className="text-slate-900 text-[32px] font-bold leading-tight">{t('mine.title')}</h1>

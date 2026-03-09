@@ -52,7 +52,7 @@ export default function NewWorkItemPage() {
 
   return (
     <div className="flex-1 overflow-y-auto p-8">
-      <div className="mx-auto flex max-w-[1200px] flex-col gap-6">
+      <div className="mx-auto flex max-w-6xl flex-col gap-6">
       {/* Header */}
       <div className="border-b border-slate-100 pb-6">
         <div className="mb-3 flex items-center gap-2 text-sm text-slate-500">

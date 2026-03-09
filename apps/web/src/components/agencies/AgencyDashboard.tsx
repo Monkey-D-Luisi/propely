@@ -24,7 +24,7 @@ export function AgencyDashboard({ agencyId }: AgencyDashboardProps) {
   if (isLoading) {
     return (
       <main className="flex-1 bg-surface p-8">
-        <div className="max-w-[1200px] mx-auto space-y-6">
+        <div className="max-w-6xl mx-auto space-y-6">
           <Skeleton className="h-9 w-48" />
           <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 flex items-center gap-6">
             <Skeleton className="size-16 rounded-lg" />
@@ -49,7 +49,7 @@ export function AgencyDashboard({ agencyId }: AgencyDashboardProps) {
   if (error || !agency) {
     return (
       <main className="flex-1 bg-surface p-8">
-        <div className="max-w-[1200px] mx-auto">
+        <div className="max-w-6xl mx-auto">
           <ErrorMessage message={t('dashboard.loadError')} />
         </div>
       </main>
@@ -60,7 +60,7 @@ export function AgencyDashboard({ agencyId }: AgencyDashboardProps) {
 
   return (
     <main className="flex-1 bg-surface p-8">
-      <div className="max-w-[1200px] mx-auto space-y-6">
+      <div className="max-w-6xl mx-auto space-y-6">
         {/* Breadcrumb */}
         <nav className="flex flex-wrap gap-2 text-sm" aria-label="Breadcrumb">
           <Link href="/orgs/mine" className="text-slate-500 hover:text-primary-600 transition-colors">

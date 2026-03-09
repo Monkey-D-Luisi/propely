@@ -1353,7 +1353,8 @@
     "statusChangeError": "Failed to update appointment status",
     "empty": {
       "title": "No appointments yet",
-      "subtitle": "Click a date on the calendar or use the button above to create your first appointment."
+      "subtitle": "Schedule your first appointment to start managing your calendar.",
+      "cta": "Schedule Appointment"
     },
     "status": {
       "Scheduled": "Scheduled",

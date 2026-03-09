@@ -1334,7 +1334,8 @@
     "statusChangeError": "Error al actualizar el estado de la cita",
     "empty": {
       "title": "No hay citas a\u00fan",
-      "subtitle": "Haz clic en una fecha del calendario o usa el bot\u00f3n de arriba para crear tu primera cita."
+      "subtitle": "Programa tu primera cita para comenzar a gestionar tu calendario.",
+      "cta": "Programar Cita"
     },
     "status": {
       "Scheduled": "Programada",

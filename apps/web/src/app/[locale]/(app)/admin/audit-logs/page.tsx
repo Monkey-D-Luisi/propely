@@ -49,7 +49,7 @@ export default function AuditLogsPage() {
 
   if (userLoading) {
     return (
-      <main className="flex-1 w-full max-w-[1200px] mx-auto px-4 lg:px-8 py-8 flex flex-col gap-6">
+      <main className="flex-1 w-full max-w-6xl mx-auto px-4 lg:px-8 py-8 flex flex-col gap-6">
         <div className="animate-pulse space-y-4">
           <div className="h-8 w-48 rounded-lg bg-slate-200" />
           <div className="h-4 w-72 rounded-lg bg-slate-100" />
@@ -59,7 +59,7 @@ export default function AuditLogsPage() {
   }
 
   return (
-    <main className="flex-1 w-full max-w-[1200px] mx-auto px-4 lg:px-8 py-8 flex flex-col gap-6">
+    <main className="flex-1 w-full max-w-6xl mx-auto px-4 lg:px-8 py-8 flex flex-col gap-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-2">
         <div className="flex items-center gap-3">
           <h1 className="text-slate-900 tracking-tight text-2xl lg:text-3xl font-bold leading-tight">{t('title')}</h1>

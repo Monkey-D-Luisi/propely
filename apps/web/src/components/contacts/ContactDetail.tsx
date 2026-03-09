@@ -30,7 +30,7 @@ export function ContactDetail({ id }: ContactDetailProps) {
   if (isLoading) {
     return (
       <div className="flex-1 overflow-y-auto p-8" data-testid="contact-loading">
-        <div className="mx-auto max-w-[1200px] animate-pulse space-y-6">
+        <div className="mx-auto max-w-6xl animate-pulse space-y-6">
           <div className="h-4 w-32 rounded-lg bg-slate-200" />
           <div className="h-8 w-64 rounded-lg bg-slate-200" />
           <div className="space-y-4">
@@ -45,7 +45,7 @@ export function ContactDetail({ id }: ContactDetailProps) {
   if (error || !contact) {
     return (
       <div className="flex-1 overflow-y-auto p-8" data-testid="contact-error">
-        <div className="mx-auto max-w-[1200px]">
+        <div className="mx-auto max-w-6xl">
           <ErrorMessage message={t('loadError')} />
           <Link
             href="/contacts"
@@ -61,7 +61,7 @@ export function ContactDetail({ id }: ContactDetailProps) {
 
   return (
     <div className="flex-1 overflow-y-auto p-8" data-testid="contact-detail">
-      <div className="mx-auto max-w-[1200px]">
+      <div className="mx-auto max-w-6xl">
       {/* Breadcrumb */}
       <nav className="mb-4 flex items-center gap-2 text-sm text-slate-500" aria-label="Breadcrumb">
         <Link href="/contacts" className="hover:text-primary-600">

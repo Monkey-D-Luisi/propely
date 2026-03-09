@@ -56,7 +56,7 @@ export function PropertyDetailPage({ id }: PropertyDetailPageProps) {
   if (propertyLoading) {
     return (
       <div className="flex-1 overflow-y-auto p-8" data-testid="detail-loading">
-        <div className="mx-auto max-w-[1200px] animate-pulse space-y-6">
+        <div className="mx-auto max-w-6xl animate-pulse space-y-6">
           <div className="h-4 w-32 rounded-lg bg-slate-200" />
           <div className="h-8 w-64 rounded-lg bg-slate-200" />
           <div className="aspect-video w-full rounded-xl bg-slate-100" />
@@ -73,7 +73,7 @@ export function PropertyDetailPage({ id }: PropertyDetailPageProps) {
   if (error || !property) {
     return (
       <div className="flex-1 overflow-y-auto p-8" data-testid="detail-error">
-        <div className="mx-auto max-w-[1200px]">
+        <div className="mx-auto max-w-6xl">
           <ErrorMessage message={t('loadError')} />
           <Link
             href="/properties"
@@ -91,7 +91,7 @@ export function PropertyDetailPage({ id }: PropertyDetailPageProps) {
 
   return (
     <div className="flex-1 overflow-y-auto p-8" data-testid="property-detail">
-      <div className="mx-auto max-w-[1200px]">
+      <div className="mx-auto max-w-6xl">
       {/* Breadcrumb */}
       <nav className="mb-4 flex items-center gap-2 text-sm text-slate-500" aria-label="Breadcrumb">
         <Link href="/properties" className="hover:text-primary-600">
